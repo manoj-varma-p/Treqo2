@@ -9,7 +9,7 @@ interface CategorySubNavProps {
   applyHref?: string;
 }
 
-const SCROLL_OFFSET = 150;
+const SCROLL_OFFSET = 140;
 
 export default function CategorySubNav({ tabs }: CategorySubNavProps) {
   const [activeId, setActiveId] = useState(tabs[0]?.id);
@@ -55,31 +55,46 @@ export default function CategorySubNav({ tabs }: CategorySubNavProps) {
   }
 
   return (
-    <div className="sticky top-[56px] lg:top-[72px] z-30 border-y border-slate-200 bg-white/95 backdrop-blur-md shadow-xs">
-      <Container className="flex items-center gap-4">
+    <div className="sticky top-[56px] lg:top-[72px] z-30 border-y border-slate-200/90 bg-white/95 backdrop-blur-md shadow-xs">
+      <Container className="relative flex items-center">
+        {/* Mobile Left & Right edge gradient fades for horizontal scroll hints */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-3 top-0 bottom-0 z-10 w-4 bg-gradient-to-r from-white to-transparent sm:hidden"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-3 top-0 bottom-0 z-10 w-4 bg-gradient-to-l from-white to-transparent sm:hidden"
+        />
+
         <nav
           aria-label="Program sections"
-          className="scrollbar-hide flex min-w-0 flex-1 items-center gap-6 overflow-x-auto py-3.5"
+          className="scrollbar-hide flex min-w-0 flex-1 items-center gap-2 overflow-x-auto py-2.5 sm:gap-6 sm:py-3.5"
         >
-          {tabs.map((tab) => (
-            <a
-              key={tab.id}
-              ref={(el) => {
-                tabRefs.current[tab.id] = el;
-              }}
-              href={`#${tab.id}`}
-              onClick={(event) => handleTabClick(event, tab.id)}
-              aria-current={activeId === tab.id ? "true" : undefined}
-              className={cn(
-                "shrink-0 border-b-2 pb-1 text-sm font-semibold whitespace-nowrap transition-colors",
-                activeId === tab.id
-                  ? "border-brand-primary text-brand-primary"
-                  : "border-transparent text-text-secondary hover:text-text-primary"
-              )}
-            >
-              {tab.label}
-            </a>
-          ))}
+          {tabs.map((tab) => {
+            const isActive = activeId === tab.id;
+            return (
+              <a
+                key={tab.id}
+                ref={(el) => {
+                  tabRefs.current[tab.id] = el;
+                }}
+                href={`#${tab.id}`}
+                onClick={(event) => handleTabClick(event, tab.id)}
+                aria-current={isActive ? "true" : undefined}
+                className={cn(
+                  "shrink-0 select-none whitespace-nowrap text-xs sm:text-sm font-semibold transition-all",
+                  // Mobile pill style
+                  "rounded-full px-3 py-1.5 sm:rounded-none sm:px-0 sm:py-0 sm:border-b-2 sm:pb-1",
+                  isActive
+                    ? "bg-brand-primary text-white shadow-xs sm:bg-transparent sm:text-brand-primary sm:border-brand-primary sm:shadow-none"
+                    : "bg-slate-100 text-text-secondary hover:bg-slate-200/70 hover:text-text-primary sm:bg-transparent sm:border-transparent sm:hover:bg-transparent"
+                )}
+              >
+                {tab.label}
+              </a>
+            );
+          })}
         </nav>
       </Container>
     </div>
