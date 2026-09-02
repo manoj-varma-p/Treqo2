@@ -22,7 +22,7 @@ export default function Logo({ className }: { className?: string }) {
         </svg>
       </div>
       <div className="flex flex-col leading-none">
-        <span className="text-2xl font-black tracking-tight text-slate-900">
+        <span className="text-2xl font-black tracking-tight text-[#3A1494]">
           treqo
         </span>
         <span className="text-[8px] font-bold tracking-[0.18em] text-slate-400 uppercase mt-0.5">
