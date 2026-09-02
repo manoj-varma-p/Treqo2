@@ -61,35 +61,56 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
           </button>
 
           {coursesOpen && (
-            <div className="absolute top-full left-0 mt-2 w-64 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl z-50 animate-fade-in">
+            <div className="absolute top-full left-0 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl z-50 animate-fade-in">
               <div className="flex flex-col gap-1 text-sm font-medium text-slate-700">
                 <Link
-                  href="#courses"
+                  href="/categories/digital-marketing"
                   onClick={() => setCoursesOpen(false)}
                   className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
                 >
-                  Digital Marketing & Growth
+                  New Age Digital Marketing
                 </Link>
                 <Link
                   href="#courses"
                   onClick={() => setCoursesOpen(false)}
                   className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
                 >
-                  Performance & Meta Ads
+                  Fundamentals of Digital Marketing
                 </Link>
                 <Link
                   href="#courses"
                   onClick={() => setCoursesOpen(false)}
                   className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
                 >
-                  Brand Strategy & Content
+                  4M Program
                 </Link>
                 <Link
                   href="#courses"
                   onClick={() => setCoursesOpen(false)}
                   className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
                 >
-                  Product Marketing
+                  Treqo PGDM
+                </Link>
+                <Link
+                  href="#courses"
+                  onClick={() => setCoursesOpen(false)}
+                  className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
+                >
+                  Campus Edition
+                </Link>
+                <Link
+                  href="#courses"
+                  onClick={() => setCoursesOpen(false)}
+                  className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
+                >
+                  The Founder Semester
+                </Link>
+                <Link
+                  href="#courses"
+                  onClick={() => setCoursesOpen(false)}
+                  className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
+                >
+                  Performance &amp; Growth Specialist
                 </Link>
               </div>
             </div>

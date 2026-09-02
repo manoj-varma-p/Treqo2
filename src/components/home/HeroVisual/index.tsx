@@ -109,10 +109,12 @@ export default function HeroVisual() {
                   className="w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-3 pr-10 text-sm font-medium text-slate-900 focus:border-[#3A1494] focus:outline-none focus:ring-2 focus:ring-[#3A1494]/20"
                 >
                   <option value="New Age Digital Marketing">New Age Digital Marketing</option>
-                  <option value="Performance & Meta Ads">Performance &amp; Meta Ads</option>
-                  <option value="Brand Strategy & Content">Brand Strategy &amp; Content</option>
-                  <option value="Product Marketing & Growth">Product Marketing &amp; Growth</option>
-                  <option value="Full Stack Marketing Masterclass">Full Stack Marketing Masterclass</option>
+                  <option value="Fundamentals of Digital Marketing">Fundamentals of Digital Marketing</option>
+                  <option value="4M Program">4M Program</option>
+                  <option value="Treqo PGDM">Treqo PGDM</option>
+                  <option value="Campus Edition">Campus Edition</option>
+                  <option value="The Founder Semester">The Founder Semester</option>
+                  <option value="Performance & Growth Specialist">Performance &amp; Growth Specialist</option>
                 </select>
                 <ChevronDown
                   className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
