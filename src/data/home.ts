@@ -207,7 +207,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         { label: "Projects", value: "30+ real brands" },
       ],
       applyCtaLabel: "Apply for Batch 2",
-      breakdownCtaLabel: "Get the 12-phase breakdown",
+      breakdownCtaLabel: "Download Curriculum",
       phasesNavLabel: "12 phases",
       challengeNavLabel: "CEO Challenge",
       overview: {

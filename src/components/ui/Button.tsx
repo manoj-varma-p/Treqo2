@@ -18,10 +18,16 @@ interface SharedProps {
 interface ButtonAsLink extends SharedProps {
   href: string;
   onClick?: never;
+  download?: boolean | string;
+  target?: string;
+  rel?: string;
 }
 
 interface ButtonAsButton extends SharedProps, Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className" | "children"> {
   href?: never;
+  download?: never;
+  target?: never;
+  rel?: never;
 }
 
 type ButtonProps = ButtonAsLink | ButtonAsButton;
@@ -67,6 +73,21 @@ export default function Button({
   );
 
   if (href) {
+    const linkProps = rest as Partial<ButtonAsLink>;
+    if (linkProps.download || linkProps.target === "_blank") {
+      return (
+        <a
+          href={href}
+          download={linkProps.download}
+          target={linkProps.target}
+          rel={linkProps.rel || (linkProps.target === "_blank" ? "noopener noreferrer" : undefined)}
+          className={classes}
+        >
+          {content}
+        </a>
+      );
+    }
+
     return (
       <Link href={href} className={classes}>
         {content}

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowRight, CheckCircle2, Sparkles, Trophy, ShieldCheck, Flame } from "lucide-react";
+import { ArrowRight, CheckCircle2, Sparkles, Trophy, ShieldCheck, Flame, Download } from "lucide-react";
 import Header from "@/components/header/Header";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
@@ -107,7 +107,16 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                   <Button href="/start-learning" size="lg" fullWidth className="font-bold shadow-md">
                     {detail.applyCtaLabel}
                   </Button>
-                  <Button href="/start-learning" variant="secondary" size="lg" fullWidth className="font-semibold">
+                  <Button
+                    href="/curriculum/new-age-digital-marketing-curriculum.pdf"
+                    download="New Age Digital Marketing - Curriculum.pdf"
+                    target="_blank"
+                    variant="secondary"
+                    size="lg"
+                    fullWidth
+                    className="font-semibold"
+                    icon={<Download className="h-4 w-4 text-brand-primary" aria-hidden="true" />}
+                  >
                     {detail.breakdownCtaLabel}
                   </Button>
                 </div>
@@ -228,14 +237,27 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
                   {/* 2. The 12 Phases */}
                   <section id="phases" className="scroll-mt-36 sm:scroll-mt-40">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-brand-primary">
-                        Curriculum
-                      </span>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <div>
+                        <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-brand-primary">
+                          Curriculum
+                        </span>
+                        <h2 className="mt-0.5 text-2xl font-black tracking-tight text-text-primary sm:text-3xl">
+                          {detail.phases.heading}
+                        </h2>
+                      </div>
+                      <Button
+                        href="/curriculum/new-age-digital-marketing-curriculum.pdf"
+                        download="New Age Digital Marketing - Curriculum.pdf"
+                        target="_blank"
+                        variant="secondary"
+                        size="md"
+                        className="shrink-0 text-xs font-bold shadow-xs hover:border-brand-primary active:scale-95"
+                        icon={<Download className="h-4 w-4 text-brand-primary" aria-hidden="true" />}
+                      >
+                        Download PDF
+                      </Button>
                     </div>
-                    <h2 className="mt-1 text-2xl font-black tracking-tight text-text-primary sm:text-3xl">
-                      {detail.phases.heading}
-                    </h2>
                     <p className="mt-3 text-xs leading-relaxed text-text-secondary sm:text-sm sm:leading-relaxed">
                       {detail.phases.intro}
                     </p>

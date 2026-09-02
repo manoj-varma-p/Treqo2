@@ -1,4 +1,4 @@
-import { Mail, Phone, Calendar, Users, Monitor, Sparkles } from "lucide-react";
+import { Mail, Phone, Calendar, Users, Monitor, Sparkles, Download } from "lucide-react";
 import Button from "@/components/ui/Button";
 import type { CourseSidebar } from "@/types/home";
 import { cn } from "@/lib/utils";
@@ -54,7 +54,15 @@ export default function CategorySidebar({ sidebar, className }: CategorySidebarP
           <Button href="/start-learning" fullWidth size="md">
             {sidebar.applyLabel}
           </Button>
-          <Button href="/start-learning" variant="secondary" fullWidth size="md">
+          <Button
+            href="/curriculum/new-age-digital-marketing-curriculum.pdf"
+            download="New Age Digital Marketing - Curriculum.pdf"
+            target="_blank"
+            variant="secondary"
+            fullWidth
+            size="md"
+            icon={<Download className="h-4 w-4" aria-hidden="true" />}
+          >
             {sidebar.downloadLabel}
           </Button>
         </div>

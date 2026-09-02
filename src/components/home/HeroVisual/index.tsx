@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { ChevronDown, CheckCircle2 } from "lucide-react";
+import { ChevronDown, CheckCircle2, Download } from "lucide-react";
 
 export default function HeroVisual() {
   const [name, setName] = useState("");
@@ -24,7 +24,7 @@ export default function HeroVisual() {
             Download the brochure
           </h2>
           <p className="mt-1 text-xs sm:text-sm font-normal text-white/85">
-            Full 18-phase syllabus, fees and batch dates
+            Full 12-phase syllabus, fees and batch dates
           </p>
         </div>
 
@@ -33,11 +33,21 @@ export default function HeroVisual() {
           <div className="flex flex-col items-center justify-center p-8 text-center sm:p-10">
             <CheckCircle2 className="h-12 w-12 text-emerald-500" />
             <h3 className="mt-4 text-lg font-bold text-slate-900">
-              Brochure is on its way!
+              Brochure is ready!
             </h3>
             <p className="mt-2 text-xs sm:text-sm text-slate-600">
-              We&apos;ve sent the complete 18-phase syllabus and batch details to <strong>{email || "your email"}</strong>.
+              Click below to download the complete 12-phase curriculum PDF:
             </p>
+            <a
+              href="/curriculum/new-age-digital-marketing-curriculum.pdf"
+              download="New Age Digital Marketing - Curriculum.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[#3A1494] px-5 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[#2e0f77] active:scale-95 transition-all"
+            >
+              <Download className="h-4 w-4" />
+              <span>Download Curriculum (PDF)</span>
+            </a>
             <button
               type="button"
               onClick={() => setSubmitted(false)}
