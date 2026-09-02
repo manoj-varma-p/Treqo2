@@ -37,6 +37,11 @@ export default function Hero() {
             <div className="mt-8">
               <HeroActions />
             </div>
+
+            {/* Description Text under browse courses button */}
+            <p className="mt-5 max-w-xl text-xs sm:text-sm leading-relaxed text-slate-600 font-medium">
+              70% doing, 30% theory. 18 phases, 30+ live brand projects and a real client outcome you can show in an interview &mdash; not a completion certificate.
+            </p>
           </div>
 
           {/* Right Column: Hero Visual Showcase (Form) */}
