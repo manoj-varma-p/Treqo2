@@ -61,7 +61,7 @@ export default function SixDecisions() {
               key={item.num}
               className="flex flex-col justify-start rounded-2xl border border-slate-200/90 bg-white p-6 sm:p-7 shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300"
             >
-              <span className="inline-flex w-fit items-center justify-center rounded-md bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-700">
+              <span className="inline-flex w-fit items-center justify-center rounded-md bg-[#f0ecfc] px-2.5 py-1 text-xs font-bold text-[#3A1494]">
                 {item.num}
               </span>
               <h3 className="mt-4 text-lg sm:text-xl font-bold tracking-tight text-slate-900">

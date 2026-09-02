@@ -19,7 +19,7 @@ export default function HeroVisual() {
     <div className="w-full max-w-md mx-auto lg:max-w-none">
       <div className="overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-lg">
         {/* Deep Blue Header Banner */}
-        <div className="bg-[#1b3d9c] px-6 py-6 sm:px-7 sm:py-7">
+        <div className="bg-[#3A1494] px-6 py-6 sm:px-7 sm:py-7">
           <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white">
             Download the brochure
           </h2>
@@ -41,7 +41,7 @@ export default function HeroVisual() {
             <button
               type="button"
               onClick={() => setSubmitted(false)}
-              className="mt-6 text-xs font-semibold text-[#1b3d9c] underline underline-offset-2"
+              className="mt-6 text-xs font-semibold text-[#3A1494] underline underline-offset-2"
             >
               Download another copy
             </button>
@@ -60,7 +60,7 @@ export default function HeroVisual() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#1b3d9c] focus:outline-none focus:ring-2 focus:ring-[#1b3d9c]/20"
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#3A1494] focus:outline-none focus:ring-2 focus:ring-[#3A1494]/20"
               />
             </div>
 
@@ -76,7 +76,7 @@ export default function HeroVisual() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@email.com"
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#1b3d9c] focus:outline-none focus:ring-2 focus:ring-[#1b3d9c]/20"
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#3A1494] focus:outline-none focus:ring-2 focus:ring-[#3A1494]/20"
               />
             </div>
 
@@ -92,7 +92,7 @@ export default function HeroVisual() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+91 "
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#1b3d9c] focus:outline-none focus:ring-2 focus:ring-[#1b3d9c]/20"
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#3A1494] focus:outline-none focus:ring-2 focus:ring-[#3A1494]/20"
               />
             </div>
 
@@ -106,7 +106,7 @@ export default function HeroVisual() {
                   id="course"
                   value={course}
                   onChange={(e) => setCourse(e.target.value)}
-                  className="w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-3 pr-10 text-sm font-medium text-slate-900 focus:border-[#1b3d9c] focus:outline-none focus:ring-2 focus:ring-[#1b3d9c]/20"
+                  className="w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-3 pr-10 text-sm font-medium text-slate-900 focus:border-[#3A1494] focus:outline-none focus:ring-2 focus:ring-[#3A1494]/20"
                 >
                   <option value="New Age Digital Marketing">New Age Digital Marketing</option>
                   <option value="Performance & Meta Ads">Performance &amp; Meta Ads</option>

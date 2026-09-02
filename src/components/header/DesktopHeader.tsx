@@ -113,7 +113,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
 
         <Link
           href={navExtras.ctaHref}
-          className="inline-flex items-center justify-center rounded-lg bg-[#16213e] px-5 py-2 text-sm font-semibold text-white shadow-xs transition-all hover:bg-slate-800 active:scale-[0.98]"
+          className="inline-flex items-center justify-center rounded-lg bg-[#3A1494] px-5 py-2 text-sm font-semibold text-white shadow-xs transition-all hover:bg-[#2c0e78] active:scale-[0.98]"
         >
           {navExtras.ctaLabel}
         </Link>

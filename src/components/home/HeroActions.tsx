@@ -6,7 +6,7 @@ export default function HeroActions() {
     <div className="flex flex-wrap items-center gap-3.5 w-full sm:w-auto">
       <Link
         href={heroContent.primaryCta.href}
-        className="inline-flex items-center justify-center rounded-xl bg-[#16213e] px-6 py-3.5 text-sm sm:text-base font-bold text-white shadow-xs transition-all hover:bg-slate-800 active:scale-[0.98]"
+        className="inline-flex items-center justify-center rounded-xl bg-[#3A1494] px-6 py-3.5 text-sm sm:text-base font-bold text-white shadow-xs transition-all hover:bg-[#2c0e78] active:scale-[0.98]"
       >
         {heroContent.primaryCta.label}
       </Link>

@@ -46,7 +46,7 @@ export default function Hero() {
               <ul className="mt-8 flex flex-col gap-3">
                 {heroContent.highlights.map((highlight) => (
                   <li key={highlight} className="flex items-center gap-3">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#f0ecfc] text-[#3A1494]">
                       <Check className="h-3.5 w-3.5 stroke-[2.5]" aria-hidden="true" />
                     </span>
                     <span className="text-xs sm:text-sm font-medium text-slate-600">

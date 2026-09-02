@@ -42,7 +42,7 @@ export default function MobileHeader({ variant = "standard" }: MobileHeaderProps
       <div className="flex items-center gap-3">
         <Link
           href={navExtras.ctaHref}
-          className="inline-flex items-center justify-center rounded-lg bg-[#16213e] px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs"
+          className="inline-flex items-center justify-center rounded-lg bg-[#3A1494] px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs"
         >
           {navExtras.ctaLabel}
         </Link>
@@ -103,7 +103,7 @@ export default function MobileHeader({ variant = "standard" }: MobileHeaderProps
               <Link
                 href={navExtras.ctaHref}
                 onClick={() => setOpen(false)}
-                className="flex items-center justify-center rounded-xl bg-[#16213e] py-3 text-sm font-semibold text-white shadow-xs"
+                className="flex items-center justify-center rounded-xl bg-[#3A1494] py-3 text-sm font-semibold text-white shadow-xs"
               >
                 {navExtras.ctaLabel}
               </Link>

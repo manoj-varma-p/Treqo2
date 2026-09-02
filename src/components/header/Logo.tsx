@@ -7,11 +7,11 @@ export default function Logo({ className }: { className?: string }) {
       href="/"
       aria-label="treqo home"
       className={cn(
-        "inline-flex items-center gap-3 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a237e] focus-visible:ring-offset-2",
+        "inline-flex items-center gap-3 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A1494] focus-visible:ring-offset-2",
         className
       )}
     >
-      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1e295d] text-white shadow-xs">
+      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#3A1494] text-white shadow-xs">
         <svg
           viewBox="0 0 24 24"
           fill="currentColor"

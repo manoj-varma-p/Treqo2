@@ -142,7 +142,7 @@ export default function LearningSystem() {
                 className={cn(
                   "rounded-full px-4.5 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-150",
                   isActive
-                    ? "bg-[#16213e] text-white shadow-xs"
+                    ? "bg-[#3A1494] text-white shadow-xs"
                     : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
                 )}
               >
@@ -183,7 +183,7 @@ export default function LearningSystem() {
                   {/* Badge + Meta row */}
                   <div className="flex items-center gap-2.5">
                     {program.badge.variant === "blue" && (
-                      <span className="inline-flex items-center rounded-md bg-[#16213e] px-2 py-0.5 text-[10px] font-bold tracking-wide text-white uppercase">
+                      <span className="inline-flex items-center rounded-md bg-[#3A1494] px-2 py-0.5 text-[10px] font-bold tracking-wide text-white uppercase">
                         {program.badge.text}
                       </span>
                     )}
@@ -217,7 +217,7 @@ export default function LearningSystem() {
                 <div className="mt-6 flex items-center justify-end border-t border-slate-100 pt-4">
                   <Link
                     href={program.actionHref}
-                    className="text-xs sm:text-sm font-bold text-[#16213e] hover:text-blue-700 transition-colors inline-flex items-center"
+                    className="text-xs sm:text-sm font-bold text-[#3A1494] hover:text-[#2c0e78] transition-colors inline-flex items-center"
                   >
                     {program.actionText}
                   </Link>

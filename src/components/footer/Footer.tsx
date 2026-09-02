@@ -35,7 +35,7 @@ export default function Footer() {
           {/* Column 1: Brand & Contact info */}
           <div className="flex flex-col items-start lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1e295d] text-white shadow-xs">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#3A1494] text-white shadow-xs">
                 <svg
                   viewBox="0 0 24 24"
                   fill="currentColor"

@@ -10,9 +10,9 @@
    * Every component reads color through these variables (via the @theme
    * block below), so the whole site restyles from this one place.
    * ------------------------------------------------------------------- */
-  --brand-primary: #3a1693;
-  --brand-primary-dark: #2c1070;
-  --brand-primary-deep: #170833;
+  --brand-primary: #3A1494;
+  --brand-primary-dark: #2c0e78;
+  --brand-primary-deep: #16073d;
   --brand-secondary: #8b5cf6;
   --brand-accent: #f97316;
 
