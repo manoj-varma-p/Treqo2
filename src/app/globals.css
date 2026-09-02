@@ -125,6 +125,24 @@
   }
 }
 
+@keyframes marquee-down {
+  0% {
+    transform: translateY(-33.333%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes marquee-up {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-33.333%);
+  }
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;

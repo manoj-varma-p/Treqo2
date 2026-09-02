@@ -1,378 +1,338 @@
 "use client";
 
-import { useState } from "react";
+import React, { ReactNode } from "react";
+import Image from "next/image";
 import {
   Award,
   ShieldCheck,
-  BarChart3,
-  CheckCircle2,
-  Zap,
-  Globe,
-  Layers,
-  Calendar,
+  BadgeCheck,
+  Star,
+  Sparkles,
+  ArrowRight,
+  BarChart2,
   Search,
+  Mail,
+  Globe,
+  Target,
+  Zap,
 } from "lucide-react";
 import Container from "@/components/ui/Container";
-import { cn } from "@/lib/utils";
 
-type Provider = "All" | "Meta" | "HubSpot" | "Google" | "SEMrush";
-
+/* ─────────────────────────────────────────────
+   CERTIFICATE DATA — grouped by provider
+───────────────────────────────────────────── */
 interface CertItem {
-  id: string;
-  title: string;
-  provider: "Meta" | "HubSpot" | "Google" | "SEMrush";
-  badgeColor: string;
-  cost: string;
-  isIncluded?: boolean;
-  icon: "barchart" | "award" | "check" | "zap" | "layers" | "search";
+  name: string;
+  provider: "SEMrush" | "HubSpot" | "Google" | "Meta";
+  icon: ReactNode;
+  color: string;
+  price?: string;
 }
 
-const certTabs = [
-  { id: "All" as Provider, label: "All", count: "30+" },
-  { id: "Google" as Provider, label: "Google", count: "8 certs" },
-  { id: "Meta" as Provider, label: "Meta", count: "6 certs" },
-  { id: "HubSpot" as Provider, label: "HubSpot", count: "8 certs" },
-  { id: "SEMrush" as Provider, label: "SEMrush", count: "4 certs" },
+const semrush: CertItem[] = [
+  { name: "PPC Fundamentals",   provider: "SEMrush", icon: <Target size={15} />, color: "#FF642D" },
+  { name: "SEO Fundamentals",   provider: "SEMrush", icon: <Search size={15} />, color: "#FF642D" },
+  { name: "Social Media",       provider: "SEMrush", icon: <Star size={15} />,   color: "#FF642D" },
+  { name: "Content Marketing",  provider: "SEMrush", icon: <Award size={15} />,  color: "#FF642D" },
 ];
 
-const certificationsList: CertItem[] = [
-  // Meta
-  {
-    id: "meta-media-planning",
-    title: "Media Planning Pro",
-    provider: "Meta",
-    badgeColor: "bg-blue-50 text-blue-700 border-blue-200",
-    cost: "$150 exam",
-    icon: "barchart",
-  },
-  {
-    id: "meta-marketing-science",
-    title: "Marketing Science Pro",
-    provider: "Meta",
-    badgeColor: "bg-blue-50 text-blue-700 border-blue-200",
-    cost: "$150 exam",
-    icon: "award",
-  },
-  {
-    id: "meta-dm-assoc",
-    title: "Digital Marketing Assoc.",
-    provider: "Meta",
-    badgeColor: "bg-blue-50 text-blue-700 border-blue-200",
-    cost: "$99 exam",
-    icon: "check",
-  },
-  // HubSpot
-  {
-    id: "hubspot-inbound",
-    title: "Inbound Marketing",
-    provider: "HubSpot",
-    badgeColor: "bg-orange-50 text-orange-700 border-orange-200",
-    cost: "INCLUDED",
-    isIncluded: true,
-    icon: "zap",
-  },
-  {
-    id: "hubspot-content",
-    title: "Content Marketing",
-    provider: "HubSpot",
-    badgeColor: "bg-orange-50 text-orange-700 border-orange-200",
-    cost: "INCLUDED",
-    isIncluded: true,
-    icon: "award",
-  },
-  {
-    id: "hubspot-email",
-    title: "Email Marketing",
-    provider: "HubSpot",
-    badgeColor: "bg-orange-50 text-orange-700 border-orange-200",
-    cost: "INCLUDED",
-    isIncluded: true,
-    icon: "check",
-  },
-  // Google
-  {
-    id: "google-search-ads",
-    title: "Google Search Ads Pro",
-    provider: "Google",
-    badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    cost: "INCLUDED",
-    isIncluded: true,
-    icon: "search",
-  },
-  {
-    id: "google-ga4",
-    title: "Google Analytics 4 (GA4)",
-    provider: "Google",
-    badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    cost: "INCLUDED",
-    isIncluded: true,
-    icon: "barchart",
-  },
-  // SEMrush
-  {
-    id: "semrush-seo",
-    title: "SEO Toolkit & Strategy",
-    provider: "SEMrush",
-    badgeColor: "bg-amber-50 text-amber-800 border-amber-200",
-    cost: "INCLUDED",
-    isIncluded: true,
-    icon: "layers",
-  },
-  {
-    id: "semrush-keyword",
-    title: "Competitive Research",
-    provider: "SEMrush",
-    badgeColor: "bg-amber-50 text-amber-800 border-amber-200",
-    cost: "INCLUDED",
-    isIncluded: true,
-    icon: "search",
-  },
+const hubspot: CertItem[] = [
+  { name: "SEO Certification",      provider: "HubSpot", icon: <Search size={15} />, color: "#FF7A59" },
+  { name: "Digital Marketing",      provider: "HubSpot", icon: <Globe size={15} />,  color: "#FF7A59" },
+  { name: "Social Media Marketing", provider: "HubSpot", icon: <Star size={15} />,   color: "#FF7A59" },
+  { name: "Email Marketing",        provider: "HubSpot", icon: <Mail size={15} />,   color: "#FF7A59" },
+  { name: "Inbound Marketing",      provider: "HubSpot", icon: <Zap size={15} />,    color: "#FF7A59" },
+  { name: "Content Marketing",      provider: "HubSpot", icon: <Award size={15} />,  color: "#FF7A59" },
 ];
 
-export default function Certifications() {
-  const [activeTab, setActiveTab] = useState<Provider>("All");
+const google: CertItem[] = [
+  { name: "Google My Business",           provider: "Google", icon: <Globe size={15} />,     color: "#34A853" },
+  { name: "Google Analytics (GA4)",       provider: "Google", icon: <BarChart2 size={15} />, color: "#4285F4" },
+  { name: "Google Ads Shopping",          provider: "Google", icon: <Target size={15} />,    color: "#EA4335" },
+  { name: "Performance Max",              provider: "Google", icon: <Zap size={15} />,       color: "#FBBC04" },
+  { name: "Google Ads Video",             provider: "Google", icon: <Star size={15} />,      color: "#EA4335" },
+  { name: "Google Ads Display",           provider: "Google", icon: <Award size={15} />,     color: "#34A853" },
+  { name: "Fundamentals of Digital Mkt", provider: "Google", icon: <Globe size={15} />,     color: "#4285F4" },
+  { name: "Google Ads Search",            provider: "Google", icon: <Search size={15} />,    color: "#FBBC04" },
+];
 
-  const filteredCerts =
-    activeTab === "All"
-      ? certificationsList.slice(0, 6)
-      : certificationsList.filter((c) => c.provider === activeTab);
+const meta: CertItem[] = [
+  { name: "Community Manager",        provider: "Meta", price: "$99",  icon: <Star size={15} />,       color: "#0082FB" },
+  { name: "Creative Strategy Pro",    provider: "Meta", price: "$150", icon: <Sparkles size={15} />,   color: "#0082FB" },
+  { name: "Media Planning Pro",       provider: "Meta", price: "$150", icon: <BarChart2 size={15} />,  color: "#0082FB" },
+  { name: "Marketing Science Pro",    provider: "Meta", price: "$150", icon: <Award size={15} />,      color: "#0082FB" },
+  { name: "Digital Marketing Assoc.", provider: "Meta", price: "$99",  icon: <BadgeCheck size={15} />, color: "#0082FB" },
+  { name: "Media Buying Pro",         provider: "Meta", price: "$150", icon: <Target size={15} />,     color: "#0082FB" },
+];
+
+const providerBadge = {
+  SEMrush: { bg: "#fff1eb", text: "#FF642D", border: "#ffded3" },
+  HubSpot: { bg: "#fff2ee", text: "#FF7A59", border: "#fedbd1" },
+  Google:  { bg: "#eff6ff", text: "#4285F4", border: "#dbeafe" },
+  Meta:    { bg: "#eff6ff", text: "#0082FB", border: "#dbeafe" },
+};
+
+/* ─────────────────────────────────────────────
+   COMPACT VERTICAL CARD (LIGHT THEME)
+───────────────────────────────────────────── */
+function CertCard({ cert }: { cert: CertItem }) {
+  const badge = providerBadge[cert.provider] || { bg: "#f5f3ff", text: "#7c3aed", border: "#ede9fe" };
+
+  return (
+    <div className="group relative flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-3.5 sm:p-4 shadow-xs transition-all duration-200 hover:border-slate-300 hover:shadow-md mb-3.5">
+      {/* Subtle top accent gradient */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[2px]"
+        style={{ background: `linear-gradient(to right, ${cert.color}, transparent)` }}
+      />
+
+      {/* Icon + Provider badge row */}
+      <div className="flex items-center justify-between mb-2.5">
+        <div
+          className="flex h-8 w-8 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105"
+          style={{
+            background: cert.color + "14",
+            border: `1px solid ${cert.color}28`,
+            color: cert.color,
+          }}
+        >
+          {cert.icon}
+        </div>
+        <div
+          className="rounded-full px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider"
+          style={{
+            background: badge.bg,
+            color: badge.text,
+            border: `1px solid ${badge.border}`,
+          }}
+        >
+          {cert.provider}
+        </div>
+      </div>
+
+      {/* Certification name */}
+      <p className="m-0 mb-2.5 text-xs font-bold text-slate-900 leading-snug line-clamp-1 group-hover:text-[#3A1494] transition-colors">
+        {cert.name}
+      </p>
+
+      {/* Footer */}
+      <div className="flex items-center justify-between border-t border-slate-100 pt-2">
+        {cert.price ? (
+          <span
+            className="rounded px-1.5 py-0.5 text-[9px] font-bold"
+            style={{
+              color: cert.color,
+              background: cert.color + "14",
+            }}
+          >
+            {cert.price} exam
+          </span>
+        ) : (
+          <span className="rounded bg-emerald-50 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-emerald-700">
+            Included
+          </span>
+        )}
+        <div
+          className="flex items-center gap-1 text-[9px] font-extrabold uppercase transition-transform duration-200 group-hover:translate-x-0.5"
+          style={{ color: cert.color }}
+        >
+          <span>View</span>
+          <ArrowRight size={9} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   VERTICAL INFINITE MARQUEE COLUMN (LIGHT THEME)
+───────────────────────────────────────────── */
+function VerticalInfiniteCol({
+  certs,
+  direction = "down",
+  speed = 28,
+}: {
+  certs: CertItem[];
+  direction?: "down" | "up";
+  speed?: number;
+}) {
+  const loop = [...certs, ...certs, ...certs];
+
+  return (
+    <div className="overflow-hidden h-full">
+      <div
+        className="hover:[animation-play-state:paused]"
+        style={{
+          animation: `${direction === "down" ? "marquee-down" : "marquee-up"} ${speed}s linear infinite`,
+        }}
+      >
+        {loop.map((cert, i) => (
+          <CertCard key={`${cert.name}-${i}`} cert={cert} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   MAIN SECTION (LIGHT THEME & SINGLE VIEWPORT)
+───────────────────────────────────────────── */
+export default function CertificationSection() {
+  const col1Certs = [...google, ...meta];
+  const col2Certs = [...hubspot, ...semrush];
 
   return (
     <section
-      id="certifications"
-      className="relative bg-[#fafbfe] py-10 sm:py-12 lg:py-0 lg:min-h-screen lg:flex lg:items-center border-t border-slate-200/80 overflow-hidden"
+      id="certs"
+      data-stage="CERTS"
+      className="relative bg-[#fafbfe] py-12 sm:py-16 lg:py-0 lg:min-h-screen lg:flex lg:items-center border-t border-slate-200/80 overflow-hidden"
     >
-      <Container className="w-full py-4 lg:py-6">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10 items-center">
-          {/* ========================================================================= */}
-          {/* Left Column: TREQO Certification (Light Theme) */}
-          {/* ========================================================================= */}
-          <div className="flex flex-col items-start lg:col-span-6">
-            {/* Pill Eyebrow */}
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-200 bg-purple-50/80 px-3 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#3A1494] shadow-2xs">
-              <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>CAPSTONE REVENUE PROOF</span>
-            </div>
+      {/* Subtle ambient light glow */}
+      <div
+        className="pointer-events-none absolute top-1/4 left-1/3 h-96 w-96 rounded-full bg-radial from-[#3A1494]/5 via-[#7C3AED]/3 to-transparent blur-3xl"
+        aria-hidden="true"
+      />
 
-            {/* Heading */}
-            <h2 className="mt-2 text-2xl sm:text-3xl lg:text-[2.2rem] font-black leading-tight tracking-tight text-slate-950">
-              TREQO Certification
-            </h2>
+      <Container className="w-full py-6 lg:py-8 relative z-10">
+        {/* ── MAIN SECTION HEADER ── */}
+        <div className="text-center mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-2 rounded-full border border-purple-200 bg-purple-50/80 px-4 py-1 mb-3.5 shadow-2xs">
+            <ShieldCheck size={12} className="text-[#3A1494]" />
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#3A1494]">
+              Proof That Travels
+            </span>
+          </div>
 
-            {/* Subtitle */}
-            <p className="mt-1.5 text-xs sm:text-sm leading-relaxed text-slate-600 max-w-lg">
-              Awarded on completion of your capstone project — a real campaign, built &amp; launched with real numbers attached.
-            </p>
+          <h2 className="m-0 mb-3 leading-tight tracking-tight text-slate-950">
+            <span className="block text-3xl sm:text-4xl lg:text-[2.85rem] font-black">
+              Credentials Built For The{" "}
+              <span className="italic font-serif font-black bg-gradient-to-r from-[#3A1494] to-[#7C3AED] bg-clip-text text-transparent">
+                Real Market
+              </span>
+            </span>
+          </h2>
 
-            {/* Certificate Display Card */}
-            <div className="mt-5 w-full overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-5 shadow-md shadow-purple-950/5">
-              {/* Inner Certificate Parchment */}
-              <div className="relative overflow-hidden rounded-xl border border-slate-200/90 bg-[#fffdfa] p-4 sm:p-6 shadow-2xs">
-                {/* Decorative Top-Left & Bottom-Right Corner Ribbon Ornaments */}
-                <div
-                  className="pointer-events-none absolute -top-10 -left-10 h-24 w-24 rounded-full bg-gradient-to-br from-[#3A1494] via-[#5c2bc7] to-amber-400 opacity-90 blur-[1px]"
-                  aria-hidden="true"
-                />
-                <div
-                  className="pointer-events-none absolute -bottom-12 -right-12 h-28 w-28 rounded-full bg-gradient-to-tl from-[#3A1494] via-[#6d39db] to-amber-400 opacity-90 blur-[1px]"
-                  aria-hidden="true"
-                />
+          <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto leading-relaxed font-medium">
+            Graduate with official revenue capstone validation, plus 30+ industry credentials recruiters actively search for.
+          </p>
+        </div>
 
-                {/* Inner Border Frame */}
-                <div className="relative z-10 flex flex-col items-center text-center">
-                  {/* Brand Header */}
-                  <span className="text-xl sm:text-2xl font-black tracking-tight text-[#3A1494] select-none">
-                    TREQO
-                  </span>
-                  <span className="text-[8px] font-bold tracking-[0.2em] text-slate-400 uppercase">
-                    Elevate · Educate · Empower
-                  </span>
-
-                  {/* Certificate Title */}
-                  <div className="mt-3.5 w-full flex items-center justify-center gap-2.5">
-                    <div className="h-px w-8 bg-amber-400/60" />
-                    <h3 className="font-serif text-sm sm:text-base font-bold tracking-widest text-slate-800 uppercase">
-                      Certificate of Completion
-                    </h3>
-                    <div className="h-px w-8 bg-amber-400/60" />
-                  </div>
-
-                  <p className="mt-1.5 font-serif text-[11px] italic text-slate-500">
-                    This is to certify that
-                  </p>
-
-                  {/* Candidate Name (Script Style) */}
-                  <div className="my-1 border-b border-amber-300/80 pb-0.5 px-6">
-                    <span className="font-serif text-xl sm:text-2xl font-bold italic text-slate-900">
-                      Your Name
-                    </span>
-                  </div>
-
-                  <p className="mt-1 text-[10px] font-medium text-slate-500">
-                    has successfully completed the course
-                  </p>
-
-                  {/* Course Name */}
-                  <h4 className="mt-0.5 text-sm sm:text-base font-black tracking-wider text-[#3A1494] uppercase">
-                    Digital Marketing
-                  </h4>
-
-                  <p className="mt-1 max-w-xs text-[9.5px] leading-relaxed text-slate-500">
-                    offered by Treqo and has demonstrated the knowledge and skills required to complete the course.
-                  </p>
-
-                  {/* Badges & Signatures Row */}
-                  <div className="mt-4 grid grid-cols-3 items-end gap-2 w-full border-t border-slate-200/70 pt-3">
-                    {/* Left: Date & ID */}
-                    <div className="flex flex-col items-start text-left text-[8.5px] text-slate-500 leading-tight">
-                      <span className="inline-flex items-center gap-1 font-semibold text-slate-700">
-                        <Calendar className="h-2.5 w-2.5 text-[#3A1494]" /> 25 Sep 2026
-                      </span>
-                      <span className="mt-0.5 text-[7.5px] text-slate-400">TRQ-DM-2026-0518</span>
-                    </div>
-
-                    {/* Center: Gold Foil Seal Badge */}
-                    <div className="flex flex-col items-center justify-center">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-tr from-amber-500 via-amber-400 to-yellow-200 p-0.5 shadow-sm">
-                        <div className="flex h-full w-full items-center justify-center rounded-full border border-amber-600 bg-amber-500/90 text-center text-white">
-                          <span className="text-[6px] font-black uppercase tracking-tighter leading-none">
-                            ★ VERIFIED ★<br />TREQO
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Right: Signature with Seal */}
-                    <div className="flex flex-col items-end text-right">
-                      <span className="font-serif text-[11px] italic font-bold text-slate-800">
-                        Rahul Varma
-                      </span>
-                      <span className="text-[7.5px] font-semibold text-slate-500">
-                        CEO, Treqo
-                      </span>
-                    </div>
-                  </div>
-                </div>
+        {/* ── 2-COLUMN GRID (50% / 50%) ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          {/* ── LEFT SIDE (50%): TREQO CERTIFICATION ── */}
+          <div className="flex flex-col items-start w-full lg:col-span-6">
+            {/* Header Info Left */}
+            <div className="mb-4">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-200 bg-purple-50/80 px-3 py-0.5 mb-2 shadow-2xs">
+                <ShieldCheck size={12} className="text-[#3A1494]" />
+                <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#3A1494]">
+                  CAPSTONE REVENUE PROOF
+                </span>
               </div>
 
-              {/* Sub-note */}
-              <p className="mt-2.5 text-center text-[11px] font-medium text-slate-500">
+              <h3 className="m-0 mb-1.5 text-xl sm:text-2xl font-black text-slate-950 leading-tight">
+                TREQO Certification
+              </h3>
+
+              <p className="text-xs sm:text-sm text-slate-600 m-0 leading-relaxed">
+                Awarded on completion of your capstone project — a real campaign, built &amp; launched with real numbers attached.
+              </p>
+            </div>
+
+            {/* Certificate Display Card (Light Theme) */}
+            <div className="relative w-full overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-5 shadow-md shadow-purple-950/5">
+              {/* Top decorative accent line */}
+              <div
+                className="absolute top-0 left-0 right-0 h-[3px]"
+                style={{ background: "linear-gradient(90deg, #3A1494 0%, #7C3AED 50%, #4285F4 100%)" }}
+              />
+
+              {/* REAL CERTIFICATE DISPLAY / EMBED CONTAINER */}
+              <div className="relative overflow-hidden rounded-xl border border-slate-200/90 bg-[#fffdfa] p-2.5 shadow-xs">
+                <img
+                  src="/treqo-certificate.jpg"
+                  alt="TREQO Official Certificate of Completion"
+                  className="w-full h-auto rounded-lg block shadow-2xs"
+                />
+              </div>
+
+              {/* Sub-caption below certificate */}
+              <p className="text-[11px] text-slate-500 text-center mt-3 m-0 leading-relaxed font-medium">
                 Shareable on LinkedIn &amp; directly reviewed by placement hiring managers.
               </p>
             </div>
           </div>
 
-          {/* ========================================================================= */}
-          {/* Right Column: Other Industry Certification (Light Theme) */}
-          {/* ========================================================================= */}
-          <div className="flex flex-col items-start lg:col-span-6">
-            {/* Pill Eyebrow */}
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-200 bg-purple-50/80 px-3 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#3A1494] shadow-2xs">
-              <Globe className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>GLOBAL CREDENTIALS</span>
-            </div>
+          {/* ── RIGHT SIDE (50%): OTHER INDUSTRY CERTIFICATION ── */}
+          <div className="flex flex-col gap-4 w-full lg:col-span-6">
+            {/* Header Info Right */}
+            <div>
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-200 bg-purple-50/80 px-3 py-0.5 mb-2 shadow-2xs">
+                <ShieldCheck size={12} className="text-[#3A1494]" />
+                <span className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#3A1494]">
+                  GLOBAL CREDENTIALS
+                </span>
+              </div>
 
-            {/* Heading */}
-            <h2 className="mt-2 text-2xl sm:text-3xl lg:text-[2.2rem] font-black leading-tight tracking-tight text-slate-950">
-              Other Industry Certification
-            </h2>
+              <h3 className="m-0 mb-1.5 text-xl sm:text-2xl font-black text-slate-950 leading-tight">
+                Other Industry Certification
+              </h3>
 
-            {/* Subtitle */}
-            <p className="mt-1.5 text-xs sm:text-sm leading-relaxed text-slate-600 max-w-lg">
-              From Google &amp; Meta to HubSpot &amp; SEMrush — graduate with 30+ credentials recruiters look for.
-            </p>
+              <p className="text-xs sm:text-sm text-slate-600 m-0 leading-relaxed">
+                From Google &amp; Meta to HubSpot &amp; SEMrush — graduate with 30+ credentials recruiters look for.
+              </p>
 
-            {/* Category Filter Tabs */}
-            <div className="mt-4 flex flex-wrap gap-1.5">
-              {certTabs.map((tab) => {
-                const isSelected = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setActiveTab(tab.id)}
-                    className={cn(
-                      "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-semibold transition-all duration-150 cursor-pointer",
-                      isSelected
-                        ? "bg-[#3A1494] text-white shadow-xs"
-                        : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
-                    )}
+              {/* Provider Badges Row */}
+              <div className="flex items-center gap-2 mt-3 flex-wrap">
+                {[
+                  { name: "Google", bg: "#eff6ff", text: "#4285F4", count: "8 certs", border: "#dbeafe" },
+                  { name: "Meta",   bg: "#eff6ff", text: "#0082FB", count: "6 certs", border: "#dbeafe" },
+                  { name: "HubSpot",bg: "#fff2ee", text: "#FF7A59", count: "6 certs", border: "#fedbd1" },
+                  { name: "SEMrush",bg: "#fff1eb", text: "#FF642D", count: "4 certs", border: "#ffded3" },
+                ].map((p) => (
+                  <div
+                    key={p.name}
+                    className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs"
+                    style={{
+                      background: p.bg,
+                      border: `1px solid ${p.border}`,
+                    }}
                   >
-                    <span>{tab.label}</span>
-                    <span
-                      className={cn(
-                        "rounded-full px-1.5 py-0.2 text-[9px] font-bold",
-                        isSelected
-                          ? "bg-white/20 text-white"
-                          : "bg-slate-100 text-slate-600"
-                      )}
-                    >
-                      {tab.count}
+                    <span className="text-[10px] font-extrabold" style={{ color: p.text }}>
+                      {p.name}
                     </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Certifications 2-Column Grid (3 rows max = 6 cards) */}
-            <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2 w-full">
-              {filteredCerts.map((cert) => (
-                <div
-                  key={cert.id}
-                  className="group flex flex-col justify-between rounded-xl border border-slate-200/90 bg-white p-3 shadow-2xs transition-all duration-200 hover:border-[#3A1494]/40 hover:shadow-xs"
-                >
-                  {/* Top Row: Icon + Provider Badge */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-50 text-slate-700 group-hover:bg-[#f0ecfc] group-hover:text-[#3A1494] transition-colors">
-                      {cert.icon === "barchart" && <BarChart3 className="h-3.5 w-3.5" />}
-                      {cert.icon === "award" && <Award className="h-3.5 w-3.5" />}
-                      {cert.icon === "check" && <CheckCircle2 className="h-3.5 w-3.5" />}
-                      {cert.icon === "zap" && <Zap className="h-3.5 w-3.5" />}
-                      {cert.icon === "layers" && <Layers className="h-3.5 w-3.5" />}
-                      {cert.icon === "search" && <Search className="h-3.5 w-3.5" />}
-                    </div>
-                    <span
-                      className={cn(
-                        "inline-flex items-center rounded-md border px-1.5 py-0.5 text-[9px] font-bold tracking-wide uppercase",
-                        cert.badgeColor
-                      )}
-                    >
-                      {cert.provider}
+                    <span className="text-[9px] font-semibold text-slate-500">
+                      {p.count}
                     </span>
                   </div>
-
-                  {/* Title */}
-                  <h4 className="mt-2 text-xs sm:text-[13px] font-bold text-slate-900 tracking-tight group-hover:text-[#3A1494] transition-colors line-clamp-1">
-                    {cert.title}
-                  </h4>
-
-                  {/* Bottom Row: Cost / Included Tag + View Link */}
-                  <div className="mt-2.5 flex items-center justify-between border-t border-slate-100 pt-2">
-                    {cert.isIncluded ? (
-                      <span className="inline-flex items-center rounded bg-emerald-50 px-1.5 py-0.2 text-[9px] font-black tracking-wide text-emerald-700 uppercase">
-                        INCLUDED
-                      </span>
-                    ) : (
-                      <span className="text-[11px] font-semibold text-slate-500">
-                        {cert.cost}
-                      </span>
-                    )}
-
-                    <span className="inline-flex items-center gap-0.5 text-[11px] font-bold text-[#3A1494] group-hover:translate-x-0.5 transition-transform">
-                      VIEW &rarr;
-                    </span>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
-            {/* Bottom Inclusions Banner with Green Pulse Dot */}
-            <div className="mt-4 flex w-full items-center gap-2 rounded-xl border border-emerald-200/80 bg-emerald-50/70 py-2.5 px-3 text-[11px] sm:text-xs font-semibold text-emerald-900">
+            {/* ── VERTICAL FLOWING MARQUEE (DUAL COLUMNS: DOWN & UP) ── */}
+            <div
+              className="relative grid grid-cols-2 gap-3.5 h-[340px] sm:h-[360px] overflow-hidden"
+              style={{
+                maskImage: "linear-gradient(to bottom, transparent, black 8%, black 92%, transparent)",
+                WebkitMaskImage: "linear-gradient(to bottom, transparent, black 8%, black 92%, transparent)",
+              }}
+            >
+              {/* Column 1: Flows Downward (Top to Bottom) */}
+              <VerticalInfiniteCol certs={col1Certs} direction="down" speed={26} />
+
+              {/* Column 2: Flows Upward (Bottom to Top) */}
+              <VerticalInfiniteCol certs={col2Certs} direction="up" speed={22} />
+            </div>
+
+            {/* Bottom Inclusions Banner with Glowing Green Dot */}
+            <div className="inline-flex items-center gap-2 rounded-xl border border-emerald-200/90 bg-emerald-50/80 px-3.5 py-2 text-xs font-semibold text-emerald-900 w-fit">
               <span className="relative flex h-2 w-2 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              <span>Google, HubSpot &amp; SEMrush certifications included in fee.</span>
+              <span className="text-[11px] sm:text-xs">
+                Google, HubSpot &amp; SEMrush certifications included in fee.
+              </span>
             </div>
           </div>
         </div>
