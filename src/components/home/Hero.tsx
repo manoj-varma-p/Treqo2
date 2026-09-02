@@ -1,4 +1,3 @@
-import { Check } from "lucide-react";
 import Container from "@/components/ui/Container";
 import HeroNavbar from "@/components/header/HeroNavbar";
 import HeroActions from "./HeroActions";
@@ -38,22 +37,6 @@ export default function Hero() {
             <div className="mt-8">
               <HeroActions />
             </div>
-
-            {/* Highlights / Checkpoints List */}
-            {heroContent.highlights && heroContent.highlights.length > 0 && (
-              <ul className="mt-8 flex flex-col gap-3">
-                {heroContent.highlights.map((highlight) => (
-                  <li key={highlight} className="flex items-center gap-3">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#f0ecfc] text-[#3A1494]">
-                      <Check className="h-3.5 w-3.5 stroke-[2.5]" aria-hidden="true" />
-                    </span>
-                    <span className="text-xs sm:text-sm font-medium text-slate-600">
-                      {highlight}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
 
           {/* Right Column: Hero Visual Showcase (Form) */}
