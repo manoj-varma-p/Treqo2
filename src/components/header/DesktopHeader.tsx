@@ -38,6 +38,20 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
     };
   }, [coursesOpen]);
 
+  function handleNavClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+    if (href.startsWith("/#") || href.startsWith("#")) {
+      const id = href.includes("#") ? href.split("#")[1] : "";
+      if (id && typeof window !== "undefined" && window.location.pathname === "/") {
+        e.preventDefault();
+        const target = document.getElementById(id);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", `#${id}`);
+        }
+      }
+    }
+  }
+
   return (
     <div className="flex w-full h-[72px] items-center justify-between">
       {/* Left side: Logo + Divider + Courses pill dropdown */}
@@ -48,7 +62,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
           <button
             type="button"
             onClick={() => setCoursesOpen((prev) => !prev)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-xs transition-colors hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
+            className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-xs transition-colors hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 cursor-pointer"
           >
             <span>Courses</span>
             <ChevronDown
@@ -71,43 +85,61 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
                   New Age Digital Marketing
                 </Link>
                 <Link
-                  href="#courses"
-                  onClick={() => setCoursesOpen(false)}
+                  href="/#course-fundamentals"
+                  onClick={(e) => {
+                    setCoursesOpen(false);
+                    handleNavClick(e, "/#course-fundamentals");
+                  }}
                   className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
                 >
                   Fundamentals of Digital Marketing
                 </Link>
                 <Link
-                  href="#courses"
-                  onClick={() => setCoursesOpen(false)}
+                  href="/#course-4m-program"
+                  onClick={(e) => {
+                    setCoursesOpen(false);
+                    handleNavClick(e, "/#course-4m-program");
+                  }}
                   className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
                 >
                   4M Program
                 </Link>
                 <Link
-                  href="#courses"
-                  onClick={() => setCoursesOpen(false)}
+                  href="/#course-pgdm"
+                  onClick={(e) => {
+                    setCoursesOpen(false);
+                    handleNavClick(e, "/#course-pgdm");
+                  }}
                   className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
                 >
                   Treqo PGDM
                 </Link>
                 <Link
-                  href="#courses"
-                  onClick={() => setCoursesOpen(false)}
+                  href="/#course-campus-edition"
+                  onClick={(e) => {
+                    setCoursesOpen(false);
+                    handleNavClick(e, "/#course-campus-edition");
+                  }}
                   className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
                 >
                   Campus Edition
                 </Link>
                 <Link
-                  href="#courses"
-                  onClick={() => setCoursesOpen(false)}
+                  href="/#course-founder-semester"
+                  onClick={(e) => {
+                    setCoursesOpen(false);
+                    handleNavClick(e, "/#course-founder-semester");
+                  }}
                   className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
                 >
                   The Founder Semester
                 </Link>
                 <Link
-                  href="#courses"
-                  onClick={() => setCoursesOpen(false)}
+                  href="/#course-performance-growth"
+                  onClick={(e) => {
+                    setCoursesOpen(false);
+                    handleNavClick(e, "/#course-performance-growth");
+                  }}
                   className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
                 >
                   Performance &amp; Growth Specialist
@@ -125,6 +157,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
             <Link
               key={item.key}
               href={item.href}
+              onClick={(e) => handleNavClick(e, item.href)}
               className="text-sm font-medium text-slate-700 transition-colors hover:text-slate-950"
             >
               {item.label}
@@ -134,6 +167,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
 
         <Link
           href={navExtras.ctaHref}
+          onClick={(e) => handleNavClick(e, navExtras.ctaHref)}
           className="inline-flex items-center justify-center rounded-lg bg-[#3A1494] px-5 py-2 text-sm font-semibold text-white shadow-xs transition-all hover:bg-[#2c0e78] active:scale-[0.98]"
         >
           {navExtras.ctaLabel}

@@ -118,7 +118,7 @@ export default function LearningSystem() {
       : programs.filter((p) => p.tags.includes(activeFilter));
 
   return (
-    <section id="courses" className="bg-white py-16 sm:py-20 lg:py-24">
+    <section id="courses" className="bg-white py-16 sm:py-20 lg:py-24 scroll-mt-20">
       <Container>
         {/* Section Heading */}
         <div className="flex flex-col items-start max-w-3xl">
@@ -140,7 +140,7 @@ export default function LearningSystem() {
                 type="button"
                 onClick={() => setActiveFilter(category)}
                 className={cn(
-                  "rounded-full px-4.5 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-150",
+                  "rounded-full px-4.5 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-150 cursor-pointer",
                   isActive
                     ? "bg-[#3A1494] text-white shadow-xs"
                     : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
@@ -157,7 +157,8 @@ export default function LearningSystem() {
           {filteredPrograms.map((program) => (
             <div
               key={program.id}
-              className="flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300"
+              id={`course-${program.id}`}
+              className="scroll-mt-28 flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300"
             >
               {/* Top Diagonal Striped Visual Box */}
               <div className="relative h-36 sm:h-40 w-full overflow-hidden border-b border-slate-200/80 bg-[#f4f6f9]">

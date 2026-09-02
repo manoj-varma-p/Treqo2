@@ -18,15 +18,15 @@ export const announcementBannerData = {
   badge: "BATCH 2 · 50 SEATS",
   text: "Applications close on 25th September 2026.",
   linkText: "Explore the courses",
-  linkHref: "#courses",
+  linkHref: "/#courses",
 };
 
 export const primaryNavItems: NavItem[] = [
-  { key: "method", label: "Method", href: "#method" },
-  { key: "placements", label: "Placements", href: "#placements" },
-  { key: "why-treqo", label: "Why Treqo", href: "#why-treqo" },
-  { key: "fees", label: "Fees", href: "#fees" },
-  { key: "faq", label: "FAQ", href: "#faq" },
+  { key: "method", label: "Method", href: "/#method" },
+  { key: "placements", label: "Placements", href: "/#placements" },
+  { key: "why-treqo", label: "Why Treqo", href: "/#why-treqo" },
+  { key: "fees", label: "Fees", href: "/#fees" },
+  { key: "faq", label: "FAQ", href: "/#faq" },
 ];
 
 export const megaMenuData: MegaMenuData = {
@@ -88,5 +88,5 @@ export const navExtras = {
   searchLabel: "Search",
   searchPlaceholder: "Search courses, career paths...",
   ctaLabel: "Apply now",
-  ctaHref: "#apply",
+  ctaHref: "/#apply",
 };
