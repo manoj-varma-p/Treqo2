@@ -126,7 +126,7 @@ export default function HeroVisual() {
             {/* CTA Submit Button */}
             <button
               type="submit"
-              className="mt-1 w-full rounded-xl bg-[#f5a623] py-3.5 px-4 text-center text-sm sm:text-base font-extrabold text-slate-950 shadow-xs transition-all hover:bg-[#e59816] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f5a623] focus-visible:ring-offset-2"
+              className="mt-1 w-full rounded-xl bg-[#3A1494] py-3.5 px-4 text-center text-sm sm:text-base font-extrabold text-white shadow-xs transition-all hover:bg-[#2c0e78] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A1494] focus-visible:ring-offset-2"
             >
               Get the brochure
             </button>
