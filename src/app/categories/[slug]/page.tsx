@@ -9,6 +9,7 @@ import PhaseAccordion from "@/components/category/PhaseAccordion";
 import CategorySidebar from "@/components/category/CategorySidebar";
 import CategoryFaqAccordion from "@/components/category/CategoryFaqAccordion";
 import MobileEnrollBar from "@/components/category/MobileEnrollBar";
+import ProgramHeroCard from "@/components/category/ProgramHeroCard";
 import { learningSystemCourses } from "@/data/home";
 import { megaMenuData } from "@/data/navigation";
 
@@ -50,7 +51,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const detail = course?.detail;
 
   return (
-    <main className="pb-16 lg:pb-0">
+    <main className="pt-14 lg:pt-0 pb-16 lg:pb-0">
       <Header variant="standard" />
 
       {detail && course ? (
@@ -112,59 +113,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                 </div>
               </div>
 
-              {/* Program Visual Showcase Card */}
+              {/* Program Visual Showcase Card (Interactive) */}
               <div className="flex">
-                <div className="relative flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-border-subtle bg-gradient-to-br from-[#1b0b47] via-[#2a1065] to-[#120730] p-5 sm:p-7 shadow-[0_20px_50px_-20px_rgba(27,11,71,0.5)] text-white">
-                  {/* Mesh / Grid Glow overlay */}
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 opacity-20"
-                    style={{
-                      backgroundImage: "radial-gradient(rgba(255,255,255,0.4) 1px, transparent 1px)",
-                      backgroundSize: "16px 16px",
-                    }}
-                  />
-
-                  {/* Header Badge */}
-                  <div className="relative z-10 flex items-center justify-between gap-2 border-b border-white/10 pb-4">
-                    <span className="inline-flex items-center gap-1.5 rounded-md bg-white/10 px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase text-white/90 backdrop-blur-xs">
-                      <Flame className="h-3 w-3 text-amber-400" aria-hidden="true" />
-                      12-Phase Curriculum
-                    </span>
-                    <span className="text-[11px] font-semibold text-white/70">
-                      Cohort Model
-                    </span>
-                  </div>
-
-                  {/* Center Card Content */}
-                  <div className="relative z-10 my-6 sm:my-8 flex flex-col gap-3">
-                    <div className="inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-white/10 text-white shadow-inner backdrop-blur-md">
-                      <Trophy className="h-5 w-5 sm:h-6 sm:w-6 text-amber-300" aria-hidden="true" />
-                    </div>
-                    <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white leading-tight">
-                      Master modern marketing by doing the actual work.
-                    </h2>
-                    <p className="text-xs sm:text-sm text-white/75 leading-relaxed">
-                      Zero multiple choice exams. You run live budgets, deploy actual ad copy, and defend campaign ROI in front of industry leaders.
-                    </p>
-                  </div>
-
-                  {/* Outcome Highlight Pills */}
-                  <div className="relative z-10 grid grid-cols-3 gap-2 border-t border-white/10 pt-4">
-                    <div className="rounded-lg bg-white/5 p-2 text-center backdrop-blur-xs">
-                      <p className="text-base sm:text-lg font-black text-amber-300">12</p>
-                      <p className="text-[10px] font-semibold text-white/70">Phases</p>
-                    </div>
-                    <div className="rounded-lg bg-white/5 p-2 text-center backdrop-blur-xs">
-                      <p className="text-base sm:text-lg font-black text-emerald-300">30+</p>
-                      <p className="text-[10px] font-semibold text-white/70">Projects</p>
-                    </div>
-                    <div className="rounded-lg bg-white/5 p-2 text-center backdrop-blur-xs">
-                      <p className="text-base sm:text-lg font-black text-sky-300">100%</p>
-                      <p className="text-[10px] font-semibold text-white/70">Portfolio</p>
-                    </div>
-                  </div>
-                </div>
+                <ProgramHeroCard />
               </div>
             </div>
           </Container>

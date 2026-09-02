@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { ChevronDown, Sparkles, CheckCircle2 } from "lucide-react";
+import { useState, useMemo } from "react";
+import { ChevronDown, Sparkles, CheckCircle2, SlidersHorizontal, ChevronsUpDown, Cpu } from "lucide-react";
 import type { CoursePhaseGroup } from "@/types/home";
 import { cn } from "@/lib/utils";
 
@@ -9,120 +9,227 @@ interface PhaseAccordionProps {
   groups: CoursePhaseGroup[];
 }
 
-export default function PhaseAccordion({ groups }: PhaseAccordionProps) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+// Industry tools mapped to phases to make the curriculum feel tangible and dynamic
+const phaseTools: Record<string, string[]> = {
+  "01": ["First Principles", "Competitor Matrix"],
+  "02": ["Customer Personas", "Jobs-to-be-Done"],
+  "03": ["Funnel Architectures", "Drop-off Audits"],
+  "04": ["Problem Discovery", "Validation Surveys"],
+  "05": ["Go-To-Market (GTM)", "Offer Stacking"],
+  "06": ["Brand Positioning", "Messaging Frameworks"],
+  "07": ["SEMrush", "Google Search Console", "WordPress"],
+  "08": ["Meta Ads Manager", "Canva / Figma", "CapCut"],
+  "09": ["Multi-Touch Attribution", "ROAS Modeling"],
+  "10": ["CRM & Pipeline", "HubSpot", "Closing Funnels"],
+  "11": ["Claude", "ChatGPT", "Make.com / Zapier"],
+  "12": ["Looker Studio", "GA4", "Executive P&L Defense"],
+};
 
-  function toggle(index: number) {
-    setOpenIndex((prev) => (prev === index ? null : index));
+const filterTabs = [
+  { id: "all", label: "All 12", range: [1, 12] },
+  { id: "foundations", label: "01-04 Foundations", range: [1, 4] },
+  { id: "execution", label: "05-08 Channels", range: [5, 8] },
+  { id: "scale", label: "09-12 Growth & AI", range: [9, 12] },
+];
+
+export default function PhaseAccordion({ groups }: PhaseAccordionProps) {
+  const [activeFilter, setActiveFilter] = useState("all");
+  const [expandedIndices, setExpandedIndices] = useState<number[]>([0]);
+
+  const filteredGroups = useMemo(() => {
+    const tab = filterTabs.find((t) => t.id === activeFilter);
+    if (!tab || tab.id === "all") return groups.map((g, idx) => ({ group: g, originalIndex: idx }));
+
+    const [start, end] = tab.range;
+    return groups
+      .map((g, idx) => ({ group: g, originalIndex: idx }))
+      .filter((_, idx) => idx + 1 >= start && idx + 1 <= end);
+  }, [activeFilter, groups]);
+
+  function toggleIndex(idx: number) {
+    setExpandedIndices((prev) =>
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+    );
   }
 
-  let cumulativeLessonCount = 0;
+  function toggleAll() {
+    if (expandedIndices.length === filteredGroups.length) {
+      setExpandedIndices([]);
+    } else {
+      setExpandedIndices(filteredGroups.map((item) => item.originalIndex));
+    }
+  }
+
+  const allExpanded =
+    filteredGroups.length > 0 &&
+    filteredGroups.every((item) => expandedIndices.includes(item.originalIndex));
 
   return (
-    <div className="mt-6 flex flex-col gap-2.5 sm:gap-3">
-      {groups.map((group, index) => {
-        const isOpen = openIndex === index;
-        const phaseNum = group.range || String(index + 1).padStart(2, "0");
-        const startNumber = cumulativeLessonCount + 1;
-        cumulativeLessonCount += group.lessons.length;
-
-        return (
-          <div
-            key={group.range || group.eyebrow || index}
-            className={cn(
-              "overflow-hidden rounded-xl sm:rounded-2xl border transition-all duration-200",
-              isOpen
-                ? "border-brand-primary/40 bg-surface shadow-[0_8px_24px_-12px_rgba(58,22,147,0.18)] ring-1 ring-brand-primary/20"
-                : "border-border-subtle bg-surface hover:border-slate-300"
-            )}
-          >
+    <div className="mt-5 flex flex-col gap-3">
+      {/* Dynamic Controls Bar on Mobile & Desktop */}
+      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between border-b border-border-subtle/80 pb-3">
+        {/* Dynamic Category Filter Pills */}
+        <div className="scrollbar-hide flex items-center gap-1.5 overflow-x-auto py-1">
+          {filterTabs.map((tab) => (
             <button
+              key={tab.id}
               type="button"
-              onClick={() => toggle(index)}
-              aria-expanded={isOpen}
+              onClick={() => setActiveFilter(tab.id)}
               className={cn(
-                "flex w-full items-center gap-3 sm:gap-4 px-4 py-3.5 text-left transition-colors sm:px-5 sm:py-4 select-none",
-                isOpen ? "bg-brand-primary/[0.03]" : "bg-surface-alt/60 hover:bg-surface-alt"
+                "shrink-0 rounded-full px-3 py-1.5 text-xs font-bold transition-all select-none active:scale-95",
+                activeFilter === tab.id
+                  ? "bg-brand-primary text-white shadow-xs"
+                  : "bg-surface-alt text-text-secondary hover:bg-slate-200/80 hover:text-text-primary"
               )}
             >
-              {/* Phase Number Badge */}
-              <div
-                className={cn(
-                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-mono text-xs font-bold transition-colors sm:h-9 sm:w-9 sm:text-sm",
-                  isOpen
-                    ? "bg-brand-primary text-white shadow-xs"
-                    : "bg-slate-200/80 text-slate-700"
-                )}
-              >
-                {phaseNum}
-              </div>
-
-              {/* Phase Eyebrow & Title */}
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-bold tracking-wider text-brand-primary uppercase sm:text-[11px]">
-                    {group.eyebrow}
-                  </span>
-                </div>
-                <h3 className="mt-0.5 text-xs font-bold tracking-tight text-text-primary sm:text-sm md:text-base leading-snug">
-                  {group.heading}
-                </h3>
-              </div>
-
-              {/* Chevron */}
-              <div
-                className={cn(
-                  "flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-transform duration-200 sm:h-8 sm:w-8",
-                  isOpen
-                    ? "rotate-180 bg-brand-primary/10 text-brand-primary"
-                    : "text-text-secondary hover:bg-slate-200/50"
-                )}
-                aria-hidden="true"
-              >
-                <ChevronDown className="h-4 w-4" />
-              </div>
+              {tab.label}
             </button>
+          ))}
+        </div>
 
-            {/* Smooth animated expand/collapse */}
+        {/* Expand / Collapse Toggle */}
+        <div className="flex items-center justify-between sm:justify-end gap-2 text-xs">
+          <span className="text-[11px] font-semibold text-text-secondary">
+            Showing <strong className="text-text-primary">{filteredGroups.length}</strong> of 12
+          </span>
+          <button
+            type="button"
+            onClick={toggleAll}
+            className="inline-flex items-center gap-1 rounded-lg border border-border-subtle bg-surface px-2.5 py-1 text-[11px] font-bold text-text-secondary hover:text-brand-primary hover:border-brand-primary/40 active:scale-95 transition-all"
+          >
+            <ChevronsUpDown className="h-3 w-3" aria-hidden="true" />
+            <span>{allExpanded ? "Collapse All" : "Expand All"}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Accordion List */}
+      <div className="flex flex-col gap-2.5">
+        {filteredGroups.map(({ group, originalIndex }) => {
+          const isOpen = expandedIndices.includes(originalIndex);
+          const phaseNum = group.range || String(originalIndex + 1).padStart(2, "0");
+          const tools = phaseTools[phaseNum] || [];
+
+          return (
             <div
+              key={group.range || group.eyebrow || originalIndex}
               className={cn(
-                "grid transition-[grid-template-rows] duration-200 ease-out",
-                isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                "overflow-hidden rounded-xl sm:rounded-2xl border transition-all duration-250",
+                isOpen
+                  ? "border-brand-primary/40 bg-surface shadow-[0_8px_24px_-12px_rgba(58,22,147,0.18)] ring-1 ring-brand-primary/20"
+                  : "border-border-subtle bg-surface hover:border-slate-300"
               )}
             >
-              <div className="overflow-hidden">
-                <div className="border-t border-border-subtle/80 bg-surface px-4 py-4 sm:px-5 sm:py-5">
-                  <div className="flex flex-col gap-2.5">
-                    {group.lessons.map((lesson, lessonIndex) => (
-                      <div
-                        key={lesson}
-                        className="flex flex-col gap-2 rounded-xl border border-border-subtle/60 bg-surface-alt/40 p-3.5 sm:p-4 transition-colors"
-                      >
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-bold tracking-wide text-brand-primary uppercase">
-                            <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
-                            Phase Focus & Deliverable
-                          </span>
-                          <span className="font-mono text-[10px] sm:text-xs font-semibold text-text-secondary">
-                            #{String(startNumber + lessonIndex).padStart(2, "0")}
-                          </span>
+              <button
+                type="button"
+                onClick={() => toggleIndex(originalIndex)}
+                aria-expanded={isOpen}
+                className={cn(
+                  "flex w-full items-center gap-3 sm:gap-4 px-3.5 py-3 sm:px-5 sm:py-3.5 text-left transition-colors select-none",
+                  isOpen ? "bg-brand-primary/[0.03]" : "bg-surface-alt/50 hover:bg-surface-alt active:bg-surface-alt/80"
+                )}
+              >
+                {/* Phase Number Badge */}
+                <div
+                  className={cn(
+                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-mono text-xs font-bold transition-all sm:h-9 sm:w-9 sm:text-sm",
+                    isOpen
+                      ? "bg-brand-primary text-white shadow-xs scale-105"
+                      : "bg-slate-200/80 text-slate-700"
+                  )}
+                >
+                  {phaseNum}
+                </div>
+
+                {/* Phase Eyebrow & Title */}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] font-extrabold tracking-wider text-brand-primary uppercase">
+                      {group.eyebrow}
+                    </span>
+                  </div>
+                  <h3 className="mt-0.5 text-xs sm:text-sm font-bold tracking-tight text-text-primary leading-snug">
+                    {group.heading}
+                  </h3>
+                </div>
+
+                {/* Chevron */}
+                <div
+                  className={cn(
+                    "flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-transform duration-200 sm:h-8 sm:w-8",
+                    isOpen
+                      ? "rotate-180 bg-brand-primary/10 text-brand-primary"
+                      : "text-text-secondary hover:bg-slate-200/50"
+                  )}
+                  aria-hidden="true"
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </div>
+              </button>
+
+              {/* Smooth animated expand/collapse */}
+              <div
+                className={cn(
+                  "grid transition-[grid-template-rows] duration-200 ease-out",
+                  isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                )}
+              >
+                <div className="overflow-hidden">
+                  <div className="border-t border-border-subtle/70 bg-surface px-3.5 py-3.5 sm:px-5 sm:py-4">
+                    <div className="flex flex-col gap-2.5">
+                      {group.lessons.map((lesson) => (
+                        <div
+                          key={lesson}
+                          className="flex flex-col gap-2.5 rounded-xl border border-border-subtle/70 bg-surface-alt/40 p-3 sm:p-4"
+                        >
+                          {/* Deliverable Header */}
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold tracking-wide text-brand-primary uppercase">
+                              <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
+                              Core Deliverable & Skill
+                            </span>
+                            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
+                              Portfolio Graded
+                            </span>
+                          </div>
+
+                          {/* Lesson Description */}
+                          <p className="text-xs sm:text-sm leading-relaxed text-text-primary/90 font-medium">
+                            {lesson}
+                          </p>
+
+                          {/* Industry Tools Chips */}
+                          {tools.length > 0 ? (
+                            <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                              <span className="inline-flex items-center gap-1 text-[10px] font-bold text-text-secondary uppercase">
+                                <Cpu className="h-3 w-3 text-slate-400" aria-hidden="true" />
+                                Tools & Frameworks:
+                              </span>
+                              {tools.map((t) => (
+                                <span
+                                  key={t}
+                                  className="rounded-md border border-border-subtle bg-surface px-2 py-0.5 text-[10px] font-semibold text-text-primary"
+                                >
+                                  {t}
+                                </span>
+                              ))}
+                            </div>
+                          ) : null}
+
+                          <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
+                            <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden="true" />
+                            <span>Defended live before module checkpoint</span>
+                          </div>
                         </div>
-                        <p className="text-xs sm:text-sm leading-relaxed text-text-secondary sm:text-text-primary/90 font-medium">
-                          {lesson}
-                        </p>
-                        <div className="mt-1 flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
-                          <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden="true" />
-                          <span>Industry portfolio checkpoint included</span>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }

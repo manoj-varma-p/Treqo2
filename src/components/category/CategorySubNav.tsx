@@ -55,21 +55,21 @@ export default function CategorySubNav({ tabs }: CategorySubNavProps) {
   }
 
   return (
-    <div className="sticky top-[56px] lg:top-[72px] z-30 border-y border-slate-200/90 bg-white/95 backdrop-blur-md shadow-xs">
+    <div className="sticky top-14 lg:top-[72px] z-30 border-y border-slate-200/90 bg-white/95 backdrop-blur-md shadow-xs">
       <Container className="relative flex items-center">
         {/* Mobile Left & Right edge gradient fades for horizontal scroll hints */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-3 top-0 bottom-0 z-10 w-4 bg-gradient-to-r from-white to-transparent sm:hidden"
+          className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-4 bg-gradient-to-r from-white to-transparent sm:hidden"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute right-3 top-0 bottom-0 z-10 w-4 bg-gradient-to-l from-white to-transparent sm:hidden"
+          className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-4 bg-gradient-to-l from-white to-transparent sm:hidden"
         />
 
         <nav
           aria-label="Program sections"
-          className="scrollbar-hide flex min-w-0 flex-1 items-center gap-2 overflow-x-auto py-2.5 sm:gap-6 sm:py-3.5"
+          className="scrollbar-hide flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto py-2 sm:gap-6 sm:py-3"
         >
           {tabs.map((tab) => {
             const isActive = activeId === tab.id;

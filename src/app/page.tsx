@@ -17,14 +17,14 @@ export default function Home() {
       {/* Top Announcement Banner */}
       <AnnouncementBanner />
 
-      {/* Mobile Top Header (always accessible on mobile) */}
-      <div className="lg:hidden sticky top-0 z-50 bg-white border-b border-slate-100">
+      {/* Mobile Top Header (Fixed on mobile) */}
+      <div className="lg:hidden fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
         <Container>
           <MobileHeader variant="standard" />
         </Container>
       </div>
 
-      <main className="flex-1">
+      <main className="flex-1 pt-14 lg:pt-0">
         <Hero />
         <LearningSystem />
         <WhyTreqqo />
