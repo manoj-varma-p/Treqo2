@@ -1,16 +1,20 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Container from "@/components/ui/Container";
 import DesktopHeader from "./DesktopHeader";
 import { cn } from "@/lib/utils";
 
 export default function HeroNavbar() {
   const [isSticky, setIsSticky] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
   const ticking = useRef(false);
 
   useEffect(() => {
+    setMounted(true);
+
     function update() {
       if (!anchorRef.current) return;
       const rect = anchorRef.current.getBoundingClientRect();
@@ -36,24 +40,34 @@ export default function HeroNavbar() {
     };
   }, []);
 
-  return (
-    <div ref={anchorRef} className="relative z-40 w-full">
-      {/* Placeholder to prevent layout shift when fixed */}
-      {isSticky && <div className="h-[72px] w-full" aria-hidden="true" />}
+  const navContent = (
+    <nav
+      aria-label="Desktop Navigation"
+      className={cn(
+        "w-full transition-all duration-150",
+        isSticky
+          ? "fixed inset-x-0 top-0 z-[100] bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs"
+          : "relative bg-white border-t border-b border-slate-200/80"
+      )}
+    >
+      <Container>
+        <DesktopHeader variant="hero" />
+      </Container>
+    </nav>
+  );
 
-      <nav
-        aria-label="Desktop Navigation"
-        className={cn(
-          "w-full transition-all duration-150",
-          isSticky
-            ? "fixed inset-x-0 top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs"
-            : "relative bg-white border-t border-b border-slate-200/80"
-        )}
-      >
-        <Container>
-          <DesktopHeader variant="hero" />
-        </Container>
-      </nav>
+  return (
+    <div ref={anchorRef} className="relative w-full">
+      {isSticky ? (
+        <>
+          {/* Placeholder so content below does not jump */}
+          <div className="h-[72px] w-full" aria-hidden="true" />
+          {mounted && createPortal(navContent, document.body)}
+        </>
+      ) : (
+        navContent
+      )}
     </div>
   );
 }
+
