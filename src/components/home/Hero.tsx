@@ -10,7 +10,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative bg-[#fafbfe] pt-6 pb-14 sm:pt-8 sm:pb-16 lg:pt-10 lg:pb-20"
+      className="relative bg-[#fafbfe] pt-6 pb-12 sm:pt-8 sm:pb-14 lg:pt-10 lg:pb-0"
     >
       <Container>
         {/* Main 2-column Hero content */}
@@ -31,10 +31,8 @@ export default function Hero() {
               ))}
             </h1>
 
-            {/* Description Paragraph */}
-            <p className="mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-slate-600">
-              {heroContent.description}
-            </p>
+            {/* Reshaped Stats Table in place of description paragraph */}
+            <HeroStats className="mt-6" />
 
             {/* Action Buttons */}
             <div className="mt-8">
@@ -66,16 +64,9 @@ export default function Hero() {
       </Container>
 
       {/* NAVBAR UNDER THE FORM (Desktop only) */}
-      <div className="hidden lg:block mt-3 sm:mt-5">
+      <div className="hidden lg:block mt-8 sm:mt-10">
         <HeroNavbar />
       </div>
-
-      <Container>
-        {/* Bottom Metrics / Stats Bar */}
-        <div className="mt-10 sm:mt-12">
-          <HeroStats />
-        </div>
-      </Container>
     </section>
   );
 }

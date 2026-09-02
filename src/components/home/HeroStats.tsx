@@ -1,18 +1,28 @@
 import { heroStats } from "@/data/home";
+import { cn } from "@/lib/utils";
 
-export default function HeroStats() {
+interface HeroStatsProps {
+  className?: string;
+}
+
+export default function HeroStats({ className }: HeroStatsProps) {
   return (
-    <div className="w-full rounded-2xl border border-slate-200/90 bg-white shadow-xs">
-      <div className="grid grid-cols-2 divide-y divide-slate-100 sm:grid-cols-4 sm:divide-y-0 sm:divide-x sm:divide-slate-200/80 py-6 sm:py-7">
+    <div
+      className={cn(
+        "w-full max-w-xl overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs",
+        className
+      )}
+    >
+      <div className="grid grid-cols-2 divide-y divide-slate-100 sm:grid-cols-4 sm:divide-y-0 sm:divide-x sm:divide-slate-200/80 py-3.5 sm:py-4">
         {heroStats.map((stat) => (
           <div
             key={stat.label}
-            className="flex flex-col items-center justify-center p-3 text-center sm:px-6"
+            className="flex flex-col items-center justify-center p-2.5 text-center sm:px-3"
           >
-            <span className="text-3xl sm:text-4xl lg:text-[2.6rem] font-black tracking-tight text-[#16213e]">
+            <span className="text-2xl sm:text-[1.75rem] font-black tracking-tight text-[#3A1494] leading-tight">
               {stat.value}
             </span>
-            <span className="mt-1 text-xs sm:text-sm font-medium text-slate-500">
+            <span className="mt-1 text-[11px] sm:text-xs font-medium leading-tight text-slate-500 max-w-[115px]">
               {stat.label}
             </span>
           </div>
