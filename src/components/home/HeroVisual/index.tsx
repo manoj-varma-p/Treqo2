@@ -1,59 +1,141 @@
-import HeroVisualImage from "./HeroVisualImage";
-import CurrentPathCard from "./CurrentPathCard";
-import LearningProgressCard from "./LearningProgressCard";
-import ProjectCard from "./ProjectCard";
-import CertificateCard from "./CertificateCard";
-import DecorativeElements from "./DecorativeElements";
+"use client";
+
+import { useState, type FormEvent } from "react";
+import { ChevronDown, CheckCircle2 } from "lucide-react";
 
 export default function HeroVisual() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("+91 ");
+  const [course, setCourse] = useState("New Age Digital Marketing");
+  const [submitted, setSubmitted] = useState(false);
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    setSubmitted(true);
+  }
+
   return (
-    <div className="relative mx-auto w-full max-w-100 pt-4 pb-20 sm:max-w-130 sm:pb-24 lg:mx-auto lg:max-w-150 lg:pt-4 lg:pb-6">
-      {/* Atmospheric glow — soft, centered, behind everything */}
-      <div
-        aria-hidden="true"
-        className="absolute top-1/2 left-1/2 -z-10 h-[115%] w-[115%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
-        style={{
-          background:
-            "radial-gradient(closest-side, var(--brand-primary) 0%, var(--brand-secondary) 45%, transparent 75%)",
-          opacity: 0.32,
-        }}
-      />
-      {/* Soft halo behind her head/shoulders */}
-      <div
-        aria-hidden="true"
-        className="absolute top-[6%] left-[38%] -z-10 h-40 w-40 -translate-x-1/2 rounded-full bg-brand-secondary/30 blur-3xl sm:h-48 sm:w-48"
-      />
-      <div
-        aria-hidden="true"
-        className="animate-float-slow absolute -top-6 -right-6 h-56 w-56 rounded-full bg-brand-secondary/30 blur-3xl sm:h-64 sm:w-64"
-      />
-      <div
-        aria-hidden="true"
-        className="animate-float-slower absolute -bottom-8 -left-12 h-64 w-64 rounded-full bg-brand-primary/25 blur-3xl sm:h-72 sm:w-72"
-      />
+    <div className="w-full max-w-md mx-auto lg:max-w-none">
+      <div className="overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-lg">
+        {/* Deep Blue Header Banner */}
+        <div className="bg-[#1b3d9c] px-6 py-6 sm:px-7 sm:py-7">
+          <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white">
+            Download the brochure
+          </h2>
+          <p className="mt-1 text-xs sm:text-sm font-normal text-white/85">
+            Full 18-phase syllabus, fees and batch dates
+          </p>
+        </div>
 
-      {/* Tiny orbiting particles — subtle, not decorative overload */}
-      <div aria-hidden="true" className="absolute top-[8%] left-[6%] hidden h-2 w-2 rounded-full bg-brand-primary/40 lg:block" />
-      <div aria-hidden="true" className="absolute top-[18%] -left-2 hidden h-1.5 w-1.5 rounded-full bg-brand-secondary/50 lg:block" />
-      <div aria-hidden="true" className="absolute right-[4%] bottom-[22%] hidden h-2 w-2 rounded-full bg-brand-accent/40 lg:block" />
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 100 100"
-        className="absolute top-[10%] -right-6 hidden h-24 w-24 text-brand-primary/20 lg:block"
-      >
-        <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2 6" />
-      </svg>
+        {/* Form Body */}
+        {submitted ? (
+          <div className="flex flex-col items-center justify-center p-8 text-center sm:p-10">
+            <CheckCircle2 className="h-12 w-12 text-emerald-500" />
+            <h3 className="mt-4 text-lg font-bold text-slate-900">
+              Brochure is on its way!
+            </h3>
+            <p className="mt-2 text-xs sm:text-sm text-slate-600">
+              We&apos;ve sent the complete 18-phase syllabus and batch details to <strong>{email || "your email"}</strong>.
+            </p>
+            <button
+              type="button"
+              onClick={() => setSubmitted(false)}
+              className="mt-6 text-xs font-semibold text-[#1b3d9c] underline underline-offset-2"
+            >
+              Download another copy
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4.5 p-6 sm:p-7">
+            {/* Full name */}
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="fullName" className="text-xs sm:text-sm font-bold text-slate-800">
+                Full name
+              </label>
+              <input
+                id="fullName"
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your name"
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#1b3d9c] focus:outline-none focus:ring-2 focus:ring-[#1b3d9c]/20"
+              />
+            </div>
 
-      <div className="relative aspect-1130/1024 w-full">
-        <HeroVisualImage />
+            {/* Email */}
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="email" className="text-xs sm:text-sm font-bold text-slate-800">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@email.com"
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#1b3d9c] focus:outline-none focus:ring-2 focus:ring-[#1b3d9c]/20"
+              />
+            </div>
+
+            {/* Phone */}
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="phone" className="text-xs sm:text-sm font-bold text-slate-800">
+                Phone
+              </label>
+              <input
+                id="phone"
+                type="tel"
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="+91 "
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#1b3d9c] focus:outline-none focus:ring-2 focus:ring-[#1b3d9c]/20"
+              />
+            </div>
+
+            {/* Course of interest */}
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="course" className="text-xs sm:text-sm font-bold text-slate-800">
+                Course of interest
+              </label>
+              <div className="relative">
+                <select
+                  id="course"
+                  value={course}
+                  onChange={(e) => setCourse(e.target.value)}
+                  className="w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-3 pr-10 text-sm font-medium text-slate-900 focus:border-[#1b3d9c] focus:outline-none focus:ring-2 focus:ring-[#1b3d9c]/20"
+                >
+                  <option value="New Age Digital Marketing">New Age Digital Marketing</option>
+                  <option value="Performance & Meta Ads">Performance &amp; Meta Ads</option>
+                  <option value="Brand Strategy & Content">Brand Strategy &amp; Content</option>
+                  <option value="Product Marketing & Growth">Product Marketing &amp; Growth</option>
+                  <option value="Full Stack Marketing Masterclass">Full Stack Marketing Masterclass</option>
+                </select>
+                <ChevronDown
+                  className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
+                  aria-hidden="true"
+                />
+              </div>
+            </div>
+
+            {/* CTA Submit Button */}
+            <button
+              type="submit"
+              className="mt-1 w-full rounded-xl bg-[#f5a623] py-3.5 px-4 text-center text-sm sm:text-base font-extrabold text-slate-950 shadow-xs transition-all hover:bg-[#e59816] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f5a623] focus-visible:ring-offset-2"
+            >
+              Get the brochure
+            </button>
+
+            {/* Footer Disclaimer */}
+            <p className="text-xs leading-relaxed text-slate-500">
+              No spam. One call from an advisor, and we&apos;ll tell you honestly if this isn&apos;t for you.
+            </p>
+          </form>
+        )}
       </div>
-
-      <DecorativeElements />
-
-      <CurrentPathCard className="animate-fade-up absolute top-0 -left-4 [animation-delay:150ms] sm:top-4 sm:-left-8 lg:top-10 lg:-left-10" />
-      <LearningProgressCard className="animate-fade-up absolute top-0 -right-3 [animation-delay:250ms] sm:-right-8 lg:-right-10" />
-      <ProjectCard className="animate-fade-up absolute -left-3 bottom-32 [animation-delay:400ms] sm:-left-8 sm:bottom-36 lg:-left-13 lg:bottom-36" />
-      <CertificateCard className="animate-fade-up absolute -right-4 bottom-10 [animation-delay:500ms] sm:-right-8 sm:bottom-12 lg:-right-11 lg:bottom-14" />
     </div>
   );
 }

@@ -170,7 +170,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
               { id: "overview", label: "Overview" },
               { id: "phases", label: detail.phasesNavLabel },
               { id: "challenge", label: detail.challengeNavLabel },
-              { id: "fees", label: "Fees" },
               { id: "proof", label: "Proof" },
               { id: "faqs", label: "FAQs" },
             ]}
@@ -236,33 +235,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                         </li>
                       ))}
                     </ul>
-                  </section>
-
-                  <section id="fees" className="scroll-mt-40">
-                    <h2 className="text-2xl font-extrabold tracking-tight text-text-primary sm:text-3xl">
-                      {detail.fees.heading}
-                    </h2>
-                    <p className="mt-4 text-sm leading-relaxed text-text-secondary sm:text-base">
-                      {detail.fees.description}
-                    </p>
-
-                    <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      {detail.fees.plans.map((plan) => (
-                        <div key={plan.name} className="rounded-2xl border border-border-subtle p-6">
-                          <p className="text-sm font-semibold text-text-secondary">{plan.name}</p>
-                          <p className="mt-1 text-2xl font-extrabold text-text-primary">{plan.price}</p>
-                          <p className="mt-3 text-sm leading-relaxed text-text-secondary">{plan.description}</p>
-                          <ul className="mt-4 flex flex-col gap-2">
-                            {plan.features.map((feature) => (
-                              <li key={feature} className="flex items-start gap-2 text-sm text-text-secondary">
-                                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-primary" aria-hidden="true" />
-                                {feature}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
                   </section>
 
                   <section id="proof" className="scroll-mt-40">

@@ -1,29 +1,27 @@
 import Header from "@/components/header/Header";
 import Hero from "@/components/home/Hero";
-import WhyTreqqo from "@/components/home/WhyTreqqo";
 import LearningSystem from "@/components/home/LearningSystem";
+import WhyTreqqo from "@/components/home/WhyTreqqo";
 import ExecutionProof from "@/components/home/ExecutionProof";
-import ToolsShowcase from "@/components/home/ToolsShowcase";
 import TaughtBy from "@/components/home/TaughtBy";
-import CertificateShowcase from "@/components/home/CertificateShowcase";
-import AlumniShowcase from "@/components/home/AlumniShowcase";
+import SixDecisions from "@/components/home/SixDecisions";
 import FaqSection from "@/components/home/FaqSection";
+import Footer from "@/components/footer/Footer";
 
 export default function Home() {
   return (
-    <main>
-      <div className="relative">
-        <Header />
+    <div className="flex min-h-screen flex-col bg-white">
+      <Header />
+      <main className="flex-1">
         <Hero />
-      </div>
-      <LearningSystem />
-      <WhyTreqqo />
-      <ExecutionProof />
-      <ToolsShowcase />
-      <TaughtBy />
-      <CertificateShowcase />
-      <AlumniShowcase />
-      <FaqSection />
-    </main>
+        <LearningSystem />
+        <WhyTreqqo />
+        <ExecutionProof />
+        <TaughtBy />
+        <SixDecisions />
+        <FaqSection />
+      </main>
+      <Footer />
+    </div>
   );
 }

@@ -1,139 +1,148 @@
-"use client";
-
-import { useState } from "react";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import Container from "@/components/ui/Container";
-import { executionContent, executionPillars } from "@/data/home";
-import { cn } from "@/lib/utils";
+
+const outcomes = [
+  {
+    tag: "FOUNDER",
+    name: "Somu Shekar",
+    description: "Never went job-hunting. Co-founded Gesture Co while still in the course.",
+  },
+  {
+    tag: "FOUNDER",
+    name: "Subhani",
+    description: "Turned his capstone into a company. Founded JASS Media.",
+  },
+  {
+    tag: "PLACED IN 30 DAYS",
+    name: "Dikshtha",
+    description: "At Bristle Tech within a month of finishing.",
+  },
+  {
+    tag: "HIRED ON PORTFOLIO",
+    name: "Harshit",
+    description: "Placed at TCS on the strength of the work, not the résumé.",
+  },
+];
+
+const companies = [
+  "Gesture Co",
+  "JASS Media",
+  "Bristle Tech",
+  "TCS",
+  "logo 5",
+  "logo 6",
+];
 
 export default function ExecutionProof() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const pillar = executionPillars[activeIndex];
-
   return (
-    <section className="relative overflow-hidden pt-10 pb-14 sm:pt-10 sm:pb-16 lg:pt-15 lg:pb-20">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 opacity-60"
-        style={{
-          backgroundImage: "radial-gradient(rgba(58,22,147,0.12) 1px, transparent 1px)",
-          backgroundSize: "22px 22px",
-        }}
-      />
-
+    <section id="placements" className="bg-white py-16 sm:py-20 lg:py-24">
       <Container>
-        <div className="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
-          <h2 className="text-3xl leading-[1.15] font-extrabold tracking-tight text-text-primary uppercase sm:text-4xl lg:text-[2.75rem]">
-            {executionContent.heading.line1}
-            <br />
-            <span className="bg-gradient-to-r from-brand-primary to-brand-secondary bg-clip-text text-transparent">
-              {executionContent.heading.line2}
+        {/* Section Header */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-12 lg:items-end">
+          <div className="flex flex-col items-start lg:col-span-7">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-slate-700">
+              BATCH 1 · ALREADY HAPPENED
             </span>
-          </h2>
-
-          <p className="text-sm text-text-secondary sm:text-base">{executionContent.description}</p>
-        </div>
-
-        <div className="mt-12 grid grid-cols-1 gap-10 lg:mt-16 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:gap-12">
-          {/* Content panel */}
-          <div key={activeIndex} className="animate-fade-up flex flex-col justify-center">
-            <p className="text-xs font-bold tracking-widest text-brand-primary uppercase sm:text-sm">
-              {String(activeIndex + 1).padStart(2, "0")} {pillar.label}
-            </p>
-
-            <h3 className="mt-3 text-2xl leading-tight font-extrabold tracking-tight text-text-primary uppercase sm:text-3xl">
-              {pillar.heading}
-            </h3>
-
-            <blockquote className="mt-5 rounded-r-lg border-l-4 border-brand-primary bg-surface px-4 py-3 text-sm font-medium text-text-primary italic">
-              &ldquo;{pillar.quote}&rdquo;
-            </blockquote>
-
-            <ul className="mt-5 space-y-2.5">
-              {pillar.bullets.map((bullet) => (
-                <li key={bullet.label} className="text-sm leading-relaxed text-text-secondary">
-                  <span className="font-bold text-text-primary">{bullet.label}: </span>
-                  {bullet.text}
-                </li>
-              ))}
-            </ul>
+            <h2 className="mt-2 text-3xl sm:text-4xl lg:text-[3rem] font-black leading-[1.1] tracking-tight text-slate-950">
+              Four names. All checkable.
+            </h2>
           </div>
 
-          {/* Vertical nav */}
-          <div className="flex flex-col gap-1.5 rounded-2xl bg-surface p-2 shadow-[0_20px_45px_-30px_rgba(20,18,31,0.35)] sm:p-3">
-            {executionPillars.map((item, index) => {
-              const isActive = index === activeIndex;
-              return (
-                <button
-                  key={item.navTitle}
-                  type="button"
-                  onClick={() => setActiveIndex(index)}
-                  aria-current={isActive}
-                  className={cn(
-                    "group flex w-full items-center gap-3 rounded-xl px-4 py-4 text-left transition-colors duration-200",
-                    isActive ? "bg-brand-primary/5" : "hover:bg-surface-alt"
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "h-9 w-1 shrink-0 rounded-full transition-colors duration-200",
-                      isActive ? "bg-brand-primary" : "bg-border-subtle group-hover:bg-brand-primary/40"
-                    )}
-                    aria-hidden="true"
-                  />
+          <div className="lg:col-span-5">
+            <p className="text-sm sm:text-base leading-relaxed text-slate-600">
+              One batch is a small sample and we won&apos;t dress it up as an industry statistic. What we will say: every outcome below is a person you can look up.
+            </p>
+          </div>
+        </div>
 
-                  <div className="flex flex-1 flex-col gap-1">
-                    <span
-                      className={cn(
-                        "text-base font-extrabold tracking-tight uppercase transition-colors duration-200 sm:text-lg",
-                        isActive ? "text-text-primary" : "text-text-secondary group-hover:text-text-primary"
-                      )}
-                    >
-                      {item.navTitle}
-                    </span>
-                    <span
-                      className={cn(
-                        "text-[11px] font-bold tracking-widest uppercase transition-colors duration-200 sm:text-xs",
-                        isActive ? "text-brand-primary" : "text-text-secondary/60"
-                      )}
-                    >
-                      {item.label}
+        {/* 4 Outcome Cards Grid */}
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {outcomes.map((item) => (
+            <div
+              key={item.name}
+              className="flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300"
+            >
+              {/* Top 4:5 Diagonal Striped Portrait Placeholder */}
+              <div className="relative aspect-[4/5] w-full overflow-hidden border-b border-slate-200/80 bg-[#f4f6f9]">
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backgroundImage:
+                      "repeating-linear-gradient(45deg, #eef2f7 0, #eef2f7 14px, #f8fafc 14px, #f8fafc 28px)",
+                  }}
+                />
+                <div className="absolute inset-0 flex items-center justify-center p-3">
+                  <div className="rounded-md border border-slate-300/80 bg-white/90 px-3 py-1 text-center shadow-2xs backdrop-blur-xs">
+                    <span className="text-[10px] font-bold tracking-wider text-slate-400 uppercase">
+                      PORTRAIT · 4:5
                     </span>
                   </div>
+                </div>
+              </div>
 
-                  <ArrowRight
-                    className={cn(
-                      "h-4 w-4 shrink-0 transition-all duration-200",
-                      isActive
-                        ? "translate-x-0 text-brand-primary opacity-100"
-                        : "-translate-x-1 text-text-secondary opacity-0 group-hover:translate-x-0 group-hover:opacity-40"
-                    )}
-                    aria-hidden="true"
-                  />
-                </button>
-              );
-            })}
+              {/* Card Body */}
+              <div className="p-5">
+                <span className="text-[11px] font-black uppercase tracking-wider text-[#1e3a8a]">
+                  {item.tag}
+                </span>
+                <h3 className="mt-1 text-lg font-bold text-slate-900">
+                  {item.name}
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm leading-relaxed text-slate-600">
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Metrics & Quote Divider Row */}
+        <div className="mt-12 border-t border-slate-200/90 pt-8 sm:pt-10">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 lg:items-center">
+            {/* Left Metrics */}
+            <div className="flex flex-wrap items-center gap-8 sm:gap-12 lg:col-span-5">
+              <div>
+                <span className="block text-3xl sm:text-4xl font-black tracking-tight text-slate-950">
+                  100%
+                </span>
+                <span className="mt-1 block text-xs sm:text-sm text-slate-500 font-medium">
+                  of Batch 1 placed or founding
+                </span>
+              </div>
+
+              <div>
+                <span className="block text-3xl sm:text-4xl font-black tracking-tight text-slate-950">
+                  ₹5L+
+                </span>
+                <span className="mt-1 block text-xs sm:text-sm text-slate-500 font-medium">
+                  earned for a client, mid-course
+                </span>
+              </div>
+            </div>
+
+            {/* Right Story Text */}
+            <div className="lg:col-span-7">
+              <p className="text-xs sm:text-sm leading-relaxed text-slate-600 max-w-2xl">
+                That ₹5L came out of Gesture Co&apos;s Diwali campaign briefed, built, run and reported by students who hadn&apos;t graduated yet. Batch 2 gets measured against it.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:mt-14">
-          <Link
-            href={executionContent.secondaryCta.href}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-brand-primary/25 px-7 py-3.5 text-sm font-semibold text-brand-primary transition-colors duration-200 hover:border-brand-primary hover:bg-brand-primary/5 sm:w-auto"
-          >
-            {executionContent.secondaryCta.label}
-          </Link>
-          <Link
-            href={executionContent.primaryCta.href}
-            className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-primary px-7 py-3.5 text-sm font-semibold text-white shadow-[0_10px_25px_-8px_rgba(58,22,147,0.6)] transition-colors duration-200 hover:bg-brand-primary-dark sm:w-auto"
-          >
-            {executionContent.primaryCta.label}
-            <ArrowRight
-              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-              aria-hidden="true"
-            />
-          </Link>
+        {/* Where Batch 1 Went Logos */}
+        <div className="mt-8">
+          <span className="block text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-3">
+            WHERE BATCH 1 WENT
+          </span>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {companies.map((company) => (
+              <div
+                key={company}
+                className="flex items-center justify-center rounded-xl border border-slate-200/90 bg-white py-3.5 px-4 text-center text-xs sm:text-sm font-bold text-slate-700 shadow-2xs transition-colors hover:bg-slate-50"
+              >
+                {company}
+              </div>
+            ))}
+          </div>
         </div>
       </Container>
     </section>

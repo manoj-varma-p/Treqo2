@@ -51,27 +51,28 @@ import type {
 
 
 export const heroContent: HeroContentData = {
-  eyebrow: "India's Next-Gen Skill Platform",
+  eyebrow: "New Age Digital Marketing",
   headline: {
-    lines: ["DON'T JUST.", "LEARN MARKETING.", "DO IT."],
-    emphasizedLine: 2,
+    lines: ["Leave with work", "you can show.", "Not a certificate."],
+    emphasizedLine: -1,
   },
   description:
-    "Learn marketing the way founders, strategists, and growth leaders do. 30+ live projects, 100% placement support, and a training model built around real revenue not theory.",
-  featurePills: [
-    { icon: Zap, label: "Strategy" },
-    { icon: Briefcase, label: "Growth" },
-    { icon: Rocket, label: "Implementation" },
+    "70% doing, 30% theory. 18 phases, 30+ live brand projects and a real client outcome you can show in an interview, not a completion certificate.",
+  highlights: [
+    "18 phases in a fixed order, the sequence is the argument",
+    "A named client outcome in your portfolio before you finish",
+    "Plan A or Plan B: pay less now, or pay once and keep the rest",
   ],
-  primaryCta: { label: "Start Learning Now", href: "/start-learning" },
-  secondaryCta: { label: "Watch How It Works", href: "/how-it-works" },
+  featurePills: [],
+  primaryCta: { label: "Browse the 7 courses", href: "#courses" },
+  secondaryCta: { label: "See how it works", href: "#how-it-works" },
 };
 
 export const heroStats: HeroStat[] = [
-  { icon: Users, value: "50K+", label: "Active Learners" },
-  { icon: GraduationCap, value: "200+", label: "Expert Mentors" },
-  { icon: BookMarked, value: "250+", label: "Job Ready Courses" },
-  { icon: TrendingUp, value: "95%", label: "Career Growth" },
+  { value: "18", label: "phases, fixed order" },
+  { value: "30+", label: "live brand projects" },
+  { value: "70/30", label: "doing to theory" },
+  { value: "₹5L+", label: "earned for a real client" },
 ];
 
 export const heroVisualCards: {
@@ -190,7 +191,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
     description: "Master paid ads, SEO and funnel strategy with real campaigns, real budgets and real results.",
     href: "/categories/digital-marketing",
     features: [
-      { icon: Clock, label: "6 Months Program" },
+      { icon: Clock, label: "4 Months Program" },
       { icon: Users, label: "Live Mentor Sessions" },
       { icon: Award, label: "Industry Certificate" },
       { icon: Layers, label: "12+ Live Projects" },
@@ -199,9 +200,9 @@ export const learningSystemCourses: LearningSystemCourse[] = [
       badge: "Flagship · Now Enrolling",
       batch: "Batch 2 · Sep 2026",
       description:
-        "Six months, online. 18 phases in a fixed order, 30+ real brand projects across 16+ industries, and a CEO Challenge closing every module. You finish with work you can put in front of someone, not notes you'll never reread.",
+        "Four months, online. 18 phases in a fixed order, 30+ real brand projects across 16+ industries, and a CEO Challenge closing every module. You finish with work you can put in front of someone, not notes you'll never reread.",
       stats: [
-        { label: "Duration", value: "6 months" },
+        { label: "Duration", value: "4 months" },
         { label: "Format", value: "Online, live" },
         { label: "Phases", value: "18 + capstone" },
         { label: "Projects", value: "30+ real brands" },
@@ -341,7 +342,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
       sidebar: {
         batchLabel: "Batch 2 — forming",
         starts: "September 2026",
-        format: "Online, 6 months",
+        format: "Online, 4 months",
         feePlans: "₹50,000 + 12%, or ₹75,000 flat",
         seats: "Small enough that a weak idea can't hide",
         applyLabel: "Apply for Batch 2",
@@ -869,7 +870,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         question: "How long is the course?",
-        answer: "6 months, with weekly live sessions and hands-on assignments.",
+        answer: "4 months, with weekly live sessions and hands-on assignments.",
       },
     ],
   },

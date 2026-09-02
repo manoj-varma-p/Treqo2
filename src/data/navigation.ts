@@ -14,11 +14,19 @@ import {
 } from "lucide-react";
 import type { MegaMenuData, NavItem } from "@/types/navigation";
 
+export const announcementBannerData = {
+  badge: "BATCH 2 · 50 SEATS",
+  text: "Applications close on 25th September 2026.",
+  linkText: "Explore the courses",
+  linkHref: "#courses",
+};
+
 export const primaryNavItems: NavItem[] = [
-  { key: "home", label: "Home", href: "/" },
-  { key: "explore", label: "Explore", href: "/explore", hasMegaMenu: true },
-  { key: "career-paths", label: "Career Paths", href: "/career-paths" },
-  { key: "community", label: "Community", href: "/community" },
+  { key: "method", label: "Method", href: "#method" },
+  { key: "placements", label: "Placements", href: "#placements" },
+  { key: "why-treqo", label: "Why Treqo", href: "#why-treqo" },
+  { key: "fees", label: "Fees", href: "#fees" },
+  { key: "faq", label: "FAQ", href: "#faq" },
 ];
 
 export const megaMenuData: MegaMenuData = {
@@ -79,6 +87,6 @@ export const megaMenuData: MegaMenuData = {
 export const navExtras = {
   searchLabel: "Search",
   searchPlaceholder: "Search courses, career paths...",
-  ctaLabel: "Start Learning",
-  ctaHref: "/start-learning",
+  ctaLabel: "Apply now",
+  ctaHref: "#apply",
 };

@@ -1,86 +1,102 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { ChevronDown } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import Container from "@/components/ui/Container";
-import { faqContent, faqCategories } from "@/data/home";
 import { cn } from "@/lib/utils";
 
-export default function FaqSection() {
-  const [activeCategory, setActiveCategory] = useState(faqCategories.length - 1);
-  const [openIndex, setOpenIndex] = useState(0);
-  const category = faqCategories[activeCategory];
+const faqs = [
+  {
+    question: "Do I need a marketing background?",
+    answer:
+      "No. Batch 1 came in from engineering, commerce and design. What you do need is the time, roughly 12 to 15 hours a week for four months, including the parts that aren't fun.",
+  },
+  {
+    question: "Online or on campus?",
+    answer:
+      "The flagship runs online with live sessions and reviews. The 6M Program is on campus in Madhapur. Either way, come and sit in on a review before you decide.",
+  },
+  {
+    question: "What happens if I fail Phase 4?",
+    answer:
+      "You rework it. Idea clarity is pass or rework, no partial credit, no parallel track. Most students rework once, and the second version is always sharper.",
+  },
+  {
+    question: "Is placement guaranteed?",
+    answer:
+      "No, and anyone promising you that is selling something. Batch 1 was 100% placed or founding, out of a small batch. Plan B moves you to the front of the placement queue; neither plan buys a guarantee.",
+  },
 
-  function selectCategory(index: number) {
-    setActiveCategory(index);
-    setOpenIndex(0);
+  {
+    question: "Why are six courses marked 'building'?",
+    answer:
+      "Because they are. We'd rather show you the roadmap than list seven live programs and quietly stall you. Join a waitlist and you'll hear from us when there's a date.",
+  },
+];
+
+export default function FaqSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  function toggle(index: number) {
+    setOpenIndex((prev) => (prev === index ? null : index));
   }
 
   return (
-    <section className="relative overflow-hidden bg-[#f3f2f7] pt-10 pb-14 sm:pt-10 sm:pb-16 lg:pt-15 lg:pb-20">
+    <section id="faq" className="bg-white py-16 sm:py-20 lg:py-24">
       <Container>
-        <h2 className="text-3xl leading-[1.15] font-extrabold tracking-tight text-text-primary sm:text-4xl">
-          {faqContent.heading.line1}{" "}
-          <span className="bg-gradient-to-r from-brand-primary to-brand-secondary bg-clip-text text-transparent">
-            {faqContent.heading.line2}
-          </span>
-        </h2>
-
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:mt-12 lg:grid-cols-[300px_1fr] lg:gap-8">
-          {/* Category list */}
-          <div className="scrollbar-hide flex gap-3 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
-            {faqCategories.map((item, index) => {
-              const isActive = index === activeCategory;
-              return (
-                <button
-                  key={item.label}
-                  type="button"
-                  onClick={() => selectCategory(index)}
-                  aria-current={isActive}
-                  className={cn(
-                    "shrink-0 rounded-2xl px-5 py-4 text-left text-sm font-semibold transition-colors duration-200 lg:w-full lg:shrink",
-                    isActive
-                      ? "bg-brand-primary text-white shadow-[0_10px_25px_-8px_rgba(58,22,147,0.5)]"
-                      : "bg-surface text-text-primary hover:bg-surface-alt"
-                  )}
-                >
-                  <span className="block max-w-[220px]">{item.label}</span>
-                </button>
-              );
-            })}
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16 lg:items-start">
+          {/* Left Column: Heading & Contact info */}
+          <div className="flex flex-col items-start lg:col-span-5">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-slate-700">
+              FAQ
+            </span>
+            <h2 className="mt-2 text-3xl sm:text-4xl lg:text-[3rem] font-black leading-[1.08] tracking-tight text-slate-950">
+              Straight answers
+            </h2>
+            <p className="mt-4 text-xs sm:text-sm text-slate-600">
+              Something not here? Call{" "}
+              <a
+                href="tel:+919948000491"
+                className="font-semibold text-slate-900 hover:underline"
+              >
+                +91 99480 00491
+              </a>{" "}
+              and ask.
+            </p>
           </div>
 
-          {/* FAQ accordion */}
-          <div className="flex flex-col gap-3">
-            {category.faqs.map((faq, index) => {
-              const isOpen = index === openIndex;
+          {/* Right Column: Minimalist Accordion */}
+          <div className="divide-y divide-slate-200/90 border-y border-slate-200/90 lg:col-span-7">
+            {faqs.map((faq, index) => {
+              const isOpen = openIndex === index;
               return (
-                <div key={faq.question} className="rounded-2xl bg-surface">
+                <div key={faq.question} className="py-5 sm:py-6">
                   <button
                     type="button"
-                    onClick={() => setOpenIndex(isOpen ? -1 : index)}
+                    onClick={() => toggle(index)}
                     aria-expanded={isOpen}
-                    className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left sm:px-6 sm:py-5"
+                    className="flex w-full items-center justify-between gap-4 text-left transition-colors"
                   >
-                    <span className="text-sm font-semibold text-text-primary sm:text-base">{faq.question}</span>
-                    <ChevronDown
-                      className={cn(
-                        "h-5 w-5 shrink-0 text-text-secondary transition-transform duration-200",
-                        isOpen && "rotate-180 text-brand-primary"
+                    <span className="text-base sm:text-lg font-bold tracking-tight text-slate-900">
+                      {faq.question}
+                    </span>
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center text-blue-900">
+                      {isOpen ? (
+                        <X className="h-4 w-4 stroke-[2.5]" aria-hidden="true" />
+                      ) : (
+                        <Plus className="h-4 w-4 stroke-[2.5]" aria-hidden="true" />
                       )}
-                      aria-hidden="true"
-                    />
+                    </span>
                   </button>
 
                   <div
                     className={cn(
-                      "grid transition-[grid-template-rows] duration-300 ease-out",
+                      "grid transition-[grid-template-rows] duration-200 ease-out",
                       isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                     )}
                   >
                     <div className="overflow-hidden">
-                      <p className="px-5 pb-5 text-sm leading-relaxed text-text-secondary sm:px-6 sm:pb-6">
+                      <p className="pt-3 text-xs sm:text-sm leading-relaxed text-slate-600">
                         {faq.answer}
                       </p>
                     </div>
@@ -89,16 +105,6 @@ export default function FaqSection() {
               );
             })}
           </div>
-        </div>
-
-        <div className="mt-8 flex justify-center lg:mt-10">
-          <Link
-            href={faqContent.cta.href}
-            className="group inline-flex items-center gap-2 rounded-full border-2 border-brand-primary/25 px-7 py-3 text-sm font-semibold text-brand-primary transition-colors duration-200 hover:border-brand-primary hover:bg-brand-primary/5"
-          >
-            {faqContent.cta.label}
-            <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:translate-y-0.5" aria-hidden="true" />
-          </Link>
         </div>
       </Container>
     </section>

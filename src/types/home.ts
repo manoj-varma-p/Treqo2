@@ -14,17 +14,18 @@ export interface HeroContentData {
   eyebrow: string;
   headline: {
     lines: string[];
-    /** Line (by index) that gets the emphasized gradient/underline treatment. */
-    emphasizedLine: number;
+    /** Line (by index) that gets the emphasized gradient/underline treatment (-1 if none). */
+    emphasizedLine?: number;
   };
   description: string;
-  featurePills: FeaturePill[];
+  featurePills?: FeaturePill[];
+  highlights?: string[];
   primaryCta: HeroCta;
   secondaryCta: HeroCta;
 }
 
 export interface HeroStat {
-  icon: LucideIcon;
+  icon?: LucideIcon;
   value: string;
   label: string;
 }

@@ -1,151 +1,230 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import Container from "@/components/ui/Container";
-import IconButton from "@/components/ui/IconButton";
-import { learningSystemContent, learningSystemCourses } from "@/data/home";
+import { cn } from "@/lib/utils";
+
+interface ProgramCard {
+  id: string;
+  previewLabel: string;
+  badge: {
+    text: string;
+    variant: "blue" | "amber" | "gray";
+  };
+  meta: string;
+  title: string;
+  description: string;
+  actionText: string;
+  actionHref: string;
+  tags: string[];
+}
+
+const programs: ProgramCard[] = [
+  {
+    id: "new-age-dm",
+    previewLabel: "CLASSROOM · CEO CHALLENGE REVIEW",
+    badge: { text: "OPEN · BATCH 2", variant: "blue" },
+    meta: "4 months · Online",
+    title: "New Age Digital Marketing",
+    description:
+      "The flagship. 18 phases, 30+ real brand projects, AI in the workflow from phase one. Batch 2 starts Sep 2026.",
+    actionText: "View course →",
+    actionHref: "/categories/digital-marketing",
+    tags: ["All", "Flagship"],
+  },
+  {
+    id: "fundamentals",
+    previewLabel: "SELF-PACED MODULE SCREEN",
+    badge: { text: "FREE", variant: "amber" },
+    meta: "6 modules · Self-paced",
+    title: "Fundamentals of Digital Marketing",
+    description:
+      "The door in. What digital marketing is, how funnels behave, and what to settle before you pay for anything.",
+    actionText: "Start free →",
+    actionHref: "#free-course",
+    tags: ["All", "Short", "Students"],
+  },
+  {
+    id: "4m-program",
+    previewLabel: "MADHAPUR STUDIO FLOOR",
+    badge: { text: "BUILDING", variant: "gray" },
+    meta: "4 months · On campus",
+    title: "4M Program",
+    description:
+      "Full-stack marketing, condensed and in person. Brand strategy through performance in four months.",
+    actionText: "Join waitlist →",
+    actionHref: "#waitlist-4m",
+    tags: ["All", "Short"],
+  },
+  {
+    id: "pgdm",
+    previewLabel: "COHORT SESSION",
+    badge: { text: "BUILDING", variant: "gray" },
+    meta: "12 months · Hybrid",
+    title: "Treqo PGDM",
+    description:
+      "Post Graduate Diploma in New Age Marketing. Built for graduates ready for senior marketing roles.",
+    actionText: "Join waitlist →",
+    actionHref: "#waitlist-pgdm",
+    tags: ["All", "PG"],
+  },
+  {
+    id: "campus-edition",
+    previewLabel: "STUDENT AT DESK",
+    badge: { text: "BUILDING", variant: "gray" },
+    meta: "4 months · Online",
+    title: "Campus Edition",
+    description:
+      "The flagship, timed to run alongside a BBA or MBA without colliding with your semester exams.",
+    actionText: "Join waitlist →",
+    actionHref: "#waitlist-campus",
+    tags: ["All", "Students"],
+  },
+  {
+    id: "founder-semester",
+    previewLabel: "FOUNDER PITCH SESSION",
+    badge: { text: "BUILDING", variant: "gray" },
+    meta: "4 months · Online",
+    title: "The Founder Semester",
+    description:
+      "Marketing and entrepreneurship for people who want to launch, scale, or run their own venture.",
+    actionText: "Join waitlist →",
+    actionHref: "#waitlist-founder",
+    tags: ["All", "Short", "Flagship"],
+  },
+  {
+    id: "performance-growth",
+    previewLabel: "LIVE MEDIA DASHBOARD",
+    badge: { text: "BUILDING", variant: "gray" },
+    meta: "3 months · Online",
+    title: "Performance & Growth Specialist",
+    description:
+      "Deep dive into Meta, Google Ads, and attribution models for direct response growth.",
+    actionText: "Join waitlist →",
+    actionHref: "#waitlist-growth",
+    tags: ["All", "Short"],
+  },
+];
+
+const filterCategories = ["All", "Flagship", "Short", "PG", "Students"];
 
 export default function LearningSystem() {
-  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [activeFilter, setActiveFilter] = useState("All");
 
-  function scrollByCard(direction: 1 | -1) {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    const card = scroller.querySelector<HTMLElement>("[data-slide]");
-    const styles = card ? window.getComputedStyle(scroller) : null;
-    const gap = styles ? parseFloat(styles.columnGap || styles.gap || "0") : 0;
-    const amount = card ? card.offsetWidth + gap : scroller.clientWidth * 0.85;
-
-    const maxScroll = scroller.scrollWidth - scroller.clientWidth;
-    const atEnd = scroller.scrollLeft >= maxScroll - 4;
-    const atStart = scroller.scrollLeft <= 4;
-
-    if (direction === 1 && atEnd) {
-      scroller.scrollTo({ left: 0, behavior: "smooth" });
-      return;
-    }
-    if (direction === -1 && atStart) {
-      scroller.scrollTo({ left: maxScroll, behavior: "smooth" });
-      return;
-    }
-
-    scroller.scrollBy({ left: amount * direction, behavior: "smooth" });
-  }
+  const filteredPrograms =
+    activeFilter === "All"
+      ? programs
+      : programs.filter((p) => p.tags.includes(activeFilter));
 
   return (
-    <section className="relative overflow-hidden bg-[#f3f2f7] pt-10 pb-8 sm:pt-10 sm:pb-8 lg:pt-15 lg:pb-8">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 opacity-60"
-        style={{
-          backgroundImage: "radial-gradient(rgba(58,22,147,0.12) 1px, transparent 1px)",
-          backgroundSize: "22px 22px",
-        }}
-      />
-
+    <section id="courses" className="bg-white py-16 sm:py-20 lg:py-24">
       <Container>
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <h2 className="text-3xl leading-[1.1] font-extrabold tracking-tight text-text-primary uppercase sm:text-4xl lg:text-[2.75rem]">
-            {learningSystemContent.heading.line1}
-            <br />
-            <span className="bg-gradient-to-r from-brand-primary to-brand-secondary bg-clip-text text-transparent">
-              {learningSystemContent.heading.line2}
-            </span>
+        {/* Section Heading */}
+        <div className="flex flex-col items-start max-w-3xl">
+          <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-black leading-[1.12] tracking-tight text-slate-950">
+            One is open. Six are being built. We&apos;d rather say so.
           </h2>
-
-          <p className="max-w-sm text-sm text-text-secondary sm:text-base lg:text-right">
-            {learningSystemContent.description}
+          <p className="mt-3.5 text-base sm:text-lg text-slate-600 leading-relaxed">
+            Seven programs. Pick the one that matches your stage.
           </p>
         </div>
 
-        <div className="relative mt-10 lg:mt-14">
-          <div
-            ref={scrollerRef}
-            className="scrollbar-hide flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-2"
-          >
-            {learningSystemCourses.map((course) => (
-              <div
-                key={course.title}
-                data-slide
-                className="group w-[82%] shrink-0 snap-start rounded-2xl border border-border-subtle bg-surface p-3 sm:w-[46%] lg:w-[calc((100%-4.5rem)/3.5)]"
+        {/* Filter Pills */}
+        <div className="mt-8 flex flex-wrap items-center gap-2.5">
+          {filterCategories.map((category) => {
+            const isActive = activeFilter === category;
+            return (
+              <button
+                key={category}
+                type="button"
+                onClick={() => setActiveFilter(category)}
+                className={cn(
+                  "rounded-full px-4.5 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-150",
+                  isActive
+                    ? "bg-[#16213e] text-white shadow-xs"
+                    : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                )}
               >
-                {/* Video placeholder — swap for the real embed/thumbnail per course */}
-                <div className="relative aspect-video overflow-hidden rounded-xl bg-gradient-to-br from-surface-alt via-brand-primary/10 to-brand-secondary/20">
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-0 opacity-50"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(rgba(58,22,147,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(58,22,147,0.12) 1px, transparent 1px)",
-                      backgroundSize: "18px 18px",
-                    }}
-                  />
-                  <span className="absolute top-3 left-3 rounded-full bg-surface/90 px-3 py-1 text-[11px] font-semibold text-brand-primary shadow-sm backdrop-blur-sm">
-                    {course.category}
-                  </span>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-surface text-brand-primary shadow-[0_12px_30px_-8px_rgba(58,22,147,0.5)] transition-transform duration-200 group-hover:scale-105">
-                      <Play className="h-5 w-5 translate-x-0.5 fill-current" aria-hidden="true" />
+                {category}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* 3x2 Grid of Program Cards */}
+        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredPrograms.map((program) => (
+            <div
+              key={program.id}
+              className="flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300"
+            >
+              {/* Top Diagonal Striped Visual Box */}
+              <div className="relative h-36 sm:h-40 w-full overflow-hidden border-b border-slate-200/80 bg-[#f4f6f9]">
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backgroundImage:
+                      "repeating-linear-gradient(45deg, #eef2f7 0, #eef2f7 14px, #f8fafc 14px, #f8fafc 28px)",
+                  }}
+                />
+                <div className="absolute inset-0 flex items-center justify-center p-3">
+                  <div className="rounded-md border border-slate-300/80 bg-white/90 px-3 py-1 text-center shadow-2xs backdrop-blur-xs">
+                    <span className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">
+                      {program.previewLabel}
                     </span>
                   </div>
                 </div>
+              </div>
 
-                <div className="p-3 pt-4">
-                  <h3 className="line-clamp-2 min-h-11 text-base font-bold text-text-primary sm:min-h-14 sm:text-lg">
-                    {course.title}
+              {/* Card Body Content */}
+              <div className="flex flex-1 flex-col justify-between p-5 sm:p-6">
+                <div>
+                  {/* Badge + Meta row */}
+                  <div className="flex items-center gap-2.5">
+                    {program.badge.variant === "blue" && (
+                      <span className="inline-flex items-center rounded-md bg-[#16213e] px-2 py-0.5 text-[10px] font-bold tracking-wide text-white uppercase">
+                        {program.badge.text}
+                      </span>
+                    )}
+                    {program.badge.variant === "amber" && (
+                      <span className="inline-flex items-center rounded-md bg-[#FBBF24] px-2 py-0.5 text-[10px] font-black tracking-wide text-black uppercase">
+                        {program.badge.text}
+                      </span>
+                    )}
+                    {program.badge.variant === "gray" && (
+                      <span className="inline-flex items-center rounded-md bg-slate-100 border border-slate-200 px-2 py-0.5 text-[10px] font-bold tracking-wide text-slate-600 uppercase">
+                        {program.badge.text}
+                      </span>
+                    )}
+                    <span className="text-xs font-medium text-slate-500">
+                      {program.meta}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="mt-3 text-lg sm:text-xl font-bold tracking-tight text-slate-900">
+                    {program.title}
                   </h3>
-                  <p className="mt-1.5 line-clamp-2 min-h-10 text-sm leading-relaxed text-text-secondary">
-                    {course.description}
+
+                  {/* Description */}
+                  <p className="mt-2 text-xs sm:text-sm leading-relaxed text-slate-600">
+                    {program.description}
                   </p>
+                </div>
 
-                  <ul className="mt-3 grid grid-cols-2 gap-x-3 gap-y-3 border-t border-border-subtle pt-3">
-                    {course.features.map((feature) => {
-                      const Icon = feature.icon;
-                      return (
-                        <li
-                          key={feature.label}
-                          className="flex items-center gap-2 text-xs font-medium text-text-secondary"
-                        >
-                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-primary/10 text-brand-primary">
-                            <Icon className="h-3.5 w-3.5" aria-hidden="true" />
-                          </span>
-                          {feature.label}
-                        </li>
-                      );
-                    })}
-                  </ul>
-
+                {/* Footer: Action Link */}
+                <div className="mt-6 flex items-center justify-end border-t border-slate-100 pt-4">
                   <Link
-                    href={course.href}
-                    className="group mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-primary px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-primary-dark"
+                    href={program.actionHref}
+                    className="text-xs sm:text-sm font-bold text-[#16213e] hover:text-blue-700 transition-colors inline-flex items-center"
                   >
-                    Enroll Now
-                    <ArrowRight
-                      className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-                      aria-hidden="true"
-                    />
+                    {program.actionText}
                   </Link>
                 </div>
               </div>
-            ))}
-          </div>
-
-          <IconButton
-            aria-label="Previous courses"
-            icon={<ChevronLeft className="h-4 w-4" aria-hidden="true" />}
-            onClick={() => scrollByCard(-1)}
-            className="absolute top-1/2 left-2 z-10 -translate-y-1/2 shadow-[0_10px_25px_-8px_rgba(20,18,31,0.35)] sm:left-3"
-          />
-          <IconButton
-            aria-label="Next courses"
-            icon={<ChevronRight className="h-4 w-4" aria-hidden="true" />}
-            onClick={() => scrollByCard(1)}
-            className="absolute top-1/2 right-2 z-10 -translate-y-1/2 shadow-[0_10px_25px_-8px_rgba(20,18,31,0.35)] sm:right-3"
-          />
-          
+            </div>
+          ))}
         </div>
       </Container>
     </section>

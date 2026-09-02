@@ -12,7 +12,6 @@ const rows: { key: keyof CourseSidebar; label: string }[] = [
   { key: "batchLabel", label: "Batch" },
   { key: "starts", label: "Starts" },
   { key: "format", label: "Format" },
-  { key: "feePlans", label: "Fee plans" },
   { key: "seats", label: "Seats" },
 ];
 
