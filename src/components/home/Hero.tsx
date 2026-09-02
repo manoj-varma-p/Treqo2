@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import Container from "@/components/ui/Container";
+import HeroNavbar from "@/components/header/HeroNavbar";
 import HeroActions from "./HeroActions";
 import HeroStats from "./HeroStats";
 import HeroVisual from "./HeroVisual";
@@ -9,7 +10,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative z-0 overflow-hidden bg-[#fafbfe] pt-6 pb-24 sm:pt-8 sm:pb-28 lg:pt-10 lg:pb-32"
+      className="relative z-0 bg-[#fafbfe] pt-6 pb-14 sm:pt-8 sm:pb-16 lg:pt-10 lg:pb-20"
     >
       <Container>
         {/* Main 2-column Hero content */}
@@ -57,14 +58,21 @@ export default function Hero() {
             )}
           </div>
 
-          {/* Right Column: Hero Visual Showcase */}
+          {/* Right Column: Hero Visual Showcase (Form) */}
           <div className="lg:col-span-5 lg:sticky lg:top-8">
             <HeroVisual />
           </div>
         </div>
+      </Container>
 
+      {/* NAVBAR UNDER THE FORM (Desktop only) */}
+      <div className="hidden lg:block mt-10 sm:mt-14">
+        <HeroNavbar />
+      </div>
+
+      <Container>
         {/* Bottom Metrics / Stats Bar */}
-        <div className="mt-14 sm:mt-18">
+        <div className="mt-10 sm:mt-12">
           <HeroStats />
         </div>
       </Container>

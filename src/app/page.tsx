@@ -1,4 +1,3 @@
-import Header from "@/components/header/Header";
 import AnnouncementBanner from "@/components/header/AnnouncementBanner";
 import MobileHeader from "@/components/header/MobileHeader";
 import Container from "@/components/ui/Container";
@@ -25,11 +24,7 @@ export default function Home() {
       </div>
 
       <main className="flex-1">
-        {/* Hero Section + Desktop Navbar in bottom of hero, settles to top on scroll */}
-        <div id="hero-wrapper" className="relative">
-          <Hero />
-          <Header variant="hero" />
-        </div>
+        <Hero />
         <LearningSystem />
         <WhyTreqqo />
         <ExecutionProof />

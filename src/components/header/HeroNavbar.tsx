@@ -1,0 +1,59 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Container from "@/components/ui/Container";
+import DesktopHeader from "./DesktopHeader";
+import { cn } from "@/lib/utils";
+
+export default function HeroNavbar() {
+  const [isSticky, setIsSticky] = useState(false);
+  const anchorRef = useRef<HTMLDivElement>(null);
+  const ticking = useRef(false);
+
+  useEffect(() => {
+    function update() {
+      if (!anchorRef.current) return;
+      const rect = anchorRef.current.getBoundingClientRect();
+      // When the top of the navbar anchor touches or scrolls past the top of viewport:
+      setIsSticky(rect.top <= 0);
+      ticking.current = false;
+    }
+
+    function handleScroll() {
+      if (!ticking.current) {
+        ticking.current = true;
+        requestAnimationFrame(update);
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    update();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  return (
+    <div ref={anchorRef} className="relative z-40 w-full">
+      {/* Placeholder to prevent layout shift when fixed */}
+      {isSticky && <div className="h-[72px] w-full" aria-hidden="true" />}
+
+      <nav
+        aria-label="Desktop Navigation"
+        className={cn(
+          "w-full transition-all duration-150",
+          isSticky
+            ? "fixed inset-x-0 top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs"
+            : "relative bg-white border-t border-b border-slate-200/80"
+        )}
+      >
+        <Container>
+          <DesktopHeader variant="hero" />
+        </Container>
+      </nav>
+    </div>
+  );
+}
