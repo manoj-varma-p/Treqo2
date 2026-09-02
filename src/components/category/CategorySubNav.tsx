@@ -56,7 +56,7 @@ export default function CategorySubNav({ tabs, applyHref }: CategorySubNavProps)
   }
 
   return (
-    <div className="sticky top-16 z-30 border-y border-border-subtle bg-surface-muted/95 backdrop-blur-sm sm:top-[76px] lg:top-20">
+    <div className="sticky top-[56px] lg:top-[72px] z-30 border-y border-slate-200 bg-white/95 backdrop-blur-md shadow-xs">
       <Container className="flex items-center gap-4">
         <nav
           aria-label="Program sections"

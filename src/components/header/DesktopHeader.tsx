@@ -39,7 +39,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
   }, [coursesOpen]);
 
   return (
-    <div className="flex w-full items-center justify-between py-4">
+    <div className="flex w-full h-[72px] items-center justify-between">
       {/* Left side: Logo + Divider + Courses pill dropdown */}
       <div className="flex items-center gap-4">
         <Logo />

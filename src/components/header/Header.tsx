@@ -52,19 +52,21 @@ export default function Header({ variant = "standard" }: HeaderProps) {
 
   if (variant === "standard") {
     return (
-      <header role="banner" className="sticky top-0 z-50 w-full bg-white border-b border-slate-100 shadow-xs">
+      <>
         <AnnouncementBanner />
-        <div className="w-full">
-          <Container>
-            <div className="hidden lg:block">
-              <DesktopHeader variant="standard" />
-            </div>
-            <div className="lg:hidden">
-              <MobileHeader variant="standard" />
-            </div>
-          </Container>
-        </div>
-      </header>
+        <header role="banner" className="sticky top-0 z-40 w-full bg-white border-b border-slate-100 shadow-xs">
+          <div className="w-full">
+            <Container>
+              <div className="hidden lg:block">
+                <DesktopHeader variant="standard" />
+              </div>
+              <div className="lg:hidden">
+                <MobileHeader variant="standard" />
+              </div>
+            </Container>
+          </div>
+        </header>
+      </>
     );
   }
 
