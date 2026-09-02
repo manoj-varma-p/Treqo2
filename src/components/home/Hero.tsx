@@ -9,7 +9,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative z-0 overflow-hidden bg-[#fafbfe] pt-10 pb-16 sm:pt-14 sm:pb-20 lg:pt-16 lg:pb-20"
+      className="relative z-0 overflow-hidden bg-[#fafbfe] pt-6 pb-24 sm:pt-8 sm:pb-28 lg:pt-10 lg:pb-32"
     >
       <Container>
         {/* Main 2-column Hero content */}

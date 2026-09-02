@@ -1,4 +1,7 @@
 import Header from "@/components/header/Header";
+import AnnouncementBanner from "@/components/header/AnnouncementBanner";
+import MobileHeader from "@/components/header/MobileHeader";
+import Container from "@/components/ui/Container";
 import Hero from "@/components/home/Hero";
 import LearningSystem from "@/components/home/LearningSystem";
 import WhyTreqqo from "@/components/home/WhyTreqqo";
@@ -11,9 +14,22 @@ import Footer from "@/components/footer/Footer";
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
-      <Header />
+      {/* Top Announcement Banner */}
+      <AnnouncementBanner />
+
+      {/* Mobile Top Header (always accessible on mobile) */}
+      <div className="lg:hidden sticky top-0 z-50 bg-white border-b border-slate-100">
+        <Container>
+          <MobileHeader variant="standard" />
+        </Container>
+      </div>
+
       <main className="flex-1">
-        <Hero />
+        {/* Hero Section + Desktop Navbar in bottom of hero, settles to top on scroll */}
+        <div id="hero-wrapper" className="relative">
+          <Hero />
+          <Header variant="hero" />
+        </div>
         <LearningSystem />
         <WhyTreqqo />
         <ExecutionProof />

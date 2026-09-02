@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import Logo from "./Logo";
@@ -13,6 +13,30 @@ interface DesktopHeaderProps {
 
 export default function DesktopHeader({ variant = "standard" }: DesktopHeaderProps) {
   const [coursesOpen, setCoursesOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!coursesOpen) return;
+
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setCoursesOpen(false);
+      }
+    }
+
+    function handleKeyDown(event: globalThis.KeyboardEvent) {
+      if (event.key === "Escape") {
+        setCoursesOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [coursesOpen]);
 
   return (
     <div className="flex w-full items-center justify-between py-4">
@@ -20,7 +44,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
       <div className="flex items-center gap-4">
         <Logo />
         <div className="h-6 w-px bg-slate-200" aria-hidden="true" />
-        <div className="relative">
+        <div ref={dropdownRef} className="relative">
           <button
             type="button"
             onClick={() => setCoursesOpen((prev) => !prev)}

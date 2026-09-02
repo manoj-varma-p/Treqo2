@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Container from "@/components/ui/Container";
 import DesktopHeader from "./DesktopHeader";
 import MobileHeader from "./MobileHeader";
@@ -11,19 +12,78 @@ interface HeaderProps {
 }
 
 export default function Header({ variant = "standard" }: HeaderProps) {
+  const [pastHero, setPastHero] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  const ticking = useRef(false);
+
+  useEffect(() => {
+    if (variant !== "hero") return;
+
+    const wrapper = document.getElementById("hero-wrapper");
+    const navEl = navRef.current;
+    if (!wrapper) return;
+
+    function update() {
+      if (!wrapper) return;
+      const navHeight = navEl?.offsetHeight ?? 72;
+      // When the top of viewport touches the top of the navbar located at the bottom of hero:
+      const threshold = wrapper.offsetTop + wrapper.offsetHeight - navHeight;
+      const isPast = window.scrollY >= threshold;
+      setPastHero(isPast);
+      ticking.current = false;
+    }
+
+    function handleScroll() {
+      if (!ticking.current) {
+        ticking.current = true;
+        requestAnimationFrame(update);
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    update();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", update);
+    };
+  }, [variant]);
+
+  if (variant === "standard") {
+    return (
+      <header role="banner" className="sticky top-0 z-50 w-full bg-white border-b border-slate-100 shadow-xs">
+        <AnnouncementBanner />
+        <div className="w-full">
+          <Container>
+            <div className="hidden lg:block">
+              <DesktopHeader variant="standard" />
+            </div>
+            <div className="lg:hidden">
+              <MobileHeader variant="standard" />
+            </div>
+          </Container>
+        </div>
+      </header>
+    );
+  }
+
+  // variant === "hero":
+  // On desktop: Sits in the bottom of hero section, then goes to top and settles when scrolling further
   return (
-    <header role="banner" className="w-full bg-white z-40 border-b border-slate-100">
-      <AnnouncementBanner />
-      <div className="w-full">
-        <Container>
-          <div className="hidden lg:block">
-            <DesktopHeader variant={variant} />
-          </div>
-          <div className="lg:hidden">
-            <MobileHeader variant={variant} />
-          </div>
-        </Container>
-      </div>
+    <header
+      ref={navRef}
+      role="banner"
+      className={cn(
+        "hidden lg:block w-full transition-all duration-150",
+        pastHero
+          ? "fixed inset-x-0 top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs"
+          : "absolute inset-x-0 bottom-0 z-40 bg-white border-t border-b border-slate-200/80"
+      )}
+    >
+      <Container>
+        <DesktopHeader variant="hero" />
+      </Container>
     </header>
   );
 }
