@@ -30,18 +30,18 @@ export default function Hero() {
               ))}
             </h1>
 
-            {/* Reshaped Stats Table in place of description paragraph */}
-            <HeroStats className="mt-6" />
+            {/* Description Text */}
+            <p className="mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-slate-600">
+              Six months. 18 phases. A real client at every stage. You finish holding campaigns you ran, numbers you own, and answers that hold up in an interview.
+            </p>
 
             {/* Action Buttons */}
             <div className="mt-8">
               <HeroActions />
             </div>
 
-            {/* Description Text under browse courses button */}
-            <p className="mt-5 max-w-xl text-xs sm:text-sm leading-relaxed text-slate-600 font-medium">
-              70% doing, 30% theory. 18 phases, 30+ live brand projects and a real client outcome you can show in an interview &mdash; not a completion certificate.
-            </p>
+            {/* Reshaped Stats Table under buttons */}
+            <HeroStats className="mt-8" />
           </div>
 
           {/* Right Column: Hero Visual Showcase (Form) */}
