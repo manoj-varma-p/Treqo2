@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Treqqo — Learn Skills. Build Real Projects. Grow Your Future.",
+  title: "TREQO — Leave with work you can show. Not a certificate.",
   description:
-    "Treqqo is a digital skills platform for hands-on learning, real-world projects and expert mentorship.",
+    "TREQO is a digital marketing learning system built around 70% doing, live brand projects, and capstone revenue proof.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -24,6 +25,21 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-BLPP9TW5NP"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-BLPP9TW5NP');
+          `}
+        </Script>
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
