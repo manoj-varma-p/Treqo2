@@ -66,7 +66,7 @@ export default function Hero() {
       </Container>
 
       {/* NAVBAR UNDER THE FORM (Desktop only) */}
-      <div className="hidden lg:block mt-10 sm:mt-14">
+      <div className="hidden lg:block mt-3 sm:mt-5">
         <HeroNavbar />
       </div>
 
