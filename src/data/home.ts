@@ -69,7 +69,6 @@ export const heroContent: HeroContentData = {
 };
 
 export const heroStats: HeroStat[] = [
-  { value: "18", label: "phases, fixed order" },
   { value: "30+", label: "live brand projects" },
   { value: "70/30", label: "doing to theory" },
   { value: "₹5L+", label: "earned for a real client" },
