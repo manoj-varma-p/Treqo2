@@ -34,19 +34,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-12 lg:gap-12">
           {/* Column 1: Brand & Contact info */}
           <div className="flex flex-col items-start lg:col-span-4">
-            <Link href="/" className="inline-flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#3A1494] text-white shadow-xs">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="h-4 w-4"
-                  aria-hidden="true"
-                >
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-6h2v6zm0-8h-2V6h2v2z" />
-                </svg>
-              </div>
-              <span className="text-2xl font-black tracking-tight text-white">
-                treqo
+            <Link href="/" className="inline-flex items-center">
+              <span className="text-2xl font-black tracking-tight text-white leading-none">
+                TREQO
               </span>
             </Link>
 
