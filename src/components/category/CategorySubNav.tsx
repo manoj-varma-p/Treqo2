@@ -2,17 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import Container from "@/components/ui/Container";
-import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 interface CategorySubNavProps {
   tabs: { id: string; label: string }[];
-  applyHref: string;
+  applyHref?: string;
 }
 
 const SCROLL_OFFSET = 150;
 
-export default function CategorySubNav({ tabs, applyHref }: CategorySubNavProps) {
+export default function CategorySubNav({ tabs }: CategorySubNavProps) {
   const [activeId, setActiveId] = useState(tabs[0]?.id);
   const tabRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
 
@@ -82,10 +81,6 @@ export default function CategorySubNav({ tabs, applyHref }: CategorySubNavProps)
             </a>
           ))}
         </nav>
-
-        <Button href={applyHref} size="md" className="shrink-0">
-          Apply now
-        </Button>
       </Container>
     </div>
   );
