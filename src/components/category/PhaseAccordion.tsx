@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { ChevronDown, Sparkles, SlidersHorizontal, ChevronsUpDown, Cpu } from "lucide-react";
+import { ChevronDown, SlidersHorizontal, ChevronsUpDown, Cpu } from "lucide-react";
 import type { CoursePhaseGroup } from "@/types/home";
 import { cn } from "@/lib/utils";
 
@@ -184,8 +184,7 @@ export default function PhaseAccordion({ groups }: PhaseAccordionProps) {
                         >
                           {/* Deliverable Header */}
                           <div className="flex items-center justify-between gap-2">
-                            <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold tracking-wide text-brand-primary uppercase">
-                              <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
+                            <span className="text-[10px] sm:text-xs font-bold tracking-wide text-brand-primary uppercase">
                               Core Deliverable & Skill
                             </span>
                             <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
