@@ -112,12 +112,7 @@ export default function ApplyModal() {
             <X className="h-5 w-5" aria-hidden="true" />
           </button>
 
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
-            <Sparkles className="h-3.5 w-3.5 text-[#FBBF24]" aria-hidden="true" />
-            <span>Batch 2 · Now Enrolling</span>
-          </div>
-
-          <h2 id="apply-modal-title" className="mt-2.5 text-2xl sm:text-3xl font-black tracking-tight text-white">
+          <h2 id="apply-modal-title" className="text-2xl sm:text-3xl font-black tracking-tight text-white pr-10">
             Apply for Batch 2
           </h2>
           <p className="mt-1 text-xs sm:text-sm text-white/85">
