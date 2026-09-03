@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowRight, CheckCircle2, Trophy, ShieldCheck, Flame, Download, Rocket } from "lucide-react";
+import { ArrowRight, CheckCircle2, Trophy, ShieldCheck, Flame, Download, Rocket, Lock } from "lucide-react";
 import Header from "@/components/header/Header";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
@@ -65,6 +65,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const masterDetail = learningSystemCourses[0].detail!;
   const matchedCourse = getCourse(slug);
 
+  const UNLOCKED_SLUGS = ["digital-marketing", "4m-program"];
+  const isLocked = !UNLOCKED_SLUGS.includes(slug);
+
   const activeTitle = matchedCourse?.title || meta.label;
   const activeDescription =
     matchedCourse?.detail?.description ||
@@ -80,8 +83,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
   const detail = {
     ...masterDetail,
-    badge: matchedCourse?.detail?.badge || "Flagship · Now Enrolling",
-    batch: matchedCourse?.detail?.batch || "Batch 2 · Sep 2026",
+    badge: isLocked
+      ? "ENROLLMENT LOCKED"
+      : matchedCourse?.detail?.badge || "Flagship · Now Enrolling",
+    batch: isLocked
+      ? "Waitlist Open"
+      : matchedCourse?.detail?.batch || "Batch 2 · Sep 2026",
     description: activeDescription,
     // Strictly preserve master's 12 phases, CEO challenge, proof, fees, FAQs for all courses
     phases: masterDetail.phases,
@@ -94,7 +101,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     overview: masterDetail.overview,
     sidebar: {
       ...masterDetail.sidebar,
-      batchLabel: `${activeTitle} — Batch 2`,
+      batchLabel: isLocked
+        ? `${activeTitle} — Waitlist Only`
+        : `${activeTitle} — Batch 2`,
+      applyLabel: isLocked ? "Join Waitlist" : masterDetail.sidebar.applyLabel,
     },
   };
 
@@ -115,13 +125,27 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
               <div>
                 {/* Cohort Badges */}
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                  <span className="inline-flex items-center rounded-full bg-brand-primary px-3 py-1 text-[11px] font-bold tracking-wide text-white uppercase shadow-xs">
-                    {detail.badge}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border-subtle bg-surface-alt px-3 py-1 text-[11px] font-semibold text-text-secondary">
-                    <Flame className="h-3.5 w-3.5 text-brand-accent" aria-hidden="true" />
-                    {detail.batch}
-                  </span>
+                  {isLocked ? (
+                    <>
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 border border-amber-400/30 px-3 py-1 text-[11px] font-black tracking-wide text-amber-300 uppercase shadow-xs">
+                        <Lock className="h-3 w-3" />
+                        <span>ENROLLMENT LOCKED</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-[11px] font-bold text-slate-700">
+                        Waitlist Open
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="inline-flex items-center rounded-full bg-brand-primary px-3 py-1 text-[11px] font-bold tracking-wide text-white uppercase shadow-xs">
+                        {detail.badge}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-border-subtle bg-surface-alt px-3 py-1 text-[11px] font-semibold text-text-secondary">
+                        <Flame className="h-3.5 w-3.5 text-brand-accent" aria-hidden="true" />
+                        {detail.batch}
+                      </span>
+                    </>
+                  )}
                 </div>
 
                 {/* Course Title & Headline */}
@@ -150,7 +174,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                 {/* Call to Actions on Mobile & Desktop */}
                 <div className="mt-6 flex flex-col gap-2.5 sm:max-w-md sm:flex-row">
                   <ApplyButton courseName={course.title} size="lg" fullWidth className="font-bold shadow-md">
-                    {detail.applyCtaLabel}
+                    {isLocked ? "Join Waitlist" : detail.applyCtaLabel}
                   </ApplyButton>
                   <DownloadCurriculumButton
                     courseName={course.title}
