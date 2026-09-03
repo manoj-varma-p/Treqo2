@@ -122,39 +122,26 @@ export default function ApplyModal() {
 
         {/* Modal Body */}
         {submitted ? (
-          <div className="flex flex-col items-center justify-center p-8 text-center sm:p-10 animate-in fade-in duration-300">
+          <div className="flex flex-col items-center justify-center p-8 text-center sm:p-12 animate-in fade-in duration-300">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 mb-4">
               <CheckCircle2 className="h-10 w-10" />
             </div>
 
-            <h3 className="text-xl sm:text-2xl font-black text-slate-950">
-              Application Received!
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-950">
+              Submitted
             </h3>
 
-            <p className="mt-2 text-xs sm:text-sm leading-relaxed text-slate-600 max-w-sm">
-              Thank you, <span className="font-bold text-slate-900">{name || "Applicant"}</span>! Our admissions team will review your application for <span className="font-semibold text-[#3A1494]">{selectedCourse}</span> and reach out at <span className="font-semibold text-slate-900">{phone}</span> to schedule a 20-minute discussion.
+            <p className="mt-2 text-sm text-slate-600 max-w-xs">
+              Thank you! Your details have been received successfully.
             </p>
 
-            <div className="mt-6 flex flex-col sm:flex-row items-center gap-3 w-full">
-              <a
-                href="/curriculum/new-age-digital-marketing-curriculum.pdf"
-                download="New Age Digital Marketing - Curriculum.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#3A1494] px-5 py-3 text-xs sm:text-sm font-bold text-white shadow-md hover:bg-[#2c0e78] active:scale-98 transition-all"
-              >
-                <Download className="h-4 w-4" />
-                <span>Download Curriculum (PDF)</span>
-              </a>
-
-              <button
-                type="button"
-                onClick={handleReset}
-                className="w-full inline-flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 px-5 py-3 text-xs sm:text-sm font-bold text-slate-700 hover:bg-slate-100 transition-all cursor-pointer"
-              >
-                Done
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={closeApplyModal}
+              className="mt-6 inline-flex items-center justify-center rounded-xl bg-[#3A1494] px-8 py-3 text-sm font-bold text-white shadow-md hover:bg-[#2c0e78] active:scale-98 transition-all cursor-pointer"
+            >
+              Done
+            </button>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-6 sm:p-8">

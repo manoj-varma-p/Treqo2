@@ -39,30 +39,22 @@ export default function HeroVisual() {
       <div id="fees" className="overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-lg scroll-mt-28">
         {/* Form Body */}
         {submitted ? (
-          <div className="flex flex-col items-center justify-center p-8 text-center sm:p-10">
-            <CheckCircle2 className="h-12 w-12 text-emerald-500" />
-            <h3 className="mt-4 text-lg font-bold text-slate-900">
-              Brochure is ready!
+          <div className="flex flex-col items-center justify-center p-8 text-center sm:p-12 animate-in fade-in duration-300">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 mb-4">
+              <CheckCircle2 className="h-10 w-10" />
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900">
+              Submitted
             </h3>
-            <p className="mt-2 text-xs sm:text-sm text-slate-600">
-              Click below to download the complete 12-phase curriculum PDF:
+            <p className="mt-2 text-sm text-slate-600 max-w-xs">
+              Thank you! Your details have been received successfully.
             </p>
-            <a
-              href="/curriculum/new-age-digital-marketing-curriculum.pdf"
-              download="New Age Digital Marketing - Curriculum.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[#3A1494] px-5 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[#2e0f77] active:scale-95 transition-all"
-            >
-              <Download className="h-4 w-4" />
-              <span>Download Curriculum (PDF)</span>
-            </a>
             <button
               type="button"
               onClick={() => setSubmitted(false)}
-              className="mt-6 text-xs font-semibold text-[#3A1494] underline underline-offset-2"
+              className="mt-6 inline-flex items-center justify-center rounded-xl bg-[#3A1494] px-8 py-2.5 text-sm font-bold text-white shadow-md hover:bg-[#2e0f77] active:scale-95 transition-all cursor-pointer"
             >
-              Download another copy
+              Done
             </button>
           </div>
         ) : (
