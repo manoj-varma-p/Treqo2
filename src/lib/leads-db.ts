@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { MongoClient } from "mongodb";
 
 export interface Lead {
   id: string;
@@ -15,8 +16,27 @@ export interface Lead {
 // In-memory runtime cache
 let memoryLeads: Lead[] = [];
 
+// MongoDB Client connection cache
+let mongoClient: MongoClient | null = null;
+
+async function getMongoCollection() {
+  const uri = process.env.MONGODB_URI;
+  if (!uri) return null;
+
+  try {
+    if (!mongoClient) {
+      mongoClient = new MongoClient(uri);
+      await mongoClient.connect();
+    }
+    const db = mongoClient.db(process.env.MONGODB_DB || "treqo");
+    return db.collection<Lead>("leads");
+  } catch (err) {
+    console.error("[MongoDB Connection Error]:", err);
+    return null;
+  }
+}
+
 function getStoragePath(): string {
-  // Use persistent project directory if writable, otherwise /tmp for serverless Vercel
   const localDir = path.join(process.cwd(), "data");
   try {
     if (!fs.existsSync(localDir)) {
@@ -70,7 +90,18 @@ export async function addLead(leadData: Omit<Lead, "id" | "submittedAt">): Promi
     submittedAt: new Date().toISOString(),
   };
 
-  // Prepend new lead
+  // Try MongoDB first if configured
+  const collection = await getMongoCollection();
+  if (collection) {
+    try {
+      await collection.insertOne({ ...newLead });
+      console.log("[MongoDB] Lead inserted into collection successfully");
+    } catch (err) {
+      console.error("[MongoDB Insert Error]:", err);
+    }
+  }
+
+  // Also save to memory/file store
   memoryLeads.unshift(newLead);
   saveLeadsToFile(memoryLeads);
 
@@ -78,7 +109,28 @@ export async function addLead(leadData: Omit<Lead, "id" | "submittedAt">): Promi
 }
 
 export async function getLeads(): Promise<Lead[]> {
-  // Reload to ensure fresh sync
+  const collection = await getMongoCollection();
+  if (collection) {
+    try {
+      const docs = await collection.find({}).sort({ submittedAt: -1 }).toArray();
+      if (docs && docs.length > 0) {
+        return docs.map((d) => ({
+          id: d.id || String(d._id),
+          name: d.name,
+          email: d.email,
+          phone: d.phone,
+          course: d.course,
+          background: d.background,
+          source: d.source,
+          submittedAt: d.submittedAt,
+        }));
+      }
+    } catch (err) {
+      console.error("[MongoDB Fetch Error]:", err);
+    }
+  }
+
+  // Fallback to file storage
   const fileLeads = loadLeadsFromFile();
   if (fileLeads.length > 0) {
     memoryLeads = fileLeads;
@@ -87,6 +139,15 @@ export async function getLeads(): Promise<Lead[]> {
 }
 
 export async function deleteLead(id: string): Promise<boolean> {
+  const collection = await getMongoCollection();
+  if (collection) {
+    try {
+      await collection.deleteOne({ id });
+    } catch (err) {
+      console.error("[MongoDB Delete Error]:", err);
+    }
+  }
+
   memoryLeads = memoryLeads.filter((l) => l.id !== id);
   saveLeadsToFile(memoryLeads);
   return true;
