@@ -4,6 +4,44 @@ import Link from "next/link";
 import Container from "@/components/ui/Container";
 import { useApplyModal } from "@/context/ApplyModalContext";
 
+function InstagramIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
+
+function LinkedInIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect width="4" height="12" x="2" y="9" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  );
+}
+
 interface FooterLink {
   label: string;
   href: string;
@@ -13,12 +51,12 @@ interface FooterLink {
 
 const coursesLinks: FooterLink[] = [
   { label: "New Age Digital Marketing", href: "/categories/digital-marketing" },
-  { label: "Fundamentals of Digital Marketing", href: "/#course-fundamentals" },
-  { label: "4M Program", href: "/#course-4m-program" },
-  { label: "Treqo PGDM", href: "/#course-pgdm" },
-  { label: "Campus Edition", href: "/#course-campus-edition" },
-  { label: "The Founder Semester", href: "/#course-founder-semester" },
-  { label: "Performance & Growth Specialist", href: "/#course-performance-growth" },
+  { label: "Fundamentals of Digital Marketing", href: "/categories/fundamentals" },
+  { label: "4M Program", href: "/categories/4m-program" },
+  { label: "Treqo PGDM", href: "/categories/pgdm" },
+  { label: "Campus Edition", href: "/categories/campus-edition" },
+  { label: "The Founder Semester", href: "/categories/founder-semester" },
+  { label: "Performance & Growth Specialist", href: "/categories/performance-growth" },
 ];
 
 const schoolLinks: FooterLink[] = [
@@ -92,6 +130,33 @@ export default function Footer() {
               >
                 treqo.org
               </a>
+            </div>
+
+            {/* Follow Us beside social icons */}
+            <div className="mt-6 flex items-center gap-3">
+              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#FBBF24]">
+                FOLLOW US
+              </span>
+              <div className="flex items-center gap-2.5">
+                <a
+                  href="https://instagram.com/treqo.ed"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Follow Treqo on Instagram"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-700/80 bg-slate-900/90 text-slate-300 hover:border-[#FBBF24] hover:text-[#FBBF24] hover:scale-110 active:scale-95 transition-all shadow-xs"
+                >
+                  <InstagramIcon className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://linkedin.com/company/treqo"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Follow Treqo on LinkedIn"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-700/80 bg-slate-900/90 text-slate-300 hover:border-[#FBBF24] hover:text-[#FBBF24] hover:scale-110 active:scale-95 transition-all shadow-xs"
+                >
+                  <LinkedInIcon className="h-4 w-4" />
+                </a>
+              </div>
             </div>
           </div>
 
