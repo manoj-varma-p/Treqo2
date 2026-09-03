@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { X, CheckCircle2, ChevronDown, Sparkles, Download, Phone, ArrowRight } from "lucide-react";
+import { X, CheckCircle2, ChevronDown, Download, Phone, ArrowRight } from "lucide-react";
 import { useApplyModal } from "@/context/ApplyModalContext";
 
 const availableCourses = [

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowRight, CheckCircle2, Sparkles, Trophy, ShieldCheck, Flame, Download } from "lucide-react";
+import { ArrowRight, CheckCircle2, Trophy, ShieldCheck, Flame, Download, Rocket } from "lucide-react";
 import Header from "@/components/header/Header";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
@@ -68,8 +68,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
               <div>
                 {/* Cohort Badges */}
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-primary px-3 py-1 text-[11px] font-bold tracking-wide text-white uppercase shadow-xs">
-                    <Sparkles className="h-3.5 w-3.5 text-[#FBBF24]" aria-hidden="true" />
+                  <span className="inline-flex items-center rounded-full bg-brand-primary px-3 py-1 text-[11px] font-bold tracking-wide text-white uppercase shadow-xs">
                     {detail.badge}
                   </span>
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-border-subtle bg-surface-alt px-3 py-1 text-[11px] font-semibold text-text-secondary">
@@ -298,8 +297,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
               <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 items-center">
                 {/* Left 6 cols: Core Offer & CTAs */}
                 <div className="flex flex-col items-start text-left lg:col-span-6">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold tracking-wider uppercase text-amber-300 backdrop-blur-xs">
-                    <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span className="inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold tracking-wider uppercase text-amber-300 backdrop-blur-xs">
                     Applications Open · Batch 2
                   </span>
 
@@ -382,7 +380,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                   <div className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-xs">
                     <div className="flex items-center gap-2">
                       <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-400/20 text-blue-300">
-                        <Sparkles className="h-4 w-4" />
+                        <Rocket className="h-4 w-4" />
                       </span>
                       <h4 className="text-xs sm:text-sm font-bold text-white">Direct Placements</h4>
                     </div>

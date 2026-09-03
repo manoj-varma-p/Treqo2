@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Phone, Calendar, Users, Monitor, Sparkles, Download } from "lucide-react";
+import { Mail, Phone, Calendar, Users, Monitor, Layers, Download } from "lucide-react";
 import Button from "@/components/ui/Button";
 import ApplyButton from "@/components/common/ApplyButton";
 import type { CourseSidebar } from "@/types/home";
@@ -13,7 +13,7 @@ interface CategorySidebarProps {
 }
 
 const rows: { key: keyof CourseSidebar; label: string; icon: typeof Calendar }[] = [
-  { key: "batchLabel", label: "Batch", icon: Sparkles },
+  { key: "batchLabel", label: "Batch", icon: Layers },
   { key: "starts", label: "Starts", icon: Calendar },
   { key: "format", label: "Format", icon: Monitor },
   { key: "seats", label: "Seats", icon: Users },

@@ -10,7 +10,6 @@ import {
   Mail,
   Phone,
   Calendar,
-  Sparkles,
   Trash2,
   CheckCircle2,
   Filter,

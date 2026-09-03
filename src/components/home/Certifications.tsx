@@ -7,7 +7,7 @@ import {
   ShieldCheck,
   BadgeCheck,
   Star,
-  Sparkles,
+  Palette,
   ArrowRight,
   BarChart2,
   Search,
@@ -58,7 +58,7 @@ const google: CertItem[] = [
 
 const meta: CertItem[] = [
   { name: "Community Manager",        provider: "Meta", price: "$99",  icon: <Star size={15} />,       color: "#0082FB" },
-  { name: "Creative Strategy Pro",    provider: "Meta", price: "$150", icon: <Sparkles size={15} />,   color: "#0082FB" },
+  { name: "Creative Strategy Pro",    provider: "Meta", price: "$150", icon: <Palette size={15} />,   color: "#0082FB" },
   { name: "Media Planning Pro",       provider: "Meta", price: "$150", icon: <BarChart2 size={15} />,  color: "#0082FB" },
   { name: "Marketing Science Pro",    provider: "Meta", price: "$150", icon: <Award size={15} />,      color: "#0082FB" },
   { name: "Digital Marketing Assoc.", provider: "Meta", price: "$99",  icon: <BadgeCheck size={15} />, color: "#0082FB" },

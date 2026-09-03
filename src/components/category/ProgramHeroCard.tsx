@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Flame, Trophy, ShieldAlert, Sparkles, CheckCircle2, ArrowRight } from "lucide-react";
+import { Flame, Trophy, ShieldAlert, CheckCircle2, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function ProgramHeroCard() {

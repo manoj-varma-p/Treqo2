@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Menu, X, ArrowRight, Phone, Sparkles, ChevronRight, Layers } from "lucide-react";
+import { Menu, X, ArrowRight, Phone, ChevronRight, Layers } from "lucide-react";
 import Logo from "./Logo";
 import IconButton from "@/components/ui/IconButton";
 import { primaryNavItems, navExtras } from "@/data/navigation";
@@ -70,9 +70,8 @@ export default function MobileHeader({ variant = "standard" }: MobileHeaderProps
         <button
           type="button"
           onClick={() => openApplyModal()}
-          className="inline-flex items-center gap-1 rounded-full bg-brand-primary px-3.5 py-1.5 text-xs font-bold text-white shadow-xs active:scale-95 transition-transform cursor-pointer"
+          className="inline-flex items-center justify-center rounded-full bg-brand-primary px-3.5 py-1.5 text-xs font-bold text-white shadow-xs active:scale-95 transition-transform cursor-pointer"
         >
-          <Sparkles className="h-3 w-3 text-[#FBBF24]" aria-hidden="true" />
           <span>Apply</span>
         </button>
 

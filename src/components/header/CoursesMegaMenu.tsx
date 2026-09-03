@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import {
-  Sparkles,
   ArrowRight,
   Download,
   Phone,
@@ -13,6 +12,7 @@ import {
   TrendingUp,
   BookOpen,
   CheckCircle2,
+  Flame,
 } from "lucide-react";
 import { useApplyModal } from "@/context/ApplyModalContext";
 
@@ -30,7 +30,7 @@ const coursesData = [
     badgeColor: "bg-[#3A1494] text-white",
     duration: "4 months · Online",
     description: "The flagship. 18 phases, 30+ real brand projects, AI in the workflow.",
-    icon: Sparkles,
+    icon: Rocket,
     iconColor: "text-[#FBBF24]",
     isFlagship: true,
   },
@@ -143,7 +143,7 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
             className="group relative flex items-start gap-4 rounded-2xl border border-slate-200/90 bg-gradient-to-r from-purple-50/70 via-indigo-50/40 to-white p-4 transition-all hover:border-[#3A1494]/40 hover:shadow-md"
           >
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#3A1494] text-white shadow-xs group-hover:scale-105 transition-transform">
-              <Sparkles className="h-5 w-5 text-[#FBBF24]" />
+              <Rocket className="h-5 w-5 text-[#FBBF24]" />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2">
@@ -206,7 +206,7 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
         <div className="col-span-4 flex flex-col justify-between rounded-2xl bg-gradient-to-br from-slate-950 via-[#18102a] to-[#2b105a] p-5 text-white shadow-md">
           <div>
             <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-bold tracking-wider uppercase text-amber-300">
-              <Sparkles className="h-3 w-3" />
+              <Flame className="h-3 w-3 text-amber-300" />
               Admissions Open
             </span>
 
