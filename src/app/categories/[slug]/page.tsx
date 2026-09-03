@@ -9,6 +9,7 @@ import DownloadCurriculumButton from "@/components/common/DownloadCurriculumButt
 import CategorySubNav from "@/components/category/CategorySubNav";
 import PhaseAccordion from "@/components/category/PhaseAccordion";
 import CeoChallengeCard from "@/components/category/CeoChallengeCard";
+import CareerOutcomesSection from "@/components/category/CareerOutcomesSection";
 import CategorySidebar from "@/components/category/CategorySidebar";
 import CategoryFaqAccordion from "@/components/category/CategoryFaqAccordion";
 import MobileEnrollBar from "@/components/category/MobileEnrollBar";
@@ -229,6 +230,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
               { id: "overview", label: "Overview" },
               { id: "phases", label: detail.phasesNavLabel },
               { id: "challenge", label: detail.challengeNavLabel },
+              { id: "outcomes", label: "Career Roles" },
               { id: "proof", label: "Proof" },
               { id: "faqs", label: "FAQs" },
             ]}
@@ -268,7 +270,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                     <CeoChallengeCard />
                   </section>
 
-                  {/* 4. Proof */}
+                  {/* 4. Career Outcomes (Roles You Can Crack) */}
+                  <section id="outcomes" className="scroll-mt-36 sm:scroll-mt-40">
+                    <CareerOutcomesSection />
+                  </section>
+
+                  {/* 5. Proof */}
                   <section id="proof" className="scroll-mt-36 sm:scroll-mt-40">
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-brand-primary">
