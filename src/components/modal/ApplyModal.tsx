@@ -53,14 +53,28 @@ export default function ApplyModal() {
 
   if (!isOpen) return null;
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setSubmitting(true);
-    // Simulate swift submission
-    setTimeout(() => {
+    try {
+      await fetch("/api/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          course: selectedCourse,
+          background,
+          source: "Apply for Batch 2 Modal",
+        }),
+      });
+    } catch (err) {
+      console.error("Apply submission error:", err);
+    } finally {
       setSubmitting(false);
       setSubmitted(true);
-    }, 400);
+    }
   }
 
   function handleReset() {

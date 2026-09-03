@@ -9,10 +9,29 @@ export default function HeroVisual() {
   const [phone, setPhone] = useState("+91 ");
   const [course, setCourse] = useState("New Age Digital Marketing");
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitting(true);
+    try {
+      await fetch("/api/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          course,
+          source: "Hero Application Form",
+        }),
+      });
+    } catch (err) {
+      console.error("Form submission error:", err);
+    } finally {
+      setSubmitting(false);
+      setSubmitted(true);
+    }
   }
 
   return (
