@@ -367,7 +367,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         applyLabel: "Apply for Batch 2",
         downloadLabel: "Download curriculum",
         admissionsNote:
-          "Talk to admissions for 20 minutes. If the flagship isn't right for you, we'll say so and point you at the free course instead.",
+          "Talk to admission management team for 20 minutes. If the flagship isn't right for you, we'll say so and point you at the free course instead.",
         phone: "+91 99480 00491",
         email: "admission@treqo.org",
       },
@@ -535,7 +535,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         applyLabel: "Apply for Batch 2",
         downloadLabel: "Download curriculum",
         admissionsNote:
-          "Talk to admissions for 20 minutes. If the flagship isn't right for you, we'll say so and point you at the free course instead.",
+          "Talk to admission management team for 20 minutes. If the flagship isn't right for you, we'll say so and point you at the free course instead.",
         phone: "+91 99480 00491",
         email: "admission@treqo.org",
       },
@@ -697,7 +697,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         applyLabel: "Apply for Batch 2",
         downloadLabel: "Download curriculum",
         admissionsNote:
-          "Talk to admissions for 20 minutes. If the flagship isn't right for you, we'll say so and point you at the free course instead.",
+          "Talk to admission management team for 20 minutes. If the flagship isn't right for you, we'll say so and point you at the free course instead.",
         phone: "+91 99480 00491",
         email: "admission@treqo.org",
       },
