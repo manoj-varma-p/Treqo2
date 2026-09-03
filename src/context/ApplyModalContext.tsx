@@ -7,6 +7,13 @@ interface ApplyModalContextType {
   courseName: string;
   openApplyModal: (course?: string) => void;
   closeApplyModal: () => void;
+
+  // Curriculum Download Modal
+  isCurriculumOpen: boolean;
+  curriculumCourse: string;
+  curriculumPdfUrl: string;
+  openCurriculumModal: (course?: string, pdfUrl?: string) => void;
+  closeCurriculumModal: () => void;
 }
 
 const ApplyModalContext = createContext<ApplyModalContextType | undefined>(undefined);
@@ -14,6 +21,10 @@ const ApplyModalContext = createContext<ApplyModalContextType | undefined>(undef
 export function ApplyModalProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [courseName, setCourseName] = useState("New Age Digital Marketing");
+
+  const [isCurriculumOpen, setIsCurriculumOpen] = useState(false);
+  const [curriculumCourse, setCurriculumCourse] = useState("New Age Digital Marketing");
+  const [curriculumPdfUrl, setCurriculumPdfUrl] = useState("/curriculum/new-age-digital-marketing-curriculum.pdf");
 
   function openApplyModal(course?: string) {
     if (course) {
@@ -24,6 +35,22 @@ export function ApplyModalProvider({ children }: { children: ReactNode }) {
 
   function closeApplyModal() {
     setIsOpen(false);
+  }
+
+  function openCurriculumModal(course?: string, pdfUrl?: string) {
+    if (course) {
+      setCurriculumCourse(course);
+    }
+    if (pdfUrl) {
+      setCurriculumPdfUrl(pdfUrl);
+    } else {
+      setCurriculumPdfUrl("/curriculum/new-age-digital-marketing-curriculum.pdf");
+    }
+    setIsCurriculumOpen(true);
+  }
+
+  function closeCurriculumModal() {
+    setIsCurriculumOpen(false);
   }
 
   useEffect(() => {
@@ -45,6 +72,11 @@ export function ApplyModalProvider({ children }: { children: ReactNode }) {
         courseName,
         openApplyModal,
         closeApplyModal,
+        isCurriculumOpen,
+        curriculumCourse,
+        curriculumPdfUrl,
+        openCurriculumModal,
+        closeCurriculumModal,
       }}
     >
       {children}

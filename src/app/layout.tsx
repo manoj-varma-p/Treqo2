@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 
 import { ApplyModalProvider } from "@/context/ApplyModalContext";
 import ApplyModal from "@/components/modal/ApplyModal";
+import CurriculumModal from "@/components/modal/CurriculumModal";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ApplyModalProvider>
           {children}
           <ApplyModal />
+          <CurriculumModal />
         </ApplyModalProvider>
       </body>
     </html>

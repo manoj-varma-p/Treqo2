@@ -1,8 +1,8 @@
 "use client";
 
-import { Mail, Phone, Calendar, Users, Monitor, Layers, Download } from "lucide-react";
-import Button from "@/components/ui/Button";
+import { Mail, Phone, Calendar, Users, Monitor, Layers } from "lucide-react";
 import ApplyButton from "@/components/common/ApplyButton";
+import DownloadCurriculumButton from "@/components/common/DownloadCurriculumButton";
 import type { CourseSidebar } from "@/types/home";
 import { cn } from "@/lib/utils";
 
@@ -58,17 +58,13 @@ export default function CategorySidebar({ sidebar, className, courseTitle }: Cat
           <ApplyButton courseName={courseTitle} fullWidth size="md">
             {sidebar.applyLabel}
           </ApplyButton>
-          <Button
-            href="/curriculum/new-age-digital-marketing-curriculum.pdf"
-            download="New Age Digital Marketing - Curriculum.pdf"
-            target="_blank"
-            variant="secondary"
+          <DownloadCurriculumButton
+            courseName={courseTitle}
             fullWidth
             size="md"
-            icon={<Download className="h-4 w-4" aria-hidden="true" />}
           >
             {sidebar.downloadLabel}
-          </Button>
+          </DownloadCurriculumButton>
         </div>
 
         <div className="border-t border-border-subtle bg-surface-alt/30 px-4 py-4 sm:px-5 sm:py-5">

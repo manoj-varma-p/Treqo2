@@ -103,7 +103,7 @@ const coursesData = [
 ];
 
 export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenuProps) {
-  const { openApplyModal } = useApplyModal();
+  const { openApplyModal, openCurriculumModal } = useApplyModal();
 
   const flagship = coursesData[0];
   const otherCourses = coursesData.slice(1);
@@ -243,16 +243,17 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
               <ArrowRight className="h-3.5 w-3.5" />
             </button>
 
-            <a
-              href="/curriculum/new-age-digital-marketing-curriculum.pdf"
-              download
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-1.5 rounded-xl border border-white/20 bg-white/10 py-2 text-xs font-semibold text-white/90 hover:bg-white/15 transition-colors"
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                openCurriculumModal(flagship.title, "/curriculum/new-age-digital-marketing-curriculum.pdf");
+              }}
+              className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-white/20 bg-white/10 py-2 text-xs font-semibold text-white/90 hover:bg-white/15 transition-colors cursor-pointer"
             >
               <Download className="h-3.5 w-3.5" />
               <span>Download Syllabus (PDF)</span>
-            </a>
+            </button>
 
             <a
               href="tel:+919948000491"

@@ -5,6 +5,7 @@ import Header from "@/components/header/Header";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import ApplyButton from "@/components/common/ApplyButton";
+import DownloadCurriculumButton from "@/components/common/DownloadCurriculumButton";
 import CategorySubNav from "@/components/category/CategorySubNav";
 import PhaseAccordion from "@/components/category/PhaseAccordion";
 import CategorySidebar from "@/components/category/CategorySidebar";
@@ -116,18 +117,14 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                   <ApplyButton courseName={course.title} size="lg" fullWidth className="font-bold shadow-md">
                     {detail.applyCtaLabel}
                   </ApplyButton>
-                  <Button
-                    href="/curriculum/new-age-digital-marketing-curriculum.pdf"
-                    download="New Age Digital Marketing - Curriculum.pdf"
-                    target="_blank"
-                    variant="secondary"
+                  <DownloadCurriculumButton
+                    courseName={course.title}
                     size="lg"
                     fullWidth
                     className="font-semibold"
-                    icon={<Download className="h-4 w-4 text-brand-primary" aria-hidden="true" />}
                   >
                     {detail.breakdownCtaLabel}
-                  </Button>
+                  </DownloadCurriculumButton>
                 </div>
               </div>
 
@@ -332,17 +329,15 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                       Enroll for Batch 2
                     </ApplyButton>
 
-                    <Button
-                      href="/curriculum/new-age-digital-marketing-curriculum.pdf"
-                      download="New Age Digital Marketing - Curriculum.pdf"
-                      target="_blank"
+                    <DownloadCurriculumButton
+                      courseName={course.title}
                       variant="secondary"
                       size="lg"
                       className="border-white/20 bg-white/10 text-white hover:bg-white/20 font-bold backdrop-blur-xs"
-                      icon={<Download className="h-4 w-4" aria-hidden="true" />}
+                      icon={<Download className="h-4 w-4 text-white" aria-hidden="true" />}
                     >
                       Download Syllabus
-                    </Button>
+                    </DownloadCurriculumButton>
                   </div>
 
                   <p className="mt-3 text-[11px] text-white/60 font-medium">
