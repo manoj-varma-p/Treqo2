@@ -112,16 +112,6 @@ export default function ProgramHeroCard() {
         )}
       </div>
 
-      {/* Dynamic Urgency / Cohort Fill Progress */}
-      <div className="relative z-10 rounded-xl bg-white/5 p-3 border border-white/10">
-        <div className="flex items-center justify-between text-[11px] font-semibold">
-          <span className="text-white/80">Batch 2 Cohort Capacity</span>
-          <span className="font-bold text-amber-300">4 Seats Remaining</span>
-        </div>
-        <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-          <div className="h-full w-[82%] rounded-full bg-gradient-to-r from-brand-primary to-amber-400" />
-        </div>
-      </div>
 
       {/* Bottom 3 Quick Metrics */}
       <div className="relative z-10 mt-3 grid grid-cols-3 gap-2 border-t border-white/10 pt-3">
