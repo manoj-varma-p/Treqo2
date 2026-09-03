@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowRight, CheckCircle2, Trophy, ShieldCheck, Flame, Download, Rocket, Lock } from "lucide-react";
+import { ArrowRight, CheckCircle2, Trophy, ShieldCheck, Flame, Download, Rocket, Clock } from "lucide-react";
 import Header from "@/components/header/Header";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
@@ -84,10 +84,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const detail = {
     ...masterDetail,
     badge: isLocked
-      ? "ENROLLMENT LOCKED"
+      ? "COMING SOON"
       : matchedCourse?.detail?.badge || "Flagship · Now Enrolling",
     batch: isLocked
-      ? "Waitlist Open"
+      ? "Launching Soon · Get Notified"
       : matchedCourse?.detail?.batch || "Batch 2 · Sep 2026",
     description: activeDescription,
     // Strictly preserve master's 12 phases, CEO challenge, proof, fees, FAQs for all courses
@@ -102,9 +102,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     sidebar: {
       ...masterDetail.sidebar,
       batchLabel: isLocked
-        ? `${activeTitle} — Waitlist Only`
+        ? `${activeTitle} — Coming Soon`
         : `${activeTitle} — Batch 2`,
-      applyLabel: isLocked ? "Join Waitlist" : masterDetail.sidebar.applyLabel,
+      applyLabel: isLocked ? "Get Notified" : masterDetail.sidebar.applyLabel,
     },
   };
 
@@ -128,11 +128,11 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                   {isLocked ? (
                     <>
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 border border-amber-400/30 px-3 py-1 text-[11px] font-black tracking-wide text-amber-300 uppercase shadow-xs">
-                        <Lock className="h-3 w-3" />
-                        <span>ENROLLMENT LOCKED</span>
+                        <Clock className="h-3 w-3" />
+                        <span>COMING SOON</span>
                       </span>
                       <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-[11px] font-bold text-slate-700">
-                        Waitlist Open
+                        Launching Soon · Get Notified
                       </span>
                     </>
                   ) : (
@@ -174,7 +174,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                 {/* Call to Actions on Mobile & Desktop */}
                 <div className="mt-6 flex flex-col gap-2.5 sm:max-w-md sm:flex-row">
                   <ApplyButton courseName={course.title} size="lg" fullWidth className="font-bold shadow-md">
-                    {isLocked ? "Join Waitlist" : detail.applyCtaLabel}
+                    {isLocked ? "Notify Me When Open" : detail.applyCtaLabel}
                   </ApplyButton>
                   <DownloadCurriculumButton
                     courseName={course.title}

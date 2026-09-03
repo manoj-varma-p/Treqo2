@@ -13,7 +13,7 @@ import {
   BookOpen,
   CheckCircle2,
   Flame,
-  Lock,
+  Clock,
 } from "lucide-react";
 import { useApplyModal } from "@/context/ApplyModalContext";
 
@@ -40,7 +40,7 @@ const coursesData = [
     id: "fundamentals",
     title: "Fundamentals of Digital Marketing",
     href: "/categories/fundamentals",
-    badge: "LOCKED",
+    badge: "COMING SOON",
     badgeColor: "bg-slate-900 text-amber-300 border border-amber-400/30",
     duration: "6 modules · Self-paced",
     description: "The door in. Learn what digital marketing is & how funnels work.",
@@ -64,7 +64,7 @@ const coursesData = [
     id: "pgdm",
     title: "Treqo PGDM",
     href: "/categories/pgdm",
-    badge: "LOCKED",
+    badge: "COMING SOON",
     badgeColor: "bg-slate-900 text-amber-300 border border-amber-400/30",
     duration: "12 months · Hybrid",
     description: "Post Graduate Diploma built for graduates targeting senior roles.",
@@ -76,7 +76,7 @@ const coursesData = [
     id: "campus-edition",
     title: "Campus Edition",
     href: "/categories/campus-edition",
-    badge: "LOCKED",
+    badge: "COMING SOON",
     badgeColor: "bg-slate-900 text-amber-300 border border-amber-400/30",
     duration: "4 months · Online",
     description: "Runs alongside your BBA/MBA without colliding with exams.",
@@ -88,7 +88,7 @@ const coursesData = [
     id: "founder-semester",
     title: "The Founder Semester",
     href: "/categories/founder-semester",
-    badge: "LOCKED",
+    badge: "COMING SOON",
     badgeColor: "bg-slate-900 text-amber-300 border border-amber-400/30",
     duration: "4 months · Online",
     description: "Marketing & growth for founders launching or scaling ventures.",
@@ -100,7 +100,7 @@ const coursesData = [
     id: "performance-growth",
     title: "Performance & Growth Specialist",
     href: "/categories/performance-growth",
-    badge: "LOCKED",
+    badge: "COMING SOON",
     badgeColor: "bg-slate-900 text-amber-300 border border-amber-400/30",
     duration: "3 months · Online",
     description: "Deep dive into Meta, Google Ads & full-funnel attribution.",
@@ -216,11 +216,11 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
                         </div>
                         <div className="mt-0.5 flex items-center gap-1.5">
                           <span className={`inline-flex items-center gap-1 rounded px-1.5 py-0.2 text-[9px] font-bold uppercase ${course.badgeColor}`}>
-                            <Lock className="h-2.5 w-2.5" />
+                            <Clock className="h-2.5 w-2.5" />
                             {course.badge}
                           </span>
                           <span className="text-[10px] text-slate-400 truncate">
-                            Waitlist Open
+                            Coming Soon
                           </span>
                         </div>
                       </div>

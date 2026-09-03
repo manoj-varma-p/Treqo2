@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Lock } from "lucide-react";
+import { Clock } from "lucide-react";
 import Container from "@/components/ui/Container";
 import { useApplyModal } from "@/context/ApplyModalContext";
 import { cn } from "@/lib/utils";
@@ -43,12 +43,12 @@ const programs: ProgramCard[] = [
     id: "fundamentals",
     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
     previewLabel: "SELF-PACED MODULE SCREEN",
-    badge: { text: "LOCKED", variant: "gray" },
+    badge: { text: "COMING SOON", variant: "gray" },
     meta: "6 modules · Self-paced",
     title: "Fundamentals of Digital Marketing",
     description:
       "The door in. What digital marketing is, how funnels behave, and what to settle before you pay for anything.",
-    actionText: "Join waitlist →",
+    actionText: "Get notified →",
     actionHref: "/categories/fundamentals",
     tags: ["All", "Short", "Students"],
     isLocked: true,
@@ -71,12 +71,12 @@ const programs: ProgramCard[] = [
     id: "pgdm",
     image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80",
     previewLabel: "COHORT SESSION",
-    badge: { text: "LOCKED", variant: "gray" },
+    badge: { text: "COMING SOON", variant: "gray" },
     meta: "12 months · Hybrid",
     title: "Treqo PGDM in Modern Marketing",
     description:
       "Post Graduate Diploma in New Age Marketing. Built for graduates ready for senior marketing roles.",
-    actionText: "Join waitlist →",
+    actionText: "Get notified →",
     actionHref: "/categories/pgdm",
     tags: ["All", "PG"],
     isLocked: true,
@@ -85,12 +85,12 @@ const programs: ProgramCard[] = [
     id: "campus-edition",
     image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80",
     previewLabel: "STUDENT AT DESK",
-    badge: { text: "LOCKED", variant: "gray" },
+    badge: { text: "COMING SOON", variant: "gray" },
     meta: "4 months · Online",
     title: "Campus Edition",
     description:
       "The flagship, timed to run alongside a BBA or MBA without colliding with your semester exams.",
-    actionText: "Join waitlist →",
+    actionText: "Get notified →",
     actionHref: "/categories/campus-edition",
     tags: ["All", "Students"],
     isLocked: true,
@@ -99,12 +99,12 @@ const programs: ProgramCard[] = [
     id: "founder-semester",
     image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80",
     previewLabel: "FOUNDER PITCH SESSION",
-    badge: { text: "LOCKED", variant: "gray" },
+    badge: { text: "COMING SOON", variant: "gray" },
     meta: "4 months · Online",
     title: "The Founder Semester",
     description:
       "Marketing and entrepreneurship for people who want to launch, scale, or run their own venture.",
-    actionText: "Join waitlist →",
+    actionText: "Get notified →",
     actionHref: "/categories/founder-semester",
     tags: ["All", "Short", "Flagship"],
     isLocked: true,
@@ -113,12 +113,12 @@ const programs: ProgramCard[] = [
     id: "performance-growth",
     image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80",
     previewLabel: "LIVE MEDIA DASHBOARD",
-    badge: { text: "LOCKED", variant: "gray" },
+    badge: { text: "COMING SOON", variant: "gray" },
     meta: "3 months · Online",
     title: "Performance & Growth Specialist",
     description:
       "Deep dive into Meta, Google Ads, and attribution models for direct response growth.",
-    actionText: "Join waitlist →",
+    actionText: "Get notified →",
     actionHref: "/categories/performance-growth",
     tags: ["All", "Short"],
     isLocked: true,
@@ -142,7 +142,7 @@ export default function LearningSystem() {
         {/* Section Heading */}
         <div className="flex flex-col items-start max-w-3xl">
           <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-black leading-[1.12] tracking-tight text-slate-950">
-            Two are open. Five are locked. We&apos;d rather say so.
+            Two are live. Five are coming soon.
           </h2>
           <p className="mt-3.5 text-sm sm:text-base text-slate-600 leading-relaxed">
             Seven programs. Pick the one that matches your stage.
@@ -199,12 +199,12 @@ export default function LearningSystem() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
                 
-                {/* Frosted Lock Overlay on Locked Courses */}
+                {/* Coming Soon Overlay */}
                 {program.isLocked && (
                   <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-[1.5px] flex items-center justify-center">
                     <div className="flex items-center gap-1.5 rounded-full bg-slate-900/90 border border-amber-400/40 px-3.5 py-1.5 text-xs font-bold text-amber-300 shadow-xl backdrop-blur-md">
-                      <Lock className="h-3.5 w-3.5" />
-                      <span>Enrollment Locked</span>
+                      <Clock className="h-3.5 w-3.5" />
+                      <span>Coming Soon</span>
                     </div>
                   </div>
                 )}
@@ -223,8 +223,8 @@ export default function LearningSystem() {
                   <div className="flex items-center gap-2.5">
                     {program.isLocked ? (
                       <span className="inline-flex items-center gap-1 rounded-md bg-slate-900 border border-amber-400/30 px-2 py-0.5 text-[10px] font-black tracking-wide text-amber-300 uppercase">
-                        <Lock className="h-3 w-3" />
-                        <span>LOCKED</span>
+                        <Clock className="h-3 w-3" />
+                        <span>COMING SOON</span>
                       </span>
                     ) : (
                       <>
@@ -269,8 +269,8 @@ export default function LearningSystem() {
                       onClick={() => openApplyModal(program.title)}
                       className="text-xs sm:text-sm font-bold text-slate-500 hover:text-[#3A1494] transition-colors inline-flex items-center gap-1.5 cursor-pointer"
                     >
-                      <Lock className="h-3.5 w-3.5 text-amber-500" />
-                      <span>Join waitlist →</span>
+                      <Clock className="h-3.5 w-3.5 text-amber-500" />
+                      <span>Get notified →</span>
                     </button>
                   ) : (
                     <Link
