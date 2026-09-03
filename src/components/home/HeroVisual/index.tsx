@@ -18,16 +18,6 @@ export default function HeroVisual() {
   return (
     <div id="apply" className="w-full max-w-md mx-auto lg:max-w-none scroll-mt-28">
       <div id="fees" className="overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-lg scroll-mt-28">
-        {/* Deep Blue Header Banner */}
-        <div className="bg-[#3A1494] px-6 py-6 sm:px-7 sm:py-7">
-          <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white">
-            Download the brochure
-          </h2>
-          <p className="mt-1 text-xs sm:text-sm font-normal text-white/85">
-            Full 12-phase syllabus, fees and batch dates
-          </p>
-        </div>
-
         {/* Form Body */}
         {submitted ? (
           <div className="flex flex-col items-center justify-center p-8 text-center sm:p-10">
