@@ -61,8 +61,41 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const meta = getCategoryMeta(slug);
   if (!meta) notFound();
 
-  const course = getCourse(slug);
-  const detail = course?.detail;
+  const masterDetail = learningSystemCourses[0].detail!;
+  const matchedCourse = getCourse(slug);
+
+  const activeTitle = matchedCourse?.title || meta.label;
+  const activeDescription =
+    matchedCourse?.detail?.description ||
+    matchedCourse?.description ||
+    masterDetail.description;
+
+  const course = {
+    id: slug,
+    title: activeTitle,
+    description: activeDescription,
+    href: matchedCourse?.href || `/categories/${slug}`,
+  };
+
+  const detail = {
+    ...masterDetail,
+    badge: matchedCourse?.detail?.badge || "Flagship · Now Enrolling",
+    batch: matchedCourse?.detail?.batch || "Batch 2 · Sep 2026",
+    description: activeDescription,
+    // Strictly preserve master's 12 phases, CEO challenge, proof, fees, FAQs for all courses
+    phases: masterDetail.phases,
+    phasesNavLabel: masterDetail.phasesNavLabel,
+    challengeNavLabel: masterDetail.challengeNavLabel,
+    challenge: masterDetail.challenge,
+    proof: masterDetail.proof,
+    fees: masterDetail.fees,
+    faqs: masterDetail.faqs,
+    overview: masterDetail.overview,
+    sidebar: {
+      ...masterDetail.sidebar,
+      batchLabel: `${activeTitle} — Batch 2`,
+    },
+  };
 
   return (
     <main className="pt-14 lg:pt-0 pb-16 lg:pb-0">
