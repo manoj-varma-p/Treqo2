@@ -126,38 +126,38 @@ export default function LearningSystem() {
       : programs.filter((p) => p.tags.includes(activeFilter));
 
   return (
-    <section id="courses" className="bg-surface-alt/40 py-16 sm:py-24 border-t border-slate-200/80 scroll-mt-20">
+    <section id="courses" className="bg-white py-16 sm:py-20 lg:py-24 border-t border-slate-200/80 scroll-mt-20">
       <Container>
-        {/* Section Header */}
-        <div className="flex flex-col items-center text-center">
-          <span className="text-xs sm:text-sm font-bold tracking-wider uppercase text-brand-primary">
-            Curriculum & Tracks
-          </span>
-          <h2 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-slate-900">
-            Choose Your Learning Path
+        {/* Section Heading */}
+        <div className="flex flex-col items-start max-w-3xl">
+          <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-black leading-[1.12] tracking-tight text-slate-950">
+            One is open. Six are being built. We&apos;d rather say so.
           </h2>
-          <p className="mt-3 max-w-2xl text-xs sm:text-base text-slate-600">
-            From zero-to-one fundamentals to executive masteries, engineered with real client deliverables.
+          <p className="mt-3.5 text-sm sm:text-base text-slate-600 leading-relaxed">
+            Seven programs. Pick the one that matches your stage.
           </p>
+        </div>
 
-          {/* Filter Pills */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
-            {filterCategories.map((cat) => (
+        {/* Filter Pills */}
+        <div className="mt-8 flex flex-wrap items-center gap-2.5">
+          {filterCategories.map((category) => {
+            const isActive = activeFilter === category;
+            return (
               <button
-                key={cat}
+                key={category}
                 type="button"
-                onClick={() => setActiveFilter(cat)}
+                onClick={() => setActiveFilter(category)}
                 className={cn(
-                  "rounded-full px-4 py-1.5 text-xs sm:text-sm font-bold transition-all cursor-pointer",
-                  activeFilter === cat
+                  "rounded-full px-4.5 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-150 cursor-pointer",
+                  isActive
                     ? "bg-[#3A1494] text-white shadow-xs"
-                    : "bg-white text-slate-700 border border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                    : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
                 )}
               >
-                {cat}
+                {category}
               </button>
-            ))}
-          </div>
+            );
+          })}
         </div>
 
         {/* 3-Column Program Cards Grid */}
