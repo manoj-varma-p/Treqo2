@@ -44,11 +44,12 @@ export async function POST(request: Request) {
 
     console.log("[New Lead Received]:", leadRecord);
 
-    // Forward to configured external webhook (e.g. Power Automate, Zapier, Make, or Google Sheets script)
+    // Forward to configured external webhook (e.g. Google Apps Script Web App, Zapier, Make, or Power Automate)
     const webhookUrl =
       process.env.LEADS_WEBHOOK_URL ||
       process.env.EXCEL_WEBHOOK_URL ||
-      process.env.SHEET_WEBHOOK_URL;
+      process.env.SHEET_WEBHOOK_URL ||
+      process.env.NEXT_PUBLIC_SHEET_WEBHOOK_URL;
 
     if (webhookUrl) {
       try {
@@ -56,6 +57,7 @@ export async function POST(request: Request) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(leadRecord),
+          redirect: "follow",
         });
       } catch (webhookError) {
         console.error("[Webhook Forwarding Error]:", webhookError);
