@@ -77,10 +77,20 @@ export default function DesktopHeader({ variant = "standard", isAtTop = true }: 
 
   return (
     <div ref={dropdownRef} className="relative flex w-full h-[72px] items-center justify-between">
-      {/* Left side: Logo + Divider + Courses pill dropdown */}
-      <div className="flex items-center gap-4">
-        <Logo />
-        <div className="h-6 w-px bg-slate-300" aria-hidden="true" />
+      {/* Left side: Logo (settles into navbar when scrolled) + Divider + Courses pill dropdown */}
+      <div className="flex items-center">
+        <div
+          className={cn(
+            "flex items-center transition-all duration-300 ease-out overflow-hidden",
+            variant === "hero" && !isAtTop
+              ? "max-w-0 opacity-0 -translate-x-4 pointer-events-none"
+              : "max-w-[160px] opacity-100 translate-x-0 mr-4"
+          )}
+        >
+          <Logo />
+          <div className="ml-4 h-6 w-px bg-slate-300 shrink-0" aria-hidden="true" />
+        </div>
+
         <div>
           <button
             type="button"
