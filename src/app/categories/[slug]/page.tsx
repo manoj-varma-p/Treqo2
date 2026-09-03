@@ -8,6 +8,7 @@ import ApplyButton from "@/components/common/ApplyButton";
 import DownloadCurriculumButton from "@/components/common/DownloadCurriculumButton";
 import CategorySubNav from "@/components/category/CategorySubNav";
 import PhaseAccordion from "@/components/category/PhaseAccordion";
+import CeoChallengeCard from "@/components/category/CeoChallengeCard";
 import CategorySidebar from "@/components/category/CategorySidebar";
 import CategoryFaqAccordion from "@/components/category/CategoryFaqAccordion";
 import MobileEnrollBar from "@/components/category/MobileEnrollBar";
@@ -231,22 +232,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
                   {/* 3. The CEO Challenge */}
                   <section id="challenge" className="scroll-mt-36 sm:scroll-mt-40">
-                    <div className="rounded-2xl border border-border-subtle bg-surface-alt/60 p-6 sm:p-8">
-                      <h2 className="text-xl sm:text-2xl font-black text-text-primary">
-                        {detail.challenge.heading}
-                      </h2>
-                      <p className="mt-2 text-xs sm:text-sm text-text-secondary leading-relaxed">
-                        {detail.challenge.description}
-                      </p>
-                      <ul className="mt-4 flex flex-col gap-2 text-xs sm:text-sm text-text-primary font-medium">
-                        {detail.challenge.bullets.map((b, i) => (
-                          <li key={i} className="flex items-center gap-2">
-                            <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                            <span>{b}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <CeoChallengeCard />
                   </section>
 
                   {/* 4. Proof */}
