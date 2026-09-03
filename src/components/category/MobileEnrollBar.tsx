@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import ApplyButton from "@/components/common/ApplyButton";

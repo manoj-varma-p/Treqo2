@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Menu, X, ArrowRight, Phone, Sparkles, ChevronRight, Layers } from "lucide-react";
