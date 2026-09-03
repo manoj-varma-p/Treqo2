@@ -1,18 +1,8 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { X, CheckCircle2, ChevronDown, Download, Phone, ArrowRight } from "lucide-react";
+import { X, CheckCircle2, ChevronDown, ArrowRight } from "lucide-react";
 import { useApplyModal } from "@/context/ApplyModalContext";
-
-const availableCourses = [
-  "New Age Digital Marketing",
-  "Fundamentals of Digital Marketing",
-  "4M Program",
-  "Treqo PGDM",
-  "Campus Edition",
-  "The Founder Semester",
-  "Performance & Growth Specialist",
-];
 
 export default function ApplyModal() {
   const { isOpen, courseName, closeApplyModal } = useApplyModal();
@@ -193,29 +183,20 @@ export default function ApplyModal() {
               />
             </div>
 
-            {/* Course of interest */}
+            {/* Program of application (Dedicated to the specific page's course) */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="modal-course" className="text-xs sm:text-sm font-bold text-slate-800">
-                Program of interest
+              <label className="text-xs sm:text-sm font-bold text-slate-800">
+                Program
               </label>
-              <div className="relative">
-                <select
-                  id="modal-course"
-                  value={selectedCourse}
-                  onChange={(e) => setSelectedCourse(e.target.value)}
-                  className="w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-3 pr-10 text-sm font-medium text-slate-900 focus:border-[#3A1494] focus:outline-none focus:ring-2 focus:ring-[#3A1494]/20 transition-all cursor-pointer"
-                >
-                  {availableCourses.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown
-                  className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
-                  aria-hidden="true"
-                />
+              <div className="flex items-center justify-between rounded-xl border border-[#3A1494]/20 bg-purple-50/70 px-4 py-3 shadow-2xs">
+                <span className="text-sm font-bold text-[#3A1494]">
+                  {selectedCourse || "New Age Digital Marketing"}
+                </span>
+                <span className="rounded-md bg-[#3A1494] px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-white">
+                  Batch 2
+                </span>
               </div>
+              <input type="hidden" name="course" value={selectedCourse || "New Age Digital Marketing"} />
             </div>
 
             {/* Current Background */}
