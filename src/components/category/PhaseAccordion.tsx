@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { ChevronDown, Sparkles, CheckCircle2, SlidersHorizontal, ChevronsUpDown, Cpu } from "lucide-react";
+import { ChevronDown, Sparkles, SlidersHorizontal, ChevronsUpDown, Cpu } from "lucide-react";
 import type { CoursePhaseGroup } from "@/types/home";
 import { cn } from "@/lib/utils";
 
@@ -215,11 +215,6 @@ export default function PhaseAccordion({ groups }: PhaseAccordionProps) {
                               ))}
                             </div>
                           ) : null}
-
-                          <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
-                            <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden="true" />
-                            <span>Defended live before module checkpoint</span>
-                          </div>
                         </div>
                       ))}
                     </div>
