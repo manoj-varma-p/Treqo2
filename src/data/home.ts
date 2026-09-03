@@ -235,7 +235,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
             eyebrow: "PHASE 01",
             heading: "MARKETING FOUNDATIONS",
             range: "01",
-            lessons: ["Understand what marketing actually is, before touching a tool, ad or campaign."],
+            lessons: ["Understand what marketing actually is — before touching a tool, ad or campaign."],
           },
           {
             eyebrow: "PHASE 02",
@@ -247,7 +247,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
             eyebrow: "PHASE 03",
             heading: "FUNNELS + METRICS",
             range: "03",
-            lessons: ["Understand how people move from attention to purchase, and where businesses lose them."],
+            lessons: ["Understand how people move from attention to purchase — and where businesses lose them."],
           },
           {
             eyebrow: "PHASE 04",
@@ -277,7 +277,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
             eyebrow: "PHASE 08",
             heading: "META + SOCIAL",
             range: "08",
-            lessons: ["Understand attention, content and paid social, and how to turn scrolling into action."],
+            lessons: ["Understand attention, content and paid social — and how to turn scrolling into action."],
           },
           {
             eyebrow: "PHASE 09",
