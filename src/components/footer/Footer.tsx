@@ -1,29 +1,41 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 
-const coursesLinks = [
+interface FooterLink {
+  label: string;
+  href: string;
+  isExternal?: boolean;
+}
+
+const coursesLinks: FooterLink[] = [
   { label: "New Age Digital Marketing", href: "/categories/digital-marketing" },
-  { label: "Fundamentals of Digital Marketing", href: "#free-course" },
-  { label: "AI in Marketing", href: "#ai-marketing" },
-  { label: "4M Program", href: "#waitlist-4m" },
-  { label: "Treqo PGDM", href: "#waitlist-pgdm" },
-  { label: "Campus Edition", href: "#waitlist-campus" },
-  { label: "The Founder Semester", href: "#waitlist-founder" },
+  { label: "Fundamentals of Digital Marketing", href: "/#course-fundamentals" },
+  { label: "4M Program", href: "/#course-4m-program" },
+  { label: "Treqo PGDM", href: "/#course-pgdm" },
+  { label: "Campus Edition", href: "/#course-campus-edition" },
+  { label: "The Founder Semester", href: "/#course-founder-semester" },
+  { label: "Performance & Growth Specialist", href: "/#course-performance-growth" },
 ];
 
-const schoolLinks = [
-  { label: "The CEO Challenge", href: "#method" },
-  { label: "Why Treqo", href: "#why-treqo" },
-  { label: "Batch 1 outcomes", href: "#placements" },
-  { label: "Campus", href: "#campus" },
-  { label: "FAQ", href: "#faq" },
+const schoolLinks: FooterLink[] = [
+  { label: "The CEO Challenge & Method", href: "/#method" },
+  { label: "Why Treqo", href: "/#why-treqo" },
+  { label: "Batch 1 Outcomes", href: "/#placements" },
+  { label: "Mentors & Faculty", href: "/#tutors" },
+  { label: "Verified Certifications", href: "/#certs" },
+  { label: "Frequently Asked Questions", href: "/#faq" },
 ];
 
-const talkLinks = [
-  { label: "Get the brochure", href: "#brochure" },
-  { label: "Fee plans", href: "#fees" },
-  { label: "Book a campus visit", href: "#campus-visit" },
-  { label: "Hire our students", href: "#hire" },
+const talkLinks: FooterLink[] = [
+  { label: "Apply for Batch 2", href: "/#apply" },
+  { label: "Fee Plans & Structure", href: "/#fees" },
+  {
+    label: "Visit Madhapur Campus",
+    href: "https://www.google.com/maps/search/?api=1&query=Plot+No.+286,+4th+Floor,+Road+No+16,+Ayyappa+Society+Main+Rd,+Madhapur,+Telangana+500081",
+    isExternal: true,
+  },
+  { label: "admission@treqo.org", href: "mailto:admission@treqo.org", isExternal: true },
+  { label: "+91 99480 00491", href: "tel:+919948000491", isExternal: true },
 ];
 
 export default function Footer() {
@@ -86,12 +98,23 @@ export default function Footer() {
             <ul className="flex flex-col gap-2.5 mt-1 text-xs sm:text-sm">
               {coursesLinks.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-slate-400 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.isExternal ? (
+                    <a
+                      href={link.href}
+                      target={link.href.startsWith("http") ? "_blank" : undefined}
+                      rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="text-slate-400 hover:text-white transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-slate-400 hover:text-white transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -105,18 +128,29 @@ export default function Footer() {
             <ul className="flex flex-col gap-2.5 mt-1 text-xs sm:text-sm">
               {schoolLinks.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-slate-400 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.isExternal ? (
+                    <a
+                      href={link.href}
+                      target={link.href.startsWith("http") ? "_blank" : undefined}
+                      rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="text-slate-400 hover:text-white transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-slate-400 hover:text-white transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Column 4: Talk to Us */}
+          {/* Column 4: Talk to Us / Admissions */}
           <div className="flex flex-col gap-3 lg:col-span-3">
             <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#FBBF24]">
               TALK TO US
@@ -124,12 +158,23 @@ export default function Footer() {
             <ul className="flex flex-col gap-2.5 mt-1 text-xs sm:text-sm">
               {talkLinks.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-slate-400 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.isExternal ? (
+                    <a
+                      href={link.href}
+                      target={link.href.startsWith("http") ? "_blank" : undefined}
+                      rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="text-slate-400 hover:text-white transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-slate-400 hover:text-white transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -138,14 +183,23 @@ export default function Footer() {
 
         {/* Bottom Copyright & Legal */}
         <div className="mt-14 border-t border-slate-800/70 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>© 2026 TAC School of Modern Learning Pvt. Ltd.</p>
+          <p>© 2026 TAC School of Modern Learning Pvt. Ltd. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <Link href="#privacy" className="hover:text-slate-400 transition-colors">
-              Privacy
+            <Link href="/#hero" className="hover:text-slate-400 transition-colors">
+              Back to top ↑
             </Link>
-            <Link href="#terms" className="hover:text-slate-400 transition-colors">
-              Terms
-            </Link>
+            <a
+              href="mailto:admission@treqo.org?subject=Privacy%20Policy%20Inquiry"
+              className="hover:text-slate-400 transition-colors"
+            >
+              Privacy Policy
+            </a>
+            <a
+              href="mailto:admission@treqo.org?subject=Terms%20of%20Service%20Inquiry"
+              className="hover:text-slate-400 transition-colors"
+            >
+              Terms of Service
+            </a>
           </div>
         </div>
       </Container>

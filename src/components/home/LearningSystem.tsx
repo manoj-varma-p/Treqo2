@@ -42,7 +42,7 @@ const programs: ProgramCard[] = [
     description:
       "The door in. What digital marketing is, how funnels behave, and what to settle before you pay for anything.",
     actionText: "Start free →",
-    actionHref: "#free-course",
+    actionHref: "/#apply",
     tags: ["All", "Short", "Students"],
   },
   {
@@ -54,7 +54,7 @@ const programs: ProgramCard[] = [
     description:
       "Full-stack marketing, condensed and in person. Brand strategy through performance in four months.",
     actionText: "Join waitlist →",
-    actionHref: "#waitlist-4m",
+    actionHref: "/#apply",
     tags: ["All", "Short"],
   },
   {
@@ -66,7 +66,7 @@ const programs: ProgramCard[] = [
     description:
       "Post Graduate Diploma in New Age Marketing. Built for graduates ready for senior marketing roles.",
     actionText: "Join waitlist →",
-    actionHref: "#waitlist-pgdm",
+    actionHref: "/#apply",
     tags: ["All", "PG"],
   },
   {
@@ -78,7 +78,7 @@ const programs: ProgramCard[] = [
     description:
       "The flagship, timed to run alongside a BBA or MBA without colliding with your semester exams.",
     actionText: "Join waitlist →",
-    actionHref: "#waitlist-campus",
+    actionHref: "/#apply",
     tags: ["All", "Students"],
   },
   {
@@ -90,7 +90,7 @@ const programs: ProgramCard[] = [
     description:
       "Marketing and entrepreneurship for people who want to launch, scale, or run their own venture.",
     actionText: "Join waitlist →",
-    actionHref: "#waitlist-founder",
+    actionHref: "/#apply",
     tags: ["All", "Short", "Flagship"],
   },
   {
@@ -102,7 +102,7 @@ const programs: ProgramCard[] = [
     description:
       "Deep dive into Meta, Google Ads, and attribution models for direct response growth.",
     actionText: "Join waitlist →",
-    actionHref: "#waitlist-growth",
+    actionHref: "/#apply",
     tags: ["All", "Short"],
   },
 ];

@@ -64,8 +64,8 @@ export const heroContent: HeroContentData = {
     "Plan A or Plan B: pay less now, or pay once and keep the rest",
   ],
   featurePills: [],
-  primaryCta: { label: "Browse the 7 courses", href: "#courses" },
-  secondaryCta: { label: "See how it works", href: "#how-it-works" },
+  primaryCta: { label: "Browse the 7 courses", href: "/#courses" },
+  secondaryCta: { label: "See how it works", href: "/#method" },
 };
 
 export const heroStats: HeroStat[] = [
