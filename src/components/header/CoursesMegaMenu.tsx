@@ -37,7 +37,7 @@ const coursesData = [
   {
     id: "fundamentals",
     title: "Fundamentals of Digital Marketing",
-    href: "/#course-fundamentals",
+    href: "/categories/fundamentals",
     badge: "FREE",
     badgeColor: "bg-[#FBBF24] text-black font-black",
     duration: "6 modules · Self-paced",
@@ -48,7 +48,7 @@ const coursesData = [
   {
     id: "4m-program",
     title: "4M Program",
-    href: "/#course-4m-program",
+    href: "/categories/4m-program",
     badge: "ON-CAMPUS",
     badgeColor: "bg-purple-100 text-purple-700",
     duration: "4 months · In-person",
@@ -59,7 +59,7 @@ const coursesData = [
   {
     id: "pgdm",
     title: "Treqo PGDM",
-    href: "/#course-pgdm",
+    href: "/categories/pgdm",
     badge: "HYBRID",
     badgeColor: "bg-slate-100 text-slate-700",
     duration: "12 months · Hybrid",
@@ -70,7 +70,7 @@ const coursesData = [
   {
     id: "campus-edition",
     title: "Campus Edition",
-    href: "/#course-campus-edition",
+    href: "/categories/campus-edition",
     badge: "STUDENTS",
     badgeColor: "bg-blue-100 text-blue-700",
     duration: "4 months · Online",
@@ -81,7 +81,7 @@ const coursesData = [
   {
     id: "founder-semester",
     title: "The Founder Semester",
-    href: "/#course-founder-semester",
+    href: "/categories/founder-semester",
     badge: "FOUNDERS",
     badgeColor: "bg-emerald-100 text-emerald-700",
     duration: "4 months · Online",
@@ -92,7 +92,7 @@ const coursesData = [
   {
     id: "performance-growth",
     title: "Performance & Growth Specialist",
-    href: "/#course-performance-growth",
+    href: "/categories/performance-growth",
     badge: "GROWTH",
     badgeColor: "bg-rose-100 text-rose-700",
     duration: "3 months · Online",

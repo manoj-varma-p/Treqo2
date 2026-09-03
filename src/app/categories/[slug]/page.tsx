@@ -16,16 +16,27 @@ import { megaMenuData } from "@/data/navigation";
 
 const categoryLinks = megaMenuData.columns.find((column) => column.title === "Learn by Category")?.links ?? [];
 
-function getCategoryMeta(slug: string) {
-  return categoryLinks.find((link) => link.href === `/categories/${slug}`);
-}
-
 function getCourse(slug: string) {
   return learningSystemCourses.find((course) => course.href === `/categories/${slug}`);
 }
 
+function getCategoryMeta(slug: string) {
+  const link = categoryLinks.find((link) => link.href === `/categories/${slug}`);
+  if (link) return link;
+  const course = getCourse(slug);
+  if (course) return { label: course.title, href: course.href };
+  return null;
+}
+
 export function generateStaticParams() {
-  return categoryLinks.map((link) => ({ slug: link.href.replace("/categories/", "") }));
+  const courseSlugs = learningSystemCourses.map((c) => ({
+    slug: c.href.replace("/categories/", ""),
+  }));
+  const categorySlugs = categoryLinks.map((link) => ({
+    slug: link.href.replace("/categories/", ""),
+  }));
+  const uniqueSlugs = Array.from(new Set([...courseSlugs.map((s) => s.slug), ...categorySlugs.map((s) => s.slug)]));
+  return uniqueSlugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -38,8 +49,8 @@ export async function generateMetadata({
   if (!meta) return {};
 
   return {
-    title: `${meta.label} Courses | TREQO`,
-    description: `Explore TREQO's ${meta.label} learning track — live mentorship, hands-on projects and career support.`,
+    title: `${meta.label} | TREQO`,
+    description: `Explore TREQO's ${meta.label} track — live mentorship, practical deliverables, and verified career portfolios.`,
   };
 }
 
