@@ -25,12 +25,13 @@ export async function POST(request: Request) {
 
     console.log("[DB] Lead saved successfully:", savedLead);
 
-    // Also forward to external webhook (if configured)
+    // Also forward to external webhook (Google Sheets / Excel / Power Automate)
     const webhookUrl =
       process.env.LEADS_WEBHOOK_URL ||
       process.env.EXCEL_WEBHOOK_URL ||
       process.env.SHEET_WEBHOOK_URL ||
-      process.env.NEXT_PUBLIC_SHEET_WEBHOOK_URL;
+      process.env.NEXT_PUBLIC_SHEET_WEBHOOK_URL ||
+      "https://script.google.com/macros/s/AKfycbyBRWMwf1gKHjWziw_7qAfdc197IB5pMKjbe66TSqoFY0NYkJLcBPXcUmEIictBglbK/exec";
 
     if (webhookUrl) {
       try {
