@@ -81,14 +81,20 @@ export default function DesktopHeader({ variant = "standard", isAtTop = true }: 
       <div className="flex items-center">
         <div
           className={cn(
-            "flex items-center transition-all duration-300 ease-out overflow-hidden",
+            "flex items-center transition-all duration-500 ease-out overflow-hidden will-change-[max-width,opacity,transform]",
             variant === "hero" && !isAtTop
-              ? "max-w-0 opacity-0 -translate-x-4 pointer-events-none"
-              : "max-w-[160px] opacity-100 translate-x-0 mr-4"
+              ? "max-w-0 opacity-0 -translate-x-6 scale-95 pointer-events-none mr-0"
+              : "max-w-[160px] opacity-100 translate-x-0 scale-100 mr-4"
           )}
         >
           <Logo />
-          <div className="ml-4 h-6 w-px bg-slate-300 shrink-0" aria-hidden="true" />
+          <div
+            className={cn(
+              "ml-4 h-6 w-px bg-slate-300 shrink-0 transition-opacity duration-300",
+              variant === "hero" && !isAtTop ? "opacity-0" : "opacity-100"
+            )}
+            aria-hidden="true"
+          />
         </div>
 
         <div>
