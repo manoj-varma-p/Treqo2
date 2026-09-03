@@ -52,14 +52,14 @@ const programs: ProgramCard[] = [
     id: "4m-program",
     image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
     previewLabel: "MADHAPUR STUDIO FLOOR",
-    badge: { text: "BUILDING", variant: "gray" },
+    badge: { text: "ON CAMPUS", variant: "blue" },
     meta: "4 months · On campus",
     title: "4M Program",
     description:
       "Full-stack marketing, condensed and in person. Brand strategy through performance in four months.",
-    actionText: "Join waitlist →",
-    actionHref: "/#apply",
-    tags: ["All", "Short"],
+    actionText: "View course →",
+    actionHref: "/categories/digital-marketing",
+    tags: ["All", "Short", "Flagship"],
   },
   {
     id: "pgdm",
