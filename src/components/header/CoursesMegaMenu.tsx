@@ -109,8 +109,8 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
   const otherCourses = coursesData.slice(1);
 
   return (
-    <div className="absolute top-full left-0 mt-3.5 w-[1020px] max-w-[calc(100vw-3.5rem)] rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-7 shadow-[0_25px_60px_-15px_rgba(20,18,31,0.25)] z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-      <div className="grid grid-cols-12 gap-7">
+    <div className="w-full rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-[0_25px_60px_-15px_rgba(20,18,31,0.22)] animate-in fade-in slide-in-from-top-2 duration-200">
+      <div className="grid grid-cols-12 gap-8">
         {/* Left 8 Cols: Course Tracks Grid */}
         <div className="col-span-8 flex flex-col gap-4.5">
           {/* Header Row */}

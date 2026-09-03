@@ -76,12 +76,12 @@ export default function DesktopHeader({ variant = "standard", isAtTop = true }: 
   }
 
   return (
-    <div className="flex w-full h-[72px] items-center justify-between">
+    <div ref={dropdownRef} className="relative flex w-full h-[72px] items-center justify-between">
       {/* Left side: Logo + Divider + Courses pill dropdown */}
       <div className="flex items-center gap-4">
         <Logo />
         <div className="h-6 w-px bg-slate-300" aria-hidden="true" />
-        <div ref={dropdownRef} className="relative">
+        <div>
           <button
             type="button"
             onClick={handleCoursesToggle}
@@ -96,13 +96,6 @@ export default function DesktopHeader({ variant = "standard", isAtTop = true }: 
               aria-hidden="true"
             />
           </button>
-
-          {coursesOpen && isAtTop && (
-            <CoursesMegaMenu
-              onClose={() => setCoursesOpen(false)}
-              onNavClick={handleNavClick}
-            />
-          )}
         </div>
       </div>
 
@@ -129,6 +122,16 @@ export default function DesktopHeader({ variant = "standard", isAtTop = true }: 
           {navExtras.ctaLabel}
         </button>
       </div>
+
+      {/* Full-width Mega Menu Dropdown */}
+      {coursesOpen && isAtTop && (
+        <div className="absolute top-full left-0 right-0 w-full z-50 pt-2">
+          <CoursesMegaMenu
+            onClose={() => setCoursesOpen(false)}
+            onNavClick={handleNavClick}
+          />
+        </div>
+      )}
     </div>
   );
 }

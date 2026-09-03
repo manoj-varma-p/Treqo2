@@ -51,7 +51,7 @@ export default function HeroNavbar() {
       )}
     >
       <Container>
-        <DesktopHeader variant="hero" />
+        <DesktopHeader variant="hero" isAtTop={isSticky} />
       </Container>
     </nav>
   );
