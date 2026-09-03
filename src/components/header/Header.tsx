@@ -54,7 +54,7 @@ export default function Header({ variant = "standard" }: HeaderProps) {
     return (
       <>
         <AnnouncementBanner />
-        <header role="banner" className="fixed top-0 inset-x-0 z-50 lg:sticky lg:top-0 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <header role="banner" className="fixed top-0 inset-x-0 z-50 lg:sticky lg:top-0 w-full bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-xs py-2 lg:py-2.5">
           <div className="w-full">
             <Container>
               <div className="hidden lg:block">
