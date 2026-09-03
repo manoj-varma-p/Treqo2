@@ -1,17 +1,5 @@
 import { NextResponse } from "next/server";
-
-export interface LeadSubmission {
-  name: string;
-  email: string;
-  phone: string;
-  course: string;
-  background?: string;
-  source?: string;
-  timestamp?: string;
-}
-
-// In-memory fallback cache for recent leads during runtime
-const recentLeads: Array<LeadSubmission & { id: string; submittedAt: string }> = [];
+import { addLead, getLeads } from "@/lib/leads-db";
 
 export async function POST(request: Request) {
   try {
@@ -25,26 +13,19 @@ export async function POST(request: Request) {
       );
     }
 
-    const leadRecord = {
-      id: `lead_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-      name: String(name).trim(),
-      email: String(email).trim().toLowerCase(),
-      phone: String(phone).trim(),
-      course: String(course || "New Age Digital Marketing").trim(),
-      background: String(background || "General Inquiry").trim(),
-      source: String(source || "Website Form").trim(),
-      submittedAt: new Date().toISOString(),
-    };
+    // Save into database
+    const savedLead = await addLead({
+      name,
+      email,
+      phone,
+      course,
+      background,
+      source,
+    });
 
-    // Store in recent memory log
-    recentLeads.unshift(leadRecord);
-    if (recentLeads.length > 200) {
-      recentLeads.pop();
-    }
+    console.log("[DB] Lead saved successfully:", savedLead);
 
-    console.log("[New Lead Received]:", leadRecord);
-
-    // Forward to configured external webhook (e.g. Google Apps Script Web App, Zapier, Make, or Power Automate)
+    // Also forward to external webhook (if configured)
     const webhookUrl =
       process.env.LEADS_WEBHOOK_URL ||
       process.env.EXCEL_WEBHOOK_URL ||
@@ -56,19 +37,18 @@ export async function POST(request: Request) {
         await fetch(webhookUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(leadRecord),
+          body: JSON.stringify(savedLead),
           redirect: "follow",
         });
       } catch (webhookError) {
         console.error("[Webhook Forwarding Error]:", webhookError);
-        // Do not fail the user's submission if webhook is temporarily unavailable
       }
     }
 
     return NextResponse.json({
       success: true,
-      message: "Lead recorded successfully",
-      leadId: leadRecord.id,
+      message: "Lead recorded in database successfully",
+      lead: savedLead,
     });
   } catch (error) {
     console.error("[API Apply Error]:", error);
@@ -80,8 +60,9 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
+  const leads = await getLeads();
   return NextResponse.json({
-    total: recentLeads.length,
-    leads: recentLeads,
+    total: leads.length,
+    leads,
   });
 }
