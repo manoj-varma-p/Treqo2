@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import Logo from "./Logo";
+import CoursesMegaMenu from "./CoursesMegaMenu";
 import { primaryNavItems, navExtras } from "@/data/navigation";
 import { useApplyModal } from "@/context/ApplyModalContext";
 import { cn } from "@/lib/utils";
@@ -77,77 +78,10 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
           </button>
 
           {coursesOpen && (
-            <div className="absolute top-full left-0 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl z-50 animate-fade-in">
-              <div className="flex flex-col gap-1 text-sm font-medium text-slate-800">
-                <Link
-                  href="/categories/digital-marketing"
-                  onClick={() => setCoursesOpen(false)}
-                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
-                >
-                  New Age Digital Marketing
-                </Link>
-                <Link
-                  href="/#course-fundamentals"
-                  onClick={(e) => {
-                    setCoursesOpen(false);
-                    handleNavClick(e, "/#course-fundamentals");
-                  }}
-                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
-                >
-                  Fundamentals of Digital Marketing
-                </Link>
-                <Link
-                  href="/#course-4m-program"
-                  onClick={(e) => {
-                    setCoursesOpen(false);
-                    handleNavClick(e, "/#course-4m-program");
-                  }}
-                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
-                >
-                  4M Program
-                </Link>
-                <Link
-                  href="/#course-pgdm"
-                  onClick={(e) => {
-                    setCoursesOpen(false);
-                    handleNavClick(e, "/#course-pgdm");
-                  }}
-                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
-                >
-                  Treqo PGDM
-                </Link>
-                <Link
-                  href="/#course-campus-edition"
-                  onClick={(e) => {
-                    setCoursesOpen(false);
-                    handleNavClick(e, "/#course-campus-edition");
-                  }}
-                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
-                >
-                  Campus Edition
-                </Link>
-                <Link
-                  href="/#course-founder-semester"
-                  onClick={(e) => {
-                    setCoursesOpen(false);
-                    handleNavClick(e, "/#course-founder-semester");
-                  }}
-                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
-                >
-                  The Founder Semester
-                </Link>
-                <Link
-                  href="/#course-performance-growth"
-                  onClick={(e) => {
-                    setCoursesOpen(false);
-                    handleNavClick(e, "/#course-performance-growth");
-                  }}
-                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
-                >
-                  Performance &amp; Growth Specialist
-                </Link>
-              </div>
-            </div>
+            <CoursesMegaMenu
+              onClose={() => setCoursesOpen(false)}
+              onNavClick={handleNavClick}
+            />
           )}
         </div>
       </div>
