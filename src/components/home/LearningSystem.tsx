@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 interface ProgramCard {
   id: string;
+  image: string;
   previewLabel: string;
   badge: {
     text: string;
@@ -23,6 +24,7 @@ interface ProgramCard {
 const programs: ProgramCard[] = [
   {
     id: "new-age-dm",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
     previewLabel: "CLASSROOM · CEO CHALLENGE REVIEW",
     badge: { text: "OPEN · BATCH 2", variant: "blue" },
     meta: "4 months · Online",
@@ -35,6 +37,7 @@ const programs: ProgramCard[] = [
   },
   {
     id: "fundamentals",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
     previewLabel: "SELF-PACED MODULE SCREEN",
     badge: { text: "FREE", variant: "amber" },
     meta: "6 modules · Self-paced",
@@ -47,6 +50,7 @@ const programs: ProgramCard[] = [
   },
   {
     id: "4m-program",
+    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
     previewLabel: "MADHAPUR STUDIO FLOOR",
     badge: { text: "BUILDING", variant: "gray" },
     meta: "4 months · On campus",
@@ -59,6 +63,7 @@ const programs: ProgramCard[] = [
   },
   {
     id: "pgdm",
+    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80",
     previewLabel: "COHORT SESSION",
     badge: { text: "BUILDING", variant: "gray" },
     meta: "12 months · Hybrid",
@@ -71,6 +76,7 @@ const programs: ProgramCard[] = [
   },
   {
     id: "campus-edition",
+    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80",
     previewLabel: "STUDENT AT DESK",
     badge: { text: "BUILDING", variant: "gray" },
     meta: "4 months · Online",
@@ -83,6 +89,7 @@ const programs: ProgramCard[] = [
   },
   {
     id: "founder-semester",
+    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80",
     previewLabel: "FOUNDER PITCH SESSION",
     badge: { text: "BUILDING", variant: "gray" },
     meta: "4 months · Online",
@@ -95,6 +102,7 @@ const programs: ProgramCard[] = [
   },
   {
     id: "performance-growth",
+    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80",
     previewLabel: "LIVE MEDIA DASHBOARD",
     badge: { text: "BUILDING", variant: "gray" },
     meta: "3 months · Online",
@@ -118,63 +126,61 @@ export default function LearningSystem() {
       : programs.filter((p) => p.tags.includes(activeFilter));
 
   return (
-    <section id="courses" className="bg-white py-16 sm:py-20 lg:py-24 scroll-mt-20">
+    <section id="courses" className="bg-surface-alt/40 py-16 sm:py-24 border-t border-slate-200/80 scroll-mt-20">
       <Container>
-        {/* Section Heading */}
-        <div className="flex flex-col items-start max-w-3xl">
-          <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-black leading-[1.12] tracking-tight text-slate-950">
-            One is open. Six are being built. We&apos;d rather say so.
+        {/* Section Header */}
+        <div className="flex flex-col items-center text-center">
+          <span className="text-xs sm:text-sm font-bold tracking-wider uppercase text-brand-primary">
+            Curriculum & Tracks
+          </span>
+          <h2 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-slate-900">
+            Choose Your Learning Path
           </h2>
-          <p className="mt-3.5 text-base sm:text-lg text-slate-600 leading-relaxed">
-            Seven programs. Pick the one that matches your stage.
+          <p className="mt-3 max-w-2xl text-xs sm:text-base text-slate-600">
+            From zero-to-one fundamentals to executive masteries, engineered with real client deliverables.
           </p>
-        </div>
 
-        {/* Filter Pills */}
-        <div className="mt-8 flex flex-wrap items-center gap-2.5">
-          {filterCategories.map((category) => {
-            const isActive = activeFilter === category;
-            return (
+          {/* Filter Pills */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+            {filterCategories.map((cat) => (
               <button
-                key={category}
+                key={cat}
                 type="button"
-                onClick={() => setActiveFilter(category)}
+                onClick={() => setActiveFilter(cat)}
                 className={cn(
-                  "rounded-full px-4.5 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-150 cursor-pointer",
-                  isActive
+                  "rounded-full px-4 py-1.5 text-xs sm:text-sm font-bold transition-all cursor-pointer",
+                  activeFilter === cat
                     ? "bg-[#3A1494] text-white shadow-xs"
-                    : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                    : "bg-white text-slate-700 border border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                 )}
               >
-                {category}
+                {cat}
               </button>
-            );
-          })}
+            ))}
+          </div>
         </div>
 
-        {/* 3x2 Grid of Program Cards */}
-        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* 3-Column Program Cards Grid */}
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredPrograms.map((program) => (
             <div
               key={program.id}
               id={`course-${program.id}`}
-              className="scroll-mt-28 flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300"
+              className="group flex flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-200/90 bg-white shadow-sm hover:shadow-md transition-all duration-300 scroll-mt-28"
             >
-              {/* Top Diagonal Striped Visual Box */}
-              <div className="relative h-36 sm:h-40 w-full overflow-hidden border-b border-slate-200/80 bg-[#f4f6f9]">
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    backgroundImage:
-                      "repeating-linear-gradient(45deg, #eef2f7 0, #eef2f7 14px, #f8fafc 14px, #f8fafc 28px)",
-                  }}
+              {/* Card Image Header */}
+              <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-slate-900">
+                <img
+                  src={program.image}
+                  alt={program.title}
+                  loading="lazy"
+                  className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
                 />
-                <div className="absolute inset-0 flex items-center justify-center p-3">
-                  <div className="rounded-md border border-slate-300/80 bg-white/90 px-3 py-1 text-center shadow-2xs backdrop-blur-xs">
-                    <span className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">
-                      {program.previewLabel}
-                    </span>
-                  </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+                <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+                  <span className="rounded-md bg-black/60 backdrop-blur-xs px-2.5 py-1 text-[10px] font-bold tracking-wider text-white/90 uppercase border border-white/10">
+                    {program.previewLabel}
+                  </span>
                 </div>
               </div>
 
@@ -204,7 +210,7 @@ export default function LearningSystem() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="mt-3 text-lg sm:text-xl font-bold tracking-tight text-slate-900">
+                  <h3 className="mt-3 text-lg sm:text-xl font-bold tracking-tight text-slate-900 group-hover:text-[#3A1494] transition-colors">
                     {program.title}
                   </h3>
 
@@ -218,9 +224,9 @@ export default function LearningSystem() {
                 <div className="mt-6 flex items-center justify-end border-t border-slate-100 pt-4">
                   <Link
                     href={program.actionHref}
-                    className="text-xs sm:text-sm font-bold text-[#3A1494] hover:text-[#2c0e78] transition-colors inline-flex items-center"
+                    className="text-xs sm:text-sm font-bold text-[#3A1494] hover:text-[#2c0e78] transition-colors inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
                   >
-                    {program.actionText}
+                    <span>{program.actionText}</span>
                   </Link>
                 </div>
               </div>
