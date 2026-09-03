@@ -1,29 +1,13 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { ChevronDown, SlidersHorizontal, ChevronsUpDown, Cpu } from "lucide-react";
+import { ChevronDown, SlidersHorizontal, ChevronsUpDown } from "lucide-react";
 import type { CoursePhaseGroup } from "@/types/home";
 import { cn } from "@/lib/utils";
 
 interface PhaseAccordionProps {
   groups: CoursePhaseGroup[];
 }
-
-// Industry tools mapped to phases to make the curriculum feel tangible and dynamic
-const phaseTools: Record<string, string[]> = {
-  "01": ["First Principles", "Competitor Matrix"],
-  "02": ["Customer Personas", "Jobs-to-be-Done"],
-  "03": ["Funnel Architectures", "Drop-off Audits"],
-  "04": ["Problem Discovery", "Validation Surveys"],
-  "05": ["Go-To-Market (GTM)", "Offer Stacking"],
-  "06": ["Brand Positioning", "Messaging Frameworks"],
-  "07": ["SEMrush", "Google Search Console", "WordPress"],
-  "08": ["Meta Ads Manager", "Canva / Figma", "CapCut"],
-  "09": ["Multi-Touch Attribution", "ROAS Modeling"],
-  "10": ["CRM & Pipeline", "HubSpot", "Closing Funnels"],
-  "11": ["Claude", "ChatGPT", "Make.com / Zapier"],
-  "12": ["Looker Studio", "GA4", "Executive P&L Defense"],
-};
 
 const filterTabs = [
   { id: "all", label: "All 12", range: [1, 12] },
@@ -108,7 +92,6 @@ export default function PhaseAccordion({ groups }: PhaseAccordionProps) {
         {filteredGroups.map(({ group, originalIndex }) => {
           const isOpen = expandedIndices.includes(originalIndex);
           const phaseNum = group.range || String(originalIndex + 1).padStart(2, "0");
-          const tools = phaseTools[phaseNum] || [];
           const isHighlighted = phaseNum === "05" || group.heading.toUpperCase().includes("MARKET EXECUTION");
 
           return (
@@ -218,24 +201,6 @@ export default function PhaseAccordion({ groups }: PhaseAccordionProps) {
                           <p className="text-xs sm:text-sm leading-relaxed text-text-primary/90 font-medium">
                             {lesson}
                           </p>
-
-                          {/* Industry Tools Chips */}
-                          {tools.length > 0 ? (
-                            <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                              <span className="inline-flex items-center gap-1 text-[10px] font-bold text-text-secondary uppercase">
-                                <Cpu className="h-3 w-3 text-slate-400" aria-hidden="true" />
-                                Tools & Frameworks:
-                              </span>
-                              {tools.map((t) => (
-                                <span
-                                  key={t}
-                                  className="rounded-md border border-border-subtle bg-surface px-2 py-0.5 text-[10px] font-semibold text-text-primary"
-                                >
-                                  {t}
-                                </span>
-                              ))}
-                            </div>
-                          ) : null}
                         </div>
                       ))}
                     </div>
