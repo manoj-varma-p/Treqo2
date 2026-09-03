@@ -109,17 +109,17 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
   const otherCourses = coursesData.slice(1);
 
   return (
-    <div className="absolute top-full left-0 mt-3 w-[880px] rounded-3xl border border-slate-200/90 bg-white p-6 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-      <div className="grid grid-cols-12 gap-6">
+    <div className="absolute top-full left-0 mt-3.5 w-[1020px] max-w-[calc(100vw-3.5rem)] rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-7 shadow-[0_25px_60px_-15px_rgba(20,18,31,0.25)] z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+      <div className="grid grid-cols-12 gap-7">
         {/* Left 8 Cols: Course Tracks Grid */}
-        <div className="col-span-8 flex flex-col gap-4">
+        <div className="col-span-8 flex flex-col gap-4.5">
           {/* Header Row */}
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
               <span className="text-[11px] font-black uppercase tracking-wider text-slate-400">
                 Explore All Programs
               </span>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 font-medium">
                 Live mentorship & real-world client briefs
               </p>
             </div>
@@ -129,7 +129,7 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
                 onClose();
                 onNavClick(e, "/#courses");
               }}
-              className="inline-flex items-center gap-1 text-xs font-bold text-[#3A1494] hover:underline"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#3A1494] hover:underline"
             >
               <span>View full comparison</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -140,9 +140,9 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
           <Link
             href={flagship.href}
             onClick={() => onClose()}
-            className="group relative flex items-start gap-4 rounded-2xl border border-slate-200/90 bg-gradient-to-r from-purple-50/70 via-indigo-50/40 to-white p-4 transition-all hover:border-[#3A1494]/40 hover:shadow-md"
+            className="group relative flex items-start gap-4.5 rounded-2xl border border-slate-200/90 bg-gradient-to-r from-purple-50/80 via-indigo-50/40 to-white p-4.5 transition-all hover:border-[#3A1494]/50 hover:shadow-md"
           >
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#3A1494] text-white shadow-xs group-hover:scale-105 transition-transform">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#3A1494] text-white shadow-xs group-hover:scale-105 transition-transform">
               <Rocket className="h-5 w-5 text-[#FBBF24]" />
             </div>
             <div className="flex-1">

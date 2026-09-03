@@ -58,7 +58,7 @@ export default function Header({ variant = "standard" }: HeaderProps) {
           <div className="w-full">
             <Container>
               <div className="hidden lg:block">
-                <DesktopHeader variant="standard" />
+                <DesktopHeader variant="standard" isAtTop={true} />
               </div>
               <div className="lg:hidden">
                 <MobileHeader variant="standard" />
@@ -84,7 +84,7 @@ export default function Header({ variant = "standard" }: HeaderProps) {
       )}
     >
       <Container>
-        <DesktopHeader variant="hero" />
+        <DesktopHeader variant="hero" isAtTop={pastHero} />
       </Container>
     </header>
   );

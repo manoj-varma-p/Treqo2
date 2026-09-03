@@ -11,12 +11,20 @@ import { cn } from "@/lib/utils";
 
 interface DesktopHeaderProps {
   variant?: "hero" | "standard";
+  isAtTop?: boolean;
 }
 
-export default function DesktopHeader({ variant = "standard" }: DesktopHeaderProps) {
+export default function DesktopHeader({ variant = "standard", isAtTop = true }: DesktopHeaderProps) {
   const { openApplyModal } = useApplyModal();
   const [coursesOpen, setCoursesOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close mega menu immediately if navbar leaves the top
+  useEffect(() => {
+    if (!isAtTop && coursesOpen) {
+      setCoursesOpen(false);
+    }
+  }, [isAtTop, coursesOpen]);
 
   useEffect(() => {
     if (!coursesOpen) return;
@@ -41,6 +49,18 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
     };
   }, [coursesOpen]);
 
+  function handleCoursesToggle() {
+    if (!isAtTop) {
+      // If navbar is not at top yet, scroll smoothly to #courses section
+      const target = document.getElementById("courses");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+      return;
+    }
+    setCoursesOpen((prev) => !prev);
+  }
+
   function handleNavClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
     if (href.startsWith("/#") || href.startsWith("#")) {
       const id = href.includes("#") ? href.split("#")[1] : "";
@@ -64,20 +84,20 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
         <div ref={dropdownRef} className="relative">
           <button
             type="button"
-            onClick={() => setCoursesOpen((prev) => !prev)}
+            onClick={handleCoursesToggle}
             className="inline-flex items-center gap-1.5 rounded-full border border-slate-300/90 bg-slate-50/80 px-4 py-1.5 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:border-[#3A1494]/40 hover:bg-slate-100 hover:text-[#3A1494] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A1494] cursor-pointer"
           >
             <span>Courses</span>
             <ChevronDown
               className={cn(
                 "h-3.5 w-3.5 text-slate-600 transition-transform duration-200",
-                coursesOpen && "rotate-180"
+                coursesOpen && isAtTop && "rotate-180"
               )}
               aria-hidden="true"
             />
           </button>
 
-          {coursesOpen && (
+          {coursesOpen && isAtTop && (
             <CoursesMegaMenu
               onClose={() => setCoursesOpen(false)}
               onNavClick={handleNavClick}
