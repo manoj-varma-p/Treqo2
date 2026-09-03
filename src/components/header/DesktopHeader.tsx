@@ -76,68 +76,62 @@ export default function DesktopHeader({ variant = "standard", isAtTop = true }: 
   }
 
   return (
-    <div className="flex w-full items-center justify-between gap-4">
-      {/* FILLED NAVBAR CONTAINER */}
-      <div
-        ref={dropdownRef}
-        className="relative flex flex-1 items-center justify-between rounded-full border border-slate-200/90 bg-white px-6 py-2.5 shadow-sm transition-all"
-      >
-        {/* Left side: Logo + Divider + Courses dropdown */}
-        <div className="flex items-center gap-4">
-          <Logo />
-          <div className="h-5 w-px bg-slate-200" aria-hidden="true" />
-          <div>
-            <button
-              type="button"
-              onClick={handleCoursesToggle}
-              className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3.5 py-1 text-xs font-bold text-slate-800 transition-all hover:border-[#3A1494]/40 hover:bg-purple-50/60 hover:text-[#3A1494] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A1494] cursor-pointer"
-            >
-              <span>Courses</span>
-              <ChevronDown
-                className={cn(
-                  "h-3.5 w-3.5 text-slate-600 transition-transform duration-200",
-                  coursesOpen && isAtTop && "rotate-180"
-                )}
-                aria-hidden="true"
-              />
-            </button>
-          </div>
+    <div ref={dropdownRef} className="relative flex w-full h-[72px] items-center justify-between">
+      {/* Left side: Logo + Divider + Courses pill dropdown */}
+      <div className="flex items-center gap-4">
+        <Logo />
+        <div className="h-6 w-px bg-slate-300" aria-hidden="true" />
+        <div>
+          <button
+            type="button"
+            onClick={handleCoursesToggle}
+            className="inline-flex items-center gap-1.5 rounded-full border border-slate-300/90 bg-slate-50/80 px-4 py-1.5 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:border-[#3A1494]/40 hover:bg-slate-100 hover:text-[#3A1494] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A1494] cursor-pointer"
+          >
+            <span>Courses</span>
+            <ChevronDown
+              className={cn(
+                "h-3.5 w-3.5 text-slate-600 transition-transform duration-200",
+                coursesOpen && isAtTop && "rotate-180"
+              )}
+              aria-hidden="true"
+            />
+          </button>
         </div>
+      </div>
 
-        {/* Center/Right inside Navbar: Nav links */}
+      {/* Right side: Nav links + Apply now CTA button */}
+      <div className="flex items-center gap-8">
         <nav aria-label="Desktop Navigation" className="flex items-center gap-7">
           {primaryNavItems.map((item) => (
             <Link
               key={item.key}
               href={item.href}
               onClick={(e) => handleNavClick(e, item.href)}
-              className="text-xs sm:text-sm font-semibold text-slate-700 transition-colors hover:text-[#3A1494]"
+              className="text-sm font-semibold text-slate-800 transition-colors hover:text-[#3A1494]"
             >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        {/* Full-width Mega Menu Dropdown */}
-        {coursesOpen && isAtTop && (
-          <div className="absolute top-[calc(100%+8px)] left-0 right-0 w-full z-50">
-            <CoursesMegaMenu
-              onClose={() => setCoursesOpen(false)}
-              onNavClick={handleNavClick}
-            />
-          </div>
-        )}
+        <button
+          type="button"
+          onClick={() => openApplyModal()}
+          className="inline-flex items-center justify-center rounded-xl bg-[#3A1494] px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#2c0e78] hover:shadow-md active:scale-[0.98] cursor-pointer"
+        >
+          {navExtras.ctaLabel}
+        </button>
       </div>
 
-      {/* OUTSIDE THE NAVBAR: 'Let's talk' Standalone Action Button */}
-      <button
-        type="button"
-        onClick={() => openApplyModal()}
-        className="shrink-0 inline-flex items-center justify-center gap-1.5 rounded-full bg-[#3A1494] px-6 py-2.5 text-xs sm:text-sm font-bold text-white shadow-md transition-all hover:bg-[#2c0e78] hover:shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
-      >
-        <span>Let&apos;s talk</span>
-        <span className="text-amber-300 font-black">→</span>
-      </button>
+      {/* Full-width Mega Menu Dropdown */}
+      {coursesOpen && isAtTop && (
+        <div className="absolute top-full left-0 right-0 w-full z-50 pt-2">
+          <CoursesMegaMenu
+            onClose={() => setCoursesOpen(false)}
+            onNavClick={handleNavClick}
+          />
+        </div>
+      )}
     </div>
   );
 }

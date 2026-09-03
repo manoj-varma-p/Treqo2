@@ -44,10 +44,10 @@ export default function HeroNavbar() {
     <nav
       aria-label="Desktop Navigation"
       className={cn(
-        "w-full transition-all duration-200 py-2.5",
+        "w-full transition-all duration-200",
         isSticky
-          ? "fixed inset-x-0 top-0 z-[100] bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-xs"
-          : "relative bg-transparent"
+          ? "fixed inset-x-0 top-0 z-[100] bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm"
+          : "relative bg-white/95 backdrop-blur-md border-y border-slate-200/90 shadow-xs"
       )}
     >
       <Container>
