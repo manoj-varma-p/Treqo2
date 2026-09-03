@@ -1,10 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import Container from "@/components/ui/Container";
+import { useApplyModal } from "@/context/ApplyModalContext";
 
 interface FooterLink {
   label: string;
   href: string;
   isExternal?: boolean;
+  isApplyAction?: boolean;
 }
 
 const coursesLinks: FooterLink[] = [
@@ -27,7 +31,7 @@ const schoolLinks: FooterLink[] = [
 ];
 
 const talkLinks: FooterLink[] = [
-  { label: "Apply for Batch 2", href: "/#apply" },
+  { label: "Apply for Batch 2", href: "/#apply", isApplyAction: true },
   { label: "Fee Plans & Structure", href: "/#fees" },
   {
     label: "Visit Madhapur Campus",
@@ -39,6 +43,7 @@ const talkLinks: FooterLink[] = [
 ];
 
 export default function Footer() {
+  const { openApplyModal } = useApplyModal();
   return (
     <footer className="bg-[#0a0f24] text-slate-400 pt-16 sm:pt-20 pb-12 border-t border-slate-900">
       <Container>
@@ -158,7 +163,15 @@ export default function Footer() {
             <ul className="flex flex-col gap-2.5 mt-1 text-xs sm:text-sm">
               {talkLinks.map((link) => (
                 <li key={link.label}>
-                  {link.isExternal ? (
+                  {link.isApplyAction ? (
+                    <button
+                      type="button"
+                      onClick={() => openApplyModal()}
+                      className="text-left text-slate-400 hover:text-white transition-colors cursor-pointer"
+                    >
+                      {link.label}
+                    </button>
+                  ) : link.isExternal ? (
                     <a
                       href={link.href}
                       target={link.href.startsWith("http") ? "_blank" : undefined}

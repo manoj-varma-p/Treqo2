@@ -1,11 +1,15 @@
+"use client";
+
 import { Mail, Phone, Calendar, Users, Monitor, Sparkles, Download } from "lucide-react";
 import Button from "@/components/ui/Button";
+import ApplyButton from "@/components/common/ApplyButton";
 import type { CourseSidebar } from "@/types/home";
 import { cn } from "@/lib/utils";
 
 interface CategorySidebarProps {
   sidebar: CourseSidebar;
   className?: string;
+  courseTitle?: string;
 }
 
 const rows: { key: keyof CourseSidebar; label: string; icon: typeof Calendar }[] = [
@@ -15,7 +19,7 @@ const rows: { key: keyof CourseSidebar; label: string; icon: typeof Calendar }[]
   { key: "seats", label: "Seats", icon: Users },
 ];
 
-export default function CategorySidebar({ sidebar, className }: CategorySidebarProps) {
+export default function CategorySidebar({ sidebar, className, courseTitle }: CategorySidebarProps) {
   return (
     <aside className={cn("lg:sticky lg:top-36 lg:self-start", className)}>
       <div className="overflow-hidden rounded-2xl border border-border-subtle bg-surface shadow-[0_12px_32px_-16px_rgba(20,18,31,0.22)]">
@@ -51,9 +55,9 @@ export default function CategorySidebar({ sidebar, className }: CategorySidebarP
         </div>
 
         <div className="flex flex-col gap-2.5 px-4 pb-4 sm:flex-row lg:flex-col sm:px-5 sm:pb-5">
-          <Button href="/start-learning" fullWidth size="md">
+          <ApplyButton courseName={courseTitle} fullWidth size="md">
             {sidebar.applyLabel}
-          </Button>
+          </ApplyButton>
           <Button
             href="/curriculum/new-age-digital-marketing-curriculum.pdf"
             download="New Age Digital Marketing - Curriculum.pdf"

@@ -1,11 +1,10 @@
-"use client";
-
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Menu, X, ArrowRight, Phone, Sparkles, ChevronRight, Layers } from "lucide-react";
 import Logo from "./Logo";
 import IconButton from "@/components/ui/IconButton";
 import { primaryNavItems, navExtras } from "@/data/navigation";
+import { useApplyModal } from "@/context/ApplyModalContext";
 import { cn } from "@/lib/utils";
 
 interface MobileHeaderProps {
@@ -19,6 +18,7 @@ const featuredTracks = [
 ];
 
 export default function MobileHeader({ variant = "standard" }: MobileHeaderProps) {
+  const { openApplyModal } = useApplyModal();
   const [open, setOpen] = useState(false);
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -65,14 +65,14 @@ export default function MobileHeader({ variant = "standard" }: MobileHeaderProps
 
       {/* Right controls: Compact CTA & Menu Toggle */}
       <div className="flex items-center gap-2">
-        <Link
-          href={navExtras.ctaHref}
-          onClick={(e) => handleNavClick(e, navExtras.ctaHref)}
-          className="inline-flex items-center gap-1 rounded-full bg-brand-primary px-3 py-1 text-[11px] font-bold text-white shadow-xs active:scale-95 transition-transform"
+        <button
+          type="button"
+          onClick={() => openApplyModal()}
+          className="inline-flex items-center gap-1 rounded-full bg-brand-primary px-3.5 py-1.5 text-xs font-bold text-white shadow-xs active:scale-95 transition-transform cursor-pointer"
         >
-          <Sparkles className="h-3 w-3" aria-hidden="true" />
+          <Sparkles className="h-3 w-3 text-[#FBBF24]" aria-hidden="true" />
           <span>Apply</span>
-        </Link>
+        </button>
 
         <button
           ref={openButtonRef}
@@ -164,14 +164,17 @@ export default function MobileHeader({ variant = "standard" }: MobileHeaderProps
 
               {/* Quick Action & Contact */}
               <div className="mt-5 flex flex-col gap-2.5">
-                <Link
-                  href={navExtras.ctaHref}
-                  onClick={(e) => handleNavClick(e, navExtras.ctaHref)}
-                  className="flex items-center justify-center gap-2 rounded-xl bg-brand-primary py-3 text-sm font-bold text-white shadow-md active:scale-98 transition-transform"
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    openApplyModal();
+                  }}
+                  className="flex items-center justify-center gap-2 rounded-xl bg-brand-primary py-3 text-sm font-bold text-white shadow-md active:scale-98 transition-transform cursor-pointer"
                 >
                   <span>Apply for Batch 2</span>
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </Link>
+                </button>
 
                 <a
                   href="tel:+919948000491"

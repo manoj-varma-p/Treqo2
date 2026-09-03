@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle2, Sparkles, Trophy, ShieldCheck, Flame, Downloa
 import Header from "@/components/header/Header";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
+import ApplyButton from "@/components/common/ApplyButton";
 import CategorySubNav from "@/components/category/CategorySubNav";
 import PhaseAccordion from "@/components/category/PhaseAccordion";
 import CategorySidebar from "@/components/category/CategorySidebar";
@@ -68,27 +69,25 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                 {/* Cohort Badges */}
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-primary px-3 py-1 text-[11px] font-bold tracking-wide text-white uppercase shadow-xs">
-                    <Sparkles className="h-3 w-3" aria-hidden="true" />
+                    <Sparkles className="h-3.5 w-3.5 text-[#FBBF24]" aria-hidden="true" />
                     {detail.badge}
                   </span>
-                  <span className="inline-flex items-center gap-1 rounded-full border border-border-subtle bg-surface-alt px-3 py-0.5 text-[11px] font-semibold tracking-wide text-text-secondary uppercase">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border-subtle bg-surface-alt px-3 py-1 text-[11px] font-semibold text-text-secondary">
+                    <Flame className="h-3.5 w-3.5 text-brand-accent" aria-hidden="true" />
                     {detail.batch}
                   </span>
                 </div>
 
-                {/* Course Title */}
-                <h1 className="mt-4 text-3xl leading-[1.08] font-black tracking-tight text-text-primary sm:text-4xl lg:text-5xl">
+                {/* Course Title & Headline */}
+                <h1 className="mt-4 text-3xl font-black tracking-tight text-text-primary sm:text-4xl lg:text-5xl">
                   {course.title}
                 </h1>
-
-                {/* Description */}
-                <p className="mt-4 max-w-xl text-sm leading-relaxed text-text-secondary sm:text-base">
+                <p className="mt-3.5 max-w-xl text-sm leading-relaxed text-text-secondary sm:text-base">
                   {detail.description}
                 </p>
 
-                {/* Key Quick Stats Cards */}
-                <div className="mt-6 grid grid-cols-2 gap-2.5 sm:max-w-md sm:gap-3">
+                {/* Stat Grid (Fast Scanning) */}
+                <div className="mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3 sm:max-w-xl">
                   {detail.stats.map((stat) => (
                     <div
                       key={stat.label}
@@ -104,9 +103,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
                 {/* Call to Actions on Mobile & Desktop */}
                 <div className="mt-6 flex flex-col gap-2.5 sm:max-w-md sm:flex-row">
-                  <Button href="/start-learning" size="lg" fullWidth className="font-bold shadow-md">
+                  <ApplyButton courseName={course.title} size="lg" fullWidth className="font-bold shadow-md">
                     {detail.applyCtaLabel}
-                  </Button>
+                  </ApplyButton>
                   <Button
                     href="/curriculum/new-age-digital-marketing-curriculum.pdf"
                     download="New Age Digital Marketing - Curriculum.pdf"
@@ -166,11 +165,15 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Button href="/start-learning" icon={<ArrowRight className="h-4 w-4" aria-hidden="true" />}>
+              <ApplyButton
+                courseName={`${meta.label} Track`}
+                size="lg"
+                icon={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
+              >
                 Start Learning Now
-              </Button>
-              <Button href="/career-paths" variant="secondary">
-                Explore Career Paths
+              </ApplyButton>
+              <Button href="/#courses" variant="secondary">
+                Explore Programs
               </Button>
             </div>
           </Container>
@@ -201,107 +204,62 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                         Overview
                       </span>
                     </div>
-                    <h2 className="mt-1 text-2xl font-black tracking-tight text-text-primary sm:text-3xl">
+                    <h2 className="mt-2 text-2xl sm:text-3xl font-black tracking-tight text-text-primary">
                       {detail.overview.whoForHeading}
                     </h2>
-                    <ul className="mt-5 flex flex-col gap-2.5 sm:gap-3">
-                      {detail.overview.whoFor.map((item) => (
-                        <li
-                          key={item}
-                          className="flex items-start gap-3 rounded-xl border border-border-subtle/80 bg-surface-alt/30 p-3.5 sm:p-4 text-xs sm:text-sm leading-relaxed text-text-secondary"
-                        >
-                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-primary" aria-hidden="true" />
-                          <span className="font-medium text-text-primary/90">{item}</span>
+                    <ul className="mt-4 flex flex-col gap-2.5">
+                      {detail.overview.whoFor.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-text-secondary">
+                          <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-primary shrink-0" />
+                          <span>{item}</span>
                         </li>
                       ))}
                     </ul>
-
-                    {/* How It Differs */}
-                    <div className="mt-6 rounded-2xl border border-border-subtle bg-surface p-4 sm:p-6 shadow-xs">
-                      <p className="text-[10px] sm:text-[11px] font-bold tracking-wider text-text-secondary uppercase">
-                        How This Learning System Differs
-                      </p>
-                      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-                        {detail.overview.differentiators.map((item) => (
-                          <div
-                            key={item.label}
-                            className="rounded-xl border border-border-subtle/70 bg-surface-alt/40 p-3 sm:p-4"
-                          >
-                            <p className="text-xl sm:text-2xl font-black text-brand-primary">{item.value}</p>
-                            <p className="mt-1 text-[11px] sm:text-xs font-semibold text-text-secondary">{item.label}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
                   </section>
 
-                  {/* 2. The 12 Phases */}
+                  {/* 2. Phases */}
                   <section id="phases" className="scroll-mt-36 sm:scroll-mt-40">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-brand-primary">
-                        Curriculum
-                      </span>
-                    </div>
-                    <h2 className="mt-1 text-2xl font-black tracking-tight text-text-primary sm:text-3xl">
-                      {detail.phases.heading}
-                    </h2>
-                    <p className="mt-3 text-xs leading-relaxed text-text-secondary sm:text-sm sm:leading-relaxed">
-                      {detail.phases.intro}
-                    </p>
-
                     <PhaseAccordion groups={detail.phases.groups} />
                   </section>
 
                   {/* 3. The CEO Challenge */}
                   <section id="challenge" className="scroll-mt-36 sm:scroll-mt-40">
-                    <div className="overflow-hidden rounded-2xl sm:rounded-3xl border border-border-subtle bg-gradient-to-br from-slate-950 via-[#181126] to-[#251246] p-5 sm:p-8 text-white shadow-xl">
-                      <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center gap-1.5 rounded-md bg-white/15 px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase text-amber-300">
-                          <Trophy className="h-3 w-3" aria-hidden="true" />
-                          Capstone Evaluation
-                        </span>
-                      </div>
-                      <h2 className="mt-3 text-2xl font-black tracking-tight sm:text-3xl text-white">
+                    <div className="rounded-2xl border border-border-subtle bg-surface-alt/60 p-6 sm:p-8">
+                      <h2 className="text-xl sm:text-2xl font-black text-text-primary">
                         {detail.challenge.heading}
                       </h2>
-                      <p className="mt-3 text-xs sm:text-sm leading-relaxed text-white/80">
+                      <p className="mt-2 text-xs sm:text-sm text-text-secondary leading-relaxed">
                         {detail.challenge.description}
                       </p>
-                      <ul className="mt-5 flex flex-wrap gap-2 sm:gap-3">
-                        {detail.challenge.bullets.map((bullet) => (
-                          <li
-                            key={bullet}
-                            className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/90 backdrop-blur-xs"
-                          >
-                            <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" aria-hidden="true" />
-                            {bullet}
+                      <ul className="mt-4 flex flex-col gap-2 text-xs sm:text-sm text-text-primary font-medium">
+                        {detail.challenge.bullets.map((b, i) => (
+                          <li key={i} className="flex items-center gap-2">
+                            <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+                            <span>{b}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
                   </section>
 
-                  {/* 4. Proof / Outcomes */}
+                  {/* 4. Proof */}
                   <section id="proof" className="scroll-mt-36 sm:scroll-mt-40">
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-brand-primary">
-                        Results
+                        Proof & Results
                       </span>
                     </div>
-                    <h2 className="mt-1 text-2xl font-black tracking-tight text-text-primary sm:text-3xl">
+                    <h2 className="mt-2 text-xl sm:text-2xl font-black text-text-primary">
                       {detail.proof.heading}
                     </h2>
-                    <p className="mt-2 text-xs sm:text-sm leading-relaxed text-text-secondary">
+                    <p className="mt-1.5 text-xs sm:text-sm text-text-secondary">
                       {detail.proof.description}
                     </p>
-                    <div className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-4">
-                      {detail.proof.stats.map((stat) => (
-                        <div
-                          key={stat.label}
-                          className="rounded-2xl border border-border-subtle bg-surface p-4 sm:p-5 text-center shadow-xs"
-                        >
-                          <p className="text-2xl font-black text-brand-primary sm:text-3xl">{stat.value}</p>
-                          <p className="mt-1 text-[11px] sm:text-xs font-semibold text-text-secondary">{stat.label}</p>
+                    <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                      {detail.proof.stats.map((st, i) => (
+                        <div key={i} className="rounded-xl border border-border-subtle bg-white p-3.5 sm:p-4 text-center">
+                          <p className="text-xl sm:text-2xl font-black text-brand-primary">{st.value}</p>
+                          <p className="mt-1 text-[11px] sm:text-xs text-text-secondary font-medium">{st.label}</p>
                         </div>
                       ))}
                     </div>
@@ -309,20 +267,16 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
                   {/* 5. FAQs */}
                   <section id="faqs" className="scroll-mt-36 sm:scroll-mt-40">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-brand-primary">
-                        Got Questions?
-                      </span>
-                    </div>
-                    <h2 className="mt-1 text-2xl font-black tracking-tight text-text-primary sm:text-3xl">
-                      Frequently Asked Questions
-                    </h2>
                     <CategoryFaqAccordion faqs={detail.faqs} />
                   </section>
                 </div>
 
                 {/* Sidebar on desktop / Tablet info */}
-                <CategorySidebar sidebar={detail.sidebar} className="lg:col-start-2 lg:row-start-1" />
+                <CategorySidebar
+                  sidebar={detail.sidebar}
+                  courseTitle={course.title}
+                  className="lg:col-start-2 lg:row-start-1"
+                />
               </div>
             </Container>
           </section>
@@ -331,7 +285,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           <MobileEnrollBar
             batch={detail.batch}
             applyLabel={detail.applyCtaLabel}
-            applyHref="/start-learning"
+            courseTitle={course.title}
           />
         </>
       ) : null}
@@ -356,15 +310,15 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                   </li>
                 ))}
               </ul>
-              <Button
-                href="/start-learning"
+              <ApplyButton
+                courseName={course.title}
                 variant="secondary"
                 size="lg"
-                className="mt-2 border-transparent bg-white text-brand-primary hover:bg-white/90 font-bold shadow-md"
+                className="mt-2 border-transparent bg-white text-[#3A1494] hover:bg-white/90 font-bold shadow-md"
                 icon={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
               >
                 Enroll for Batch 2
-              </Button>
+              </ApplyButton>
             </div>
           </Container>
         </section>

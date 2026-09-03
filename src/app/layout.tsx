@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     "TREQO is a digital marketing learning system built around 70% doing, live brand projects, and capstone revenue proof.",
 };
 
+import { ApplyModalProvider } from "@/context/ApplyModalContext";
+import ApplyModal from "@/components/modal/ApplyModal";
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -40,7 +43,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           `}
         </Script>
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ApplyModalProvider>
+          {children}
+          <ApplyModal />
+        </ApplyModalProvider>
+      </body>
     </html>
   );
 }

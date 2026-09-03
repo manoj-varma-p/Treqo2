@@ -1,20 +1,17 @@
-"use client";
-
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
-import Button from "@/components/ui/Button";
+import { ArrowRight } from "lucide-react";
+import ApplyButton from "@/components/common/ApplyButton";
 
 interface MobileEnrollBarProps {
   batch: string;
   applyLabel: string;
-  applyHref?: string;
+  courseTitle?: string;
 }
 
 export default function MobileEnrollBar({
   batch,
   applyLabel,
-  applyHref = "/start-learning",
+  courseTitle,
 }: MobileEnrollBarProps) {
   const [visible, setVisible] = useState(false);
 
@@ -46,14 +43,14 @@ export default function MobileEnrollBar({
           </p>
         </div>
 
-        <Button
-          href={applyHref}
+        <ApplyButton
+          courseName={courseTitle}
           size="md"
           className="shrink-0 font-bold shadow-sm"
           icon={<ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />}
         >
-          {applyLabel || "Apply Now"}
-        </Button>
+          {applyLabel || "Apply for Batch 2"}
+        </ApplyButton>
       </div>
     </div>
   );

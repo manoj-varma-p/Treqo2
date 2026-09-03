@@ -1,10 +1,9 @@
-"use client";
-
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import Logo from "./Logo";
 import { primaryNavItems, navExtras } from "@/data/navigation";
+import { useApplyModal } from "@/context/ApplyModalContext";
 import { cn } from "@/lib/utils";
 
 interface DesktopHeaderProps {
@@ -12,6 +11,7 @@ interface DesktopHeaderProps {
 }
 
 export default function DesktopHeader({ variant = "standard" }: DesktopHeaderProps) {
+  const { openApplyModal } = useApplyModal();
   const [coursesOpen, setCoursesOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -165,13 +165,13 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
           ))}
         </nav>
 
-        <Link
-          href={navExtras.ctaHref}
-          onClick={(e) => handleNavClick(e, navExtras.ctaHref)}
-          className="inline-flex items-center justify-center rounded-xl bg-[#3A1494] px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#2c0e78] hover:shadow-md active:scale-[0.98]"
+        <button
+          type="button"
+          onClick={() => openApplyModal()}
+          className="inline-flex items-center justify-center rounded-xl bg-[#3A1494] px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#2c0e78] hover:shadow-md active:scale-[0.98] cursor-pointer"
         >
           {navExtras.ctaLabel}
-        </Link>
+        </button>
       </div>
     </div>
   );
