@@ -54,7 +54,7 @@ export default function Header({ variant = "standard" }: HeaderProps) {
     return (
       <>
         <AnnouncementBanner />
-        <header role="banner" className="fixed top-0 inset-x-0 z-50 lg:sticky lg:top-0 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+        <header role="banner" className="fixed top-0 inset-x-0 z-50 lg:sticky lg:top-0 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
           <div className="w-full">
             <Container>
               <div className="hidden lg:block">
@@ -77,10 +77,10 @@ export default function Header({ variant = "standard" }: HeaderProps) {
       ref={navRef}
       role="banner"
       className={cn(
-        "hidden lg:block w-full transition-all duration-150",
+        "hidden lg:block w-full transition-all duration-200",
         pastHero
-          ? "fixed inset-x-0 top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs"
-          : "absolute inset-x-0 bottom-0 z-40 bg-white border-t border-b border-slate-200/80"
+          ? "fixed inset-x-0 top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm"
+          : "absolute inset-x-0 bottom-0 z-40 bg-white/95 backdrop-blur-md border-y border-slate-200/90 shadow-xs"
       )}
     >
       <Container>

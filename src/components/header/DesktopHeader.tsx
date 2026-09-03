@@ -57,17 +57,17 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
       {/* Left side: Logo + Divider + Courses pill dropdown */}
       <div className="flex items-center gap-4">
         <Logo />
-        <div className="h-6 w-px bg-slate-200" aria-hidden="true" />
+        <div className="h-6 w-px bg-slate-300" aria-hidden="true" />
         <div ref={dropdownRef} className="relative">
           <button
             type="button"
             onClick={() => setCoursesOpen((prev) => !prev)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-xs transition-colors hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 cursor-pointer"
+            className="inline-flex items-center gap-1.5 rounded-full border border-slate-300/90 bg-slate-50/80 px-4 py-1.5 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:border-[#3A1494]/40 hover:bg-slate-100 hover:text-[#3A1494] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A1494] cursor-pointer"
           >
             <span>Courses</span>
             <ChevronDown
               className={cn(
-                "h-3.5 w-3.5 text-slate-500 transition-transform duration-200",
+                "h-3.5 w-3.5 text-slate-600 transition-transform duration-200",
                 coursesOpen && "rotate-180"
               )}
               aria-hidden="true"
@@ -75,12 +75,12 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
           </button>
 
           {coursesOpen && (
-            <div className="absolute top-full left-0 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl z-50 animate-fade-in">
-              <div className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+            <div className="absolute top-full left-0 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl z-50 animate-fade-in">
+              <div className="flex flex-col gap-1 text-sm font-medium text-slate-800">
                 <Link
                   href="/categories/digital-marketing"
                   onClick={() => setCoursesOpen(false)}
-                  className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
+                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
                 >
                   New Age Digital Marketing
                 </Link>
@@ -90,7 +90,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
                     setCoursesOpen(false);
                     handleNavClick(e, "/#course-fundamentals");
                   }}
-                  className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
+                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
                 >
                   Fundamentals of Digital Marketing
                 </Link>
@@ -100,7 +100,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
                     setCoursesOpen(false);
                     handleNavClick(e, "/#course-4m-program");
                   }}
-                  className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
+                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
                 >
                   4M Program
                 </Link>
@@ -110,7 +110,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
                     setCoursesOpen(false);
                     handleNavClick(e, "/#course-pgdm");
                   }}
-                  className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
+                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
                 >
                   Treqo PGDM
                 </Link>
@@ -120,7 +120,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
                     setCoursesOpen(false);
                     handleNavClick(e, "/#course-campus-edition");
                   }}
-                  className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
+                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
                 >
                   Campus Edition
                 </Link>
@@ -130,7 +130,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
                     setCoursesOpen(false);
                     handleNavClick(e, "/#course-founder-semester");
                   }}
-                  className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
+                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
                 >
                   The Founder Semester
                 </Link>
@@ -140,7 +140,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
                     setCoursesOpen(false);
                     handleNavClick(e, "/#course-performance-growth");
                   }}
-                  className="rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors"
+                  className="rounded-lg px-3 py-2 hover:bg-[#3A1494]/5 hover:text-[#3A1494] transition-colors"
                 >
                   Performance &amp; Growth Specialist
                 </Link>
@@ -158,7 +158,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
               key={item.key}
               href={item.href}
               onClick={(e) => handleNavClick(e, item.href)}
-              className="text-sm font-medium text-slate-700 transition-colors hover:text-slate-950"
+              className="text-sm font-semibold text-slate-800 transition-colors hover:text-[#3A1494]"
             >
               {item.label}
             </Link>
@@ -168,7 +168,7 @@ export default function DesktopHeader({ variant = "standard" }: DesktopHeaderPro
         <Link
           href={navExtras.ctaHref}
           onClick={(e) => handleNavClick(e, navExtras.ctaHref)}
-          className="inline-flex items-center justify-center rounded-lg bg-[#3A1494] px-5 py-2 text-sm font-semibold text-white shadow-xs transition-all hover:bg-[#2c0e78] active:scale-[0.98]"
+          className="inline-flex items-center justify-center rounded-xl bg-[#3A1494] px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#2c0e78] hover:shadow-md active:scale-[0.98]"
         >
           {navExtras.ctaLabel}
         </Link>

@@ -18,7 +18,7 @@ export default function Home() {
       <AnnouncementBanner />
 
       {/* Mobile Top Header (Fixed on mobile) */}
-      <div className="lg:hidden fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+      <div className="lg:hidden fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <Container>
           <MobileHeader variant="standard" />
         </Container>
