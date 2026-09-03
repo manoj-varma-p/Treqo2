@@ -294,31 +294,124 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
       {course ? (
         <section className="pb-16 sm:pb-24">
           <Container>
-            <div className="flex flex-col items-center gap-5 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-brand-primary via-[#2f117a] to-brand-primary-dark px-5 py-10 sm:px-12 sm:py-14 text-center text-white shadow-xl">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold tracking-wider uppercase text-white/90">
-                <Sparkles className="h-3 w-3" aria-hidden="true" />
-                Applications Open
-              </span>
-              <h3 className="max-w-lg text-2xl font-black tracking-tight text-white sm:text-3xl">
-                Ready to start your {meta.label} journey?
-              </h3>
-              <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs sm:text-sm text-white/85">
-                {["Live mentorship", "12 Real-world phases", "CEO Challenge review"].map((item) => (
-                  <li key={item} className="flex items-center gap-1.5 font-medium">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-400" aria-hidden="true" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <ApplyButton
-                courseName={course.title}
-                variant="secondary"
-                size="lg"
-                className="mt-2 border-transparent bg-white text-[#3A1494] hover:bg-white/90 font-bold shadow-md"
-                icon={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
-              >
-                Enroll for Batch 2
-              </ApplyButton>
+            <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-[#1b0849] via-[#2c0e78] to-[#3A1494] p-6 sm:p-10 lg:p-12 text-white shadow-2xl border border-white/10">
+              <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 items-center">
+                {/* Left 6 cols: Core Offer & CTAs */}
+                <div className="flex flex-col items-start text-left lg:col-span-6">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold tracking-wider uppercase text-amber-300 backdrop-blur-xs">
+                    <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                    Applications Open · Batch 2
+                  </span>
+
+                  <h3 className="mt-4 text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white leading-[1.15]">
+                    Ready to master {meta.label} with real market budgets?
+                  </h3>
+
+                  <p className="mt-3.5 text-xs sm:text-sm leading-relaxed text-white/80 max-w-lg">
+                    Graduate with an industry-grade portfolio of real client campaigns, verified credentials, and live mentorship with active marketing leaders.
+                  </p>
+
+                  {/* CTAs */}
+                  <div className="mt-7 flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                    <ApplyButton
+                      courseName={course.title}
+                      variant="secondary"
+                      size="lg"
+                      className="border-transparent bg-white text-[#3A1494] hover:bg-white/90 font-black shadow-lg"
+                      icon={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
+                    >
+                      Enroll for Batch 2
+                    </ApplyButton>
+
+                    <Button
+                      href="/curriculum/new-age-digital-marketing-curriculum.pdf"
+                      download="New Age Digital Marketing - Curriculum.pdf"
+                      target="_blank"
+                      variant="secondary"
+                      size="lg"
+                      className="border-white/20 bg-white/10 text-white hover:bg-white/20 font-bold backdrop-blur-xs"
+                      icon={<Download className="h-4 w-4" aria-hidden="true" />}
+                    >
+                      Download Syllabus
+                    </Button>
+                  </div>
+
+                  <p className="mt-3 text-[11px] text-white/60 font-medium">
+                    Small cohort size to guarantee 1-on-1 mentor reviews for every phase.
+                  </p>
+                </div>
+
+                {/* Right 6 cols: 4 Key Pillars Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:col-span-6">
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-400/20 text-emerald-300">
+                        <CheckCircle2 className="h-4 w-4" />
+                      </span>
+                      <h4 className="text-xs sm:text-sm font-bold text-white">Live Agency Sprints</h4>
+                    </div>
+                    <p className="mt-2 text-xs leading-relaxed text-white/70">
+                      Work on real ₹5L+ brand budgets and live ad accounts, not simulated case studies.
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-400/20 text-amber-300">
+                        <Trophy className="h-4 w-4" />
+                      </span>
+                      <h4 className="text-xs sm:text-sm font-bold text-white">CEO Challenge</h4>
+                    </div>
+                    <p className="mt-2 text-xs leading-relaxed text-white/70">
+                      Defend your strategic campaign live in front of agency founders and brand CEOs.
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-purple-400/20 text-purple-300">
+                        <ShieldCheck className="h-4 w-4" />
+                      </span>
+                      <h4 className="text-xs sm:text-sm font-bold text-white">Modern AI Stack</h4>
+                    </div>
+                    <p className="mt-2 text-xs leading-relaxed text-white/70">
+                      AI workflows, Meta Ads Manager, GA4 attribution, SEO & growth loops from week 1.
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-400/20 text-blue-300">
+                        <Sparkles className="h-4 w-4" />
+                      </span>
+                      <h4 className="text-xs sm:text-sm font-bold text-white">Direct Placements</h4>
+                    </div>
+                    <p className="mt-2 text-xs leading-relaxed text-white/70">
+                      Access to our hiring network of 40+ partner brands and portfolio review sprints.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Metrics Bar */}
+              <div className="mt-8 pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                <div>
+                  <p className="text-xl sm:text-2xl font-black text-white">4 Months</p>
+                  <p className="text-[11px] text-white/70 font-medium">Full Stack Online</p>
+                </div>
+                <div>
+                  <p className="text-xl sm:text-2xl font-black text-amber-300">30+</p>
+                  <p className="text-[11px] text-white/70 font-medium">Real Client Briefs</p>
+                </div>
+                <div>
+                  <p className="text-xl sm:text-2xl font-black text-emerald-400">₹8.5 LPA</p>
+                  <p className="text-[11px] text-white/70 font-medium">Avg Batch 1 Package</p>
+                </div>
+                <div>
+                  <p className="text-xl sm:text-2xl font-black text-white">100%</p>
+                  <p className="text-[11px] text-white/70 font-medium">Portfolio Graded</p>
+                </div>
+              </div>
             </div>
           </Container>
         </section>
