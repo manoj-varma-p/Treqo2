@@ -90,7 +90,7 @@ export default function InstagramVideoPopup() {
         )}
       </AnimatePresence>
 
-      {/* Docked Icon on Right Edge when closed - compact, purple brand color, moved further down */}
+      {/* Docked Icon on Right Edge when closed - positioned between navbar and form */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
@@ -100,7 +100,7 @@ export default function InstagramVideoPopup() {
             exit={{ opacity: 0, x: 50 }}
             transition={{ type: "spring", damping: 22, stiffness: 280 }}
             aria-label="Watch video reel"
-            className="fixed right-0 top-[78%] -translate-y-1/2 z-50 flex items-center gap-2 border-y border-l border-purple-400/30 bg-gradient-to-r from-[#3A1494] via-[#2c0e78] to-[#1e0a52] px-2.5 sm:px-3 py-2 text-white shadow-xl shadow-purple-950/25 hover:from-[#4b1aa6] hover:to-[#3A1494] transition-all duration-300 cursor-pointer group rounded-none"
+            className="fixed right-0 top-[84%] -translate-y-1/2 z-50 flex items-center gap-2 border-y border-l border-purple-400/30 bg-gradient-to-r from-[#3A1494] via-[#2c0e78] to-[#1e0a52] px-2.5 sm:px-3 py-2 text-white shadow-xl shadow-purple-950/25 hover:from-[#4b1aa6] hover:to-[#3A1494] transition-all duration-300 cursor-pointer group rounded-none"
           >
             {/* Small Video Icon with pulse dot */}
             <div className="relative flex h-6 w-6 sm:h-7 sm:w-7 shrink-0 items-center justify-center bg-white/10 border border-white/20 shadow-xs group-hover:scale-105 group-hover:bg-white/20 transition-all">
