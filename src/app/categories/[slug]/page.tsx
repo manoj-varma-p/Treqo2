@@ -9,6 +9,7 @@ import DownloadCurriculumButton from "@/components/common/DownloadCurriculumButt
 import CategorySubNav from "@/components/category/CategorySubNav";
 import PhaseAccordion from "@/components/category/PhaseAccordion";
 import CeoChallengeCard from "@/components/category/CeoChallengeCard";
+import IndustryCoverageSection from "@/components/category/IndustryCoverageSection";
 import CareerOutcomesSection from "@/components/category/CareerOutcomesSection";
 import CategorySidebar from "@/components/category/CategorySidebar";
 import CategoryFaqAccordion from "@/components/category/CategoryFaqAccordion";
@@ -254,6 +255,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
               { id: "overview", label: "Overview" },
               { id: "phases", label: detail.phasesNavLabel },
               { id: "challenge", label: detail.challengeNavLabel },
+              { id: "industries", label: "Industry Coverage" },
               { id: "outcomes", label: "Career Roles" },
               { id: "proof", label: "Proof" },
               { id: "faqs", label: "FAQs" },
@@ -294,7 +296,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                     <CeoChallengeCard />
                   </section>
 
-                  {/* 4. Career Outcomes (Roles You Can Crack) */}
+                  {/* 4. Industry Coverage */}
+                  <section id="industries" className="scroll-mt-36 sm:scroll-mt-40">
+                    <IndustryCoverageSection />
+                  </section>
+
+                  {/* 5. Career Outcomes (Roles You Can Crack) */}
                   <section id="outcomes" className="scroll-mt-36 sm:scroll-mt-40">
                     <CareerOutcomesSection />
                   </section>

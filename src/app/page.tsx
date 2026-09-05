@@ -9,6 +9,7 @@ import ExecutionProof from "@/components/home/ExecutionProof";
 import TaughtBy from "@/components/home/TaughtBy";
 import Certifications from "@/components/home/Certifications";
 import SixDecisions from "@/components/home/SixDecisions";
+import GovCertSection from "@/components/home/GovCertSection";
 import FaqSection from "@/components/home/FaqSection";
 import Footer from "@/components/footer/Footer";
 
@@ -47,6 +48,7 @@ export default function Home() {
         <TaughtBy />
         <Certifications />
         <SixDecisions />
+        <GovCertSection />
         <FaqSection />
       </main>
       <Footer />
