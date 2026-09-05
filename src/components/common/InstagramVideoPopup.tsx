@@ -2,27 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Play } from "lucide-react";
-
-function InstagramIcon({ size = 16, className = "" }: { size?: number; className?: string }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-    </svg>
-  );
-}
+import { X, Video, Play } from "lucide-react";
 
 export default function InstagramVideoPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -110,37 +90,38 @@ export default function InstagramVideoPopup() {
         )}
       </AnimatePresence>
 
-      {/* Docked Icon on Right Edge when closed */}
+      {/* Docked Icon on Right Edge when closed - compact, purple brand color, moved down */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
             onClick={handleOpen}
-            initial={{ opacity: 0, x: 60 }}
+            initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 60 }}
+            exit={{ opacity: 0, x: 50 }}
             transition={{ type: "spring", damping: 22, stiffness: 280 }}
-            aria-label="Watch Instagram video"
-            className="fixed right-0 top-1/2 -translate-y-1/2 z-50 flex items-center gap-2.5 border-y border-l border-white/20 bg-gradient-to-r from-slate-900 to-slate-950 px-3.5 py-3 text-white shadow-2xl hover:from-[#3A1494] hover:to-slate-900 transition-all duration-300 cursor-pointer group rounded-none"
+            aria-label="Watch video reel"
+            className="fixed right-0 top-[65%] -translate-y-1/2 z-50 flex items-center gap-2 border-y border-l border-purple-400/30 bg-gradient-to-r from-[#3A1494] via-[#2c0e78] to-[#1e0a52] px-2.5 sm:px-3 py-2 text-white shadow-xl shadow-purple-950/25 hover:from-[#4b1aa6] hover:to-[#3A1494] transition-all duration-300 cursor-pointer group rounded-none"
           >
-            {/* Pulsing indicator & Instagram Logo */}
-            <div className="relative flex h-8 w-8 shrink-0 items-center justify-center bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888] shadow-md group-hover:scale-110 transition-transform">
-              <InstagramIcon size={16} className="text-white" />
-              <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-pink-400 opacity-75" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-pink-500" />
+            {/* Small Video Icon with pulse dot */}
+            <div className="relative flex h-6 w-6 sm:h-7 sm:w-7 shrink-0 items-center justify-center bg-white/10 border border-white/20 shadow-xs group-hover:scale-105 group-hover:bg-white/20 transition-all">
+              <Video size={13} className="text-white sm:hidden" />
+              <Video size={14} className="text-white hidden sm:block" />
+              <span className="absolute -top-1 -right-1 flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
               </span>
             </div>
 
-            <div className="hidden sm:flex flex-col items-start text-left pr-1">
-              <span className="text-[11px] font-extrabold uppercase tracking-wider text-white">
-                Watch Reel
+            <div className="flex flex-col items-start text-left pr-0.5">
+              <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-white leading-tight">
+                Watch Video
               </span>
-              <span className="text-[9px] font-medium text-white/70">
-                TREQO Highlights
+              <span className="text-[8px] sm:text-[9px] font-semibold text-purple-200/80 leading-tight">
+                TREQO Reel
               </span>
             </div>
 
-            <Play size={12} className="text-white/80 group-hover:translate-x-0.5 transition-transform" />
+            <Play size={10} className="text-purple-200 group-hover:translate-x-0.5 transition-transform" />
           </motion.button>
         )}
       </AnimatePresence>
