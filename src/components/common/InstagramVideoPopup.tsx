@@ -6,7 +6,7 @@ import { X, Video, Play } from "lucide-react";
 
 export default function InstagramVideoPopup() {
   const [isOpen, setIsOpen] = useState(false);
-  const DURATION = 37; // 37 seconds duration
+  const DURATION = 36; // 36 seconds duration
 
   // Trigger entrance after 1.2s on initial landing
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function InstagramVideoPopup() {
     return () => clearTimeout(timer);
   }, []);
 
-  // 37-second auto-close timer: automatically closes and settles to right-edge icon
+  // 36-second auto-close timer: automatically closes and settles to right-edge icon
   useEffect(() => {
     if (!isOpen) return;
 
