@@ -160,7 +160,6 @@ export default function InstagramVideoPopup() {
                       src="https://www.instagram.com/reel/DZcndZohT3l/embed/?autoplay=1"
                       className="w-full h-full border-0 rounded-none"
                       scrolling="no"
-                      allowTransparency={true}
                       allow="autoplay; encrypted-media; fullscreen; picture-in-picture; clipboard-write;"
                       title="TREQO Instagram Reel"
                     />
