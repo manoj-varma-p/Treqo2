@@ -12,6 +12,7 @@ import SixDecisions from "@/components/home/SixDecisions";
 import GovCertSection from "@/components/home/GovCertSection";
 import FaqSection from "@/components/home/FaqSection";
 import Footer from "@/components/footer/Footer";
+import InstagramVideoPopup from "@/components/common/InstagramVideoPopup";
 
 export default function Home() {
   return (
@@ -52,6 +53,7 @@ export default function Home() {
         <FaqSection />
       </main>
       <Footer />
+      <InstagramVideoPopup />
     </div>
   );
 }

@@ -22,7 +22,6 @@ export const metadata: Metadata = {
 import { ApplyModalProvider } from "@/context/ApplyModalContext";
 import ApplyModal from "@/components/modal/ApplyModal";
 import CurriculumModal from "@/components/modal/CurriculumModal";
-import InstagramVideoPopup from "@/components/common/InstagramVideoPopup";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -50,7 +49,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
           <ApplyModal />
           <CurriculumModal />
-          <InstagramVideoPopup />
         </ApplyModalProvider>
       </body>
     </html>
