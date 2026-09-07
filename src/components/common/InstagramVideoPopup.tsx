@@ -27,6 +27,15 @@ export default function InstagramVideoPopup() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Auto-pop from right edge 1.0s after landing
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   // 36.5-second auto-close timer when opened
   useEffect(() => {
     if (!isOpen) return;
@@ -66,16 +75,24 @@ export default function InstagramVideoPopup() {
             )}
           </AnimatePresence>
 
-          {/* The Single Interactive Morphing Container */}
+          {/* The Single Interactive Morphing Container - moves strictly from right edge to center */}
           <motion.div
-            initial={{ opacity: 0, x: 60 }}
+            initial={{
+              opacity: 0,
+              left: "100%",
+              x: "-100%",
+              top: "84%",
+              y: "-50%",
+              width: "168px",
+              height: "46px",
+            }}
             animate={
               isOpen
                 ? {
                     opacity: 1,
+                    left: "50%",
+                    x: "-50%",
                     top: "50%",
-                    right: "50%",
-                    x: "50%",
                     y: "-50%",
                     width: "min(380px, calc(100vw - 32px))",
                     height: "min(530px, 82vh)",
@@ -86,9 +103,9 @@ export default function InstagramVideoPopup() {
                   }
                 : {
                     opacity: 1,
+                    left: "100%",
+                    x: "-100%",
                     top: "84%",
-                    right: "0%",
-                    x: "0%",
                     y: "-50%",
                     width: "168px",
                     height: "46px",
@@ -98,12 +115,17 @@ export default function InstagramVideoPopup() {
                     boxShadow: "0 10px 25px -5px rgba(58, 20, 148, 0.45)",
                   }
             }
-            exit={{ opacity: 0, x: 60, transition: { duration: 0.2 } }}
+            exit={{
+              opacity: 0,
+              left: "100%",
+              x: "-100%",
+              transition: { duration: 0.2 },
+            }}
             transition={{
               type: "spring",
-              stiffness: 340,
+              stiffness: 320,
               damping: 28,
-              mass: 0.7,
+              mass: 0.75,
             }}
             className="fixed z-50 flex flex-col overflow-hidden border cursor-pointer select-none"
             onClick={!isOpen ? handleOpen : undefined}
