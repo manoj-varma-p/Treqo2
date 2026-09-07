@@ -61,7 +61,7 @@ const programs: ProgramCard[] = [
     meta: "4 months · On campus",
     title: "4M Program",
     description:
-      "Full-stack marketing, condensed and in person. Brand strategy through performance in four months.",
+      "Full Stack Marketing On Campus Edition. Brand strategy through performance in four months on our Madhapur studio floor.",
     actionText: "View course →",
     actionHref: "/categories/4m-program",
     tags: ["All", "Short", "Flagship"],

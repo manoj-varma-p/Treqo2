@@ -38,35 +38,73 @@ export default function InstagramVideoPopup() {
 
   return (
     <>
+      {/* Backdrop overlay */}
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-hidden">
-            {/* Backdrop overlay */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={handleClose}
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs cursor-pointer"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* The Single Interactive Morphing Container */}
+      <motion.div
+        animate={
+          isOpen
+            ? {
+                top: "50%",
+                right: "50%",
+                x: "50%",
+                y: "-50%",
+                width: "min(380px, calc(100vw - 32px))",
+                height: "min(530px, 82vh)",
+                backgroundColor: "#000000",
+                borderColor: "rgba(255, 255, 255, 0.2)",
+                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.75)",
+              }
+            : {
+                top: "84%",
+                right: "0%",
+                x: "0%",
+                y: "-50%",
+                width: "148px",
+                height: "44px",
+                backgroundColor: "#2c0e78",
+                borderColor: "rgba(192, 132, 252, 0.3)",
+                boxShadow: "0 10px 25px -5px rgba(58, 20, 148, 0.4)",
+              }
+        }
+        transition={{
+          type: "spring",
+          stiffness: 340,
+          damping: 28,
+          mass: 0.7,
+        }}
+        className="fixed z-50 flex flex-col overflow-hidden border cursor-pointer select-none"
+        onClick={!isOpen ? handleOpen : undefined}
+      >
+        <AnimatePresence mode="wait">
+          {isOpen ? (
             <motion.div
+              key="modal-content"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              onClick={handleClose}
-              className="absolute inset-0 bg-black/60 backdrop-blur-xs cursor-pointer"
-            />
-
-            {/* Video Modal - straight/sharp edges, pure video only */}
-            <motion.div
-              initial={{ opacity: 0, x: "100vw" }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: "100vw" }}
-              transition={{
-                type: "spring",
-                damping: 26,
-                stiffness: 220,
-                mass: 0.9,
-              }}
-              className="relative z-10 flex flex-col w-full max-w-[340px] sm:max-w-[370px] bg-black text-white shadow-2xl border border-white/20 rounded-none overflow-hidden"
+              transition={{ duration: 0.15, delay: 0.08 }}
+              className="relative w-full h-full flex flex-col bg-black text-white cursor-default"
+              onClick={(e) => e.stopPropagation()}
             >
               {/* Floating Close Button */}
               <button
-                onClick={handleClose}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClose();
+                }}
                 aria-label="Close video"
                 className="absolute top-2.5 right-2.5 z-30 flex h-7 w-7 items-center justify-center bg-black/80 hover:bg-black text-white/90 hover:text-white border border-white/20 transition-all cursor-pointer shadow-md"
                 title="Close"
@@ -74,8 +112,8 @@ export default function InstagramVideoPopup() {
                 <X size={15} />
               </button>
 
-              {/* Pure Video Container with Autoplay permissions */}
-              <div className="relative w-full h-[470px] sm:h-[510px] bg-black overflow-hidden flex items-center justify-center">
+              {/* Pure Video Container */}
+              <div className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center">
                 <iframe
                   src="https://www.instagram.com/reel/DZcndZohT3l/embed/?autoplay=1"
                   className="w-full h-full border-0 rounded-none"
@@ -86,45 +124,39 @@ export default function InstagramVideoPopup() {
                 />
               </div>
             </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+          ) : (
+            <motion.div
+              key="button-content"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.1 }}
+              className="w-full h-full flex items-center gap-2 px-2.5 sm:px-3 bg-gradient-to-r from-[#3A1494] via-[#2c0e78] to-[#1e0a52] text-white hover:from-[#4b1aa6] hover:to-[#3A1494] transition-all group"
+            >
+              {/* Small Video Icon with pulse dot */}
+              <div className="relative flex h-6 w-6 sm:h-7 sm:w-7 shrink-0 items-center justify-center bg-white/10 border border-white/20 shadow-xs group-hover:scale-105 group-hover:bg-white/20 transition-all">
+                <Video size={13} className="text-white sm:hidden" />
+                <Video size={14} className="text-white hidden sm:block" />
+                <span className="absolute -top-1 -right-1 flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
+                </span>
+              </div>
 
-      {/* Docked Icon on Right Edge when closed - positioned between navbar and form */}
-      <AnimatePresence>
-        {!isOpen && (
-          <motion.button
-            onClick={handleOpen}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 50 }}
-            transition={{ type: "spring", damping: 22, stiffness: 280 }}
-            aria-label="Watch video reel"
-            className="fixed right-0 top-[84%] -translate-y-1/2 z-50 flex items-center gap-2 border-y border-l border-purple-400/30 bg-gradient-to-r from-[#3A1494] via-[#2c0e78] to-[#1e0a52] px-2.5 sm:px-3 py-2 text-white shadow-xl shadow-purple-950/25 hover:from-[#4b1aa6] hover:to-[#3A1494] transition-all duration-300 cursor-pointer group rounded-none"
-          >
-            {/* Small Video Icon with pulse dot */}
-            <div className="relative flex h-6 w-6 sm:h-7 sm:w-7 shrink-0 items-center justify-center bg-white/10 border border-white/20 shadow-xs group-hover:scale-105 group-hover:bg-white/20 transition-all">
-              <Video size={13} className="text-white sm:hidden" />
-              <Video size={14} className="text-white hidden sm:block" />
-              <span className="absolute -top-1 -right-1 flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
-              </span>
-            </div>
+              <div className="flex flex-col items-start text-left pr-0.5 whitespace-nowrap">
+                <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-white leading-tight">
+                  Watch Video
+                </span>
+                <span className="text-[8px] sm:text-[9px] font-semibold text-purple-200/80 leading-tight">
+                  TREQO Reel
+                </span>
+              </div>
 
-            <div className="flex flex-col items-start text-left pr-0.5">
-              <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-white leading-tight">
-                Watch Video
-              </span>
-              <span className="text-[8px] sm:text-[9px] font-semibold text-purple-200/80 leading-tight">
-                TREQO Reel
-              </span>
-            </div>
-
-            <Play size={10} className="text-purple-200 group-hover:translate-x-0.5 transition-transform" />
-          </motion.button>
-        )}
-      </AnimatePresence>
+              <Play size={10} className="text-purple-200 group-hover:translate-x-0.5 transition-transform shrink-0" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </>
   );
 }

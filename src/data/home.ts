@@ -779,7 +779,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
   {
     category: "On-Campus Flagship",
     title: "4M Program",
-    description: "Full-stack marketing condensed and in person. Four months of live agency studio work at our Madhapur, Hyderabad floor.",
+    description: "Full Stack Marketing On Campus Edition. Four months of live agency studio work at our Madhapur, Hyderabad floor.",
     href: "/categories/4m-program",
     features: [
       { icon: Clock, label: "4 Months Program" },
@@ -791,11 +791,11 @@ export const learningSystemCourses: LearningSystemCourse[] = [
       badge: "On-Campus Flagship · Madhapur",
       batch: "Batch 2 · Sep 2026",
       description:
-        "Four months in person on our Madhapur studio floor. Full-stack marketing run like a real agency. You sit beside practitioners, manage live brand budgets, and defend campaigns live before brand CEOs.",
+        "Four months in person on our Madhapur studio floor. Full Stack Marketing On Campus Edition run like a real agency. You sit beside practitioners, manage live brand budgets, and defend campaigns live before brand CEOs.",
       stats: [
         { label: "Duration", value: "4 months" },
         { label: "Location", value: "Madhapur, Hyd" },
-        { label: "Format", value: "On-Campus Studio" },
+        { label: "Format", value: "On Campus Studio" },
         { label: "Cohort Size", value: "30 Fellows Max" },
       ],
       applyCtaLabel: "Apply for 4M Program",
@@ -866,7 +866,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
       sidebar: {
         batchLabel: "Batch 2 — forming",
         starts: "September 2026",
-        format: "On-Campus, 4 months",
+        format: "On Campus, 4 months",
         feePlans: "₹60,000 + 10%, or ₹85,000 flat",
         seats: "Strictly limited to 30 fellows",
         applyLabel: "Apply for Batch 2",

@@ -82,30 +82,35 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     href: matchedCourse?.href || `/categories/${slug}`,
   };
 
+  const isOnline = slug === "digital-marketing" || (!slug.includes("4m") && !slug.includes("offline"));
+  const activeDetail = matchedCourse?.detail || masterDetail;
+
   const detail = {
-    ...masterDetail,
+    ...activeDetail,
     badge: isLocked
       ? "COMING SOON"
-      : matchedCourse?.detail?.badge || "Flagship · Now Enrolling",
+      : activeDetail.badge || "Flagship · Now Enrolling",
     batch: isLocked
       ? "Launching Soon · Get Notified"
-      : matchedCourse?.detail?.batch || "Batch 2 · Sep 2026",
+      : activeDetail.batch || "Batch 2 · Sep 2026",
     description: activeDescription,
-    // Strictly preserve master's 12 phases, CEO challenge, proof, fees, FAQs for all courses
-    phases: masterDetail.phases,
-    phasesNavLabel: masterDetail.phasesNavLabel,
-    challengeNavLabel: masterDetail.challengeNavLabel,
-    challenge: masterDetail.challenge,
-    proof: masterDetail.proof,
-    fees: masterDetail.fees,
-    faqs: masterDetail.faqs,
-    overview: masterDetail.overview,
+    stats: activeDetail.stats || masterDetail.stats,
+    phases: activeDetail.phases || masterDetail.phases,
+    phasesNavLabel: activeDetail.phasesNavLabel || masterDetail.phasesNavLabel,
+    challengeNavLabel: activeDetail.challengeNavLabel || masterDetail.challengeNavLabel,
+    challenge: activeDetail.challenge || masterDetail.challenge,
+    proof: activeDetail.proof || masterDetail.proof,
+    fees: activeDetail.fees || masterDetail.fees,
+    faqs: activeDetail.faqs || masterDetail.faqs,
+    overview: activeDetail.overview || masterDetail.overview,
     sidebar: {
       ...masterDetail.sidebar,
+      ...(activeDetail.sidebar || {}),
       batchLabel: isLocked
         ? `${activeTitle} — Coming Soon`
-        : `${activeTitle} — Batch 2`,
-      applyLabel: isLocked ? "Get Notified" : masterDetail.sidebar.applyLabel,
+        : activeDetail.sidebar?.batchLabel || `${activeTitle} — Batch 2`,
+      format: slug === "4m-program" ? "On Campus, 4 months" : (activeDetail.sidebar?.format || masterDetail.sidebar.format),
+      applyLabel: isLocked ? "Get Notified" : (activeDetail.sidebar?.applyLabel || masterDetail.sidebar.applyLabel),
     },
   };
 
@@ -255,7 +260,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
               { id: "overview", label: "Overview" },
               { id: "phases", label: detail.phasesNavLabel },
               { id: "challenge", label: detail.challengeNavLabel },
-              { id: "industries", label: "Industry Coverage" },
+              ...(!isOnline ? [{ id: "industries", label: "Industry Coverage" }] : []),
               { id: "outcomes", label: "Career Roles" },
               { id: "proof", label: "Proof" },
               { id: "faqs", label: "FAQs" },
@@ -296,17 +301,19 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                     <CeoChallengeCard />
                   </section>
 
-                  {/* 4. Industry Coverage */}
-                  <section id="industries" className="scroll-mt-36 sm:scroll-mt-40">
-                    <IndustryCoverageSection />
-                  </section>
+                  {/* 4. Industry Coverage (Only on Campus / Offline) */}
+                  {!isOnline && (
+                    <section id="industries" className="scroll-mt-36 sm:scroll-mt-40">
+                      <IndustryCoverageSection />
+                    </section>
+                  )}
 
                   {/* 5. Career Outcomes (Roles You Can Crack) */}
                   <section id="outcomes" className="scroll-mt-36 sm:scroll-mt-40">
                     <CareerOutcomesSection />
                   </section>
 
-                  {/* 5. Proof */}
+                  {/* 6. Proof */}
                   <section id="proof" className="scroll-mt-36 sm:scroll-mt-40">
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-brand-primary">
@@ -329,7 +336,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                     </div>
                   </section>
 
-                  {/* 5. FAQs */}
+                  {/* 7. FAQs */}
                   <section id="faqs" className="scroll-mt-36 sm:scroll-mt-40">
                     <CategoryFaqAccordion faqs={detail.faqs} />
                   </section>
@@ -458,7 +465,11 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
               <div className="mt-8 pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
                 <div>
                   <p className="text-xl sm:text-2xl font-black text-white">4 Months</p>
-                  <p className="text-[11px] text-white/70 font-medium">Full Stack Online</p>
+                  <p className="text-[11px] text-white/70 font-medium">
+                    {slug === "4m-program"
+                      ? "Full Stack Marketing On Campus Edition"
+                      : "Full Stack Marketing Online"}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xl sm:text-2xl font-black text-amber-300">30+</p>
