@@ -7,7 +7,7 @@ import { X, Video, Play } from "lucide-react";
 export default function InstagramVideoPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [isInHero, setIsInHero] = useState(true);
-  const DURATION = 36.5; // 36.5 seconds duration
+  const DURATION = 36.7; // 36.5 seconds duration
 
   // Detect if user is in Hero section
   useEffect(() => {

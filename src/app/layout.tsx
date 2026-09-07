@@ -18,9 +18,9 @@ export const metadata: Metadata = {
   description:
     "TREQO is a digital marketing learning system built around 70% doing, live brand projects, and capstone revenue proof.",
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
   },
 };
 
