@@ -258,7 +258,7 @@ export default function CertificationSection() {
 
               {/* Sub-caption below certificate */}
               <p className="text-[11px] text-slate-500 text-center mt-3 m-0 leading-relaxed font-medium">
-                Shareable on LinkedIn &amp; directly reviewed by placement hiring managers.
+                Verifiable credential directly reviewed by placement hiring managers.
               </p>
             </div>
           </div>

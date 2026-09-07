@@ -1287,7 +1287,7 @@ export const certificatePreview: CertificatePreview = {
   bullets: [
     { label: "Verified on request", text: "Employers can confirm it's real, not just claimed." },
     { label: "Linked to projects", text: "Every certificate points to the projects you actually built." },
-    { label: "Shareable anywhere", text: "Drop it straight into LinkedIn or your resume." },
+    { label: "Shareable anywhere", text: "Drop it straight into your portfolio or resume." },
   ],
   primaryCta: { label: "Start Learning Now", href: "/start-learning" },
   secondaryCta: { label: "View Sample Certificate", href: "/images/certificate.png" },

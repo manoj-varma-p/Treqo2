@@ -23,24 +23,7 @@ function InstagramIcon({ className = "h-4 w-4" }: { className?: string }) {
   );
 }
 
-function LinkedInIcon({ className = "h-4 w-4" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-      <rect width="4" height="12" x="2" y="9" />
-      <circle cx="4" cy="4" r="2" />
-    </svg>
-  );
-}
+
 
 interface FooterLink {
   label: string;
@@ -146,15 +129,6 @@ export default function Footer() {
                   className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-700/80 bg-slate-900/90 text-slate-300 hover:border-[#FBBF24] hover:text-[#FBBF24] hover:scale-110 active:scale-95 transition-all shadow-xs"
                 >
                   <InstagramIcon className="h-4 w-4" />
-                </a>
-                <a
-                  href="https://linkedin.com/company/treqo"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Follow Treqo on LinkedIn"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-700/80 bg-slate-900/90 text-slate-300 hover:border-[#FBBF24] hover:text-[#FBBF24] hover:scale-110 active:scale-95 transition-all shadow-xs"
-                >
-                  <LinkedInIcon className="h-4 w-4" />
                 </a>
               </div>
             </div>
