@@ -44,12 +44,12 @@ export default function Home() {
       <main className="flex-1 pt-14 lg:pt-0">
         <Hero />
         <LearningSystem />
+        <GovCertSection />
         <WhyTreqqo />
         <ExecutionProof />
         <TaughtBy />
         <Certifications />
         <SixDecisions />
-        <GovCertSection />
         <FaqSection />
       </main>
       <Footer />

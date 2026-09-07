@@ -11,7 +11,7 @@ const certs = [
 
 export function GovCertSection() {
   return (
-    <section className="relative overflow-hidden bg-[#FFFFFF] py-16 sm:py-20 lg:py-24 border-t border-slate-100">
+    <section className="relative overflow-hidden bg-[#FFFFFF] py-16 sm:py-20 lg:py-24">
       <Container>
         <div className="relative text-center max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-200 bg-purple-50/90 px-4 py-1.5 mb-3.5 shadow-2xs">

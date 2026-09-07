@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Flame, Trophy, ShieldAlert, CheckCircle2, ArrowRight } from "lucide-react";
+import { Flame, Trophy, GraduationCap, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function ProgramHeroCard() {
-  const [activeTab, setActiveTab] = useState<"master" | "model">("master");
+  const [activeTab, setActiveTab] = useState<"master" | "fit">("master");
 
   return (
     <div className="relative flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-border-subtle bg-gradient-to-br from-[#18093d] via-[#260f5c] to-[#10062b] p-4 sm:p-7 shadow-[0_20px_50px_-20px_rgba(24,9,61,0.6)] text-white">
@@ -47,15 +47,15 @@ export default function ProgramHeroCard() {
         </button>
         <button
           type="button"
-          onClick={() => setActiveTab("model")}
+          onClick={() => setActiveTab("fit")}
           className={cn(
             "flex-1 rounded-lg py-1.5 text-xs font-bold transition-all text-center select-none active:scale-95",
-            activeTab === "model"
+            activeTab === "fit"
               ? "bg-brand-primary text-white shadow-xs"
               : "text-white/70 hover:text-white"
           )}
         >
-          Live Review Model
+          Who It&apos;s For
         </button>
       </div>
 
@@ -89,17 +89,22 @@ export default function ProgramHeroCard() {
           <div className="flex flex-col gap-2 animate-in fade-in duration-200">
             <div className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-400/20 text-emerald-300">
-                <ShieldAlert className="h-4 w-4" aria-hidden="true" />
+                <GraduationCap className="h-4 w-4" aria-hidden="true" />
               </div>
               <h4 className="text-base sm:text-lg font-black tracking-tight text-white">
-                The CEO Challenge Defense
+                Best Fit For Your Career Stage
               </h4>
             </div>
             <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-normal">
-              Every phase concludes with a live review. If the campaign didn&apos;t hit target unit economics, you dissect why with mentors who run live P&Ls.
+              Engineered for graduates, 4-1 & final year college students, and ambitious career switchers looking to build an unassailable proof-of-work portfolio.
             </p>
             <div className="mt-1 flex flex-wrap gap-1.5">
-              {["Live Defense", "Real Unit Economics", "No Sliding Pass", "Portfolio Graded"].map((t) => (
+              {[
+                "Graduates",
+                "4-1 & Final Year Students",
+                "Career Switchers",
+                "Aspiring Marketers",
+              ].map((t) => (
                 <span
                   key={t}
                   className="rounded-md bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-300 border border-emerald-400/30"
