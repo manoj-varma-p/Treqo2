@@ -17,6 +17,11 @@ export const metadata: Metadata = {
   title: "TREQO — Leave with work you can show. Not a certificate.",
   description:
     "TREQO is a digital marketing learning system built around 70% doing, live brand projects, and capstone revenue proof.",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 import { ApplyModalProvider } from "@/context/ApplyModalContext";
