@@ -27,16 +27,7 @@ export default function InstagramVideoPopup() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Trigger entrance after 1.2s on initial landing
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsOpen(true);
-    }, 1200);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // 36.5-second auto-close timer: automatically closes and settles to right-edge icon
+  // 36.5-second auto-close timer when opened
   useEffect(() => {
     if (!isOpen) return;
 
