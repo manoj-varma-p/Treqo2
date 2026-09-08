@@ -22,10 +22,11 @@ export const announcementBannerData = {
 };
 
 export const primaryNavItems: NavItem[] = [
+  { key: "courses", label: "Courses", href: "/#courses" },
   { key: "method", label: "Method", href: "/#method" },
   { key: "placements", label: "Placements", href: "/#placements" },
   { key: "why-treqo", label: "Why Treqo", href: "/#why-treqo" },
-  { key: "fees", label: "Fees", href: "/#fees" },
+  { key: "blog", label: "Blog", href: "/blog", isHighlighted: true, badge: "New" },
   { key: "faq", label: "FAQ", href: "/#faq" },
 ];
 

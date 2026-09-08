@@ -39,7 +39,7 @@ export default function DownloadCurriculumButton({
   const sizeStyles = {
     sm: "h-9 px-4 text-xs gap-1.5",
     md: "h-11 px-5 text-sm gap-2",
-    lg: "h-13 px-7 text-base gap-2.5",
+    lg: "h-12 px-6 sm:px-7 text-sm sm:text-base gap-2 sm:gap-2.5",
   };
 
   return (
@@ -47,7 +47,7 @@ export default function DownloadCurriculumButton({
       type="button"
       onClick={() => openCurriculumModal(courseName, pdfUrl)}
       className={cn(
-        "inline-flex items-center justify-center rounded-full font-bold transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A1494] focus-visible:ring-offset-2 cursor-pointer",
+        "inline-flex items-center justify-center rounded-full font-bold whitespace-nowrap transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A1494] focus-visible:ring-offset-2 cursor-pointer select-none",
         variantStyles[variant],
         sizeStyles[size],
         fullWidth && "w-full",

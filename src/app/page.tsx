@@ -20,17 +20,10 @@ export default function Home() {
       {/* Top Announcement Banner */}
       <AnnouncementBanner />
 
-      {/* Desktop Top Bar with Logo (Outside and in top, navbar remains in place below) */}
-      <div className="hidden lg:block w-full border-b border-slate-100 bg-white/95 py-4">
+      {/* Desktop Top: Logo only */}
+      <div className="hidden lg:block w-full pt-6 pb-2">
         <Container>
-          <div className="flex items-center justify-between">
-            <Logo />
-            <div className="flex items-center gap-3">
-              <span className="inline-flex items-center rounded-full bg-slate-100 border border-slate-200/80 px-3 py-0.5 text-[11px] font-bold text-slate-600">
-                Batch 2 · Now Enrolling
-              </span>
-            </div>
-          </div>
+          <Logo />
         </Container>
       </div>
 

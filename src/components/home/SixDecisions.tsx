@@ -41,7 +41,7 @@ const decisions = [
 
 export default function SixDecisions() {
   return (
-    <section id="why-treqo" className="bg-white py-16 sm:py-20 lg:py-24">
+    <section id="why-treqo" className="bg-white py-16 sm:py-20 lg:py-24 scroll-mt-16 sm:scroll-mt-20">
       <Container>
         {/* Header */}
         <div className="flex flex-col items-start max-w-2xl">

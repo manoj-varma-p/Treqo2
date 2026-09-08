@@ -10,6 +10,10 @@ export interface NavItem extends NavLink {
   key: string;
   /** When present, this item opens a mega menu instead of navigating directly. */
   hasMegaMenu?: boolean;
+  /** When true, renders with a natural, subtle highlight */
+  isHighlighted?: boolean;
+  /** Optional badge text like 'New' */
+  badge?: string;
 }
 
 export interface MegaMenuLink extends NavLink {

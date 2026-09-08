@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import Container from "@/components/ui/Container";
+import { cn } from "@/lib/utils";
 
 const outcomes = [
   {
@@ -28,13 +32,78 @@ const companies = [
   "JASS Media",
   "Bristle Tech",
   "TCS",
-  "logo 5",
-  "logo 6",
 ];
 
 export default function ExecutionProof() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const isInteracting = useRef(false);
+  const interactionTimer = useRef<NodeJS.Timeout | null>(null);
+
+  function scrollToCard(index: number) {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const cards = container.children;
+    if (cards[index]) {
+      const card = cards[index] as HTMLElement;
+      container.scrollTo({
+        left: card.offsetLeft - container.offsetLeft,
+        behavior: "smooth",
+      });
+      setActiveIndex(index);
+    }
+  }
+
+  function handleTouchStart() {
+    isInteracting.current = true;
+    if (interactionTimer.current) clearTimeout(interactionTimer.current);
+  }
+
+  function handleTouchEnd() {
+    if (interactionTimer.current) clearTimeout(interactionTimer.current);
+    interactionTimer.current = setTimeout(() => {
+      isInteracting.current = false;
+    }, 2500);
+  }
+
+  function handleScroll() {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const scrollLeft = container.scrollLeft;
+    const cards = container.children;
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    for (let i = 0; i < cards.length; i++) {
+      const card = cards[i] as HTMLElement;
+      const distance = Math.abs(card.offsetLeft - container.offsetLeft - scrollLeft);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = i;
+      }
+    }
+    setActiveIndex(closestIndex);
+  }
+
+  // Auto-scroll every 2 seconds in a continuous loop
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isInteracting.current) return;
+      setActiveIndex((prev) => {
+        const next = (prev + 1) % outcomes.length;
+        scrollToCard(next);
+        return next;
+      });
+    }, 2000);
+
+    return () => {
+      clearInterval(interval);
+      if (interactionTimer.current) clearTimeout(interactionTimer.current);
+    };
+  }, []);
+
   return (
-    <section id="placements" className="bg-white py-16 sm:py-20 lg:py-24">
+    <section id="placements" className="bg-white py-16 sm:py-20 lg:py-24 scroll-mt-16 sm:scroll-mt-20">
       <Container>
         {/* Section Header */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-12 lg:items-end">
@@ -54,15 +123,80 @@ export default function ExecutionProof() {
           </div>
         </div>
 
-        {/* 4 Outcome Cards Grid */}
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Mobile: Sideways finger scroll + 2s auto-loop with reduced block size */}
+        <div className="sm:hidden mt-8">
+          <div
+            ref={scrollRef}
+            onScroll={handleScroll}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-3 px-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          >
+            {outcomes.map((item) => (
+              <div
+                key={item.name}
+                className="w-[220px] shrink-0 snap-center flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs"
+              >
+                {/* Portrait Placeholder formatted for 9:16 vertical images */}
+                <div className="relative h-60 w-full overflow-hidden border-b border-slate-200/80 bg-[#f4f6f9]">
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      backgroundImage:
+                        "repeating-linear-gradient(45deg, #eef2f7 0, #eef2f7 10px, #f8fafc 10px, #f8fafc 20px)",
+                    }}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center p-2">
+                    <div className="rounded-md border border-slate-300/80 bg-white/90 px-2.5 py-0.5 text-center shadow-2xs backdrop-blur-xs">
+                      <span className="text-[9px] font-bold tracking-wider text-slate-400 uppercase">
+                        PORTRAIT · 9:16
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Compact Card Body */}
+                <div className="p-3.5">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-[#1e3a8a]">
+                    {item.tag}
+                  </span>
+                  <h3 className="mt-1 text-sm font-bold text-slate-900">
+                    {item.name}
+                  </h3>
+                  <p className="mt-1.5 text-[11px] leading-relaxed text-slate-600 line-clamp-3">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Dot Indicators */}
+          <div className="mt-3 flex items-center justify-center gap-1.5">
+            {outcomes.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Go to slide ${i + 1}`}
+                onClick={() => scrollToCard(i)}
+                className={cn(
+                  "h-1.5 rounded-full transition-all duration-300 cursor-pointer",
+                  activeIndex === i ? "w-6 bg-[#3A1494]" : "w-1.5 bg-slate-300"
+                )}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: 4 Outcome Cards Grid */}
+        <div className="hidden sm:grid mt-10 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {outcomes.map((item) => (
             <div
               key={item.name}
               className="flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300"
             >
-              {/* Top 4:5 Diagonal Striped Portrait Placeholder */}
-              <div className="relative aspect-[4/5] w-full overflow-hidden border-b border-slate-200/80 bg-[#f4f6f9]">
+              {/* Top 9:16 Portrait Placeholder */}
+              <div className="relative aspect-[9/14] sm:aspect-[9/15] lg:aspect-[9/15] w-full overflow-hidden border-b border-slate-200/80 bg-[#f4f6f9]">
                 <div
                   className="absolute inset-0"
                   style={{
@@ -73,7 +207,7 @@ export default function ExecutionProof() {
                 <div className="absolute inset-0 flex items-center justify-center p-3">
                   <div className="rounded-md border border-slate-300/80 bg-white/90 px-3 py-1 text-center shadow-2xs backdrop-blur-xs">
                     <span className="text-[10px] font-bold tracking-wider text-slate-400 uppercase">
-                      PORTRAIT · 4:5
+                      PORTRAIT · 9:16
                     </span>
                   </div>
                 </div>
@@ -96,7 +230,7 @@ export default function ExecutionProof() {
         </div>
 
         {/* Metrics & Quote Divider Row */}
-        <div className="mt-12 border-t border-slate-200/90 pt-8 sm:pt-10">
+        <div className="mt-12 pt-8 sm:pt-10">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 lg:items-center">
             {/* Left Metrics */}
             <div className="flex flex-wrap items-center gap-8 sm:gap-12 lg:col-span-5">
@@ -133,7 +267,7 @@ export default function ExecutionProof() {
           <span className="block text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-3">
             WHERE BATCH 1 WENT
           </span>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-4">
             {companies.map((company) => (
               <div
                 key={company}

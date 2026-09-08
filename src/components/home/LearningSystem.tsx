@@ -33,7 +33,7 @@ const programs: ProgramCard[] = [
     meta: "4 months · Online",
     title: "New Age Digital Marketing",
     description:
-      "The flagship. 18 phases, 30+ real brand projects, AI in the workflow from phase one. Batch 2 starts Sep 2026.",
+      "The flagship. 12 phases, 30+ real brand projects, AI in the workflow from phase one. Batch 2 starts Sep 2026.",
     actionText: "View course →",
     actionHref: "/categories/digital-marketing",
     tags: ["All", "Flagship"],
@@ -137,7 +137,7 @@ export default function LearningSystem() {
       : programs.filter((p) => p.tags.includes(activeFilter));
 
   return (
-    <section id="courses" className="bg-white py-16 sm:py-20 lg:py-24 border-t border-slate-200/80 scroll-mt-20">
+    <section id="courses" className="bg-white pt-16 sm:pt-20 lg:pt-24 pb-8 sm:pb-10 lg:pb-12 scroll-mt-20">
       <Container>
         {/* Section Heading */}
         <div className="flex flex-col items-start max-w-3xl">

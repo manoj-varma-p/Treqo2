@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { ChevronDown, SlidersHorizontal, ChevronsUpDown } from "lucide-react";
+import { useState } from "react";
+import { ChevronDown, ChevronsUpDown } from "lucide-react";
 import type { CoursePhaseGroup } from "@/types/home";
 import { cn } from "@/lib/utils";
 
@@ -9,26 +9,8 @@ interface PhaseAccordionProps {
   groups: CoursePhaseGroup[];
 }
 
-const filterTabs = [
-  { id: "all", label: "All 12", range: [1, 12] },
-  { id: "foundations", label: "01-04 Foundations", range: [1, 4] },
-  { id: "execution", label: "05-08 Channels", range: [5, 8] },
-  { id: "scale", label: "09-12 Growth & AI", range: [9, 12] },
-];
-
-export default function PhaseAccordion({ groups }: PhaseAccordionProps) {
-  const [activeFilter, setActiveFilter] = useState("all");
+export default function PhaseAccordion({ groups = [] }: PhaseAccordionProps) {
   const [expandedIndices, setExpandedIndices] = useState<number[]>([0]);
-
-  const filteredGroups = useMemo(() => {
-    const tab = filterTabs.find((t) => t.id === activeFilter);
-    if (!tab || tab.id === "all") return groups.map((g, idx) => ({ group: g, originalIndex: idx }));
-
-    const [start, end] = tab.range;
-    return groups
-      .map((g, idx) => ({ group: g, originalIndex: idx }))
-      .filter((_, idx) => idx + 1 >= start && idx + 1 <= end);
-  }, [activeFilter, groups]);
 
   function toggleIndex(idx: number) {
     setExpandedIndices((prev) =>
@@ -37,59 +19,38 @@ export default function PhaseAccordion({ groups }: PhaseAccordionProps) {
   }
 
   function toggleAll() {
-    if (expandedIndices.length === filteredGroups.length) {
+    if (expandedIndices.length === groups.length) {
       setExpandedIndices([]);
     } else {
-      setExpandedIndices(filteredGroups.map((item) => item.originalIndex));
+      setExpandedIndices(groups.map((_, idx) => idx));
     }
   }
 
   const allExpanded =
-    filteredGroups.length > 0 &&
-    filteredGroups.every((item) => expandedIndices.includes(item.originalIndex));
+    groups.length > 0 &&
+    groups.every((_, idx) => expandedIndices.includes(idx));
 
   return (
     <div className="mt-5 flex flex-col gap-3">
-      {/* Dynamic Controls Bar on Mobile & Desktop */}
-      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between border-b border-border-subtle/80 pb-3">
-        {/* Dynamic Category Filter Pills */}
-        <div className="scrollbar-hide flex items-center gap-1.5 overflow-x-auto py-1">
-          {filterTabs.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setActiveFilter(tab.id)}
-              className={cn(
-                "shrink-0 rounded-full px-3 py-1.5 text-xs font-bold transition-all select-none active:scale-95",
-                activeFilter === tab.id
-                  ? "bg-brand-primary text-white shadow-xs"
-                  : "bg-surface-alt text-text-secondary hover:bg-slate-200/80 hover:text-text-primary"
-              )}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+      {/* Controls Bar on Mobile & Desktop */}
+      <div className="flex items-center justify-between border-b border-border-subtle/80 pb-3">
+        <span className="text-xs font-bold text-text-secondary uppercase tracking-wider">
+          Curriculum Phases ({groups.length})
+        </span>
 
-        {/* Expand / Collapse Toggle */}
-        <div className="flex items-center justify-between sm:justify-end gap-2 text-xs">
-          <span className="text-[11px] font-semibold text-text-secondary">
-            Showing <strong className="text-text-primary">{filteredGroups.length}</strong> of 12
-          </span>
-          <button
-            type="button"
-            onClick={toggleAll}
-            className="inline-flex items-center gap-1 rounded-lg border border-border-subtle bg-surface px-2.5 py-1 text-[11px] font-bold text-text-secondary hover:text-brand-primary hover:border-brand-primary/40 active:scale-95 transition-all"
-          >
-            <ChevronsUpDown className="h-3 w-3" aria-hidden="true" />
-            <span>{allExpanded ? "Collapse All" : "Expand All"}</span>
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={toggleAll}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-border-subtle bg-surface px-3 py-1.5 text-xs font-bold text-text-secondary hover:text-brand-primary hover:border-brand-primary/40 active:scale-95 transition-all cursor-pointer"
+        >
+          <ChevronsUpDown className="h-3.5 w-3.5" aria-hidden="true" />
+          <span>{allExpanded ? "Collapse All" : "Expand All"}</span>
+        </button>
       </div>
 
       {/* Accordion List */}
       <div className="flex flex-col gap-2.5">
-        {filteredGroups.map(({ group, originalIndex }) => {
+        {groups.map((group, originalIndex) => {
           const isOpen = expandedIndices.includes(originalIndex);
           const phaseNum = group.range || String(originalIndex + 1).padStart(2, "0");
           const isHighlighted = phaseNum === "05" || group.heading.toUpperCase().includes("MARKET EXECUTION");

@@ -1,29 +1,27 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
-import { Menu, X, ArrowRight, Phone, ChevronRight, Layers } from "lucide-react";
+import { Menu, X, ArrowRight, ChevronRight } from "lucide-react";
 import Logo from "./Logo";
-import IconButton from "@/components/ui/IconButton";
-import { primaryNavItems, navExtras } from "@/data/navigation";
+import { primaryNavItems } from "@/data/navigation";
 import { useApplyModal } from "@/context/ApplyModalContext";
-import { cn } from "@/lib/utils";
 
 interface MobileHeaderProps {
   variant?: "hero" | "standard";
 }
 
-const featuredTracks = [
-  { label: "Digital Marketing", href: "/categories/digital-marketing", badge: "Batch 2" },
-  { label: "Full Stack Development", href: "/categories/development", badge: "Waitlist" },
-  { label: "Product & UI/UX Design", href: "/categories/design", badge: "Waitlist" },
-];
-
 export default function MobileHeader({ variant = "standard" }: MobileHeaderProps) {
   const { openApplyModal } = useApplyModal();
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -65,14 +63,14 @@ export default function MobileHeader({ variant = "standard" }: MobileHeaderProps
       {/* Brand Logo */}
       <Logo />
 
-      {/* Right controls: Compact CTA & Menu Toggle */}
-      <div className="flex items-center gap-2">
+      {/* Right controls: Apply now CTA & Hamburger Toggle */}
+      <div className="flex items-center gap-2.5">
         <button
           type="button"
           onClick={() => openApplyModal()}
-          className="inline-flex items-center justify-center rounded-full bg-brand-primary px-3.5 py-1.5 text-xs font-bold text-white shadow-xs active:scale-95 transition-transform cursor-pointer"
+          className="inline-flex items-center justify-center rounded-full bg-[#3A1494] px-4 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-[#2c0e78] active:scale-95 transition-all cursor-pointer"
         >
-          <span>Apply</span>
+          <span>Apply now</span>
         </button>
 
         <button
@@ -80,117 +78,79 @@ export default function MobileHeader({ variant = "standard" }: MobileHeaderProps
           type="button"
           aria-label="Open menu"
           onClick={() => setOpen(true)}
-          className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700 active:scale-90 transition-transform"
+          className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 active:scale-90 transition-transform cursor-pointer"
         >
           <Menu className="h-5 w-5" aria-hidden="true" />
         </button>
       </div>
 
-      {/* Dynamic Slide-Down Mobile Drawer */}
-      {open && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200">
+      {/* Slide-Down Mobile Drawer (Only the standard navbar options) */}
+      {mounted && open && typeof document !== "undefined" && createPortal(
+        <div className="fixed inset-0 z-[9999] flex flex-col bg-slate-950/70 backdrop-blur-sm animate-in fade-in duration-200">
           <div
             role="dialog"
             aria-modal="true"
             aria-label="Site navigation"
-            className="flex max-h-[92vh] flex-col overflow-y-auto rounded-b-3xl bg-white shadow-2xl animate-in slide-in-from-top-4 duration-250"
+            className="flex max-h-[85vh] flex-col overflow-y-auto rounded-b-3xl bg-white shadow-2xl animate-in slide-in-from-top-4 duration-250"
           >
-            {/* Top Bar inside Menu */}
-            <div className="flex h-14 items-center justify-between border-b border-slate-100 px-5">
+            {/* Top Bar inside Drawer */}
+            <div className="sticky top-0 z-10 flex h-14 items-center justify-between border-b border-slate-100 bg-white/95 backdrop-blur-md px-5">
               <Logo />
               <button
                 ref={closeButtonRef}
                 type="button"
                 aria-label="Close menu"
                 onClick={() => setOpen(false)}
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700 active:scale-90 transition-transform"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 active:scale-90 transition-transform cursor-pointer"
               >
                 <X className="h-5 w-5" aria-hidden="true" />
               </button>
             </div>
 
-            {/* Menu Content */}
-            <div className="flex flex-col p-5">
-              {/* Featured Learning Tracks */}
-              <div className="mb-5">
-                <p className="text-[10px] font-bold tracking-wider text-text-secondary uppercase">
-                  Learning Tracks
-                </p>
-                <div className="mt-2.5 flex flex-col gap-1.5">
-                  {featuredTracks.map((track) => (
-                    <Link
-                      key={track.href}
-                      href={track.href}
-                      onClick={(e) => handleNavClick(e, track.href)}
-                      className="flex items-center justify-between rounded-xl border border-slate-100 bg-surface-alt/60 px-3.5 py-2.5 active:bg-surface-alt transition-colors"
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-primary/10 text-brand-primary">
-                          <Layers className="h-3.5 w-3.5" aria-hidden="true" />
-                        </div>
-                        <span className="text-xs font-bold text-slate-800">{track.label}</span>
-                      </div>
-                      <span
-                        className={cn(
-                          "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase",
-                          track.badge === "Batch 2"
-                            ? "bg-brand-primary text-white"
-                            : "bg-slate-200 text-slate-600"
-                        )}
-                      >
-                        {track.badge}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              {/* Main Nav Links */}
-              <p className="text-[10px] font-bold tracking-wider text-text-secondary uppercase">
-                Explore
-              </p>
-              <nav aria-label="Mobile Navigation" className="mt-2 flex flex-col divide-y divide-slate-100 border-y border-slate-100">
+            {/* Menu Items: Exactly the same as normal desktop navbar */}
+            <div className="flex flex-col p-5 space-y-5">
+              <nav aria-label="Mobile Navigation" className="flex flex-col divide-y divide-slate-100">
                 {primaryNavItems.map((item) => (
                   <Link
                     key={item.key}
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.href)}
-                    className="flex items-center justify-between py-3 text-sm font-semibold text-slate-800 active:text-brand-primary transition-colors"
+                    className="flex items-center justify-between py-3.5 text-base font-semibold text-slate-900 active:text-[#3A1494] hover:text-[#3A1494] transition-colors"
                   >
-                    <span>{item.label}</span>
+                    <span className="flex items-center gap-2">
+                      <span>{item.label}</span>
+                      {item.badge && (
+                        <span className="rounded-full bg-purple-100 border border-purple-200 px-2 py-0.5 text-[10px] font-bold text-[#3A1494]">
+                          {item.badge}
+                        </span>
+                      )}
+                    </span>
                     <ChevronRight className="h-4 w-4 text-slate-400" aria-hidden="true" />
                   </Link>
                 ))}
               </nav>
 
-              {/* Quick Action & Contact */}
-              <div className="mt-5 flex flex-col gap-2.5">
+              {/* Apply now CTA button */}
+              <div className="pt-2">
                 <button
                   type="button"
                   onClick={() => {
                     setOpen(false);
                     openApplyModal();
                   }}
-                  className="flex items-center justify-center gap-2 rounded-xl bg-brand-primary py-3 text-sm font-bold text-white shadow-md active:scale-98 transition-transform cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#3A1494] py-3.5 text-sm font-bold text-white shadow-md active:scale-98 transition-transform cursor-pointer hover:bg-[#2c0e78]"
                 >
-                  <span>Apply for Batch 2</span>
+                  <span>Apply now</span>
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </button>
-
-                <a
-                  href="tel:+919948000491"
-                  className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 py-2.5 text-xs font-semibold text-slate-700 active:bg-slate-50"
-                >
-                  <Phone className="h-3.5 w-3.5 text-brand-primary" aria-hidden="true" />
-                  <span>Call Admissions: +91 99480 00491</span>
-                </a>
               </div>
             </div>
           </div>
 
           {/* Backdrop Click */}
           <div className="flex-1" onClick={() => setOpen(false)} />
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

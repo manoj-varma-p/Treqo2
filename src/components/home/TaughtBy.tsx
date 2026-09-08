@@ -70,13 +70,13 @@ export default function TaughtBy() {
         <div className="relative mt-10 lg:mt-12">
           <div
             ref={scrollerRef}
-            className="scrollbar-hide flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2"
+            className="scrollbar-hide flex snap-x snap-mandatory gap-4 sm:gap-5 overflow-x-auto scroll-smooth px-12 sm:px-16 lg:px-0 pb-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           >
             {tutors.map((tutor, index) => (
               <div
                 key={tutor.name}
                 data-slide
-                className="group relative aspect-[3/4] w-[65%] shrink-0 snap-start overflow-hidden rounded-2xl sm:w-[38%] md:w-[30%] lg:w-[calc((100%-4*1.25rem)/4.5)] shadow-xs transition-transform duration-300 hover:shadow-md"
+                className="group relative aspect-[3/4] w-[230px] xs:w-[250px] sm:w-[280px] md:w-[30%] lg:w-[calc((100%-4*1.25rem)/4.5)] shrink-0 snap-center overflow-hidden rounded-2xl shadow-xs transition-transform duration-300 hover:shadow-md"
               >
                 {/* Photo placeholder */}
                 <div
@@ -120,13 +120,13 @@ export default function TaughtBy() {
             aria-label="Previous tutors"
             icon={<ChevronLeft className="h-4 w-4" aria-hidden="true" />}
             onClick={() => scrollByCard(-1)}
-            className="absolute top-1/2 left-2 z-10 -translate-y-1/2 bg-white/90 shadow-md sm:left-3 hover:bg-white"
+            className="absolute top-1/2 left-0.5 sm:left-1 lg:-left-5 z-20 -translate-y-1/2 bg-white/95 border border-slate-200/90 shadow-md hover:bg-white hover:scale-105 active:scale-95 transition-all cursor-pointer"
           />
           <IconButton
             aria-label="Next tutors"
             icon={<ChevronRight className="h-4 w-4" aria-hidden="true" />}
             onClick={() => scrollByCard(1)}
-            className="absolute top-1/2 right-2 z-10 -translate-y-1/2 bg-white/90 shadow-md sm:right-3 hover:bg-white"
+            className="absolute top-1/2 right-0.5 sm:right-1 lg:-right-5 z-20 -translate-y-1/2 bg-white/95 border border-slate-200/90 shadow-md hover:bg-white hover:scale-105 active:scale-95 transition-all cursor-pointer"
           />
         </div>
       </Container>

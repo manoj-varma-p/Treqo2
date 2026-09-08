@@ -32,7 +32,7 @@ export default function Hero() {
 
             {/* Description Text */}
             <p className="mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-slate-600">
-              Six months. 18 phases. A real client at every stage. You finish holding campaigns you ran, numbers you own, and answers that hold up in an interview.
+              Four months. 12 phases. A real client at every stage. You finish holding campaigns you ran, numbers you own, and answers that hold up in an interview.
             </p>
 
             {/* Action Buttons */}

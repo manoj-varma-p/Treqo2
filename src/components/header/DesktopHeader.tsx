@@ -117,17 +117,41 @@ export default function DesktopHeader({ variant = "standard", isAtTop = true }: 
 
       {/* Right side: Nav links + Apply now CTA button */}
       <div className="flex items-center gap-8">
-        <nav aria-label="Desktop Navigation" className="flex items-center gap-7">
-          {primaryNavItems.map((item) => (
-            <Link
-              key={item.key}
-              href={item.href}
-              onClick={(e) => handleNavClick(e, item.href)}
-              className="text-sm font-semibold text-slate-800 transition-colors hover:text-[#3A1494]"
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav aria-label="Desktop Navigation" className="flex items-center gap-6">
+          {primaryNavItems.filter((item) => item.key !== "courses").map((item) => {
+            if (item.isHighlighted) {
+              return (
+                <Link
+                  key={item.key}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className="group relative inline-flex items-center gap-1.5 rounded-full border border-purple-200/90 bg-purple-50/80 px-3 py-1 text-sm font-bold text-[#3A1494] shadow-2xs transition-all hover:bg-purple-100 hover:border-purple-300 hover:shadow-xs active:scale-95"
+                >
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#3A1494] opacity-50" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#3A1494]" />
+                  </span>
+                  <span>{item.label}</span>
+                  {item.badge && (
+                    <span className="rounded-full bg-[#3A1494] px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-white">
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              );
+            }
+
+            return (
+              <Link
+                key={item.key}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className="text-sm font-semibold text-slate-800 transition-colors hover:text-[#3A1494]"
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <button

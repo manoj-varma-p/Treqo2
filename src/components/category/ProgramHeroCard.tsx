@@ -1,136 +1,149 @@
 "use client";
 
 import { useState } from "react";
-import { Flame, Trophy, GraduationCap, Users } from "lucide-react";
+import { Flame, Trophy, GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export default function ProgramHeroCard() {
+interface ProgramHeroCardProps {
+  slug?: string;
+}
+
+export default function ProgramHeroCard({ slug }: ProgramHeroCardProps) {
   const [activeTab, setActiveTab] = useState<"master" | "fit">("master");
 
+  const isOnlineFlagship = slug === "digital-marketing";
+
+  const fitContent = isOnlineFlagship
+    ? {
+        heading: "Best Fit For Your Ambition",
+        description:
+          "Engineered for aspiring graduates and entrepreneurs looking to build high-converting acquisition channels and scale modern ventures.",
+        tags: [
+          "Aspiring Graduates",
+          "Entrepreneurs",
+          "Career Switchers",
+          "Growth Marketers",
+        ],
+      }
+    : {
+        heading: "Best Fit For Your Career Stage",
+        description:
+          "Engineered for graduates, 3-1 / 4-1 & final year college students, and ambitious career switchers looking to build an unassailable proof-of-work portfolio.",
+        tags: [
+          "Graduates",
+          "3-1, 4-1 & Final Year Students",
+          "Career Switchers",
+          "Aspiring Marketers",
+        ],
+      };
+
   return (
-    <div className="relative flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-border-subtle bg-gradient-to-br from-[#18093d] via-[#260f5c] to-[#10062b] p-4 sm:p-7 shadow-[0_20px_50px_-20px_rgba(24,9,61,0.6)] text-white">
-      {/* Mesh / Grid Glow overlay */}
+    <div className="relative w-full">
+      {/* Ambient shadow glow background */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: "radial-gradient(rgba(255,255,255,0.4) 1px, transparent 1px)",
-          backgroundSize: "16px 16px",
-        }}
+        className="pointer-events-none absolute -inset-1.5 sm:-inset-2 rounded-3xl sm:rounded-[28px] bg-gradient-to-tr from-[#3A1494]/25 via-purple-600/15 to-amber-500/10 blur-xl sm:blur-2xl opacity-80"
       />
 
-      {/* Header: Badge & Status */}
-      <div className="relative z-10 flex items-center justify-between gap-2 border-b border-white/10 pb-3 sm:pb-4">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase text-white/90 backdrop-blur-xs">
-          <Flame className="h-3 w-3 text-amber-400" aria-hidden="true" />
-          12-Phase Curriculum
-        </span>
-        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-300">
-          <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-          Batch 2 Enrolling
-        </span>
-      </div>
+      {/* Main Card with elevated shadow */}
+      <div className="relative flex w-full flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-200/80 bg-white/95 backdrop-blur-md p-5 sm:p-7 shadow-[0_20px_50px_-12px_rgba(58,20,148,0.18),0_10px_25px_-5px_rgba(0,0,0,0.06)] transition-all">
+        {/* Top subtle brand accent line */}
+        <div
+          aria-hidden="true"
+          className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#3A1494] via-[#8b5cf6] to-[#fbbf24]"
+        />
 
-      {/* Dynamic Tab Switcher */}
-      <div className="relative z-10 mt-4 flex rounded-xl bg-white/5 p-1 backdrop-blur-xs border border-white/10">
-        <button
-          type="button"
-          onClick={() => setActiveTab("master")}
-          className={cn(
-            "flex-1 rounded-lg py-1.5 text-xs font-bold transition-all text-center select-none active:scale-95",
-            activeTab === "master"
-              ? "bg-brand-primary text-white shadow-xs"
-              : "text-white/70 hover:text-white"
-          )}
-        >
-          What You Master
-        </button>
-        <button
-          type="button"
-          onClick={() => setActiveTab("fit")}
-          className={cn(
-            "flex-1 rounded-lg py-1.5 text-xs font-bold transition-all text-center select-none active:scale-95",
-            activeTab === "fit"
-              ? "bg-brand-primary text-white shadow-xs"
-              : "text-white/70 hover:text-white"
-          )}
-        >
-          Who It&apos;s For
-        </button>
-      </div>
-
-      {/* Center Tab Content */}
-      <div className="relative z-10 my-4 sm:my-6 flex flex-col gap-2.5">
-        {activeTab === "master" ? (
-          <div className="flex flex-col gap-2 animate-in fade-in duration-200">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-400/20 text-amber-300">
-                <Trophy className="h-4 w-4" aria-hidden="true" />
-              </div>
-              <h4 className="text-base sm:text-lg font-black tracking-tight text-white">
-                Learn By Deploying Real Budgets
-              </h4>
-            </div>
-            <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-normal">
-              No multiple choice exams or theoretical essays. You run real ad accounts, set up tracking pipelines, and optimize actual acquisition funnels.
-            </p>
-            <div className="mt-1 flex flex-wrap gap-1.5">
-              {["Meta Ads Manager", "GA4 Attribution", "Claude & AI", "SEO Systems"].map((t) => (
-                <span
-                  key={t}
-                  className="rounded-md bg-white/10 px-2 py-0.5 text-[10px] font-semibold text-white/90"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-2 animate-in fade-in duration-200">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-400/20 text-emerald-300">
-                <GraduationCap className="h-4 w-4" aria-hidden="true" />
-              </div>
-              <h4 className="text-base sm:text-lg font-black tracking-tight text-white">
-                Best Fit For Your Career Stage
-              </h4>
-            </div>
-            <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-normal">
-              Engineered for graduates, 4-1 & final year college students, and ambitious career switchers looking to build an unassailable proof-of-work portfolio.
-            </p>
-            <div className="mt-1 flex flex-wrap gap-1.5">
-              {[
-                "Graduates",
-                "4-1 & Final Year Students",
-                "Career Switchers",
-                "Aspiring Marketers",
-              ].map((t) => (
-                <span
-                  key={t}
-                  className="rounded-md bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-300 border border-emerald-400/30"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-
-      {/* Bottom 3 Quick Metrics */}
-      <div className="relative z-10 mt-3 grid grid-cols-3 gap-2 border-t border-white/10 pt-3">
-        <div className="rounded-lg bg-white/5 p-1.5 sm:p-2 text-center backdrop-blur-xs">
-          <p className="text-sm sm:text-base font-black text-amber-300">12</p>
-          <p className="text-[9px] sm:text-[10px] font-semibold text-white/70">Phases</p>
+        {/* Header: Badge & Status */}
+        <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3 sm:pb-4">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-purple-200 bg-purple-50 px-3 py-1 text-[11px] font-bold text-[#3A1494]">
+            <Flame className="h-3.5 w-3.5 text-amber-500" aria-hidden="true" />
+            12-Phase Curriculum
+          </span>
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            Batch 2 Enrolling
+          </span>
         </div>
-        <div className="rounded-lg bg-white/5 p-1.5 sm:p-2 text-center backdrop-blur-xs">
-          <p className="text-sm sm:text-base font-black text-emerald-300">30+</p>
-          <p className="text-[9px] sm:text-[10px] font-semibold text-white/70">Campaigns</p>
+
+        {/* Tab Switcher */}
+        <div className="mt-4 sm:mt-5 flex rounded-xl border border-slate-200 bg-slate-100/80 p-1">
+          <button
+            type="button"
+            onClick={() => setActiveTab("master")}
+            className={cn(
+              "flex-1 rounded-lg py-2 text-xs font-bold transition-all text-center select-none cursor-pointer",
+              activeTab === "master"
+                ? "bg-[#3A1494] text-white shadow-md shadow-purple-950/20"
+                : "text-slate-600 hover:text-slate-900"
+            )}
+          >
+            What You Master
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("fit")}
+            className={cn(
+              "flex-1 rounded-lg py-2 text-xs font-bold transition-all text-center select-none cursor-pointer",
+              activeTab === "fit"
+                ? "bg-[#3A1494] text-white shadow-md shadow-purple-950/20"
+                : "text-slate-600 hover:text-slate-900"
+            )}
+          >
+            Who It&apos;s For
+          </button>
         </div>
-        <div className="rounded-lg bg-white/5 p-1.5 sm:p-2 text-center backdrop-blur-xs">
-          <p className="text-sm sm:text-base font-black text-sky-300">100%</p>
-          <p className="text-[9px] sm:text-[10px] font-semibold text-white/70">Practical</p>
+
+        {/* Tab Content */}
+        <div className="mt-5 flex flex-col gap-3">
+          {activeTab === "master" ? (
+            <div className="flex flex-col gap-2.5 animate-in fade-in duration-200">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 border border-amber-200/80 text-amber-600 shrink-0 shadow-xs">
+                  <Trophy className="h-4.5 w-4.5" aria-hidden="true" />
+                </div>
+                <h4 className="text-base sm:text-lg font-bold tracking-tight text-slate-900">
+                  Learn By Deploying Real Budgets
+                </h4>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                No multiple choice exams or theoretical essays. You run real ad accounts, set up tracking pipelines, and optimize actual acquisition funnels.
+              </p>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {["Meta Ads Manager", "GA4 Attribution", "Claude & AI", "SEO Systems"].map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-lg border border-slate-200/90 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-slate-700 shadow-2xs"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2.5 animate-in fade-in duration-200">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-50 border border-purple-200/80 text-[#3A1494] shrink-0 shadow-xs">
+                  <GraduationCap className="h-4.5 w-4.5" aria-hidden="true" />
+                </div>
+                <h4 className="text-base sm:text-lg font-bold tracking-tight text-slate-900">
+                  {fitContent.heading}
+                </h4>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                {fitContent.description}
+              </p>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {fitContent.tags.map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-lg border border-slate-200/90 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-slate-700 shadow-2xs"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

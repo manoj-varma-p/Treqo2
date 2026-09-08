@@ -30,7 +30,7 @@ const coursesData = [
     badge: "BATCH 2 · OPEN",
     badgeColor: "bg-[#3A1494] text-white",
     duration: "4 months · Online",
-    description: "The flagship. 18 phases, 30+ real brand projects, AI in the workflow.",
+    description: "The flagship. 12 phases, 30+ real brand projects, AI in the workflow.",
     icon: Rocket,
     iconColor: "text-[#FBBF24]",
     isFlagship: true,

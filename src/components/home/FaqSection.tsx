@@ -42,7 +42,7 @@ export default function FaqSection() {
   }
 
   return (
-    <section id="faq" className="bg-white py-16 sm:py-20 lg:py-24">
+    <section id="faq" className="bg-white py-16 sm:py-20 lg:py-24 scroll-mt-16 sm:scroll-mt-20">
       <Container>
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16 lg:items-start">
           {/* Left Column: Heading & Contact info */}

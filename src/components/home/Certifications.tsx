@@ -185,7 +185,7 @@ export default function CertificationSection() {
     <section
       id="certs"
       data-stage="CERTS"
-      className="relative bg-[#fafbfe] py-12 sm:py-16 lg:py-0 lg:min-h-screen lg:flex lg:items-center border-t border-slate-200/80 overflow-hidden"
+      className="relative bg-[#fafbfe] py-12 sm:py-16 lg:py-0 lg:min-h-screen lg:flex lg:items-center overflow-hidden"
     >
       {/* Subtle ambient light glow */}
       <div

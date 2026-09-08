@@ -25,7 +25,7 @@ const submissions = [
 
 export default function WhyTreqqo() {
   return (
-    <section id="method" className="relative z-0 overflow-hidden bg-[#0c132c] py-16 sm:py-20 lg:py-24">
+    <section id="method" className="relative z-0 overflow-hidden bg-[#0c132c] py-16 sm:py-20 lg:py-24 scroll-mt-16 sm:scroll-mt-20">
       {/* Background ambient glows */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute top-0 left-1/4 h-[400px] w-[400px] rounded-full bg-[#1b3d9c]/20 blur-3xl" />

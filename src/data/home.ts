@@ -59,9 +59,9 @@ export const heroContent: HeroContentData = {
     emphasizedLine: -1,
   },
   description:
-    "70% doing, 30% theory. 18 phases, 30+ live brand projects and a real client outcome you can show in an interview, not a completion certificate.",
+    "70% doing, 30% theory. 12 phases, 30+ live brand projects and a real client outcome you can show in an interview, not a completion certificate.",
   highlights: [
-    "18 phases in a fixed order, the sequence is the argument",
+    "12 phases in a fixed order, the sequence is the argument",
     "A named client outcome in your portfolio before you finish",
     "Plan A or Plan B: pay less now, or pay once and keep the rest",
   ],
@@ -353,7 +353,16 @@ export const learningSystemCourses: LearningSystemCourse[] = [
           answer:
             "Live. Sessions are scheduled and recorded, but the CEO Challenge and phase gates require you to show up and defend your work in real time.",
         },
-
+        {
+          question: "What happens if I fail Phase 4?",
+          answer:
+            "You rework it. Idea clarity is pass or rework, no partial credit, no parallel track. Most students rework once, and the second version is always sharper.",
+        },
+        {
+          question: "Is placement guaranteed?",
+          answer:
+            "No, and anyone promising you that is selling something. Batch 1 was 100% placed or founding, out of a small batch. Plan B moves you to the front of the placement queue; neither plan buys a guarantee.",
+        },
         {
           question: "What do I actually walk away with?",
           answer:
@@ -800,7 +809,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
       ],
       applyCtaLabel: "Apply for 4M Program",
       breakdownCtaLabel: "Download 4M Syllabus",
-      phasesNavLabel: "18 phases",
+      phasesNavLabel: "12 phases",
       challengeNavLabel: "CEO Defense",
       overview: {
         whoForHeading: "Who this is for",
@@ -817,13 +826,12 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         ],
       },
       phases: {
-        heading: "The 18 studio phases",
+        heading: "The 12 studio phases",
         intro: "Every phase is executed on live client accounts with direct practitioner feedback on the floor.",
         groups: [
-          { eyebrow: "PHASE 01-04", heading: "AGENCY FOUNDATIONS & BRIEF ANALYSIS", range: "01-04", lessons: ["Deconstructing enterprise client briefs", "Customer cohort psychology & research", "Unit economics modeling"] },
-          { eyebrow: "PHASE 05-08", heading: "CREATIVE STRATEGY & AD PRODUCTION", range: "05-08", lessons: ["High-converting direct response video scripts", "Static hooks & angle testing frameworks", "AI production pipelines"] },
-          { eyebrow: "PHASE 09-13", heading: "PAID MEDIA EXECUTION & MEDIA BUYING", range: "09-13", lessons: ["Meta Ads Manager live spend deployment", "Google PMax & search intent scaling", "Bid strategies & attribution modeling"] },
-          { eyebrow: "PHASE 14-18", heading: "RETENTION, CRO & CEO CAPSTONE", range: "14-18", lessons: ["Klaviyo email flows & WhatsApp funnels", "Post-purchase retention architecture", "Live CEO defense presentation"] },
+          { eyebrow: "PHASE 01-04", heading: "AGENCY FOUNDATIONS & BRIEF ANALYSIS", range: "01-04", lessons: ["Deconstructing enterprise client briefs", "Customer cohort psychology & research", "Unit economics & P&L modeling", "Competitor intelligence & positioning"] },
+          { eyebrow: "PHASE 05-08", heading: "CREATIVE STRATEGY & AD PRODUCTION", range: "05-08", lessons: ["High-converting direct response video scripts", "Static hooks & angle testing frameworks", "AI production pipelines & assets", "Landing page architecture & CRO"] },
+          { eyebrow: "PHASE 09-12", heading: "PAID MEDIA EXECUTION & CEO CAPSTONE", range: "09-12", lessons: ["Meta Ads Manager live spend deployment", "Google PMax & search intent scaling", "Retention funnels & lifecycle messaging", "Live CEO defense presentation on studio floor"] },
         ],
       },
       challenge: {

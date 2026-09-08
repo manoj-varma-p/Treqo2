@@ -178,15 +178,18 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                 </div>
 
                 {/* Call to Actions on Mobile & Desktop */}
-                <div className="mt-6 flex flex-col gap-2.5 sm:max-w-md sm:flex-row">
-                  <ApplyButton courseName={course.title} size="lg" fullWidth className="font-bold shadow-md">
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <ApplyButton
+                    courseName={course.title}
+                    size="lg"
+                    className="font-bold shadow-md w-full sm:w-auto"
+                  >
                     {isLocked ? "Notify Me When Open" : detail.applyCtaLabel}
                   </ApplyButton>
                   <DownloadCurriculumButton
                     courseName={course.title}
                     size="lg"
-                    fullWidth
-                    className="font-semibold"
+                    className="font-semibold w-full sm:w-auto"
                   >
                     {detail.breakdownCtaLabel}
                   </DownloadCurriculumButton>
@@ -195,7 +198,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
               {/* Program Visual Showcase Card (Interactive) */}
               <div className="flex">
-                <ProgramHeroCard />
+                <ProgramHeroCard slug={slug} />
               </div>
             </div>
           </Container>
