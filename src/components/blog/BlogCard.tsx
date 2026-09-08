@@ -49,7 +49,7 @@ export default function BlogCard({
         </Link>
 
         {/* Content Section */}
-        <div className="flex flex-col p-5 sm:p-6">
+        <div className="flex flex-col p-4 sm:p-6">
           <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500">
             <span>{post.publishedAt}</span>
             {onToggleBookmark && (
@@ -82,7 +82,7 @@ export default function BlogCard({
           </p>
 
           {/* Interactive Tags */}
-          <div className="mt-3.5 flex flex-wrap gap-1.5">
+          <div className="mt-3 sm:mt-3.5 flex flex-wrap gap-1.5">
             {post.tags.slice(0, 3).map((tag) => (
               <button
                 key={tag}
@@ -92,7 +92,7 @@ export default function BlogCard({
                   e.stopPropagation();
                   if (onTagClick) onTagClick(tag);
                 }}
-                className="rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-slate-700 transition-colors hover:border-[#3A1494] hover:bg-purple-50 hover:text-[#3A1494] cursor-pointer"
+                className="rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-slate-700 transition-colors hover:border-[#3A1494] hover:bg-purple-50 hover:text-[#3A1494] active:bg-slate-100 cursor-pointer"
               >
                 {tag}
               </button>
@@ -102,9 +102,9 @@ export default function BlogCard({
       </div>
 
       {/* Footer Row: Author info + Quick Summary & Read links */}
-      <div className="flex items-center justify-between border-t border-slate-100 px-5 py-4 sm:px-6">
+      <div className="flex items-center justify-between border-t border-slate-100 px-4 py-3 sm:px-6 sm:py-4">
         <div className="flex items-center gap-2.5">
-          <div className="relative h-8 w-8 overflow-hidden rounded-full border border-slate-200 bg-slate-100">
+          <div className="relative h-7 w-7 sm:h-8 sm:w-8 overflow-hidden rounded-full border border-slate-200 bg-slate-100">
             <Image
               src={post.author.avatar}
               alt={post.author.name}
@@ -123,19 +123,19 @@ export default function BlogCard({
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {onQuickPreview && (
             <button
               type="button"
               onClick={() => onQuickPreview(post)}
-              className="rounded-md border border-slate-200 px-2 py-1 text-[11px] font-semibold text-slate-700 hover:border-purple-300 hover:bg-purple-50 hover:text-[#3A1494] transition-colors cursor-pointer"
+              className="rounded-lg border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-700 hover:border-purple-300 hover:bg-purple-50 hover:text-[#3A1494] active:bg-slate-100 transition-colors cursor-pointer"
             >
               Summary
             </button>
           )}
           <Link
             href={`/blog/${post.slug}`}
-            className="rounded-md bg-purple-50 px-2.5 py-1 text-xs font-bold text-[#3A1494] hover:bg-[#3A1494] hover:text-white transition-all"
+            className="rounded-lg bg-purple-50 px-3 py-1 text-xs font-bold text-[#3A1494] hover:bg-[#3A1494] hover:text-white active:scale-95 transition-all"
           >
             Read
           </Link>

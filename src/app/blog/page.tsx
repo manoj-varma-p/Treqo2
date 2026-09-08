@@ -111,42 +111,42 @@ export default function BlogIndexPage() {
     <div className="min-h-screen flex flex-col bg-[#faf9fd] text-slate-900">
       <Header variant="standard" />
 
-      <main className="flex-1 pt-14 lg:pt-0 pb-20">
-        {/* Top Hero Section: Clean, Centered, No Symbols */}
-        <section className="relative overflow-hidden bg-white border-b border-slate-200/90 py-12 sm:py-16 lg:py-20">
+      <main className="flex-1 pt-14 lg:pt-0 pb-16 sm:pb-20">
+        {/* Top Hero Section: Mobile-optimized, Centered, No Symbols */}
+        <section className="relative overflow-hidden bg-white border-b border-slate-200/90 py-8 sm:py-16 lg:py-20">
           <Container>
-            <div className="mx-auto max-w-3xl text-center">
-              {/* Top Badge: Pure text without symbols */}
-              <span className="inline-flex items-center rounded-full border border-purple-200 bg-purple-50 px-3.5 py-1 text-xs font-bold text-[#3A1494]">
+            <div className="mx-auto max-w-3xl text-center px-1 sm:px-0">
+              {/* Top Badge: Pure text */}
+              <span className="inline-flex items-center rounded-full border border-purple-200 bg-purple-50 px-3 py-0.5 sm:px-3.5 sm:py-1 text-[11px] sm:text-xs font-bold text-[#3A1494]">
                 TREQO FIELD NOTES & BLOG
               </span>
 
               {/* Main Headline */}
-              <h1 className="mt-4 text-3xl sm:text-5xl lg:text-[3.25rem] font-black tracking-tight text-slate-950 leading-[1.12]">
+              <h1 className="mt-3 sm:mt-4 text-2xl sm:text-4xl lg:text-[3.25rem] font-black tracking-tight text-slate-950 leading-[1.15] sm:leading-[1.12]">
                 Real Budgets. Real Stakes.
                 <span className="block text-[#3A1494]">Practical Growth Insights.</span>
               </h1>
 
               {/* Subtitle */}
-              <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+              <p className="mx-auto mt-2.5 sm:mt-4 max-w-2xl text-xs sm:text-base text-slate-600 leading-relaxed font-normal">
                 Field notes, growth breakdowns, and tactical playbooks from practitioners running real ad accounts, building attribution systems, and defending unit economics out loud.
               </p>
 
               {/* Centered Search Bar */}
-              <div className="mx-auto mt-8 w-full max-w-md">
+              <div className="mx-auto mt-6 sm:mt-8 w-full max-w-md">
                 <div className="relative">
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search articles and topics..."
-                    className="w-full rounded-full border border-slate-200 bg-white py-3 pl-5 pr-12 text-xs sm:text-sm text-slate-900 placeholder:text-slate-500 focus:border-[#3A1494] focus:outline-none focus:ring-1 focus:ring-[#3A1494] shadow-xs"
+                    className="w-full rounded-full border border-slate-200 bg-white py-2.5 sm:py-3 pl-4 sm:pl-5 pr-12 text-xs sm:text-sm text-slate-900 placeholder:text-slate-500 focus:border-[#3A1494] focus:outline-none focus:ring-1 focus:ring-[#3A1494] shadow-xs"
                   />
                   {searchQuery && (
                     <button
                       type="button"
                       onClick={() => setSearchQuery("")}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500 hover:text-slate-900 cursor-pointer"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500 hover:text-slate-900 cursor-pointer"
                     >
                       Clear
                     </button>
@@ -154,8 +154,8 @@ export default function BlogIndexPage() {
                 </div>
               </div>
 
-              {/* Dynamic Category Filter Pills with counts */}
-              <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+              {/* Mobile-Friendly Category Swiper (Horizontal on mobile, wrapped on desktop) */}
+              <div className="mt-4 sm:mt-5 flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar pb-2 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:justify-center">
                 {BLOG_CATEGORIES.map((cat) => {
                   const isActive = selectedCategory === cat && sortBy !== "saved";
                   const count = categoryCounts[cat] || 0;
@@ -167,10 +167,10 @@ export default function BlogIndexPage() {
                         setSelectedCategory(cat);
                         if (sortBy === "saved") setSortBy("latest");
                       }}
-                      className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold transition-all cursor-pointer select-none ${
+                      className={`shrink-0 inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer select-none ${
                         isActive
                           ? "bg-[#3A1494] text-white shadow-xs"
-                          : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                          : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50 active:bg-slate-100"
                       }`}
                     >
                       <span>{cat}</span>
@@ -187,17 +187,17 @@ export default function BlogIndexPage() {
                   );
                 })}
 
-                {/* Interactive Saved Stories Filter */}
+                {/* Saved Stories Filter Pill */}
                 <button
                   type="button"
                   onClick={() => setSortBy(sortBy === "saved" ? "latest" : "saved")}
-                  className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold transition-all cursor-pointer select-none ${
+                  className={`shrink-0 inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer select-none ${
                     sortBy === "saved"
                       ? "bg-[#3A1494] text-white shadow-xs"
-                      : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                      : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50 active:bg-slate-100"
                   }`}
                 >
-                  <span>Saved Reading List</span>
+                  <span>Saved</span>
                   <span
                     className={`text-[10px] px-1.5 py-0.2 rounded-full ${
                       sortBy === "saved"
@@ -212,7 +212,7 @@ export default function BlogIndexPage() {
 
               {/* Active Tag Filter Indicator */}
               {selectedTag && (
-                <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-purple-50 border border-purple-200 px-3.5 py-1 text-xs font-semibold text-[#3A1494]">
+                <div className="mt-3.5 inline-flex items-center gap-2 rounded-full bg-purple-50 border border-purple-200 px-3 py-1 text-xs font-semibold text-[#3A1494]">
                   <span>Tag: {selectedTag}</span>
                   <button
                     type="button"
@@ -228,18 +228,18 @@ export default function BlogIndexPage() {
         </section>
 
         {/* Main Content Container */}
-        <Container className="mt-10 sm:mt-14">
-          {/* Interactive Featured Dispatch Showcase */}
+        <Container className="mt-6 sm:mt-14">
+          {/* Featured Dispatch Showcase */}
           {selectedCategory === "All" && !selectedTag && !searchQuery && sortBy !== "saved" && currentFeatured && (
-            <div className="mb-12">
-              <div className="mb-4 flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#3A1494]">
+            <div className="mb-8 sm:mb-12">
+              <div className="mb-3 sm:mb-4 flex items-center justify-between">
+                <span className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#3A1494]">
                   FEATURED DISPATCH
                 </span>
 
                 {/* Multi-Featured Switcher */}
                 {featuredArticles.length > 1 && (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     {featuredArticles.map((art, idx) => (
                       <button
                         key={art.id}
@@ -258,10 +258,10 @@ export default function BlogIndexPage() {
                 )}
               </div>
 
-              <div className="group relative overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-sm transition-all hover:shadow-xl hover:shadow-purple-950/8">
+              <div className="group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-200/90 bg-white shadow-xs sm:shadow-sm transition-all hover:shadow-xl hover:shadow-purple-950/8">
                 <div className="grid grid-cols-1 lg:grid-cols-12">
                   {/* Left: Image Container */}
-                  <div className="relative aspect-[16/10] lg:aspect-auto lg:col-span-7 overflow-hidden bg-slate-100 min-h-[300px]">
+                  <div className="relative aspect-[16/10] lg:aspect-auto lg:col-span-7 overflow-hidden bg-slate-100 min-h-[220px] sm:min-h-[300px]">
                     <Image
                       src={currentFeatured.coverImage}
                       alt={currentFeatured.title}
@@ -270,40 +270,40 @@ export default function BlogIndexPage() {
                       sizes="(max-width: 1024px) 100vw, 60vw"
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
-                    <div className="absolute top-4 left-4">
-                      <span className="inline-flex items-center rounded-full bg-white/95 backdrop-blur-xs border border-white/50 px-3 py-1 text-xs font-bold text-[#3A1494] shadow-xs">
+                    <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
+                      <span className="inline-flex items-center rounded-full bg-white/95 backdrop-blur-xs border border-white/50 px-2.5 py-0.5 sm:px-3 sm:py-1 text-[11px] sm:text-xs font-bold text-[#3A1494] shadow-xs">
                         {currentFeatured.category}
                       </span>
                     </div>
                   </div>
 
                   {/* Right: Copy & Actions */}
-                  <div className="flex flex-col justify-between p-6 sm:p-8 lg:p-10 lg:col-span-5">
+                  <div className="flex flex-col justify-between p-5 sm:p-8 lg:p-10 lg:col-span-5">
                     <div>
-                      <div className="flex items-center gap-3 text-xs font-semibold text-slate-500">
+                      <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-500">
                         <span>{currentFeatured.publishedAt}</span>
                         <span>·</span>
                         <span>{currentFeatured.readTime}</span>
                       </div>
 
-                      <h2 className="mt-3 text-xl sm:text-2xl lg:text-3xl font-black text-slate-950 tracking-tight leading-tight group-hover:text-[#3A1494] transition-colors">
+                      <h2 className="mt-2.5 sm:mt-3 text-lg sm:text-2xl lg:text-3xl font-black text-slate-950 tracking-tight leading-snug group-hover:text-[#3A1494] transition-colors">
                         <Link href={`/blog/${currentFeatured.slug}`}>
                           {currentFeatured.title}
                         </Link>
                       </h2>
 
-                      <p className="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                      <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-normal line-clamp-3 sm:line-clamp-none">
                         {currentFeatured.excerpt}
                       </p>
 
                       {/* Interactive Tags */}
-                      <div className="mt-4 flex flex-wrap gap-1.5">
+                      <div className="mt-3.5 sm:mt-4 flex flex-wrap gap-1.5">
                         {currentFeatured.tags.map((t) => (
                           <button
                             key={t}
                             type="button"
                             onClick={() => setSelectedTag(t)}
-                            className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-[11px] font-semibold text-slate-700 hover:border-[#3A1494] hover:bg-purple-50 hover:text-[#3A1494] transition-colors cursor-pointer"
+                            className="rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold text-slate-700 hover:border-[#3A1494] hover:bg-purple-50 hover:text-[#3A1494] transition-colors cursor-pointer"
                           >
                             {t}
                           </button>
@@ -311,9 +311,9 @@ export default function BlogIndexPage() {
                       </div>
                     </div>
 
-                    <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-5">
-                      <div className="flex items-center gap-3">
-                        <div className="relative h-9 w-9 overflow-hidden rounded-full border border-slate-200 bg-slate-100">
+                    <div className="mt-6 sm:mt-8 flex items-center justify-between border-t border-slate-100 pt-4 sm:pt-5">
+                      <div className="flex items-center gap-2.5">
+                        <div className="relative h-8 w-8 sm:h-9 sm:w-9 overflow-hidden rounded-full border border-slate-200 bg-slate-100">
                           <Image
                             src={currentFeatured.author.avatar}
                             alt={currentFeatured.author.name}
@@ -326,7 +326,7 @@ export default function BlogIndexPage() {
                           <p className="text-xs font-bold text-slate-900 leading-none">
                             {currentFeatured.author.name}
                           </p>
-                          <p className="mt-0.5 text-[10px] text-slate-500">
+                          <p className="mt-0.5 text-[10px] text-slate-500 line-clamp-1">
                             {currentFeatured.author.role}
                           </p>
                         </div>
@@ -336,13 +336,13 @@ export default function BlogIndexPage() {
                         <button
                           type="button"
                           onClick={() => setPreviewPost(currentFeatured)}
-                          className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:border-purple-300 hover:bg-purple-50 hover:text-[#3A1494] transition-colors cursor-pointer"
+                          className="rounded-lg border border-slate-200 px-2.5 py-1 sm:px-3 sm:py-1.5 text-xs font-semibold text-slate-700 hover:border-purple-300 hover:bg-purple-50 hover:text-[#3A1494] active:bg-slate-100 transition-colors cursor-pointer"
                         >
-                          Quick Summary
+                          Summary
                         </button>
                         <Link
                           href={`/blog/${currentFeatured.slug}`}
-                          className="rounded-lg bg-[#3A1494] px-3.5 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-[#2c0e78] transition-all"
+                          className="rounded-lg bg-[#3A1494] px-3 py-1 sm:px-3.5 sm:py-1.5 text-xs font-bold text-white shadow-xs hover:bg-[#2c0e78] active:scale-95 transition-all"
                         >
                           Read
                         </Link>
@@ -355,9 +355,9 @@ export default function BlogIndexPage() {
           )}
 
           {/* Interactive Sorting & Metadata Bar */}
-          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/80 pb-4">
+          <div className="mb-5 sm:mb-6 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/80 pb-3 sm:pb-4">
             <div>
-              <h3 className="text-lg sm:text-xl font-black tracking-tight text-slate-900">
+              <h3 className="text-base sm:text-xl font-black tracking-tight text-slate-900">
                 {sortBy === "saved"
                   ? "Saved Reading List"
                   : selectedTag
@@ -368,17 +368,17 @@ export default function BlogIndexPage() {
                   ? "All Articles"
                   : `${selectedCategory} Articles`}
               </h3>
-              <p className="mt-0.5 text-xs font-semibold text-slate-500">
-                Showing {filteredPosts.length} {filteredPosts.length === 1 ? "article" : "articles"} · ~{totalReadTimeMinutes} min total reading time
+              <p className="mt-0.5 text-[11px] sm:text-xs font-semibold text-slate-500">
+                Showing {filteredPosts.length} {filteredPosts.length === 1 ? "article" : "articles"} · ~{totalReadTimeMinutes} min read
               </p>
             </div>
 
             {/* Sort Switcher */}
-            <div className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white p-1 shadow-2xs">
+            <div className="flex items-center gap-1 rounded-lg border border-slate-200 bg-white p-0.5 sm:p-1 shadow-2xs self-start sm:self-auto">
               <button
                 type="button"
                 onClick={() => setSortBy("latest")}
-                className={`rounded-md px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
+                className={`rounded-md px-2.5 py-1 text-xs font-bold transition-all cursor-pointer ${
                   sortBy === "latest"
                     ? "bg-[#3A1494] text-white shadow-xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -389,7 +389,7 @@ export default function BlogIndexPage() {
               <button
                 type="button"
                 onClick={() => setSortBy("shortest")}
-                className={`rounded-md px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
+                className={`rounded-md px-2.5 py-1 text-xs font-bold transition-all cursor-pointer ${
                   sortBy === "shortest"
                     ? "bg-[#3A1494] text-white shadow-xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -402,7 +402,7 @@ export default function BlogIndexPage() {
 
           {/* Empty State */}
           {filteredPosts.length === 0 ? (
-            <div className="rounded-3xl border border-slate-200 bg-white p-12 text-center shadow-xs">
+            <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-8 sm:p-12 text-center shadow-xs">
               <h4 className="text-base font-bold text-slate-900">
                 {sortBy === "saved" ? "Your saved reading list is empty" : "No articles found"}
               </h4>
@@ -419,14 +419,14 @@ export default function BlogIndexPage() {
                   setSelectedTag(null);
                   setSortBy("latest");
                 }}
-                className="mt-5 inline-flex items-center rounded-xl bg-[#3A1494] px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-[#2c0e78] cursor-pointer"
+                className="mt-4 sm:mt-5 inline-flex items-center rounded-xl bg-[#3A1494] px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-[#2c0e78] cursor-pointer"
               >
                 Reset all filters
               </button>
             </div>
           ) : (
-            /* Responsive Grid of Interactive Blog Cards */
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            /* Responsive Grid of Interactive Blog Cards (1 col mobile, 2 sm, 3 lg) */
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {filteredPosts.map((post) => (
                 <BlogCard
                   key={post.id}
@@ -441,11 +441,11 @@ export default function BlogIndexPage() {
           )}
 
           {/* Interactive Newsletter Box */}
-          <div className="mt-16 sm:mt-20 overflow-hidden rounded-3xl border border-purple-200/90 bg-gradient-to-br from-purple-50 via-white to-purple-50/40 p-8 sm:p-12 text-center shadow-sm">
+          <div className="mt-12 sm:mt-20 overflow-hidden rounded-2xl sm:rounded-3xl border border-purple-200/90 bg-gradient-to-br from-purple-50 via-white to-purple-50/40 p-6 sm:p-12 text-center shadow-sm">
             <span className="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 text-xs font-bold text-[#3A1494]">
               WEEKLY FIELD NOTES
             </span>
-            <h3 className="mt-3 text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            <h3 className="mt-3 text-xl sm:text-3xl font-black text-slate-950 tracking-tight">
               Get practical growth breakdowns in your inbox
             </h3>
             <p className="mx-auto mt-2 max-w-xl text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
@@ -453,7 +453,7 @@ export default function BlogIndexPage() {
             </p>
 
             {newsletterStatus === "subscribed" ? (
-              <div className="mx-auto mt-6 max-w-md rounded-2xl bg-white border border-emerald-200 p-4 shadow-xs animate-in fade-in duration-300">
+              <div className="mx-auto mt-5 sm:mt-6 max-w-md rounded-xl sm:rounded-2xl bg-white border border-emerald-200 p-3.5 sm:p-4 shadow-xs animate-in fade-in duration-300">
                 <p className="text-xs sm:text-sm font-bold text-emerald-800">
                   You are subscribed to Treqo Field Notes. Check your inbox soon.
                 </p>
@@ -461,7 +461,7 @@ export default function BlogIndexPage() {
             ) : (
               <form
                 onSubmit={handleNewsletterSubmit}
-                className="mx-auto mt-6 flex max-w-md flex-col gap-2 sm:flex-row"
+                className="mx-auto mt-5 sm:mt-6 flex max-w-md flex-col gap-2 sm:flex-row"
               >
                 <input
                   type="email"
@@ -484,60 +484,63 @@ export default function BlogIndexPage() {
         </Container>
       </main>
 
-      {/* Interactive Quick Summary Modal Drawer */}
+      {/* Interactive Quick Summary Modal / Mobile Bottom Sheet */}
       {previewPost && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-xs p-4 animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-slate-950/60 backdrop-blur-xs p-0 sm:p-4 animate-in fade-in duration-200"
           onClick={() => setPreviewPost(null)}
         >
           <div
-            className="relative w-full max-w-lg rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-2xl animate-in zoom-in-95 duration-200"
+            className="relative w-full max-w-lg rounded-t-3xl sm:rounded-3xl border border-slate-200 bg-white p-5 sm:p-8 shadow-2xl max-h-[85vh] overflow-y-auto animate-in slide-in-from-bottom-6 sm:slide-in-from-bottom-0 sm:zoom-in-95 duration-250"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Mobile Drag Indicator Pill */}
+            <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-slate-300 sm:hidden" />
+
             {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3.5 sm:pb-4">
               <span className="rounded-full bg-purple-50 border border-purple-200 px-3 py-0.5 text-xs font-bold text-[#3A1494]">
                 {previewPost.category}
               </span>
               <button
                 type="button"
                 onClick={() => setPreviewPost(null)}
-                className="text-xs font-bold text-slate-500 hover:text-slate-900 cursor-pointer"
+                className="text-xs font-bold text-slate-500 hover:text-slate-900 cursor-pointer p-1"
               >
                 Close
               </button>
             </div>
 
             {/* Modal Title & Meta */}
-            <div className="mt-4">
+            <div className="mt-3.5 sm:mt-4">
               <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
                 <span>{previewPost.publishedAt}</span>
                 <span>·</span>
                 <span>{previewPost.readTime}</span>
               </div>
-              <h3 className="mt-2 text-lg sm:text-xl font-black text-slate-950 tracking-tight leading-snug">
+              <h3 className="mt-1.5 sm:mt-2 text-base sm:text-xl font-black text-slate-950 tracking-tight leading-snug">
                 {previewPost.title}
               </h3>
             </div>
 
             {/* Core Takeaway Callout */}
-            <div className="mt-4 rounded-xl border border-purple-200 bg-purple-50/60 p-4">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#3A1494]">
+            <div className="mt-3.5 sm:mt-4 rounded-xl border border-purple-200 bg-purple-50/60 p-3.5 sm:p-4">
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#3A1494]">
                 30-SECOND TAKEAWAY
               </span>
-              <p className="mt-1.5 text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+              <p className="mt-1 text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
                 {previewPost.excerpt}
               </p>
             </div>
 
             {/* Key Content Points */}
-            <div className="mt-4 space-y-2">
-              <span className="text-xs font-bold text-slate-900 uppercase tracking-wide">
+            <div className="mt-3.5 sm:mt-4 space-y-1.5 sm:space-y-2">
+              <span className="text-[11px] sm:text-xs font-bold text-slate-900 uppercase tracking-wide">
                 Key Points Covered
               </span>
-              <ul className="space-y-1.5 text-xs sm:text-sm text-slate-600">
+              <ul className="space-y-1 sm:space-y-1.5 text-xs sm:text-sm text-slate-600">
                 <li className="flex items-start gap-2">
                   <span className="text-[#3A1494] font-black">•</span>
                   <span>Real campaign execution vs theoretical case studies</span>
@@ -554,17 +557,17 @@ export default function BlogIndexPage() {
             </div>
 
             {/* Action Buttons */}
-            <div className="mt-6 flex items-center justify-end gap-3 border-t border-slate-100 pt-4">
+            <div className="mt-5 sm:mt-6 flex items-center justify-end gap-2.5 sm:gap-3 border-t border-slate-100 pt-3.5 sm:pt-4">
               <button
                 type="button"
                 onClick={() => setPreviewPost(null)}
-                className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer"
+                className="rounded-xl border border-slate-200 px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer"
               >
                 Close
               </button>
               <Link
                 href={`/blog/${previewPost.slug}`}
-                className="rounded-xl bg-[#3A1494] px-5 py-2 text-xs font-bold text-white shadow-xs hover:bg-[#2c0e78] transition-all"
+                className="rounded-xl bg-[#3A1494] px-4 sm:px-5 py-2 text-xs font-bold text-white shadow-xs hover:bg-[#2c0e78] transition-all"
               >
                 Read Full Article
               </Link>
