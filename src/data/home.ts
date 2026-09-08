@@ -156,7 +156,7 @@ export const whyTreqqoPillars: WhyTreqqoPillar[] = [
       "Not retired professors or theoretical instructors. Active founders, CMOs, and growth leads currently driving 8-figure revenues.",
     quote: "Don't learn from a textbook written 5 years ago. Learn from active practitioners.",
     bullets: [
-      { label: "ACTIVE FOUNDERS", text: "Learn from TAC leaders who've built and scaled digital brands." },
+      { label: "ACTIVE FOUNDERS", text: "Learn from Treqo leaders who've built and scaled digital brands." },
       { label: "WEEKLY TEARDOWNS", text: "Ask questions, challenge assumptions, and get unstuck fast." },
       { label: "TACTICAL FEEDBACK", text: "Get brutal, candid critiques on your live campaigns." },
     ],

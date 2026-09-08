@@ -78,24 +78,8 @@ export default function Footer() {
             </div>
 
             <p className="mt-2 text-xs leading-relaxed text-slate-400">
-              The Marketing School · TAC School of Modern Learning Pvt. Ltd.
+              The Marketing School · Treqo School of Modern Learning Pvt. Ltd.
             </p>
-
-            <div className="mt-3 flex flex-wrap items-center gap-2.5 text-xs">
-              <a
-                href="tel:+919948000491"
-                className="font-bold text-white hover:text-purple-400 transition-colors"
-              >
-                +91 99480 00491
-              </a>
-              <span className="text-slate-600">·</span>
-              <a
-                href="mailto:admission@treqo.org"
-                className="text-slate-400 hover:text-white transition-colors"
-              >
-                admission@treqo.org
-              </a>
-            </div>
 
             <p className="mt-2 text-[11px] text-slate-500 leading-relaxed">
               Madhapur Studio Floor: Plot 286, Rd 16, Ayyappa Society, Hyderabad 500081
@@ -175,7 +159,7 @@ export default function Footer() {
             </Link>
 
             <p className="mt-4 text-xs sm:text-sm leading-relaxed text-slate-400 max-w-md">
-              Treqo — The Marketing School. A brand of TAC School of Modern Learning Pvt. Ltd.
+              Treqo — The Marketing School. Treqo School of Modern Learning Pvt. Ltd.
             </p>
 
             <a
@@ -187,21 +171,6 @@ export default function Footer() {
               <span className="font-semibold text-slate-300">Campus Address:</span><br />
               Plot No. 286, 4th Floor, Road No 16, Ayyappa Society Main Rd, Madhapur, Telangana 500081
             </a>
-
-            <div className="mt-6 flex flex-col gap-1.5 text-xs sm:text-sm">
-              <a
-                href="tel:+919948000491"
-                className="font-bold text-white hover:text-purple-400 transition-colors"
-              >
-                +91 99480 00491
-              </a>
-              <a
-                href="mailto:admission@treqo.org"
-                className="text-slate-400 hover:text-white transition-colors"
-              >
-                admission@treqo.org
-              </a>
-            </div>
 
             <div className="mt-6 flex items-center gap-3">
               <span className="text-[11px] font-black uppercase tracking-[0.2em] text-purple-400">
@@ -281,7 +250,7 @@ export default function Footer() {
 
         {/* Bottom Copyright & Legal */}
         <div className="mt-8 md:mt-14 border-t border-slate-800/70 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 text-center sm:text-left">
-          <p>© 2026 TAC School of Modern Learning Pvt. Ltd. All rights reserved.</p>
+          <p>© 2026 Treqo School of Modern Learning Pvt. Ltd. All rights reserved.</p>
           <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6">
             <Link href="/#hero" className="hover:text-slate-400 transition-colors">
               Back to top ↑
