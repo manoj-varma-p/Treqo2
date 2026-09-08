@@ -1,4 +1,3 @@
-import { Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { heroVisualCards } from "@/data/home";
 
@@ -35,8 +34,7 @@ export default function LearningProgressCard({ className }: { className?: string
           {journey.percent}%
         </span>
       </div>
-      <p className="mt-2 flex items-center justify-center gap-1 text-[11px] font-semibold text-brand-accent">
-        <Flame className="h-3.5 w-3.5" aria-hidden="true" />
+      <p className="mt-2 text-center text-[11px] font-semibold text-brand-accent">
         {journey.note}
       </p>
     </div>

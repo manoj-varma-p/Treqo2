@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Flame, Trophy, GraduationCap } from "lucide-react";
+import { Trophy, GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ProgramHeroCardProps {
@@ -55,8 +55,7 @@ export default function ProgramHeroCard({ slug }: ProgramHeroCardProps) {
 
         {/* Header: Badge & Status */}
         <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3 sm:pb-4">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-purple-200 bg-purple-50 px-3 py-1 text-[11px] font-bold text-[#3A1494]">
-            <Flame className="h-3.5 w-3.5 text-amber-500" aria-hidden="true" />
+          <span className="inline-flex items-center rounded-full border border-purple-200 bg-purple-50 px-3 py-1 text-[11px] font-bold text-[#3A1494]">
             12-Phase Curriculum
           </span>
           <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600">

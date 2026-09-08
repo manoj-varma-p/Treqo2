@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowRight, CheckCircle2, Trophy, ShieldCheck, Flame, Download, Rocket, Clock } from "lucide-react";
+import { ArrowRight, CheckCircle2, Trophy, ShieldCheck, Download, Rocket, Clock } from "lucide-react";
 import Header from "@/components/header/Header";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
@@ -146,8 +146,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                       <span className="inline-flex items-center rounded-full bg-brand-primary px-3 py-1 text-[11px] font-bold tracking-wide text-white uppercase shadow-xs">
                         {detail.badge}
                       </span>
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-border-subtle bg-surface-alt px-3 py-1 text-[11px] font-semibold text-text-secondary">
-                        <Flame className="h-3.5 w-3.5 text-brand-accent" aria-hidden="true" />
+                      <span className="inline-flex items-center rounded-full border border-border-subtle bg-surface-alt px-3 py-1 text-[11px] font-semibold text-text-secondary">
                         {detail.batch}
                       </span>
                     </>

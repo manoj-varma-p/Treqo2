@@ -12,7 +12,6 @@ import {
   TrendingUp,
   BookOpen,
   CheckCircle2,
-  Flame,
   Clock,
 } from "lucide-react";
 import { useApplyModal } from "@/context/ApplyModalContext";
@@ -128,8 +127,7 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
           <div className="flex flex-col justify-between rounded-2xl border border-[#3A1494]/20 bg-gradient-to-br from-purple-50/70 via-white to-amber-50/40 p-5 shadow-xs">
             <div>
               <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#3A1494] px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white">
-                  <Flame className="h-3 w-3 text-amber-300" />
+                <span className="inline-flex items-center rounded-full bg-[#3A1494] px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white">
                   <span>{flagship.badge}</span>
                 </span>
                 <span className="text-[11px] font-semibold text-slate-500">{flagship.duration}</span>
@@ -279,8 +277,7 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
           {/* Column 3: Admissions & Syllabus Sidebar */}
           <div className="flex flex-col justify-between rounded-2xl bg-gradient-to-br from-slate-950 via-[#18102a] to-[#2b105a] p-5 text-white shadow-md">
             <div>
-              <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-bold tracking-wider uppercase text-amber-300">
-                <Flame className="h-3 w-3 text-amber-300" />
+              <span className="inline-flex items-center rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-bold tracking-wider uppercase text-amber-300">
                 Admissions Open
               </span>
 
