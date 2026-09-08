@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Trophy, GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ProgramHeroCardProps {
@@ -96,14 +95,9 @@ export default function ProgramHeroCard({ slug }: ProgramHeroCardProps) {
         <div className="mt-5 flex flex-col gap-3">
           {activeTab === "master" ? (
             <div className="flex flex-col gap-2.5 animate-in fade-in duration-200">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-50 border border-purple-200/80 text-[#3A1494] shrink-0 shadow-xs">
-                  <Trophy className="h-4.5 w-4.5" aria-hidden="true" />
-                </div>
-                <h4 className="text-base sm:text-lg font-bold tracking-tight text-slate-900">
-                  Learn By Deploying Real Budgets
-                </h4>
-              </div>
+              <h4 className="text-base sm:text-lg font-bold tracking-tight text-slate-900">
+                Learn By Deploying Real Budgets
+              </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                 No multiple choice exams or theoretical essays. You run real ad accounts, set up tracking pipelines, and optimize actual acquisition funnels.
               </p>
@@ -120,14 +114,9 @@ export default function ProgramHeroCard({ slug }: ProgramHeroCardProps) {
             </div>
           ) : (
             <div className="flex flex-col gap-2.5 animate-in fade-in duration-200">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-50 border border-purple-200/80 text-[#3A1494] shrink-0 shadow-xs">
-                  <GraduationCap className="h-4.5 w-4.5" aria-hidden="true" />
-                </div>
-                <h4 className="text-base sm:text-lg font-bold tracking-tight text-slate-900">
-                  {fitContent.heading}
-                </h4>
-              </div>
+              <h4 className="text-base sm:text-lg font-bold tracking-tight text-slate-900">
+                {fitContent.heading}
+              </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                 {fitContent.description}
               </p>

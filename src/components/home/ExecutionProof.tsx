@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Container from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
+import { Hand, Video, Cpu, Building2 } from "lucide-react";
 
 const outcomes = [
   {
@@ -28,10 +29,22 @@ const outcomes = [
 ];
 
 const companies = [
-  "Gesture Co",
-  "JASS Media",
-  "Bristle Tech",
-  "TCS",
+  {
+    name: "Gesture Co",
+    icon: Hand,
+  },
+  {
+    name: "JASS Media",
+    icon: Video,
+  },
+  {
+    name: "Bristle Tech",
+    icon: Cpu,
+  },
+  {
+    name: "TCS",
+    icon: Building2,
+  },
 ];
 
 export default function ExecutionProof() {
@@ -229,7 +242,7 @@ export default function ExecutionProof() {
           ))}
         </div>
 
-        {/* Metrics & Quote Divider Row */}
+        {/* Metrics & Where Batch 1 Went Row */}
         <div className="mt-12 pt-8 sm:pt-10">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 lg:items-center">
             {/* Left Metrics */}
@@ -253,30 +266,41 @@ export default function ExecutionProof() {
               </div>
             </div>
 
-            {/* Right Story Text */}
+            {/* Right: Where Batch 1 Went Blocks with Icons */}
             <div className="lg:col-span-7">
-              <p className="text-xs sm:text-sm leading-relaxed text-slate-600 max-w-2xl">
-                That ₹5L came out of Gesture Co&apos;s Diwali campaign briefed, built, run and reported by students who hadn&apos;t graduated yet. Batch 2 gets measured against it.
-              </p>
+              <span className="block text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-3">
+                WHERE BATCH 1 WENT
+              </span>
+              <div className="grid grid-cols-4 gap-2.5 sm:gap-3">
+                {companies.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div
+                      key={item.name}
+                      title={item.name}
+                      className="group relative flex items-center justify-center rounded-xl border border-slate-200/90 bg-white py-3.5 px-3 shadow-2xs transition-all duration-200 hover:bg-slate-50 hover:border-[#3A1494]/30 hover:shadow-xs cursor-pointer"
+                    >
+                      <Icon
+                        className="h-5 w-5 text-slate-700 transition-colors duration-200 group-hover:text-[#3A1494]"
+                        aria-hidden="true"
+                      />
+                      {/* Tooltip on hover */}
+                      <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-white opacity-0 shadow-sm transition-opacity duration-150 group-hover:opacity-100 z-10">
+                        {item.name}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Where Batch 1 Went Logos */}
-        <div className="mt-8">
-          <span className="block text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-3">
-            WHERE BATCH 1 WENT
-          </span>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-4">
-            {companies.map((company) => (
-              <div
-                key={company}
-                className="flex items-center justify-center rounded-xl border border-slate-200/90 bg-white py-3.5 px-4 text-center text-xs sm:text-sm font-bold text-slate-700 shadow-2xs transition-colors hover:bg-slate-50"
-              >
-                {company}
-              </div>
-            ))}
-          </div>
+        {/* Story Text (moved down to where the blocks were) */}
+        <div className="mt-8 border-t border-slate-100 pt-6">
+          <p className="text-xs sm:text-sm leading-relaxed text-slate-600 max-w-3xl">
+            That ₹5L came out of Gesture Co&apos;s Diwali campaign briefed, built, run and reported by students who hadn&apos;t graduated yet. Batch 2 gets measured against it.
+          </p>
         </div>
       </Container>
     </section>

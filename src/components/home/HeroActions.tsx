@@ -1,7 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { Video } from "lucide-react";
 import { heroContent } from "@/data/home";
 
 export default function HeroActions() {
+  const handleOpenVideo = () => {
+    window.dispatchEvent(new CustomEvent("open-treqo-video"));
+  };
+
   return (
     <div className="flex flex-wrap items-center gap-3.5 w-full sm:w-auto">
       <Link
@@ -17,6 +24,16 @@ export default function HeroActions() {
       >
         {heroContent.secondaryCta.label}
       </Link>
+
+      {/* Mobile-only inline trigger so mobile users can still watch the reel without any floating overlay */}
+      <button
+        type="button"
+        onClick={handleOpenVideo}
+        className="lg:hidden inline-flex items-center justify-center gap-2 rounded-xl border border-purple-200 bg-purple-50/90 px-4 py-3 text-xs sm:text-sm font-bold text-[#3A1494] shadow-2xs hover:bg-purple-100 transition-all cursor-pointer"
+      >
+        <Video size={15} className="text-[#3A1494]" />
+        <span>Watch Video</span>
+      </button>
     </div>
   );
 }

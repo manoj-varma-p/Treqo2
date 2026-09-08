@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { Menu, X, ArrowRight, ChevronRight } from "lucide-react";
+import { Menu, X, ChevronRight } from "lucide-react";
 import Logo from "./Logo";
 import { primaryNavItems } from "@/data/navigation";
 import { useApplyModal } from "@/context/ApplyModalContext";
@@ -113,7 +113,7 @@ export default function MobileHeader({}: MobileHeaderProps = {}) {
             </div>
 
             {/* Menu Items: Exactly the same as normal desktop navbar */}
-            <div className="flex flex-col p-5 space-y-5">
+            <div className="flex flex-col p-5">
               <nav aria-label="Mobile Navigation" className="flex flex-col divide-y divide-slate-100">
                 {primaryNavItems.map((item) => (
                   <Link
@@ -135,20 +135,7 @@ export default function MobileHeader({}: MobileHeaderProps = {}) {
                 ))}
               </nav>
 
-              {/* Apply now CTA button */}
-              <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOpen(false);
-                    openApplyModal();
-                  }}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#3A1494] py-3.5 text-sm font-bold text-white shadow-md active:scale-98 transition-transform cursor-pointer hover:bg-[#2c0e78]"
-                >
-                  <span>Apply now</span>
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </button>
-              </div>
+
             </div>
           </div>
 

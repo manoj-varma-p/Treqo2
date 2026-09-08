@@ -7,24 +7,41 @@ import { X, Video, Play } from "lucide-react";
 export default function InstagramVideoPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [isInHero, setIsInHero] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const DURATION = 36.8; // 36.5 seconds duration
 
-  // Detect if user is in Hero section
+  // Detect scroll, mobile viewport, and custom open event
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
     const handleScroll = () => {
       const hero = document.getElementById("hero");
       if (hero) {
         const rect = hero.getBoundingClientRect();
-        // Visible when hero section is still on screen
         setIsInHero(rect.bottom > 100);
       } else {
         setIsInHero(window.scrollY < 650);
       }
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    const handleOpenVideo = () => {
+      setIsOpen(true);
+    };
+
+    handleResize();
     handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("open-treqo-video", handleOpenVideo);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("open-treqo-video", handleOpenVideo);
+    };
   }, []);
 
   // Auto-pop from right edge 1.0s after landing
@@ -55,7 +72,10 @@ export default function InstagramVideoPopup() {
     setIsOpen(true);
   };
 
-  const isVisible = isInHero || isOpen;
+  // On mobile (< 1024px), NEVER render the floating side button so it NEVER overlays on anything.
+  // The popup is only visible on mobile when actively opened as a modal.
+  // On desktop, the floating tab docks cleanly on the right edge.
+  const isVisible = isOpen || (!isMobile && isInHero);
 
   return (
     <AnimatePresence>
@@ -75,12 +95,12 @@ export default function InstagramVideoPopup() {
             )}
           </AnimatePresence>
 
-          {/* The Single Interactive Morphing Container - moves strictly from right edge to center */}
+          {/* Floating container on desktop / Centered modal when open */}
           <motion.div
             initial={{
               opacity: 0,
               left: "100%",
-              x: "-100%",
+              x: "0%",
               top: "84%",
               y: "-50%",
               width: "168px",
@@ -118,8 +138,8 @@ export default function InstagramVideoPopup() {
             exit={{
               opacity: 0,
               left: "100%",
-              x: "-100%",
-              transition: { duration: 0.2 },
+              x: "0%",
+              transition: { duration: 0.25 },
             }}
             transition={{
               type: "spring",

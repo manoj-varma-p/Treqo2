@@ -14,7 +14,7 @@ export default function PhaseAccordion({ groups = [] }: PhaseAccordionProps) {
 
   function toggleIndex(idx: number) {
     setExpandedIndices((prev) =>
-      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+      prev.length === 1 && prev[0] === idx ? [] : [idx]
     );
   }
 

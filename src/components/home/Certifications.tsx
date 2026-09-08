@@ -8,7 +8,6 @@ import {
   BadgeCheck,
   Star,
   Palette,
-  ArrowRight,
   BarChart2,
   Search,
   Mail,
@@ -79,7 +78,7 @@ function CertCard({ cert }: { cert: CertItem }) {
   const badge = providerBadge[cert.provider] || { bg: "#f5f3ff", text: "#7c3aed", border: "#ede9fe" };
 
   return (
-    <div className="group relative flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-3.5 sm:p-4 shadow-xs transition-all duration-200 hover:border-slate-300 hover:shadow-md mb-3.5">
+    <div className="group relative flex w-full flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-3.5 sm:p-4 shadow-xs transition-all duration-200 hover:border-slate-300 hover:shadow-md mb-3.5 cursor-pointer">
       {/* Subtle top accent gradient */}
       <div
         className="absolute top-0 left-0 right-0 h-[2px]"
@@ -116,7 +115,7 @@ function CertCard({ cert }: { cert: CertItem }) {
       </p>
 
       {/* Footer */}
-      <div className="flex items-center justify-between border-t border-slate-100 pt-2">
+      <div className="flex items-center border-t border-slate-100 pt-2">
         {cert.price ? (
           <span
             className="rounded px-1.5 py-0.5 text-[9px] font-bold"
@@ -132,13 +131,6 @@ function CertCard({ cert }: { cert: CertItem }) {
             Included
           </span>
         )}
-        <div
-          className="flex items-center gap-1 text-[9px] font-extrabold uppercase transition-transform duration-200 group-hover:translate-x-0.5"
-          style={{ color: cert.color }}
-        >
-          <span>View</span>
-          <ArrowRight size={9} />
-        </div>
       </div>
     </div>
   );
@@ -150,7 +142,7 @@ function CertCard({ cert }: { cert: CertItem }) {
 function VerticalInfiniteCol({
   certs,
   direction = "down",
-  speed = 28,
+  speed = 52,
 }: {
   certs: CertItem[];
   direction?: "down" | "up";
@@ -320,10 +312,10 @@ export default function CertificationSection() {
               }}
             >
               {/* Column 1: Flows Downward (Top to Bottom) */}
-              <VerticalInfiniteCol certs={col1Certs} direction="down" speed={26} />
+              <VerticalInfiniteCol certs={col1Certs} direction="down" speed={54} />
 
               {/* Column 2: Flows Upward (Bottom to Top) */}
-              <VerticalInfiniteCol certs={col2Certs} direction="up" speed={22} />
+              <VerticalInfiniteCol certs={col2Certs} direction="up" speed={48} />
             </div>
 
             {/* Bottom Inclusions Banner with Glowing Green Dot */}

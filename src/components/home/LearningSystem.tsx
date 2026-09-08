@@ -60,7 +60,7 @@ const programs: ProgramCard[] = [
     previewLabel: "MADHAPUR STUDIO FLOOR",
     badge: { text: "OPEN · ON CAMPUS", variant: "blue" },
     meta: "4 months · On campus",
-    title: "4M Program",
+    title: "New Age Digital Marketing (On Campus)",
     description:
       "Full Stack Marketing On Campus Edition. Brand strategy through performance in four months on our Madhapur studio floor.",
     actionText: "View course →",

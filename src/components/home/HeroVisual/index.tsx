@@ -121,7 +121,7 @@ export default function HeroVisual() {
                 >
                   <option value="New Age Digital Marketing">New Age Digital Marketing</option>
                   <option value="Fundamentals of Digital Marketing">Fundamentals of Digital Marketing</option>
-                  <option value="4M Program">4M Program</option>
+                  <option value="New Age Digital Marketing (On Campus)">New Age Digital Marketing (On Campus)</option>
                   <option value="Treqo PGDM">Treqo PGDM</option>
                   <option value="Campus Edition">Campus Edition</option>
                   <option value="The Founder Semester">The Founder Semester</option>

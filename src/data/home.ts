@@ -784,7 +784,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
   },
   {
     category: "On-Campus Flagship",
-    title: "4M Program",
+    title: "New Age Digital Marketing (On Campus)",
     description: "Full Stack Marketing On Campus Edition. Four months of live agency studio work at our Madhapur, Hyderabad floor.",
     href: "/categories/4m-program",
     features: [
@@ -804,7 +804,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         { label: "Format", value: "On Campus Studio" },
         { label: "Cohort Size", value: "30 Fellows Max" },
       ],
-      applyCtaLabel: "Apply for 4M Program",
+      applyCtaLabel: "Apply for New Age Digital Marketing (On Campus)",
       breakdownCtaLabel: "Download 4M Syllabus",
       phasesNavLabel: "12 phases",
       challengeNavLabel: "CEO Defense",
