@@ -3,15 +3,12 @@
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import {
-  Users,
   Download,
   Search,
   RefreshCw,
   Mail,
   Phone,
-  Calendar,
   Trash2,
-  CheckCircle2,
   Filter,
   ArrowLeft,
 } from "lucide-react";
@@ -40,7 +37,28 @@ export default function AdminLeadsPage() {
   }
 
   useEffect(() => {
-    fetchLeads();
+    let ignore = false;
+    async function load() {
+      try {
+        const res = await fetch("/api/leads");
+        if (res.ok) {
+          const data = await res.json();
+          if (!ignore) {
+            setLeads(data.leads || []);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load leads:", err);
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    }
+    load();
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   async function handleDelete(id: string) {

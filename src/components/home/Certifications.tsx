@@ -249,9 +249,11 @@ export default function CertificationSection() {
 
               {/* REAL CERTIFICATE DISPLAY / EMBED CONTAINER */}
               <div className="relative overflow-hidden rounded-xl border border-slate-200/90 bg-[#fffdfa] p-2.5 shadow-xs">
-                <img
+                <Image
                   src="/treqo-certificate.jpg"
                   alt="TREQO Official Certificate of Completion"
+                  width={800}
+                  height={560}
                   className="w-full h-auto rounded-lg block shadow-2xs"
                 />
               </div>

@@ -1,10 +1,7 @@
 import {
-  Zap,
-  Briefcase,
   Rocket,
   Users,
   GraduationCap,
-  BookMarked,
   BookOpen,
   Building2,
   TrendingUp,

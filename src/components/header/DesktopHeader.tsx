@@ -19,12 +19,7 @@ export default function DesktopHeader({ variant = "standard", isAtTop = true }: 
   const [coursesOpen, setCoursesOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close mega menu immediately if navbar leaves the top
-  useEffect(() => {
-    if (!isAtTop && coursesOpen) {
-      setCoursesOpen(false);
-    }
-  }, [isAtTop, coursesOpen]);
+  const isMenuOpen = coursesOpen && isAtTop;
 
   useEffect(() => {
     if (!coursesOpen) return;
@@ -107,7 +102,7 @@ export default function DesktopHeader({ variant = "standard", isAtTop = true }: 
             <ChevronDown
               className={cn(
                 "h-3.5 w-3.5 text-slate-600 transition-transform duration-200",
-                coursesOpen && isAtTop && "rotate-180"
+                isMenuOpen && "rotate-180"
               )}
               aria-hidden="true"
             />
@@ -164,7 +159,7 @@ export default function DesktopHeader({ variant = "standard", isAtTop = true }: 
       </div>
 
       {/* Full-width Mega Menu Dropdown */}
-      {coursesOpen && isAtTop && (
+      {isMenuOpen && (
         <div className="absolute top-full left-0 right-0 w-full z-50 pt-2">
           <CoursesMegaMenu
             onClose={() => setCoursesOpen(false)}

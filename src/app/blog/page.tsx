@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/header/Header";
@@ -16,21 +16,19 @@ export default function BlogIndexPage() {
   const [sortBy, setSortBy] = useState<"latest" | "shortest" | "saved">("latest");
   const [activeFeaturedIndex, setActiveFeaturedIndex] = useState<number>(0);
   const [previewPost, setPreviewPost] = useState<BlogPost | null>(null);
-  const [savedPostIds, setSavedPostIds] = useState<string[]>([]);
+  const [savedPostIds, setSavedPostIds] = useState<string[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("treqo_saved_blogs");
+        if (stored) return JSON.parse(stored);
+      } catch {
+        // ignore
+      }
+    }
+    return [];
+  });
   const [newsletterEmail, setNewsletterEmail] = useState<string>("");
   const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "loading" | "subscribed">("idle");
-
-  // Load bookmarks from localStorage on mount
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem("treqo_saved_blogs");
-      if (stored) {
-        setSavedPostIds(JSON.parse(stored));
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
 
   function toggleBookmark(postId: string) {
     setSavedPostIds((prev) => {

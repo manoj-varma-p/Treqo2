@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { ChevronDown, CheckCircle2, Download } from "lucide-react";
+import { ChevronDown, CheckCircle2 } from "lucide-react";
 
 export default function HeroVisual() {
   const [name, setName] = useState("");
@@ -137,9 +137,10 @@ export default function HeroVisual() {
             {/* CTA Submit Button */}
             <button
               type="submit"
-              className="mt-1 w-full rounded-xl bg-[#3A1494] py-3.5 px-4 text-center text-sm sm:text-base font-extrabold text-white shadow-xs transition-all hover:bg-[#2c0e78] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A1494] focus-visible:ring-offset-2"
+              disabled={submitting}
+              className="mt-1 w-full rounded-xl bg-[#3A1494] py-3.5 px-4 text-center text-sm sm:text-base font-extrabold text-white shadow-xs transition-all hover:bg-[#2c0e78] disabled:opacity-60 disabled:cursor-not-allowed active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A1494] focus-visible:ring-offset-2"
             >
-              Get the brochure
+              {submitting ? "Sending..." : "Get the brochure"}
             </button>
 
             {/* Footer Disclaimer */}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, X, Search, HelpCircle } from "lucide-react";
+import { Plus, X, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface FaqItem {

@@ -14,17 +14,24 @@ export default function ApplyModal() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
+  const [prevCourseName, setPrevCourseName] = useState(courseName);
+  if (courseName !== prevCourseName) {
+    setPrevCourseName(courseName);
     if (courseName) {
       setSelectedCourse(courseName);
     }
-  }, [courseName]);
+  }
 
-  useEffect(() => {
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
     if (!isOpen) {
       setSubmitted(false);
-      return;
     }
+  }
+
+  useEffect(() => {
+    if (!isOpen) return;
 
     document.body.style.overflow = "hidden";
 
@@ -127,7 +134,7 @@ export default function ApplyModal() {
 
             <button
               type="button"
-              onClick={closeApplyModal}
+              onClick={handleReset}
               className="mt-6 inline-flex items-center justify-center rounded-xl bg-[#3A1494] px-8 py-3 text-sm font-bold text-white shadow-md hover:bg-[#2c0e78] active:scale-98 transition-all cursor-pointer"
             >
               Done

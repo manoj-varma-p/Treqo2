@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
@@ -63,9 +64,11 @@ export function GovCertSection() {
                   }}
                   className="absolute inset-0 flex flex-col items-center justify-center p-2 cursor-grab active:cursor-grabbing"
                 >
-                  <img
+                  <Image
                     src={certs[currentIndex].src}
                     alt={certs[currentIndex].label}
+                    width={240}
+                    height={96}
                     className="h-24 w-auto max-w-[240px] object-contain mx-auto"
                   />
                 </motion.div>
@@ -100,9 +103,11 @@ export function GovCertSection() {
                 transition={{ duration: 0.4, delay: i * 0.1 }}
                 className="flex flex-col items-center justify-center p-2 transition-transform duration-300 hover:scale-105"
               >
-                <img
+                <Image
                   src={cert.src}
                   alt={cert.label}
+                  width={260}
+                  height={128}
                   className="h-24 sm:h-28 md:h-32 w-auto max-w-[220px] sm:max-w-[260px] object-contain mx-auto"
                 />
               </motion.div>

@@ -12,11 +12,16 @@ export default function CurriculumModal() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
+  const [prevIsOpen, setPrevIsOpen] = useState(isCurriculumOpen);
+  if (isCurriculumOpen !== prevIsOpen) {
+    setPrevIsOpen(isCurriculumOpen);
     if (!isCurriculumOpen) {
       setSubmitted(false);
-      return;
     }
+  }
+
+  useEffect(() => {
+    if (!isCurriculumOpen) return;
 
     document.body.style.overflow = "hidden";
 

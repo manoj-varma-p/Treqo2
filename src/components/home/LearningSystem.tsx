@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Clock } from "lucide-react";
 import Container from "@/components/ui/Container";
 import { useApplyModal } from "@/context/ApplyModalContext";
@@ -186,10 +187,11 @@ export default function LearningSystem() {
             >
               {/* Card Image Header */}
               <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-slate-900">
-                <img
+                <Image
                   src={program.image}
                   alt={program.title}
-                  loading="lazy"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className={cn(
                     "h-full w-full object-cover transition-transform duration-500",
                     program.isLocked
