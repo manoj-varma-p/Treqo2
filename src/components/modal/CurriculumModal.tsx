@@ -107,7 +107,7 @@ export default function CurriculumModal() {
             <X className="h-5 w-5" aria-hidden="true" />
           </button>
 
-          <div className="inline-flex items-center gap-1.5 rounded-md bg-white/15 px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase text-amber-300 backdrop-blur-xs mb-2">
+          <div className="inline-flex items-center gap-1.5 rounded-md bg-white/15 px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase text-purple-200 backdrop-blur-xs mb-2">
             <FileText className="h-3 w-3" />
             <span>Curriculum Breakdown</span>
           </div>
@@ -229,7 +229,7 @@ export default function CurriculumModal() {
                   <span>Processing...</span>
                 ) : (
                   <>
-                    <Download className="h-4 w-4 text-amber-300" />
+                    <Download className="h-4 w-4 text-white" />
                     <span>Download Curriculum</span>
                     <ArrowRight className="h-4 w-4" />
                   </>

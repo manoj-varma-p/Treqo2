@@ -71,7 +71,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow Treqo on Instagram"
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-700/80 bg-slate-900/90 text-slate-300 hover:text-[#FBBF24] transition-colors"
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-700/80 bg-slate-900/90 text-slate-300 hover:text-purple-400 transition-colors"
               >
                 <InstagramIcon className="h-4 w-4" />
               </a>
@@ -84,7 +84,7 @@ export default function Footer() {
             <div className="mt-3 flex flex-wrap items-center gap-2.5 text-xs">
               <a
                 href="tel:+919948000491"
-                className="font-bold text-white hover:text-[#FBBF24] transition-colors"
+                className="font-bold text-white hover:text-purple-400 transition-colors"
               >
                 +91 99480 00491
               </a>
@@ -106,7 +106,7 @@ export default function Footer() {
           <div className="grid grid-cols-2 gap-5 border-t border-slate-800/70 pt-5">
             {/* The School Column */}
             <div>
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#FBBF24] block mb-2.5">
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 block mb-2.5">
                 THE SCHOOL
               </span>
               <ul className="flex flex-col gap-2 text-xs">
@@ -125,7 +125,7 @@ export default function Footer() {
 
             {/* Talk to Us Column */}
             <div>
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#FBBF24] block mb-2.5">
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 block mb-2.5">
                 TALK TO US
               </span>
               <ul className="flex flex-col gap-2.5 text-xs">
@@ -133,7 +133,7 @@ export default function Footer() {
                   <button
                     type="button"
                     onClick={() => openApplyModal()}
-                    className="text-left font-bold text-[#FBBF24] hover:underline cursor-pointer leading-snug"
+                    className="text-left font-bold text-purple-400 hover:underline cursor-pointer leading-snug"
                   >
                     Apply for Batch 2 →
                   </button>
@@ -191,7 +191,7 @@ export default function Footer() {
             <div className="mt-6 flex flex-col gap-1.5 text-xs sm:text-sm">
               <a
                 href="tel:+919948000491"
-                className="font-bold text-white hover:text-[#FBBF24] transition-colors"
+                className="font-bold text-white hover:text-purple-400 transition-colors"
               >
                 +91 99480 00491
               </a>
@@ -204,7 +204,7 @@ export default function Footer() {
             </div>
 
             <div className="mt-6 flex items-center gap-3">
-              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#FBBF24]">
+              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-purple-400">
                 FOLLOW US
               </span>
               <div className="flex items-center gap-2.5">
@@ -213,7 +213,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Follow Treqo on Instagram"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-700/80 bg-slate-900/90 text-slate-300 hover:border-[#FBBF24] hover:text-[#FBBF24] hover:scale-110 active:scale-95 transition-all shadow-xs"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-700/80 bg-slate-900/90 text-slate-300 hover:border-purple-400 hover:text-purple-400 hover:scale-110 active:scale-95 transition-all shadow-xs"
                 >
                   <InstagramIcon className="h-4 w-4" />
                 </a>
@@ -223,7 +223,7 @@ export default function Footer() {
 
           {/* Column 2: The School */}
           <div className="flex flex-col gap-3 lg:col-span-3">
-            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#FBBF24]">
+            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-purple-400">
               THE SCHOOL
             </span>
             <ul className="flex flex-col gap-2.5 mt-1 text-xs sm:text-sm">
@@ -242,7 +242,7 @@ export default function Footer() {
 
           {/* Column 3: Talk to Us / Admissions */}
           <div className="flex flex-col gap-3 lg:col-span-3">
-            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#FBBF24]">
+            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-purple-400">
               TALK TO US
             </span>
             <ul className="flex flex-col gap-2.5 mt-1 text-xs sm:text-sm">
@@ -252,7 +252,7 @@ export default function Footer() {
                     <button
                       type="button"
                       onClick={() => openApplyModal()}
-                      className="text-left font-bold text-[#FBBF24] hover:underline transition-colors cursor-pointer"
+                      className="text-left font-bold text-purple-400 hover:underline transition-colors cursor-pointer"
                     >
                       {link.label} →
                     </button>

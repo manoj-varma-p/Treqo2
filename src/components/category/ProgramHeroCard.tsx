@@ -42,7 +42,7 @@ export default function ProgramHeroCard({ slug }: ProgramHeroCardProps) {
       {/* Ambient shadow glow background */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -inset-1.5 sm:-inset-2 rounded-3xl sm:rounded-[28px] bg-gradient-to-tr from-[#3A1494]/25 via-purple-600/15 to-amber-500/10 blur-xl sm:blur-2xl opacity-80"
+        className="pointer-events-none absolute -inset-1.5 sm:-inset-2 rounded-3xl sm:rounded-[28px] bg-gradient-to-tr from-[#3A1494]/25 via-purple-600/15 to-indigo-500/10 blur-xl sm:blur-2xl opacity-80"
       />
 
       {/* Main Card with elevated shadow */}
@@ -50,7 +50,7 @@ export default function ProgramHeroCard({ slug }: ProgramHeroCardProps) {
         {/* Top subtle brand accent line */}
         <div
           aria-hidden="true"
-          className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#3A1494] via-[#8b5cf6] to-[#fbbf24]"
+          className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#3A1494] via-[#8b5cf6] to-[#38bdf8]"
         />
 
         {/* Header: Badge & Status */}
@@ -97,7 +97,7 @@ export default function ProgramHeroCard({ slug }: ProgramHeroCardProps) {
           {activeTab === "master" ? (
             <div className="flex flex-col gap-2.5 animate-in fade-in duration-200">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 border border-amber-200/80 text-amber-600 shrink-0 shadow-xs">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-50 border border-purple-200/80 text-[#3A1494] shrink-0 shadow-xs">
                   <Trophy className="h-4.5 w-4.5" aria-hidden="true" />
                 </div>
                 <h4 className="text-base sm:text-lg font-bold tracking-tight text-slate-900">

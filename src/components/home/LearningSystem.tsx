@@ -14,7 +14,7 @@ interface ProgramCard {
   previewLabel: string;
   badge: {
     text: string;
-    variant: "blue" | "amber" | "gray";
+    variant: "blue" | "purple" | "gray";
   };
   meta: string;
   title: string;
@@ -204,7 +204,7 @@ export default function LearningSystem() {
                 {/* Coming Soon Overlay */}
                 {program.isLocked && (
                   <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-[1.5px] flex items-center justify-center">
-                    <div className="flex items-center gap-1.5 rounded-full bg-slate-900/90 border border-amber-400/40 px-3.5 py-1.5 text-xs font-bold text-amber-300 shadow-xl backdrop-blur-md">
+                    <div className="flex items-center gap-1.5 rounded-full bg-slate-900/90 border border-purple-500/40 px-3.5 py-1.5 text-xs font-bold text-purple-200 shadow-xl backdrop-blur-md">
                       <Clock className="h-3.5 w-3.5" />
                       <span>Coming Soon</span>
                     </div>
@@ -224,7 +224,7 @@ export default function LearningSystem() {
                   {/* Badge + Meta row */}
                   <div className="flex items-center gap-2.5">
                     {program.isLocked ? (
-                      <span className="inline-flex items-center gap-1 rounded-md bg-slate-900 border border-amber-400/30 px-2 py-0.5 text-[10px] font-black tracking-wide text-amber-300 uppercase">
+                      <span className="inline-flex items-center gap-1 rounded-md bg-slate-900 border border-purple-500/40 px-2 py-0.5 text-[10px] font-black tracking-wide text-purple-200 uppercase">
                         <Clock className="h-3 w-3" />
                         <span>COMING SOON</span>
                       </span>
@@ -235,8 +235,8 @@ export default function LearningSystem() {
                             {program.badge.text}
                           </span>
                         )}
-                        {program.badge.variant === "amber" && (
-                          <span className="inline-flex items-center rounded-md bg-[#FBBF24] px-2 py-0.5 text-[10px] font-black tracking-wide text-black uppercase">
+                        {program.badge.variant === "purple" && (
+                          <span className="inline-flex items-center rounded-md bg-purple-100 text-[#3A1494] px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase">
                             {program.badge.text}
                           </span>
                         )}
@@ -271,7 +271,7 @@ export default function LearningSystem() {
                       onClick={() => openApplyModal(program.title)}
                       className="text-xs sm:text-sm font-bold text-slate-500 hover:text-[#3A1494] transition-colors inline-flex items-center gap-1.5 cursor-pointer"
                     >
-                      <Clock className="h-3.5 w-3.5 text-amber-500" />
+                      <Clock className="h-3.5 w-3.5 text-slate-400" />
                       <span>Get notified →</span>
                     </button>
                   ) : (

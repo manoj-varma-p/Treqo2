@@ -31,7 +31,7 @@ const coursesData = [
     duration: "4 months · Online",
     description: "The flagship. 12 phases, 30+ real brand projects, AI in the workflow.",
     icon: Rocket,
-    iconColor: "text-[#FBBF24]",
+    iconColor: "text-[#3A1494]",
     isFlagship: true,
     isLocked: false,
   },
@@ -40,11 +40,11 @@ const coursesData = [
     title: "Fundamentals of Digital Marketing",
     href: "/categories/fundamentals",
     badge: "COMING SOON",
-    badgeColor: "bg-slate-900 text-amber-300 border border-amber-400/30",
+    badgeColor: "bg-slate-900 text-slate-300 border border-slate-700/60",
     duration: "6 modules · Self-paced",
     description: "The door in. Learn what digital marketing is & how funnels work.",
     icon: BookOpen,
-    iconColor: "text-amber-500",
+    iconColor: "text-purple-600",
     isLocked: true,
   },
   {
@@ -64,7 +64,7 @@ const coursesData = [
     title: "Treqo PGDM",
     href: "/categories/pgdm",
     badge: "COMING SOON",
-    badgeColor: "bg-slate-900 text-amber-300 border border-amber-400/30",
+    badgeColor: "bg-slate-900 text-slate-300 border border-slate-700/60",
     duration: "12 months · Hybrid",
     description: "Post Graduate Diploma built for graduates targeting senior roles.",
     icon: GraduationCap,
@@ -76,7 +76,7 @@ const coursesData = [
     title: "Campus Edition",
     href: "/categories/campus-edition",
     badge: "COMING SOON",
-    badgeColor: "bg-slate-900 text-amber-300 border border-amber-400/30",
+    badgeColor: "bg-slate-900 text-slate-300 border border-slate-700/60",
     duration: "4 months · Online",
     description: "Runs alongside your BBA/MBA without colliding with exams.",
     icon: Zap,
@@ -88,7 +88,7 @@ const coursesData = [
     title: "The Founder Semester",
     href: "/categories/founder-semester",
     badge: "COMING SOON",
-    badgeColor: "bg-slate-900 text-amber-300 border border-amber-400/30",
+    badgeColor: "bg-slate-900 text-slate-300 border border-slate-700/60",
     duration: "4 months · Online",
     description: "Marketing & growth for founders launching or scaling ventures.",
     icon: Rocket,
@@ -100,7 +100,7 @@ const coursesData = [
     title: "Performance & Growth Specialist",
     href: "/categories/performance-growth",
     badge: "COMING SOON",
-    badgeColor: "bg-slate-900 text-amber-300 border border-amber-400/30",
+    badgeColor: "bg-slate-900 text-slate-300 border border-slate-700/60",
     duration: "3 months · Online",
     description: "Deep dive into Meta, Google Ads & full-funnel attribution.",
     icon: TrendingUp,
@@ -124,7 +124,7 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.5fr_3fr_1fr] lg:gap-8 items-stretch">
           {/* Column 1: Featured Flagship Course */}
-          <div className="flex flex-col justify-between rounded-2xl border border-[#3A1494]/20 bg-gradient-to-br from-purple-50/70 via-white to-amber-50/40 p-5 shadow-xs">
+          <div className="flex flex-col justify-between rounded-2xl border border-[#3A1494]/20 bg-gradient-to-br from-purple-50/70 via-white to-purple-50/30 p-5 shadow-xs">
             <div>
               <div className="flex items-center justify-between gap-2">
                 <span className="inline-flex items-center rounded-full bg-[#3A1494] px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white">
@@ -201,9 +201,9 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
                         onClose();
                         openApplyModal(course.title);
                       }}
-                      className="group flex items-start gap-3 rounded-xl border border-slate-100 bg-slate-50/70 p-3 text-left transition-all hover:border-amber-300/60 hover:bg-white hover:shadow-xs cursor-pointer"
+                      className="group flex items-start gap-3 rounded-xl border border-slate-100 bg-slate-50/70 p-3 text-left transition-all hover:border-purple-300/60 hover:bg-white hover:shadow-xs cursor-pointer"
                     >
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white border border-slate-200 shadow-2xs group-hover:border-amber-400/40">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white border border-slate-200 shadow-2xs group-hover:border-purple-400/40">
                         <Icon className={`h-4 w-4 ${course.iconColor}`} />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -277,7 +277,7 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
           {/* Column 3: Admissions & Syllabus Sidebar */}
           <div className="flex flex-col justify-between rounded-2xl bg-gradient-to-br from-slate-950 via-[#18102a] to-[#2b105a] p-5 text-white shadow-md">
             <div>
-              <span className="inline-flex items-center rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-bold tracking-wider uppercase text-amber-300">
+              <span className="inline-flex items-center rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-bold tracking-wider uppercase text-purple-200">
                 Admissions Open
               </span>
 
@@ -308,7 +308,7 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
                   onClose();
                   openApplyModal();
                 }}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#FBBF24] py-2.5 text-xs font-black text-black shadow-md hover:bg-amber-300 active:scale-95 transition-all cursor-pointer"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#3A1494] py-2.5 text-xs font-black text-white shadow-md hover:bg-[#2c0e78] active:scale-95 transition-all cursor-pointer"
               >
                 <span>Apply for Batch 2</span>
                 <ArrowRight className="h-3.5 w-3.5" />

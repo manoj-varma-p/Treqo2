@@ -182,7 +182,7 @@ export default function AdminLeadsPage() {
             <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
               Digital Marketing Flagship
             </p>
-            <p className="mt-2 text-3xl font-black text-[#FBBF24]">{stats.flagshipCount}</p>
+            <p className="mt-2 text-3xl font-black text-purple-400">{stats.flagshipCount}</p>
             <p className="mt-1 text-xs text-slate-500">Flagship track inquiries</p>
           </div>
         </div>

@@ -133,7 +133,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                   {isLocked ? (
                     <>
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 border border-amber-400/30 px-3 py-1 text-[11px] font-black tracking-wide text-amber-300 uppercase shadow-xs">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 border border-purple-500/40 px-3 py-1 text-[11px] font-black tracking-wide text-purple-200 uppercase shadow-xs">
                         <Clock className="h-3 w-3" />
                         <span>COMING SOON</span>
                       </span>
@@ -371,7 +371,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
               <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 items-center">
                 {/* Left 6 cols: Core Offer & CTAs */}
                 <div className="flex flex-col items-start text-left lg:col-span-6">
-                  <span className="inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold tracking-wider uppercase text-amber-300 backdrop-blur-xs">
+                  <span className="inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold tracking-wider uppercase text-purple-200 backdrop-blur-xs">
                     Applications Open · Batch 2
                   </span>
 
@@ -427,7 +427,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
                   <div className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-xs">
                     <div className="flex items-center gap-2">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-400/20 text-amber-300">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-purple-400/20 text-purple-300">
                         <Trophy className="h-4 w-4" />
                       </span>
                       <h4 className="text-xs sm:text-sm font-bold text-white">CEO Challenge</h4>
@@ -474,7 +474,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                   </p>
                 </div>
                 <div>
-                  <p className="text-xl sm:text-2xl font-black text-amber-300">30+</p>
+                  <p className="text-xl sm:text-2xl font-black text-sky-400">30+</p>
                   <p className="text-[11px] text-white/70 font-medium">Real Client Briefs</p>
                 </div>
                 <div>

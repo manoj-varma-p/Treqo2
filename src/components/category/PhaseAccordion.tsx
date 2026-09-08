@@ -61,7 +61,7 @@ export default function PhaseAccordion({ groups = [] }: PhaseAccordionProps) {
               className={cn(
                 "overflow-hidden rounded-xl sm:rounded-2xl border transition-all duration-250",
                 isHighlighted
-                  ? "border-[#3A1494] bg-gradient-to-r from-purple-50/90 via-indigo-50/40 to-amber-50/30 shadow-md ring-2 ring-[#3A1494]/20"
+                  ? "border-[#3A1494] bg-gradient-to-r from-purple-50/90 via-indigo-50/40 to-indigo-50/30 shadow-md ring-2 ring-[#3A1494]/20"
                   : isOpen
                   ? "border-brand-primary/40 bg-surface shadow-[0_8px_24px_-12px_rgba(58,22,147,0.18)] ring-1 ring-brand-primary/20"
                   : "border-border-subtle bg-surface hover:border-slate-300"
@@ -85,7 +85,7 @@ export default function PhaseAccordion({ groups = [] }: PhaseAccordionProps) {
                   className={cn(
                     "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-mono text-xs font-bold transition-all sm:h-9 sm:w-9 sm:text-sm",
                     isHighlighted
-                      ? "bg-[#3A1494] text-white ring-2 ring-[#FBBF24] shadow-xs"
+                      ? "bg-[#3A1494] text-white ring-2 ring-purple-300 shadow-xs"
                       : isOpen
                       ? "bg-brand-primary text-white shadow-xs scale-105"
                       : "bg-slate-200/80 text-slate-700"
