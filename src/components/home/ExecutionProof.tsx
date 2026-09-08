@@ -137,8 +137,8 @@ export default function ExecutionProof() {
                 key={item.name}
                 className="w-[220px] shrink-0 snap-center flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs"
               >
-                {/* Portrait Placeholder formatted for 9:16 vertical images */}
-                <div className="relative h-60 w-full overflow-hidden border-b border-slate-200/80 bg-[#f4f6f9]">
+                {/* Portrait Placeholder formatted for 4:5 vertical images */}
+                <div className="relative aspect-[4/5] w-full overflow-hidden border-b border-slate-200/80 bg-[#f4f6f9]">
                   <div
                     className="absolute inset-0"
                     style={{
@@ -149,7 +149,7 @@ export default function ExecutionProof() {
                   <div className="absolute inset-0 flex items-center justify-center p-2">
                     <div className="rounded-md border border-slate-300/80 bg-white/90 px-2.5 py-0.5 text-center shadow-2xs backdrop-blur-xs">
                       <span className="text-[9px] font-bold tracking-wider text-slate-400 uppercase">
-                        PORTRAIT · 9:16
+                        PORTRAIT · 4:5
                       </span>
                     </div>
                   </div>
@@ -195,8 +195,8 @@ export default function ExecutionProof() {
               key={item.name}
               className="flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-all duration-200 hover:shadow-md hover:border-slate-300"
             >
-              {/* Top 9:16 Portrait Placeholder */}
-              <div className="relative aspect-[9/14] sm:aspect-[9/15] lg:aspect-[9/15] w-full overflow-hidden border-b border-slate-200/80 bg-[#f4f6f9]">
+              {/* Top 4:5 Portrait Placeholder */}
+              <div className="relative aspect-[4/5] w-full overflow-hidden border-b border-slate-200/80 bg-[#f4f6f9]">
                 <div
                   className="absolute inset-0"
                   style={{
@@ -207,7 +207,7 @@ export default function ExecutionProof() {
                 <div className="absolute inset-0 flex items-center justify-center p-3">
                   <div className="rounded-md border border-slate-300/80 bg-white/90 px-3 py-1 text-center shadow-2xs backdrop-blur-xs">
                     <span className="text-[10px] font-bold tracking-wider text-slate-400 uppercase">
-                      PORTRAIT · 9:16
+                      PORTRAIT · 4:5
                     </span>
                   </div>
                 </div>
