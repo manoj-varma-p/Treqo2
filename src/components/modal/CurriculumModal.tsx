@@ -202,6 +202,7 @@ export default function CurriculumModal() {
                 id="curriculum-fullName"
                 type="text"
                 required
+                autoComplete="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Rahul Sharma"
@@ -218,6 +219,7 @@ export default function CurriculumModal() {
                 id="curriculum-email"
                 type="email"
                 required
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="rahul@example.com"
@@ -234,6 +236,7 @@ export default function CurriculumModal() {
                 id="curriculum-phone"
                 type="tel"
                 required
+                autoComplete="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+91 98765 43210"

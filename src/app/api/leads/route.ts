@@ -2,8 +2,31 @@ import { NextResponse } from "next/server";
 import { getLeads, deleteLead } from "@/lib/leads-db";
 export { POST } from "@/app/api/apply/route";
 
+function isAuthorized(request: Request, searchParams: URLSearchParams): boolean {
+  const adminPin = process.env.ADMIN_PIN || process.env.NEXT_PUBLIC_ADMIN_PIN || "treqo2026";
+  const authHeader = request.headers.get("authorization");
+  const pinHeader = request.headers.get("x-admin-pin");
+  const pinParam = searchParams.get("pin");
+
+  if (pinHeader && pinHeader === adminPin) return true;
+  if (pinParam && pinParam === adminPin) return true;
+  if (authHeader) {
+    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+    if (token === adminPin) return true;
+  }
+  return false;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
+
+  if (!isAuthorized(request, searchParams)) {
+    return NextResponse.json(
+      { error: "Unauthorized. Administrator credentials required." },
+      { status: 401 }
+    );
+  }
+
   const format = searchParams.get("format");
   const query = searchParams.get("q")?.toLowerCase();
 
@@ -52,6 +75,14 @@ export async function GET(request: Request) {
 
 export async function DELETE(request: Request) {
   const { searchParams } = new URL(request.url);
+
+  if (!isAuthorized(request, searchParams)) {
+    return NextResponse.json(
+      { error: "Unauthorized. Administrator credentials required." },
+      { status: 401 }
+    );
+  }
+
   const id = searchParams.get("id");
 
   if (!id) {

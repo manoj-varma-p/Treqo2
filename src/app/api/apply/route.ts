@@ -56,7 +56,7 @@ export async function POST(request: Request) {
 
     console.log("[DB] Lead saved successfully:", savedLead);
 
-    // Also forward to external webhook (Google Sheets / Excel / Power Automate)
+    // Also forward to external webhook (Google Sheets / Excel / Power Automate) if configured
     const webhookUrl =
       process.env.LEADS_WEBHOOK_URL ||
       process.env.EXCEL_WEBHOOK_URL ||
@@ -89,12 +89,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-}
-
-export async function GET() {
-  const leads = await getLeads();
-  return NextResponse.json({
-    total: leads.length,
-    leads,
-  });
 }

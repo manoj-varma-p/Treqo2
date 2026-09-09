@@ -42,13 +42,24 @@ export default function AdminLeadsPage() {
   const [selectedCourse, setSelectedCourse] = useState("All");
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
+  function getStoredPin(): string {
+    if (typeof window === "undefined") return "";
+    return sessionStorage.getItem("treqo_admin_pin") || ADMIN_PIN;
+  }
+
   async function handleRefresh() {
     setLoading(true);
     try {
-      const res = await fetch("/api/leads");
+      const pin = getStoredPin();
+      const res = await fetch("/api/leads", {
+        headers: { "x-admin-pin": pin },
+      });
       if (res.ok) {
         const data = await res.json();
         setLeads(data.leads || []);
+      } else if (res.status === 401) {
+        handleLogout();
+        setAuthError("Session expired or invalid key. Please re-enter PIN.");
       }
     } catch (err) {
       console.error("Failed to load leads:", err);
@@ -60,8 +71,18 @@ export default function AdminLeadsPage() {
   useEffect(() => {
     if (!isAuthenticated) return;
     let ignore = false;
-    fetch("/api/leads")
-      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+    const pin = getStoredPin();
+
+    fetch("/api/leads", {
+      headers: { "x-admin-pin": pin },
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          handleLogout();
+          throw new Error("Unauthorized");
+        }
+        return res.ok ? res.json() : Promise.reject(res);
+      })
       .then((data) => {
         if (!ignore) {
           setLeads(data.leads || []);
@@ -83,6 +104,7 @@ export default function AdminLeadsPage() {
     setAuthError("");
     if (pinInput === ADMIN_PIN) {
       sessionStorage.setItem("treqo_admin_auth", "true");
+      sessionStorage.setItem("treqo_admin_pin", pinInput);
       setUnlocked(true);
     } else {
       setAuthError("Invalid access key. Please enter the authorized administrator PIN.");
@@ -91,6 +113,7 @@ export default function AdminLeadsPage() {
 
   function handleLogout() {
     sessionStorage.removeItem("treqo_admin_auth");
+    sessionStorage.removeItem("treqo_admin_pin");
     setUnlocked(false);
     setPinInput("");
     setAuthError("");
@@ -99,7 +122,11 @@ export default function AdminLeadsPage() {
   async function handleDelete(id: string) {
     if (!confirm("Are you sure you want to delete this lead?")) return;
     try {
-      const res = await fetch(`/api/leads?id=${id}`, { method: "DELETE" });
+      const pin = getStoredPin();
+      const res = await fetch(`/api/leads?id=${id}`, {
+        method: "DELETE",
+        headers: { "x-admin-pin": pin },
+      });
       if (res.ok) {
         setLeads((prev) => prev.filter((l) => l.id !== id));
       }
@@ -245,7 +272,7 @@ export default function AdminLeadsPage() {
             </button>
 
             <a
-              href="/api/leads?format=csv"
+              href={`/api/leads?format=csv&pin=${encodeURIComponent(getStoredPin())}`}
               download
               className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-emerald-500 active:scale-95 transition-all cursor-pointer"
             >
