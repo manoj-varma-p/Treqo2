@@ -11,12 +11,14 @@ export default function CurriculumModal() {
   const [phone, setPhone] = useState("+91 ");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [prevIsOpen, setPrevIsOpen] = useState(isCurriculumOpen);
   if (isCurriculumOpen !== prevIsOpen) {
     setPrevIsOpen(isCurriculumOpen);
     if (!isCurriculumOpen) {
       setSubmitted(false);
+      setError(null);
     }
   }
 
@@ -42,9 +44,17 @@ export default function CurriculumModal() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    setError(null);
+
+    const digitsOnly = phone.replace(/\D/g, "");
+    if (digitsOnly.length < 7) {
+      setError("Please enter your complete WhatsApp number (at least 10 digits).");
+      return;
+    }
+
     setSubmitting(true);
     try {
-      await fetch("/api/apply", {
+      const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -56,6 +66,11 @@ export default function CurriculumModal() {
         }),
       });
 
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || "Submission failed. Please check your details and try again.");
+      }
+
       // Automatically trigger file download
       const downloadLink = document.createElement("a");
       downloadLink.href = curriculumPdfUrl || "/curriculum/new-age-digital-marketing-curriculum.pdf";
@@ -64,11 +79,13 @@ export default function CurriculumModal() {
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
-    } catch (err) {
-      console.error("Curriculum download submission error:", err);
+
+      setSubmitted(true);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "An unexpected error occurred. Please try again.";
+      setError(msg);
     } finally {
       setSubmitting(false);
-      setSubmitted(true);
     }
   }
 
@@ -76,6 +93,7 @@ export default function CurriculumModal() {
     setName("");
     setEmail("");
     setPhone("+91 ");
+    setError(null);
     setSubmitted(false);
     closeCurriculumModal();
   }
@@ -155,6 +173,11 @@ export default function CurriculumModal() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-6 sm:p-8">
+            {error && (
+              <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-xs text-red-700 font-medium">
+                {error}
+              </div>
+            )}
             {/* Target Program (Locked) */}
             <div className="flex flex-col gap-1.5">
               <label className="text-xs sm:text-sm font-bold text-slate-800">
@@ -202,10 +225,10 @@ export default function CurriculumModal() {
               />
             </div>
 
-            {/* Phone */}
+            {/* WhatsApp */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="curriculum-phone" className="text-xs sm:text-sm font-bold text-slate-800">
-                WhatsApp / Phone number <span className="text-rose-500">*</span>
+                WhatsApp number <span className="text-rose-500">*</span>
               </label>
               <input
                 id="curriculum-phone"

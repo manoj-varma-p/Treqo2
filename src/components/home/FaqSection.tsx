@@ -14,7 +14,7 @@ const faqs = [
   {
     question: "Online or on campus?",
     answer:
-      "The flagship runs online with live sessions and reviews. The 6M Program is on campus in Madhapur. Either way, come and sit in on a review before you decide.",
+      "The flagship runs online with live sessions and reviews. The 4M Program is on campus in Madhapur. Either way, come and sit in on a review before you decide.",
   },
   {
     question: "What happens if I fail Phase 4?",

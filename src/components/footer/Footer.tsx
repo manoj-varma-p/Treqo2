@@ -78,7 +78,7 @@ export default function Footer() {
             </div>
 
             <p className="mt-2 text-xs leading-relaxed text-slate-400">
-              The Marketing School · Treqo School of Modern Learning Pvt. Ltd.
+              The Marketing School. Treqo School of Modern Learning Pvt. Ltd.
             </p>
 
             <p className="mt-2 text-[11px] text-slate-500 leading-relaxed">
@@ -159,7 +159,7 @@ export default function Footer() {
             </Link>
 
             <p className="mt-4 text-xs sm:text-sm leading-relaxed text-slate-400 max-w-md">
-              Treqo — The Marketing School. Treqo School of Modern Learning Pvt. Ltd.
+              Treqo: The Marketing School. Treqo School of Modern Learning Pvt. Ltd.
             </p>
 
             <a
@@ -255,18 +255,18 @@ export default function Footer() {
             <Link href="/#hero" className="hover:text-slate-400 transition-colors">
               Back to top ↑
             </Link>
-            <a
-              href="mailto:admission@treqo.org?subject=Privacy%20Policy%20Inquiry"
+            <Link
+              href="/privacy"
               className="hover:text-slate-400 transition-colors"
             >
               Privacy Policy
-            </a>
-            <a
-              href="mailto:admission@treqo.org?subject=Terms%20of%20Service%20Inquiry"
+            </Link>
+            <Link
+              href="/terms"
               className="hover:text-slate-400 transition-colors"
             >
               Terms of Service
-            </a>
+            </Link>
           </div>
         </div>
       </Container>

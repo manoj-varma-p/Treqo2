@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowRight, CheckCircle2, Trophy, ShieldCheck, Download, Rocket, Clock } from "lucide-react";
 import Header from "@/components/header/Header";
+import Footer from "@/components/footer/Footer";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import ApplyButton from "@/components/common/ApplyButton";
@@ -54,7 +55,7 @@ export async function generateMetadata({
 
   return {
     title: `${meta.label} | TREQO`,
-    description: `Explore TREQO's ${meta.label} track — live mentorship, practical deliverables, and verified career portfolios.`,
+    description: `Explore TREQO's ${meta.label} track, live mentorship, practical deliverables, and verified career portfolios.`,
   };
 }
 
@@ -107,16 +108,18 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
       ...masterDetail.sidebar,
       ...(activeDetail.sidebar || {}),
       batchLabel: isLocked
-        ? `${activeTitle} — Coming Soon`
-        : activeDetail.sidebar?.batchLabel || `${activeTitle} — Batch 2`,
+        ? `${activeTitle}: Coming Soon`
+        : activeDetail.sidebar?.batchLabel || `${activeTitle}: Batch 2`,
       format: slug === "4m-program" ? "On Campus, 4 months" : (activeDetail.sidebar?.format || masterDetail.sidebar.format),
       applyLabel: isLocked ? "Get Notified" : (activeDetail.sidebar?.applyLabel || masterDetail.sidebar.applyLabel),
     },
   };
 
   return (
-    <main className="pt-14 lg:pt-0 pb-16 lg:pb-0">
+    <div className="min-h-screen flex flex-col bg-white">
       <Header variant="standard" />
+
+      <main className="flex-1 pb-16 lg:pb-0">
 
       {detail && course ? (
         <section className="relative overflow-hidden border-b border-border-subtle bg-surface pt-6 pb-12 sm:pt-10 sm:pb-16 lg:pt-14 lg:pb-20">
@@ -197,7 +200,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
               {/* Program Visual Showcase Card (Interactive) */}
               <div className="flex">
-                <ProgramHeroCard slug={slug} />
+                <ProgramHeroCard slug={slug} isLocked={isLocked} />
               </div>
             </div>
           </Container>
@@ -348,6 +351,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                 <CategorySidebar
                   sidebar={detail.sidebar}
                   courseTitle={course.title}
+                  isLocked={isLocked}
                   className="lg:col-start-2 lg:row-start-1"
                 />
               </div>
@@ -490,6 +494,9 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           </Container>
         </section>
       ) : null}
-    </main>
+      </main>
+
+      <Footer />
+    </div>
   );
 }

@@ -254,7 +254,22 @@ export default function LearningSystem() {
 
                   {/* Title */}
                   <h3 className="mt-3 text-lg sm:text-xl font-bold tracking-tight text-slate-900 group-hover:text-[#3A1494] transition-colors">
-                    {program.title}
+                    {program.isLocked ? (
+                      <button
+                        type="button"
+                        onClick={() => openApplyModal(program.title)}
+                        className="text-left font-bold text-slate-900 hover:text-[#3A1494] transition-colors cursor-pointer"
+                      >
+                        {program.title}
+                      </button>
+                    ) : (
+                      <Link
+                        href={program.actionHref}
+                        className="font-bold text-slate-900 hover:text-[#3A1494] transition-colors"
+                      >
+                        {program.title}
+                      </Link>
+                    )}
                   </h3>
 
                   {/* Description */}

@@ -1,7 +1,7 @@
 /**
  * The wave capping the top of the Why Treqqo section, right where it meets
- * Hero's seam. Solid brand-primary — one shade lighter than the section's
- * own brand-primary-deep background — so it reads as a soft highlight
+ * Hero's seam. Solid brand-primary, one shade lighter than the section's
+ * own brand-primary-deep background, so it reads as a soft highlight
  * shape rather than a hard-edged divider.
  */
 export default function WhyTreqqoWave() {

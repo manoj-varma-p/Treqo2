@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Container from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
-import { Hand, Video, Cpu, Building2 } from "lucide-react";
+import Image from "next/image";
 
 const outcomes = [
   {
@@ -31,19 +31,19 @@ const outcomes = [
 const companies = [
   {
     name: "Gesture Co",
-    icon: Hand,
+    logo: "/images/gesture.png",
   },
   {
     name: "JASS Media",
-    icon: Video,
+    logo: "/images/jass-media.png",
   },
   {
     name: "Bristle Tech",
-    icon: Cpu,
+    logo: "/images/bristletech.png",
   },
   {
     name: "TCS",
-    icon: Building2,
+    logo: "/images/tcs.png",
   },
 ];
 
@@ -273,19 +273,21 @@ export default function ExecutionProof() {
               </span>
               <div className="grid grid-cols-4 gap-2.5 sm:gap-3">
                 {companies.map((item) => {
-                  const Icon = item.icon;
                   return (
                     <div
                       key={item.name}
                       title={item.name}
-                      className="group relative flex items-center justify-center rounded-xl border border-slate-200/90 bg-white py-3.5 px-3 shadow-2xs transition-all duration-200 hover:bg-slate-50 hover:border-[#3A1494]/30 hover:shadow-xs cursor-pointer"
+                      className="group relative flex h-14 items-center justify-center rounded-xl border border-slate-800 bg-[#0B0F19] px-2.5 py-1.5 shadow-xs transition-all duration-200 hover:bg-[#131927] hover:border-slate-700 hover:shadow-md cursor-pointer"
                     >
-                      <Icon
-                        className="h-5 w-5 text-slate-700 transition-colors duration-200 group-hover:text-[#3A1494]"
-                        aria-hidden="true"
+                      <Image
+                        src={item.logo}
+                        alt={item.name}
+                        width={160}
+                        height={48}
+                        className="max-h-9 sm:max-h-10 w-auto max-w-[90%] object-contain transition-transform duration-200 group-hover:scale-110"
                       />
                       {/* Tooltip on hover */}
-                      <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-white opacity-0 shadow-sm transition-opacity duration-150 group-hover:opacity-100 z-10">
+                      <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-white px-2 py-0.5 text-[10px] font-bold text-slate-900 opacity-0 shadow-md transition-opacity duration-150 group-hover:opacity-100 z-10">
                         {item.name}
                       </span>
                     </div>

@@ -109,7 +109,7 @@ export default function BlogIndexPage() {
     <div className="min-h-screen flex flex-col bg-[#faf9fd] text-slate-900">
       <Header variant="standard" />
 
-      <main className="flex-1 pt-14 lg:pt-0 pb-16 sm:pb-20">
+      <main className="flex-1 pb-16 sm:pb-20">
         {/* Top Hero Section: Mobile-optimized, Centered, No Symbols */}
         <section className="relative overflow-hidden bg-white border-b border-slate-200/90 py-8 sm:py-16 lg:py-20">
           <Container>

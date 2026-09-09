@@ -24,7 +24,7 @@ export default function AlumniShowcase() {
               key={alumnus.name}
               className="group relative aspect-[7/10] overflow-hidden rounded-2xl bg-gradient-to-br from-brand-primary-deep via-brand-primary to-brand-primary-dark"
             >
-              {/* Photo placeholder — swap for the real alumni video thumbnail */}
+              {/* Photo placeholder, swap for the real alumni video thumbnail */}
               <div
                 aria-hidden="true"
                 className="absolute inset-0 opacity-[0.12]"

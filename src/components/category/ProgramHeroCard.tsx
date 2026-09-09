@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ProgramHeroCardProps {
   slug?: string;
+  isLocked?: boolean;
 }
 
-export default function ProgramHeroCard({ slug }: ProgramHeroCardProps) {
+export default function ProgramHeroCard({ slug, isLocked = false }: ProgramHeroCardProps) {
   const [activeTab, setActiveTab] = useState<"master" | "fit">("master");
 
   const isOnlineFlagship = slug === "digital-marketing";
@@ -57,10 +59,17 @@ export default function ProgramHeroCard({ slug }: ProgramHeroCardProps) {
           <span className="inline-flex items-center rounded-full border border-purple-200 bg-purple-50 px-3 py-1 text-[11px] font-bold text-[#3A1494]">
             12-Phase Curriculum
           </span>
-          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600">
-            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            Batch 2 Enrolling
-          </span>
+          {isLocked ? (
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-purple-600">
+              <Clock className="h-3 w-3 text-purple-500" />
+              Upcoming Cohort
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              Batch 2 Enrolling
+            </span>
+          )}
         </div>
 
         {/* Tab Switcher */}

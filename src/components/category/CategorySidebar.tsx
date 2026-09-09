@@ -10,6 +10,7 @@ interface CategorySidebarProps {
   sidebar: CourseSidebar;
   className?: string;
   courseTitle?: string;
+  isLocked?: boolean;
 }
 
 const rows: { key: keyof CourseSidebar; label: string; icon: typeof Calendar }[] = [
@@ -19,18 +20,30 @@ const rows: { key: keyof CourseSidebar; label: string; icon: typeof Calendar }[]
   { key: "seats", label: "Seats", icon: Users },
 ];
 
-export default function CategorySidebar({ sidebar, className, courseTitle }: CategorySidebarProps) {
+export default function CategorySidebar({
+  sidebar,
+  className,
+  courseTitle,
+  isLocked = false,
+}: CategorySidebarProps) {
   return (
     <aside className={cn("lg:sticky lg:top-36 lg:self-start", className)}>
       <div className="overflow-hidden rounded-2xl border border-border-subtle bg-surface shadow-[0_12px_32px_-16px_rgba(20,18,31,0.22)]">
         <div className="flex items-center justify-between bg-brand-primary px-5 py-3.5 text-white">
           <span className="text-xs font-bold uppercase tracking-wider">
-            {sidebar.batchLabel.split("—")[0].trim()} Details
+            {sidebar.batchLabel.replace(/\s*\(.*?\)/, "").trim()} Details
           </span>
-          <span className="inline-flex items-center gap-1 rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-semibold text-white">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            Active
-          </span>
+          {isLocked ? (
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-semibold text-purple-200">
+              <span className="h-1.5 w-1.5 rounded-full bg-purple-300" />
+              Upcoming
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-semibold text-white">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              Active
+            </span>
+          )}
         </div>
 
         {/* Info Grid: 2 columns on mobile, 4 columns on tablets, 1 column on desktop sidebar */}

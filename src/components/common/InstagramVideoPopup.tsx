@@ -95,22 +95,22 @@ export default function InstagramVideoPopup() {
             )}
           </AnimatePresence>
 
-          {/* Floating container on desktop / Centered modal when open */}
+          {/* Floating vertical container on desktop / Centered modal when open */}
           <motion.div
             initial={{
               opacity: 0,
-              left: "100%",
-              x: "0%",
-              top: "84%",
+              right: 0,
+              top: "44%",
               y: "-50%",
-              width: "168px",
-              height: "46px",
+              width: "44px",
+              height: "176px",
             }}
             animate={
               isOpen
                 ? {
                     opacity: 1,
                     left: "50%",
+                    right: "auto",
                     x: "-50%",
                     top: "50%",
                     y: "-50%",
@@ -118,28 +118,28 @@ export default function InstagramVideoPopup() {
                     height: "min(530px, 82vh)",
                     backgroundColor: "#000000",
                     borderColor: "rgba(255, 255, 255, 0.2)",
-                    borderRadius: "0px",
+                    borderRadius: "16px",
                     boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.75)",
                   }
                 : {
                     opacity: 1,
-                    left: "100%",
-                    x: "-100%",
-                    top: "84%",
+                    left: "auto",
+                    right: 0,
+                    x: "0%",
+                    top: "44%",
                     y: "-50%",
-                    width: "168px",
-                    height: "46px",
+                    width: "44px",
+                    height: "176px",
                     backgroundColor: "#2c0e78",
-                    borderColor: "rgba(192, 132, 252, 0.35)",
-                    borderRadius: "6px 0px 0px 6px",
-                    boxShadow: "0 10px 25px -5px rgba(58, 20, 148, 0.45)",
+                    borderColor: "rgba(192, 132, 252, 0.4)",
+                    borderRadius: "12px 0px 0px 12px",
+                    boxShadow: "-4px 0 24px -2px rgba(58, 20, 148, 0.5)",
                   }
             }
             exit={{
               opacity: 0,
-              left: "100%",
-              x: "0%",
-              transition: { duration: 0.25 },
+              right: "-50px",
+              transition: { duration: 0.2 },
             }}
             transition={{
               type: "spring",
@@ -158,7 +158,7 @@ export default function InstagramVideoPopup() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.15, delay: 0.08 }}
-                  className="relative w-full h-full flex flex-col bg-black text-white cursor-default"
+                  className="relative w-full h-full flex flex-col bg-black text-white cursor-default rounded-2xl overflow-hidden"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {/* Floating Close Button */}
@@ -168,7 +168,7 @@ export default function InstagramVideoPopup() {
                       handleClose();
                     }}
                     aria-label="Close video"
-                    className="absolute top-2.5 right-2.5 z-30 flex h-7 w-7 items-center justify-center bg-black/80 hover:bg-black text-white/90 hover:text-white border border-white/20 transition-all cursor-pointer shadow-md"
+                    className="absolute top-3 right-3 z-30 flex h-7 w-7 items-center justify-center rounded-full bg-black/80 hover:bg-black text-white/90 hover:text-white border border-white/20 transition-all cursor-pointer shadow-md"
                     title="Close"
                   >
                     <X size={15} />
@@ -178,7 +178,7 @@ export default function InstagramVideoPopup() {
                   <div className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center">
                     <iframe
                       src="https://www.instagram.com/reel/DZcndZohT3l/embed/?autoplay=1"
-                      className="w-full h-full border-0 rounded-none"
+                      className="w-full h-full border-0"
                       scrolling="no"
                       allow="autoplay; encrypted-media; fullscreen; picture-in-picture; clipboard-write;"
                       title="TREQO Instagram Reel"
@@ -192,28 +192,31 @@ export default function InstagramVideoPopup() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
-                  className="w-full h-full flex items-center justify-between px-3 py-1 bg-gradient-to-r from-[#3A1494] via-[#2c0e78] to-[#1e0a52] text-white hover:from-[#4b1aa6] hover:to-[#3A1494] transition-all group"
+                  className="w-full h-full flex flex-col items-center justify-between py-3 px-1 bg-gradient-to-b from-[#3A1494] via-[#2c0e78] to-[#1e0a52] text-white hover:from-[#4b1aa6] hover:to-[#3A1494] transition-all group"
                 >
-                  {/* Small Video Icon with pulse dot */}
-                  <div className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-sm bg-white/10 border border-white/20 shadow-xs group-hover:scale-105 group-hover:bg-white/20 transition-all">
-                    <Video size={13} className="text-white sm:hidden" />
-                    <Video size={14} className="text-white hidden sm:block" />
+                  {/* Top: Video icon with pulse dot */}
+                  <div className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/15 border border-white/25 shadow-xs group-hover:scale-110 group-hover:bg-white/25 transition-all">
+                    <Video size={13} className="text-white" />
                     <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
                       <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                       <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
                     </span>
                   </div>
 
-                  <div className="flex flex-col items-start text-left pl-0.5 whitespace-nowrap">
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-white leading-tight">
-                      Watch Video
-                    </span>
-                    <span className="text-[9px] font-semibold text-purple-200/90 leading-tight">
-                      TREQO Reel
+                  {/* Center: Vertical Typography with clean generous spacing */}
+                  <div
+                    className="my-auto py-2 flex items-center justify-center text-center select-none"
+                    style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+                  >
+                    <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white whitespace-nowrap leading-none">
+                      WATCH VIDEO
                     </span>
                   </div>
 
-                  <Play size={11} className="text-purple-200 group-hover:translate-x-0.5 transition-transform shrink-0 ml-auto pr-0.5" />
+                  {/* Bottom: Play Icon with proper separation */}
+                  <div className="flex items-center justify-center text-purple-200 group-hover:text-white group-hover:scale-110 transition-transform shrink-0 pb-0.5">
+                    <Play size={10} className="fill-purple-200/50" />
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>

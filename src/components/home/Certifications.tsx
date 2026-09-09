@@ -1,67 +1,54 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import React from "react";
 import Image from "next/image";
-import {
-  Award,
-  ShieldCheck,
-  BadgeCheck,
-  Star,
-  Palette,
-  BarChart2,
-  Search,
-  Mail,
-  Globe,
-  Target,
-  Zap,
-} from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import Container from "@/components/ui/Container";
 
 /* ─────────────────────────────────────────────
-   CERTIFICATE DATA — grouped by provider
+   CERTIFICATE DATA, grouped by provider
 ───────────────────────────────────────────── */
 interface CertItem {
   name: string;
   provider: "SEMrush" | "HubSpot" | "Google" | "Meta";
-  icon: ReactNode;
   color: string;
   price?: string;
 }
 
 const semrush: CertItem[] = [
-  { name: "PPC Fundamentals",   provider: "SEMrush", icon: <Target size={15} />, color: "#FF642D" },
-  { name: "SEO Fundamentals",   provider: "SEMrush", icon: <Search size={15} />, color: "#FF642D" },
-  { name: "Social Media",       provider: "SEMrush", icon: <Star size={15} />,   color: "#FF642D" },
-  { name: "Content Marketing",  provider: "SEMrush", icon: <Award size={15} />,  color: "#FF642D" },
+  { name: "PPC Fundamentals",   provider: "SEMrush", color: "#FF642D" },
+  { name: "SEO Fundamentals",   provider: "SEMrush", color: "#FF642D" },
+  { name: "Social Media",       provider: "SEMrush", color: "#FF642D" },
+  { name: "Content Marketing",  provider: "SEMrush", color: "#FF642D" },
 ];
 
 const hubspot: CertItem[] = [
-  { name: "SEO Certification",      provider: "HubSpot", icon: <Search size={15} />, color: "#FF7A59" },
-  { name: "Digital Marketing",      provider: "HubSpot", icon: <Globe size={15} />,  color: "#FF7A59" },
-  { name: "Social Media Marketing", provider: "HubSpot", icon: <Star size={15} />,   color: "#FF7A59" },
-  { name: "Email Marketing",        provider: "HubSpot", icon: <Mail size={15} />,   color: "#FF7A59" },
-  { name: "Inbound Marketing",      provider: "HubSpot", icon: <Zap size={15} />,    color: "#FF7A59" },
-  { name: "Content Marketing",      provider: "HubSpot", icon: <Award size={15} />,  color: "#FF7A59" },
+  { name: "SEO Certification",      provider: "HubSpot", color: "#FF7A59" },
+  { name: "Digital Marketing",      provider: "HubSpot", color: "#FF7A59" },
+  { name: "Social Media Marketing", provider: "HubSpot", color: "#FF7A59" },
+  { name: "Email Marketing",        provider: "HubSpot", color: "#FF7A59" },
+  { name: "Inbound Marketing",      provider: "HubSpot", color: "#FF7A59" },
+  { name: "Content Marketing",      provider: "HubSpot", color: "#FF7A59" },
 ];
 
 const google: CertItem[] = [
-  { name: "Google My Business",           provider: "Google", icon: <Globe size={15} />,     color: "#34A853" },
-  { name: "Google Analytics (GA4)",       provider: "Google", icon: <BarChart2 size={15} />, color: "#4285F4" },
-  { name: "Google Ads Shopping",          provider: "Google", icon: <Target size={15} />,    color: "#EA4335" },
-  { name: "Performance Max",              provider: "Google", icon: <Zap size={15} />,       color: "#FBBC04" },
-  { name: "Google Ads Video",             provider: "Google", icon: <Star size={15} />,      color: "#EA4335" },
-  { name: "Google Ads Display",           provider: "Google", icon: <Award size={15} />,     color: "#34A853" },
-  { name: "Fundamentals of Digital Mkt", provider: "Google", icon: <Globe size={15} />,     color: "#4285F4" },
-  { name: "Google Ads Search",            provider: "Google", icon: <Search size={15} />,    color: "#FBBC04" },
+  { name: "Google My Business",           provider: "Google", color: "#34A853" },
+  { name: "Google Analytics (GA4)",       provider: "Google", color: "#4285F4" },
+  { name: "Google Ads Shopping",          provider: "Google", color: "#EA4335" },
+  { name: "Performance Max",              provider: "Google", color: "#FBBC04" },
+  { name: "Google Ads Video",             provider: "Google", color: "#EA4335" },
+  { name: "Google Ads Display",           provider: "Google", color: "#34A853" },
+  { name: "Fundamentals of Digital Mkt", provider: "Google", color: "#4285F4" },
+  { name: "Google Ads Search",            provider: "Google", color: "#FBBC04" },
 ];
 
 const meta: CertItem[] = [
-  { name: "Community Manager",        provider: "Meta", price: "$99",  icon: <Star size={15} />,       color: "#0082FB" },
-  { name: "Creative Strategy Pro",    provider: "Meta", price: "$150", icon: <Palette size={15} />,   color: "#0082FB" },
-  { name: "Media Planning Pro",       provider: "Meta", price: "$150", icon: <BarChart2 size={15} />,  color: "#0082FB" },
-  { name: "Marketing Science Pro",    provider: "Meta", price: "$150", icon: <Award size={15} />,      color: "#0082FB" },
-  { name: "Digital Marketing Assoc.", provider: "Meta", price: "$99",  icon: <BadgeCheck size={15} />, color: "#0082FB" },
-  { name: "Media Buying Pro",         provider: "Meta", price: "$150", icon: <Target size={15} />,     color: "#0082FB" },
+  { name: "Community Manager",        provider: "Meta", price: "$99",  color: "#0082FB" },
+  { name: "Creative Strategy Pro",    provider: "Meta", price: "$150", color: "#0082FB" },
+  { name: "Media Planning Pro",       provider: "Meta", price: "$150", color: "#0082FB" },
+  { name: "Marketing Science Pro",    provider: "Meta", price: "$150", color: "#0082FB" },
+  { name: "Digital Marketing Assoc.", provider: "Meta", price: "$99",  color: "#0082FB" },
+  { name: "Media Buying Pro",         provider: "Meta", price: "$150", color: "#0082FB" },
 ];
 
 const providerBadge = {
@@ -85,18 +72,8 @@ function CertCard({ cert }: { cert: CertItem }) {
         style={{ background: `linear-gradient(to right, ${cert.color}, transparent)` }}
       />
 
-      {/* Icon + Provider badge row */}
-      <div className="flex items-center justify-between mb-2.5">
-        <div
-          className="flex h-8 w-8 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105"
-          style={{
-            background: cert.color + "14",
-            border: `1px solid ${cert.color}28`,
-            color: cert.color,
-          }}
-        >
-          {cert.icon}
-        </div>
+      {/* Provider badge row */}
+      <div className="flex items-center justify-end mb-2">
         <div
           className="rounded-full px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider"
           style={{
@@ -177,7 +154,7 @@ export default function CertificationSection() {
     <section
       id="certs"
       data-stage="CERTS"
-      className="relative bg-[#fafbfe] py-12 sm:py-16 lg:py-0 lg:min-h-screen lg:flex lg:items-center overflow-hidden"
+      className="relative bg-[#fafbfe] py-12 sm:py-16 lg:py-0 lg:min-h-screen lg:flex lg:items-center overflow-hidden scroll-mt-16 sm:scroll-mt-20"
     >
       {/* Subtle ambient light glow */}
       <div
@@ -227,7 +204,7 @@ export default function CertificationSection() {
               </h3>
 
               <p className="text-xs sm:text-sm text-slate-600 m-0 leading-relaxed">
-                Awarded on completion of your capstone project — a real campaign, built &amp; launched with real numbers attached.
+                Awarded on completion of your capstone project: a real campaign, built &amp; launched with real numbers attached.
               </p>
             </div>
 
@@ -273,7 +250,7 @@ export default function CertificationSection() {
               </h3>
 
               <p className="text-xs sm:text-sm text-slate-600 m-0 leading-relaxed">
-                From Google &amp; Meta to HubSpot &amp; SEMrush — graduate with 30+ credentials recruiters look for.
+                From Google &amp; Meta to HubSpot &amp; SEMrush, graduate with 30+ credentials recruiters look for.
               </p>
 
               {/* Provider Badges Row */}
@@ -316,17 +293,6 @@ export default function CertificationSection() {
 
               {/* Column 2: Flows Upward (Bottom to Top) */}
               <VerticalInfiniteCol certs={col2Certs} direction="up" speed={48} />
-            </div>
-
-            {/* Bottom Inclusions Banner with Glowing Green Dot */}
-            <div className="inline-flex items-center gap-2 rounded-xl border border-emerald-200/90 bg-emerald-50/80 px-3.5 py-2 text-xs font-semibold text-emerald-900 w-fit">
-              <span className="relative flex h-2 w-2 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-              <span className="text-[11px] sm:text-xs">
-                Google, HubSpot &amp; SEMrush certifications included in fee.
-              </span>
             </div>
           </div>
         </div>

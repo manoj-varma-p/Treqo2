@@ -179,7 +179,7 @@ export const whyTreqqoPillars: WhyTreqqoPillar[] = [
 export const learningSystemContent: LearningSystemContent = {
   heading: { line1: "Choose Your", line2: "Learning System" },
   description:
-    "Curated learning tracks that combine live mentorship, hands-on projects and career support — built to take you from first line of work to first paying job.",
+    "Curated learning tracks that combine live mentorship, hands-on projects and career support, built to take you from first line of work to first paying job.",
 };
 
 export const learningSystemCourses: LearningSystemCourse[] = [
@@ -232,7 +232,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
             eyebrow: "PHASE 01",
             heading: "MARKETING FOUNDATIONS",
             range: "01",
-            lessons: ["Understand what marketing actually is — before touching a tool, ad or campaign."],
+            lessons: ["Understand what marketing actually is, before touching a tool, ad or campaign."],
           },
           {
             eyebrow: "PHASE 02",
@@ -244,7 +244,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
             eyebrow: "PHASE 03",
             heading: "FUNNELS + METRICS",
             range: "03",
-            lessons: ["Understand how people move from attention to purchase — and where businesses lose them."],
+            lessons: ["Understand how people move from attention to purchase, and where businesses lose them."],
           },
           {
             eyebrow: "PHASE 04",
@@ -274,7 +274,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
             eyebrow: "PHASE 08",
             heading: "META + SOCIAL",
             range: "08",
-            lessons: ["Understand attention, content and paid social — and how to turn scrolling into action."],
+            lessons: ["Understand attention, content and paid social, and how to turn scrolling into action."],
           },
           {
             eyebrow: "PHASE 09",
@@ -309,7 +309,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         bullets: ["Live review, not a quiz", "Real budget, real stakes", "You defend the call, not the slide"],
       },
       // Fee amounts confirmed for this program; mirror the same tier structure for other
-      // programs only once their real pricing is confirmed — see Development/Design below.
+      // programs only once their real pricing is confirmed, see Development/Design below.
       fees: {
         heading: "Fees",
         description: "Two ways to pay. Pick the one that matches your risk, not ours.",
@@ -363,11 +363,11 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         {
           question: "What do I actually walk away with?",
           answer:
-            "A portfolio of 30+ real campaigns across 16+ industries, plus a verified certificate that links back to that work — not just a PDF.",
+            "A portfolio of 30+ real campaigns across 16+ industries, plus a verified certificate that links back to that work, not just a PDF.",
         },
       ],
       sidebar: {
-        batchLabel: "Batch 2 — forming",
+        batchLabel: "Batch 2 (Forming)",
         starts: "September 2026",
         format: "Online, 4 months",
         feePlans: "₹50,000 + 12%, or ₹75,000 flat",
@@ -424,7 +424,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
       phases: {
         heading: "The 20 phases",
         intro:
-          "Foundations, essentials, a gate, build, architecture, integration, production, scale — in that order. You can't design a system you don't understand or scale traffic you haven't earned, so the sequence isn't a syllabus. It's the argument.",
+          "Foundations, essentials, a gate, build, architecture, integration, production, scale, in that order. You can't design a system you don't understand or scale traffic you haven't earned, so the sequence isn't a syllabus. It's the argument.",
         groups: [
           {
             eyebrow: "FOUNDATIONS",
@@ -472,17 +472,17 @@ export const learningSystemCourses: LearningSystemCourse[] = [
             eyebrow: "SCALE",
             heading: "Take what worked once and make it hold under load",
             range: "19-20",
-            lessons: ["Scaling real traffic", "Capstone — the Code Review"],
+            lessons: ["Scaling real traffic", "Capstone, the Code Review"],
           },
         ],
       },
       challenge: {
         heading: "The Code Review",
         description:
-          "Every module ends with a senior engineer reading your code out loud — not grading a rubric. If a decision doesn't hold up under questioning, you refactor it before you move on.",
+          "Every module ends with a senior engineer reading your code out loud, not grading a rubric. If a decision doesn't hold up under questioning, you refactor it before you move on.",
         bullets: ["Live review, not a quiz", "Real repo, real reviewers", "You defend the diff, not the demo"],
       },
-      // Placeholder pricing — confirm real Development fee tiers before publishing.
+      // Placeholder pricing, confirm real Development fee tiers before publishing.
       fees: {
         heading: "Fees",
         description: "Two ways to pay. Pick the one that matches your risk, not ours.",
@@ -504,7 +504,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
       },
       proof: {
         heading: "Proof",
-        description: "What Batch 1 actually produced — not a projection.",
+        description: "What Batch 1 actually produced, not a projection.",
         stats: [
           { value: "15+", label: "Production builds shipped" },
           { value: "8", label: "Months, bootcamp to portfolio" },
@@ -521,7 +521,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         {
           question: "What stack do you teach?",
           answer:
-            "Modern web fundamentals — you leave able to reason about any stack, not locked into one framework's syntax.",
+            "Modern web fundamentals, you leave able to reason about any stack, not locked into one framework's syntax.",
         },
         {
           question: "What happens if I fail the Gate?",
@@ -531,11 +531,16 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         {
           question: "What do I actually walk away with?",
           answer:
-            "15+ production builds you shipped yourself, plus a verified certificate that links back to that work — not just a PDF.",
+            "15+ production builds you shipped yourself, plus a verified certificate that links back to that work, not just a PDF.",
+        },
+        {
+          question: "How does the code review process work?",
+          answer:
+            "Every module concludes with a live code walkthrough by a senior engineer who reviews your architecture, git history, and technical choices.",
         },
       ],
       sidebar: {
-        batchLabel: "Batch 2 — forming",
+        batchLabel: "Batch 2 (Forming)",
         starts: "September 2026",
         format: "Online, 8 months",
         feePlans: "₹60,000 + 12%, or ₹90,000 flat",
@@ -592,7 +597,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
       phases: {
         heading: "The 16 design phases",
         intro:
-          "User research, mental models, information architecture, wireframing, design systems, UI craft, micro-interactions, usability defense — in that order.",
+          "User research, mental models, information architecture, wireframing, design systems, UI craft, micro-interactions, usability defense, in that order.",
         groups: [
           {
             eyebrow: "PHASE 01-03",
@@ -663,15 +668,27 @@ export const learningSystemCourses: LearningSystemCourse[] = [
       faqs: [
         {
           question: "Do I need drawing or graphic design skills to join?",
-          answer: "No. Product design is about solving user problems with structured layout, hierarchy, and systems.",
+          answer: "No. Product design is about solving user problems with structured layout, visual hierarchy, user research, and scalable design systems.",
         },
         {
-          question: "Will I learn Figma?",
-          answer: "Yes, you will master advanced Figma features including Auto-layout, component properties, variables, and design tokens.",
+          question: "Will I learn Figma from scratch to advanced?",
+          answer: "Yes. You will master auto-layout, component architecture, token variables, smart-animate prototyping, and production-ready handoff specs.",
+        },
+        {
+          question: "What case studies will I build during the 5 months?",
+          answer: "You graduate with 3 full-scale, production-ready product case studies tested with real users, ready for senior recruiter screening.",
+        },
+        {
+          question: "How does the Live Design Critique work?",
+          answer: "Every sprint concludes with a live critique where active Principal Designers review your screen flows, problem framing, and UX decisions.",
+        },
+        {
+          question: "What career roles can I apply for after graduating?",
+          answer: "Alumni qualify for Product Designer, UI/UX Designer, Design System Specialist, and Interaction Designer roles across high-growth startups and tech firms.",
         },
       ],
       sidebar: {
-        batchLabel: "Batch 2 — forming",
+        batchLabel: "Batch 2 (Forming)",
         starts: "September 2026",
         format: "Online, 5 months",
         feePlans: "₹45,000 + 12%, or ₹65,000 flat",
@@ -765,11 +782,14 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         ],
       },
       faqs: [
-        { question: "Is this course really free?", answer: "Yes! There are no hidden fees, and no credit card is required." },
-        { question: "Can I upgrade to the Flagship cohort later?", answer: "Absolutely. When you are ready for live client briefs, you can apply for Batch 2." },
+        { question: "Is this course really free?", answer: "Yes! There are no hidden fees, no trial periods, and no credit card is required." },
+        { question: "How long do I have access to the modules?", answer: "You get lifetime on-demand access to all 6 video modules and downloadable templates." },
+        { question: "Will I receive a certificate upon completion?", answer: "Yes. After completing all 6 modules and passing the knowledge assessment, you receive a verified Foundation Certificate." },
+        { question: "Can I upgrade to the Flagship or On-Campus cohort later?", answer: "Absolutely. When you are ready to manage live client budgets, you can apply directly for Batch 2." },
+        { question: "Are there practical assignments and templates included?", answer: "Yes, every module includes downloadable audit templates, swipe files, and real-world calculation exercises." },
       ],
       sidebar: {
-        batchLabel: "Self Paced — Open",
+        batchLabel: "Self Paced (Open)",
         starts: "Instant Access",
         format: "Online, Self-paced",
         feePlans: "100% Free",
@@ -865,11 +885,14 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         ],
       },
       faqs: [
-        { question: "Where is the studio located?", answer: "Our studio floor is located in Madhapur, Hyderabad, near the tech hub." },
-        { question: "What are the timings?", answer: "Full-day studio floor sprints, Monday to Friday with weekend capstones." },
+        { question: "Where is the studio located?", answer: "Our studio floor is located in Madhapur, Hyderabad, in the heart of the tech hub with dedicated workstations and studio equipment." },
+        { question: "What are the timings and daily schedule?", answer: "Full-day studio floor sprints, Monday to Friday (10:00 AM to 6:00 PM), featuring daily standups, live ad account reviews, and client strategy sessions." },
+        { question: "Do I manage real brand budgets on the floor?", answer: "Yes. You deploy and optimize real client ad budgets on Meta and Google Ads under direct supervision of senior practitioners, not simulations." },
+        { question: "How does placement support work for on-campus fellows?", answer: "On-campus fellows get direct access to our hiring agency network with dedicated mock interviews, portfolio defense rounds, and guaranteed interview referrals." },
+        { question: "What are the eligibility criteria and batch size?", answer: "Each on-campus cohort is strictly capped at 30 fellows to ensure 1-on-1 mentorship. Admission is based on a 20-minute profile evaluation discussion." },
       ],
       sidebar: {
-        batchLabel: "Batch 2 — forming",
+        batchLabel: "Batch 2 (Forming)",
         starts: "September 2026",
         format: "On Campus, 4 months",
         feePlans: "₹60,000 + 10%, or ₹85,000 flat",
@@ -967,10 +990,13 @@ export const learningSystemCourses: LearningSystemCourse[] = [
       },
       faqs: [
         { question: "Is this program recognized by employers?", answer: "Yes! Top startups, agencies, and enterprise brands actively recruit from our PGDM cohorts based on verified portfolio work." },
-        { question: "Can I manage this while working full-time?", answer: "Yes, the hybrid schedule is built specifically for working professionals and final-year students." },
+        { question: "Can I manage this while working full-time?", answer: "Yes, the hybrid schedule is built specifically for working professionals and final-year students with weekend strategy immersions." },
+        { question: "What live budget scale will I handle during the program?", answer: "Fellows manage enterprise-level budgets exceeding ₹10L+, mastering omnichannel media mix modeling and multi-touch attribution." },
+        { question: "How does the CMO Board Defense capstone work?", answer: "You present a comprehensive 3-year growth playbook and unit economics model directly to a panel of active CMOs." },
+        { question: "What executive career support is provided?", answer: "You get 1-on-1 executive mentorship, portfolio polish, and direct recruitment access to VP Marketing and Growth Director roles." },
       ],
       sidebar: {
-        batchLabel: "Batch 2 — forming",
+        batchLabel: "Batch 2 (Forming)",
         starts: "September 2026",
         format: "Hybrid, 12 months",
         feePlans: "₹1,20,000 + 8%, or ₹1,75,000 flat",
@@ -1061,11 +1087,14 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         ],
       },
       faqs: [
-        { question: "What if I have semester exams during the course?", answer: "We provide built-in exam pauses and recorded mentor sessions so you never fall behind." },
-        { question: "Do I need prior marketing background?", answer: "No. We start from foundational first principles and build up to live media execution." },
+        { question: "What if I have semester exams during the course?", answer: "We provide built-in exam pauses and recorded mentor sessions so you never fall behind on college coursework." },
+        { question: "Do I need prior marketing background?", answer: "No. We start from foundational first principles and build up to live media execution and client audits." },
+        { question: "How is the program scheduled around college classes?", answer: "Live interactive cohorts run on weekends and weekday evenings, fully respecting university timetables." },
+        { question: "Will I get internship and placement opportunities before graduating?", answer: "Yes! Top agencies and brands actively recruit our fellows for paid internships and entry-level growth roles." },
+        { question: "What tools and AI platforms will I master?", answer: "You get hands-on training with Meta Ads Manager, GA4, Semrush, ChatGPT, Claude, and Canva Pro from week one." },
       ],
       sidebar: {
-        batchLabel: "Batch 2 — forming",
+        batchLabel: "Batch 2 (Forming)",
         starts: "September 2026",
         format: "Online, 4 months",
         feePlans: "₹35,000 flat student rate",
@@ -1156,11 +1185,14 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         ],
       },
       faqs: [
-        { question: "Do I need a live product to join?", answer: "No. You can validate an idea and launch an MVP during the first 3 phases." },
-        { question: "Is this suitable for both B2B and B2C?", answer: "Yes! We cover both inbound paid acquisition and outbound B2B pipeline strategies." },
+        { question: "Do I need a live product to join?", answer: "No. You can validate an idea and launch an MVP during the first 3 phases before spending on paid acquisition." },
+        { question: "Is this suitable for both B2B and B2C?", answer: "Yes! We cover both inbound paid acquisition and outbound B2B pipeline strategies and customer interview frameworks." },
+        { question: "How much 1-on-1 mentorship do I receive for my startup?", answer: "You get weekly private GTM teardowns, landing page audits, and ad creative reviews directly with active venture operators." },
+        { question: "What happens during the Live GTM Defense?", answer: "You defend your launch metrics, acquisition funnel economics, and unit economics before a panel of experienced venture builders." },
+        { question: "Will I get introductions to angel investors and venture funds?", answer: "Yes, graduating founders with validated revenue numbers get introduced directly to our early-stage investor network." },
       ],
       sidebar: {
-        batchLabel: "Batch 2 — forming",
+        batchLabel: "Batch 2 (Forming)",
         starts: "September 2026",
         format: "Online, 4 months",
         feePlans: "₹55,000 flat",
@@ -1251,10 +1283,14 @@ export const learningSystemCourses: LearningSystemCourse[] = [
         ],
       },
       faqs: [
-        { question: "Do I need prior experience with Meta or Google Ads?", answer: "Yes, this is an advanced track for individuals with basic media buying familiarity who want to scale." },
+        { question: "Do I need prior experience with Meta or Google Ads?", answer: "Yes, this is an advanced track for individuals with basic media buying familiarity who want to scale campaigns beyond ₹10L/month." },
+        { question: "What ad spend budgets will we analyze and manage?", answer: "You audit and manage live enterprise accounts with monthly budgets ranging from ₹5L to ₹50L+ across D2C and SaaS." },
+        { question: "Which tracking and attribution tools are covered?", answer: "We cover GA4 server-side GTM, Meta Conversion API (CAPI), Triple Whale, and Northbeam multi-touch models." },
+        { question: "How does the Scaling Defense capstone work?", answer: "You diagnose a real live account's creative fatigue and attribution leaks, then defend a 60-day horizontal/vertical scaling roadmap." },
+        { question: "What job opportunities are available for performance specialists?", answer: "Graduates qualify for Senior Media Buyer, Performance Marketing Lead, and Head of Growth roles at top agencies and brands." },
       ],
       sidebar: {
-        batchLabel: "Batch 2 — forming",
+        batchLabel: "Batch 2 (Forming)",
         starts: "September 2026",
         format: "Online, 3 months",
         feePlans: "₹45,000 flat",
@@ -1272,7 +1308,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
 export const taughtByContent: TaughtByContent = {
   heading: { line1: "Everything You Need For", line2: "Real Market Scale" },
   description:
-    "Expert-led sessions, proven frameworks and the tools you'll actually use — taught by people still doing the work.",
+    "Expert-led sessions, proven frameworks and the tools you'll actually use, taught by people still doing the work.",
   subheading: "Taught By Active Growth Leads & Strategy Partners",
 };
 
@@ -1304,7 +1340,7 @@ export const alumniContent: AlumniContent = {
   cta: { label: "Take the First Step", href: "/start-learning" },
 };
 
-/** Placeholder alumni — swap for real names, roles, companies and photos once available. */
+/** Placeholder alumni, swap for real names, roles, companies and photos once available. */
 export const alumniStories: AlumniStory[] = [
   { name: "Riya Sharma", role: "Assistant Brand Manager", company: "Leading FMCG Brand" },
   { name: "Karan Mehta", role: "Content Marketing Lead", company: "D2C Consumer Brand" },
@@ -1327,7 +1363,7 @@ export const executionPillars: ExecutionPillar[] = [
     heading: "Idea Validation & Strategy",
     quote: "Tools change every 6 months. Revenue-driven execution compounds forever.",
     bullets: [
-      { label: "TALK", text: "Talk to 20–50 real people before you build anything. Because “Bro, that's a great idea” isn't validation." },
+      { label: "TALK", text: "Talk to 20 to 50 real people before you build anything. Because “Bro, that's a great idea” isn't validation." },
       { label: "FIND", text: "Find a problem people actually want solved. Not one you convinced yourself they have." },
       { label: "VALIDATE", text: "Kill the bad idea early. It's cheaper than building it for six months." },
     ],
@@ -1417,7 +1453,7 @@ export const faqCategories: FaqCategory[] = [
       {
         question: "What will I learn in this program?",
         answer:
-          "You'll learn paid media, SEO, brand strategy, analytics and business fundamentals — building a portfolio of real campaigns along the way.",
+          "You'll learn paid media, SEO, brand strategy, analytics and business fundamentals, building a portfolio of real campaigns along the way.",
       },
       {
         question: "Who is this program for?",
@@ -1441,7 +1477,7 @@ export const faqCategories: FaqCategory[] = [
       {
         question: "How is AI integrated into this course?",
         answer:
-          "You'll use generative AI tools throughout — for content creation, ad copy, campaign ideation and performance analysis.",
+          "You'll use generative AI tools throughout, for content creation, ad copy, campaign ideation and performance analysis.",
       },
       {
         question: "Do I need to know how to code?",
@@ -1467,7 +1503,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         question: "Can I start a business while studying?",
-        answer: "Yes — the program is built around a live venture or freelance project you run alongside your coursework.",
+        answer: "Yes, the program is built around a live venture or freelance project you run alongside your coursework.",
       },
       {
         question: "What career paths does this open up?",
@@ -1485,7 +1521,7 @@ export const faqCategories: FaqCategory[] = [
       {
         question: "What will I learn in the AI program?",
         answer:
-          "You'll learn how to apply AI strategically across marketing, operations and product decisions — not just how to use individual tools.",
+          "You'll learn how to apply AI strategically across marketing, operations and product decisions, not just how to use individual tools.",
       },
       {
         question: "How is this AI program different from other AI courses online?",

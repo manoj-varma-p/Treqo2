@@ -13,6 +13,7 @@ export default function ApplyModal() {
   const [background, setBackground] = useState("College Student / Recent Graduate");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [prevCourseName, setPrevCourseName] = useState(courseName);
   if (courseName !== prevCourseName) {
@@ -27,6 +28,7 @@ export default function ApplyModal() {
     setPrevIsOpen(isOpen);
     if (!isOpen) {
       setSubmitted(false);
+      setError(null);
     }
   }
 
@@ -52,9 +54,17 @@ export default function ApplyModal() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    setError(null);
+
+    const digitsOnly = phone.replace(/\D/g, "");
+    if (digitsOnly.length < 7) {
+      setError("Please enter your complete WhatsApp number (at least 10 digits).");
+      return;
+    }
+
     setSubmitting(true);
     try {
-      await fetch("/api/apply", {
+      const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -66,11 +76,18 @@ export default function ApplyModal() {
           source: "Apply for Batch 2 Modal",
         }),
       });
-    } catch (err) {
-      console.error("Apply submission error:", err);
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || "Submission failed. Please check your details and try again.");
+      }
+
+      setSubmitted(true);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "An unexpected error occurred. Please try again.";
+      setError(msg);
     } finally {
       setSubmitting(false);
-      setSubmitted(true);
     }
   }
 
@@ -78,6 +95,7 @@ export default function ApplyModal() {
     setName("");
     setEmail("");
     setPhone("+91 ");
+    setError(null);
     setSubmitted(false);
     closeApplyModal();
   }
@@ -142,6 +160,11 @@ export default function ApplyModal() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-6 sm:p-8">
+            {error && (
+              <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-xs text-red-700 font-medium">
+                {error}
+              </div>
+            )}
             {/* Full Name */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="modal-fullName" className="text-xs sm:text-sm font-bold text-slate-800">
@@ -174,10 +197,10 @@ export default function ApplyModal() {
               />
             </div>
 
-            {/* Phone */}
+            {/* WhatsApp */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="modal-phone" className="text-xs sm:text-sm font-bold text-slate-800">
-                Phone / WhatsApp number <span className="text-rose-500">*</span>
+                WhatsApp number <span className="text-rose-500">*</span>
               </label>
               <input
                 id="modal-phone"

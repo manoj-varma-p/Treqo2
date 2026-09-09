@@ -9,7 +9,7 @@ interface CeoChallengeCardProps {
 export default function CeoChallengeCard({
   heading = "The CEO Challenge",
   tagline = "“One Real Problem. One Instant Solution.”",
-  description = "Every module ends with a pressure-test scenario. No Googling. You make the call – go, pivot, or kill. Revenue is truth. Speed beats perfection.",
+  description = "Every module ends with a pressure-test scenario. No Googling. You make the call: go, pivot, or kill. Revenue is truth. Speed beats perfection.",
 }: CeoChallengeCardProps) {
   return (
     <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[#28144e] border border-purple-900/40 p-6 sm:p-7 md:p-8 shadow-md">

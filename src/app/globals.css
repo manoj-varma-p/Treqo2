@@ -6,7 +6,7 @@
    * --brand-primary-dark is a ~20% darkened shade for hover states.
    * --brand-secondary is a lighter violet chosen to pair with the primary
    * for gradients (headline emphasis, glows) without jumping hue to blue.
-   * --brand-accent is still a placeholder warm accent — swap if needed.
+   * --brand-accent is still a placeholder warm accent, swap if needed.
    * Every component reads color through these variables (via the @theme
    * block below), so the whole site restyles from this one place.
    * ------------------------------------------------------------------- */

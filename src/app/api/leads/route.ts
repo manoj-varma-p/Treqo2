@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getLeads, deleteLead } from "@/lib/leads-db";
+export { POST } from "@/app/api/apply/route";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

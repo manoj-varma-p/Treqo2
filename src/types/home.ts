@@ -61,7 +61,7 @@ export interface LearningSystemCourse {
   description: string;
   href: string;
   features: { icon: LucideIcon; label: string }[];
-  /** Content for the full category/program page — see app/categories/[slug]. */
+  /** Content for the full category/program page, see app/categories/[slug]. */
   detail?: CourseDetail;
 }
 

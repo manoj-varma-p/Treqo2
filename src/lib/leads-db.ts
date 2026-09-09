@@ -132,9 +132,7 @@ export async function getLeads(): Promise<Lead[]> {
 
   // Fallback to file storage
   const fileLeads = loadLeadsFromFile();
-  if (fileLeads.length > 0) {
-    memoryLeads = fileLeads;
-  }
+  memoryLeads = fileLeads;
   return memoryLeads;
 }
 

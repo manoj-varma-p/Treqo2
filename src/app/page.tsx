@@ -27,14 +27,14 @@ export default function Home() {
         </Container>
       </div>
 
-      {/* Mobile Top Header (Fixed on mobile) */}
-      <div className="lg:hidden fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+      {/* Mobile Top Header (Sticky on mobile) */}
+      <div className="lg:hidden sticky top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <Container>
           <MobileHeader variant="standard" />
         </Container>
       </div>
 
-      <main className="flex-1 pt-14 lg:pt-0">
+      <main className="flex-1">
         <Hero />
         <LearningSystem />
         <GovCertSection />

@@ -56,7 +56,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     <div className="min-h-screen flex flex-col bg-[#faf9fd] text-slate-900">
       <Header variant="standard" />
 
-      <main className="flex-1 pt-14 lg:pt-0 pb-16 sm:pb-20">
+      <main className="flex-1 pb-16 sm:pb-20">
         <article>
           {/* Header Section: Mobile-optimized padding & typography */}
           <header className="relative bg-white border-b border-slate-200/90 py-6 sm:py-14">

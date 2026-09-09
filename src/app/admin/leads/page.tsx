@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
+import { useSyncExternalStore } from "react";
 import Link from "next/link";
 import {
   Download,
@@ -11,17 +12,37 @@ import {
   Trash2,
   Filter,
   ArrowLeft,
+  LogOut,
+  KeyRound,
 } from "lucide-react";
 import type { Lead } from "@/lib/leads-db";
 
+const ADMIN_PIN = process.env.NEXT_PUBLIC_ADMIN_PIN || "treqo2026";
+
+const emptySubscribe = () => () => {};
+function useAdminSession() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => (typeof window !== "undefined" ? sessionStorage.getItem("treqo_admin_auth") === "true" : false),
+    () => false
+  );
+}
+
 export default function AdminLeadsPage() {
+  const isSessionAuthed = useAdminSession();
+  const [unlocked, setUnlocked] = useState(false);
+  const isAuthenticated = isSessionAuthed || unlocked;
+
+  const [pinInput, setPinInput] = useState("");
+  const [authError, setAuthError] = useState("");
+
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(isSessionAuthed);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("All");
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  async function fetchLeads() {
+  async function handleRefresh() {
     setLoading(true);
     try {
       const res = await fetch("/api/leads");
@@ -37,29 +58,43 @@ export default function AdminLeadsPage() {
   }
 
   useEffect(() => {
+    if (!isAuthenticated) return;
     let ignore = false;
-    async function load() {
-      try {
-        const res = await fetch("/api/leads");
-        if (res.ok) {
-          const data = await res.json();
-          if (!ignore) {
-            setLeads(data.leads || []);
-          }
-        }
-      } catch (err) {
-        console.error("Failed to load leads:", err);
-      } finally {
+    fetch("/api/leads")
+      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((data) => {
         if (!ignore) {
+          setLeads(data.leads || []);
           setLoading(false);
         }
-      }
-    }
-    load();
+      })
+      .catch((err) => {
+        console.error("Failed to load leads:", err);
+        if (!ignore) setLoading(false);
+      });
+
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [isAuthenticated]);
+
+  function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setAuthError("");
+    if (pinInput === ADMIN_PIN) {
+      sessionStorage.setItem("treqo_admin_auth", "true");
+      setUnlocked(true);
+    } else {
+      setAuthError("Invalid access key. Please enter the authorized administrator PIN.");
+    }
+  }
+
+  function handleLogout() {
+    sessionStorage.removeItem("treqo_admin_auth");
+    setUnlocked(false);
+    setPinInput("");
+    setAuthError("");
+  }
 
   async function handleDelete(id: string) {
     if (!confirm("Are you sure you want to delete this lead?")) return;
@@ -112,6 +147,66 @@ export default function AdminLeadsPage() {
     });
   }, [leads, searchQuery, selectedCourse]);
 
+  if (isAuthenticated === false) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4 text-white">
+        <div className="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900/90 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
+          <div className="flex flex-col items-center text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#3A1494]/30 border border-[#3A1494]/60 text-purple-300 mb-4 shadow-inner">
+              <KeyRound className="h-7 w-7" />
+            </div>
+            <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white">
+              TREQO Admin Access
+            </h1>
+            <p className="mt-2 text-xs sm:text-sm text-slate-400">
+              Please enter the administrator passcode to access applicant records and export data.
+            </p>
+          </div>
+
+          <form onSubmit={handleLogin} className="mt-6 flex flex-col gap-4">
+            {authError && (
+              <div className="rounded-xl border border-red-500/40 bg-red-950/40 p-3 text-xs text-red-300 font-medium">
+                {authError}
+              </div>
+            )}
+
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="adminPin" className="text-xs font-bold text-slate-300">
+                Administrator PIN / Passcode
+              </label>
+              <input
+                id="adminPin"
+                type="password"
+                required
+                autoFocus
+                value={pinInput}
+                onChange={(e) => setPinInput(e.target.value)}
+                placeholder="Enter passcode..."
+                className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-[#3A1494] focus:outline-none focus:ring-2 focus:ring-[#3A1494]/40"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full rounded-xl bg-[#3A1494] py-3 text-sm font-bold text-white shadow-md hover:bg-[#2e0f77] active:scale-[0.99] transition-all cursor-pointer"
+            >
+              Unlock Dashboard
+            </button>
+
+            <div className="mt-2 text-center">
+              <Link
+                href="/"
+                className="text-xs font-semibold text-slate-500 hover:text-slate-300 transition-colors"
+              >
+                ← Return to Home Page
+              </Link>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 p-4 sm:p-8 lg:p-12">
       <div className="max-w-7xl mx-auto space-y-8">
@@ -138,12 +233,12 @@ export default function AdminLeadsPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
             <button
               type="button"
-              onClick={fetchLeads}
+              onClick={handleRefresh}
               disabled={loading}
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-2.5 text-xs font-bold text-slate-200 hover:bg-slate-700 active:scale-95 transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/80 px-3.5 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700 active:scale-95 transition-all cursor-pointer"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
               <span>Refresh</span>
@@ -152,11 +247,21 @@ export default function AdminLeadsPage() {
             <a
               href="/api/leads?format=csv"
               download
-              className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4.5 py-2.5 text-xs font-bold text-white shadow-md hover:bg-emerald-500 active:scale-95 transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-emerald-500 active:scale-95 transition-all cursor-pointer"
             >
               <Download className="h-4 w-4" />
-              <span>Export to Excel (CSV)</span>
+              <span>Export CSV</span>
             </a>
+
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-red-900/50 bg-red-950/30 px-3 py-2 text-xs font-semibold text-red-300 hover:bg-red-950/60 active:scale-95 transition-all cursor-pointer"
+              title="Lock Admin Session"
+            >
+              <LogOut className="h-3.5 w-3.5" />
+              <span>Lock</span>
+            </button>
           </div>
         </div>
 

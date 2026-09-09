@@ -10,12 +10,21 @@ export default function HeroVisual() {
   const [course, setCourse] = useState("New Age Digital Marketing");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    setError(null);
+
+    const digitsOnly = phone.replace(/\D/g, "");
+    if (digitsOnly.length < 7) {
+      setError("Please enter your complete WhatsApp number (at least 10 digits).");
+      return;
+    }
+
     setSubmitting(true);
     try {
-      await fetch("/api/apply", {
+      const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -26,11 +35,19 @@ export default function HeroVisual() {
           source: "Hero Application Form",
         }),
       });
-    } catch (err) {
-      console.error("Form submission error:", err);
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        throw new Error(data.error || "Submission failed. Please check your details and try again.");
+      }
+
+      setSubmitted(true);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "An unexpected error occurred. Please try again.";
+      setError(msg);
     } finally {
       setSubmitting(false);
-      setSubmitted(true);
     }
   }
 
@@ -51,7 +68,12 @@ export default function HeroVisual() {
             </p>
             <button
               type="button"
-              onClick={() => setSubmitted(false)}
+              onClick={() => {
+                setName("");
+                setEmail("");
+                setPhone("+91 ");
+                setSubmitted(false);
+              }}
               className="mt-6 inline-flex items-center justify-center rounded-xl bg-[#3A1494] px-8 py-2.5 text-sm font-bold text-white shadow-md hover:bg-[#2e0f77] active:scale-95 transition-all cursor-pointer"
             >
               Done
@@ -59,6 +81,11 @@ export default function HeroVisual() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4.5 p-6 sm:p-7">
+            {error && (
+              <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-xs text-red-700 font-medium">
+                {error}
+              </div>
+            )}
             {/* Full name */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="fullName" className="text-xs sm:text-sm font-bold text-slate-800">
@@ -91,10 +118,10 @@ export default function HeroVisual() {
               />
             </div>
 
-            {/* Phone */}
+            {/* WhatsApp */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="phone" className="text-xs sm:text-sm font-bold text-slate-800">
-                Phone
+                WhatsApp number
               </label>
               <input
                 id="phone"
@@ -102,7 +129,7 @@ export default function HeroVisual() {
                 required
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="+91 "
+                placeholder="+91 98765 43210"
                 className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#3A1494] focus:outline-none focus:ring-2 focus:ring-[#3A1494]/20"
               />
             </div>

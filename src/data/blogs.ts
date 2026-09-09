@@ -97,7 +97,7 @@ export const blogPosts: BlogPost[] = [
     tags: ["Claude", "Prompting", "AI Workflows", "Copywriting"],
     content: [
       "The first wave of generative AI in marketing was defined by bad LinkedIn posts and hollow blog articles that sounded like a Wikipedia summary written by a robot. Growth teams that relied on surface-level prompting saw their conversion metrics crater.",
-      "The second wave—the one that actually compounds ROI—is systemic. Instead of asking AI to 'write an ad for shoe brand,' modern growth operators feed customer interview transcripts into LLMs to extract exact vernacular and emotional triggers.",
+      "The second wave, the one that actually compounds ROI, is systemic. Instead of asking AI to 'write an ad for shoe brand,' modern growth operators feed customer interview transcripts into LLMs to extract exact vernacular and emotional triggers.",
       "In Phase 1 of our curriculum, we integrate AI into the daily operating cadence. Students learn how to build rapid angle matrices, synthesize competitor review complaints to find underserved value propositions, and generate 50 creative permutations for multivariate testing in minutes.",
     ],
   },

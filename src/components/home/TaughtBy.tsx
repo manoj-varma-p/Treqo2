@@ -51,7 +51,7 @@ export default function TaughtBy() {
   }
 
   return (
-    <section id="tutors" className="relative overflow-hidden bg-[#fafbfe] py-16 sm:py-20 lg:py-24">
+    <section id="tutors" className="relative overflow-hidden bg-[#fafbfe] py-16 sm:py-20 lg:py-24 scroll-mt-16 sm:scroll-mt-20">
       <Container>
         {/* Section Header */}
         <div className="flex flex-col items-start max-w-3xl">
