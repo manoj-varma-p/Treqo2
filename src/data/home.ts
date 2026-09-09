@@ -52,7 +52,7 @@ import type {
 export const heroContent: HeroContentData = {
   eyebrow: "New Age Digital Marketing",
   headline: {
-    lines: ["Leave with work", "you can show.", "Not a certificate."],
+    lines: ["Leave with Skills", "you can implement.", "Not just a certificate"],
     emphasizedLine: -1,
   },
   description:

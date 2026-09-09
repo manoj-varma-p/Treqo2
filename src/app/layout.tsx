@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://treqo.org"),
-  title: "TREQO: Leave with work you can show. Not a certificate.",
+  title: "TREQO: Leave with Skills you can implement, Not just a certificate.",
   description:
     "TREQO is a digital marketing learning system built around 70% doing, live brand projects, and capstone revenue proof.",
   keywords: [
@@ -32,14 +32,14 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "https://treqo.org",
     siteName: "TREQO",
-    title: "TREQO: Leave with work you can show. Not a certificate.",
+    title: "TREQO:Leave with Skills you can implement. Not just a certificate",
     description:
       "TREQO is a digital marketing learning system built around 70% doing, live brand projects, and capstone revenue proof.",
   },
   twitter: {
     card: "summary_large_image",
     title: "TREQO: The Marketing School",
-    description: "Leave with work you can show. Not a certificate.",
+    description: "Leave with Skills you can implement. Not just a certificate",
   },
   robots: {
     index: true,
