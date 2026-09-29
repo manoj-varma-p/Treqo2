@@ -14,6 +14,7 @@ export default function ApplyModal() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
 
   const [prevCourseName, setPrevCourseName] = useState(courseName);
   if (courseName !== prevCourseName) {
@@ -49,6 +50,7 @@ export default function ApplyModal() {
     if (!isOpen) {
       setSubmitted(false);
       setError(null);
+      setPhoneError(null);
     }
   }
 
@@ -74,6 +76,23 @@ export default function ApplyModal() {
 
   const isBookDemo = courseName === "Book a Demo";
 
+  async function handlePhoneBlur() {
+    const digitsOnly = phone.replace(/\D/g, "");
+    if (digitsOnly.length >= 7) {
+      try {
+        const res = await fetch(`/api/apply?checkPhone=${encodeURIComponent(phone)}`);
+        const data = await res.json().catch(() => ({}));
+        if (data.exists) {
+          setPhoneError("This phone number has already been registered. Another user cannot enter the same number.");
+        } else {
+          setPhoneError(null);
+        }
+      } catch {
+        // silent fail
+      }
+    }
+  }
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
@@ -81,6 +100,11 @@ export default function ApplyModal() {
     const digitsOnly = phone.replace(/\D/g, "");
     if (digitsOnly.length < 7) {
       setError("Please enter your complete WhatsApp number (at least 10 digits).");
+      return;
+    }
+
+    if (phoneError) {
+      setError(phoneError);
       return;
     }
 
@@ -109,6 +133,9 @@ export default function ApplyModal() {
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
+        if (data.code === "PHONE_ALREADY_EXISTS" || res.status === 409) {
+          setPhoneError(data.error || "This phone number has already been registered. Another user cannot enter the same number.");
+        }
         throw new Error(data.error || "Submission failed. Please check your details and try again.");
       }
 
@@ -130,6 +157,7 @@ export default function ApplyModal() {
     setEmail("");
     setPhone("+91 ");
     setError(null);
+    setPhoneError(null);
     setSubmitted(false);
     closeApplyModal();
   }
@@ -251,10 +279,23 @@ export default function ApplyModal() {
                 autoComplete="tel"
                 value={phone}
                 onFocus={handleInputFocus}
-                onChange={(e) => setPhone(e.target.value)}
+                onBlur={handlePhoneBlur}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  if (phoneError) setPhoneError(null);
+                }}
                 placeholder="+91 98765 43210"
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#3B0D3B] focus:outline-none focus:ring-2 focus:ring-[#3B0D3B]/20 transition-all"
+                className={`w-full rounded-xl border bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 transition-all ${
+                  phoneError
+                    ? "border-rose-400 bg-rose-50/20 focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-200"
+                    : "border-slate-200 focus:border-[#3B0D3B] focus:outline-none focus:ring-2 focus:ring-[#3B0D3B]/20"
+                }`}
               />
+              {phoneError && (
+                <p className="text-[11px] font-semibold text-rose-600 animate-in fade-in duration-200">
+                  {phoneError}
+                </p>
+              )}
             </div>
 
             {/* Program of application (Dedicated to the specific page's course) */}

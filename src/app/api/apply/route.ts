@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { addLead } from "@/lib/leads-db";
+import { addLead, findLeadByPhone } from "@/lib/leads-db";
 import { getAlertSettingsFromDb } from "@/lib/content-db";
 import { sendEmailViaResend } from "@/lib/email-service";
 
@@ -10,6 +10,30 @@ function escapeHtml(str: string): string {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const checkPhone = searchParams.get("checkPhone");
+    if (!checkPhone) {
+      return NextResponse.json(
+        { error: "Missing checkPhone parameter" },
+        { status: 400 }
+      );
+    }
+
+    const existingLead = await findLeadByPhone(checkPhone);
+    return NextResponse.json({
+      exists: Boolean(existingLead),
+      message: existingLead
+        ? "This phone number has already been registered. Another user cannot enter the same number."
+        : "Phone number is available.",
+    });
+  } catch (error) {
+    console.error("[API Apply GET checkPhone Error]:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {
@@ -67,6 +91,18 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "Please enter a valid phone number with your country/area code." },
         { status: 400 }
+      );
+    }
+
+    // Prevent duplicate submission: if someone entered a number, another user cannot enter the same number
+    const existingLead = await findLeadByPhone(phone);
+    if (existingLead) {
+      return NextResponse.json(
+        {
+          error: "This phone number has already been registered. Another user cannot enter the same number.",
+          code: "PHONE_ALREADY_EXISTS",
+        },
+        { status: 409 }
       );
     }
 

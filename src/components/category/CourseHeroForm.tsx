@@ -27,6 +27,24 @@ export default function CourseHeroForm({
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+
+  async function handlePhoneBlur() {
+    const digitsOnly = phone.replace(/\D/g, "");
+    if (digitsOnly.length >= 7) {
+      try {
+        const res = await fetch(`/api/apply?checkPhone=${encodeURIComponent(phone)}`);
+        const data = await res.json().catch(() => ({}));
+        if (data.exists) {
+          setPhoneError("This phone number has already been registered. Another user cannot enter the same number.");
+        } else {
+          setPhoneError(null);
+        }
+      } catch {
+        // silent fail
+      }
+    }
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -35,6 +53,11 @@ export default function CourseHeroForm({
     const digitsOnly = phone.replace(/\D/g, "");
     if (digitsOnly.length < 7) {
       setError("Please enter your complete WhatsApp number (at least 10 digits).");
+      return;
+    }
+
+    if (phoneError) {
+      setError(phoneError);
       return;
     }
 
@@ -66,6 +89,9 @@ export default function CourseHeroForm({
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
+        if (data.code === "PHONE_ALREADY_EXISTS" || res.status === 409) {
+          setPhoneError(data.error || "This phone number has already been registered. Another user cannot enter the same number.");
+        }
         throw new Error(data.error || "Submission failed. Please check your details and try again.");
       }
 
@@ -202,11 +228,24 @@ export default function CourseHeroForm({
                   required
                   autoComplete="tel"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onBlur={handlePhoneBlur}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                    if (phoneError) setPhoneError(null);
+                  }}
                   placeholder="+91 98765 43210"
-                  className="w-full rounded-xl border border-[#E2D8CC] bg-[#FDFAF6]/60 pl-10 pr-4 py-2.5 sm:py-3 text-sm text-[#1A0A1A] placeholder:text-[#9C8A9C] focus:border-[#3B0D3B] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#3B0D3B]/10 transition-all shadow-2xs"
+                  className={`w-full rounded-xl border pl-10 pr-4 py-2.5 sm:py-3 text-sm text-[#1A0A1A] placeholder:text-[#9C8A9C] transition-all shadow-2xs ${
+                    phoneError
+                      ? "border-rose-400 bg-rose-50/20 focus:border-rose-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-rose-200"
+                      : "border-[#E2D8CC] bg-[#FDFAF6]/60 focus:border-[#3B0D3B] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#3B0D3B]/10"
+                  }`}
                 />
               </div>
+              {phoneError && (
+                <p className="text-[11px] font-semibold text-rose-600 animate-in fade-in duration-200">
+                  {phoneError}
+                </p>
+              )}
             </div>
 
             {/* Current Status Dropdown */}
