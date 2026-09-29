@@ -8,7 +8,8 @@
     "brandMetric": "Active Practitioner",
     "focus": "Specializing in business growth , digital marketing strategy and C-level leadership.",
     "specialty": "Performance & Growth Strategy ",
-    "isLocked": false
+    "isLocked": false,
+    "order": 1
   },
   {
     "id": "deeptika-bajaj",
@@ -19,7 +20,8 @@
     "brandMetric": "Active Practitioner",
     "focus": "With experience spanning consulting, product management and digital strategy, Lokesh focuses on turning ideas into scalable , revenue-generating businesses,",
     "specialty": "Product ,Strategy & Growth Strategist",
-    "isLocked": false
+    "isLocked": false,
+    "order": 2
   },
   {
     "id": "megha-punjabi",
@@ -30,29 +32,8 @@
     "brandMetric": "Active Practitioner",
     "focus": "Founder passionate about building impactful brands through creative content creation.",
     "specialty": "Content Strategy & Visual Storytelling ",
-    "isLocked": false
-  },
-  {
-    "id": "prateek-narang",
-    "name": "Prateek Narang",
-    "role": "IIT Placement Mentor",
-    "mentored": "912+",
-    "image": "/uploads/tutors/screenshot-2026-09-21-163115-1789988506460-6n42.webp",
-    "brandMetric": "IIT Alum & Top Tech Mentor",
-    "focus": "Defending campaign numbers out loud so hiring panels can't poke holes in your work.",
-    "specialty": "Portfolio & Interview Defense",
-    "isLocked": true
-  },
-  {
-    "id": "akshat-aggarwal",
-    "name": "Akshat Aggarwal",
-    "role": "American Express",
-    "mentored": "184+",
-    "image": "/uploads/tutors/screenshot-2026-09-21-163115-1789988498703-f4d3.webp",
-    "brandMetric": "Enterprise Analytics",
-    "focus": "Full-funnel attribution models, clean tracking setups, and defensible ROI reporting.",
-    "specialty": "Attribution & Data-Driven Growth",
-    "isLocked": true
+    "isLocked": false,
+    "order": 3
   },
   {
     "id": "ritika-sharma",
@@ -63,6 +44,31 @@
     "brandMetric": "500+ Funnels Audited",
     "focus": "High-growth brand positioning, conversion rate optimization, and organic distribution.",
     "specialty": "Brand Strategy & Conversion",
-    "isLocked": true
+    "isLocked": true,
+    "order": 4
+  },
+  {
+    "id": "prateek-narang",
+    "name": "Prateek Narang",
+    "role": "IIT Placement Mentor",
+    "mentored": "912+",
+    "image": "/uploads/tutors/screenshot-2026-09-21-163115-1789988506460-6n42.webp",
+    "brandMetric": "IIT Alum & Top Tech Mentor",
+    "focus": "Defending campaign numbers out loud so hiring panels can't poke holes in your work.",
+    "specialty": "Portfolio & Interview Defense",
+    "isLocked": true,
+    "order": 5
+  },
+  {
+    "id": "akshat-aggarwal",
+    "name": "Akshat Aggarwal",
+    "role": "American Express",
+    "mentored": "184+",
+    "image": "/uploads/tutors/screenshot-2026-09-21-163115-1789988498703-f4d3.webp",
+    "brandMetric": "Enterprise Analytics",
+    "focus": "Full-funnel attribution models, clean tracking setups, and defensible ROI reporting.",
+    "specialty": "Attribution & Data-Driven Growth",
+    "isLocked": true,
+    "order": 6
   }
 ]
