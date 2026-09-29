@@ -49,6 +49,9 @@ import {
   Sun,
   Moon,
   Video,
+  GripVertical,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import type { Lead } from "@/lib/leads-db";
 import type { BlogPost } from "@/data/blogs";
@@ -470,6 +473,10 @@ export default function CustomAdminPanelPage() {
   const [isTutorDragActive, setIsTutorDragActive] = useState(false);
   const [showManualTutorUrl, setShowManualTutorUrl] = useState(false);
   const tutorFileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Drag-and-drop state to arrange mentors
+  const [draggedTutorIndex, setDraggedTutorIndex] = useState<number | null>(null);
+  const [dragOverTutorIndex, setDragOverTutorIndex] = useState<number | null>(null);
 
   // 5. Testimonials State
   const [testimonials, setTestimonials] = useState<TestimonialItem[]>([]);
@@ -1136,6 +1143,87 @@ export default function CustomAdminPanelPage() {
       }
     } catch {
       notifyError("Network error updating mentor blocks.");
+    }
+  }
+
+  // Drag & drop handlers to arrange mentors in order
+  function handleTutorDragStart(e: React.DragEvent, index: number) {
+    setDraggedTutorIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", index.toString());
+  }
+
+  function handleTutorDragOver(e: React.DragEvent, index: number) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    if (dragOverTutorIndex !== index) {
+      setDragOverTutorIndex(index);
+    }
+  }
+
+  function handleTutorDragLeave(e: React.DragEvent, index: number) {
+    if (dragOverTutorIndex === index) {
+      setDragOverTutorIndex(null);
+    }
+  }
+
+  async function handleTutorDrop(e: React.DragEvent, dropIndex: number) {
+    e.preventDefault();
+    if (draggedTutorIndex === null || draggedTutorIndex === dropIndex) {
+      setDraggedTutorIndex(null);
+      setDragOverTutorIndex(null);
+      return;
+    }
+
+    const updated = [...tutors];
+    const [moved] = updated.splice(draggedTutorIndex, 1);
+    updated.splice(dropIndex, 0, moved);
+
+    setTutors(updated);
+    setDraggedTutorIndex(null);
+    setDragOverTutorIndex(null);
+
+    try {
+      const res = await fetch("/api/admin/content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-pin": getStoredPin() },
+        body: JSON.stringify({ type: "tutors", data: updated }),
+      });
+      if (res.ok) {
+        notifySuccess("Mentors reordered & saved!");
+      } else {
+        notifyError("Failed to save reordered mentors.");
+      }
+    } catch {
+      notifyError("Network error saving mentor order.");
+    }
+  }
+
+  function handleTutorDragEnd() {
+    setDraggedTutorIndex(null);
+    setDragOverTutorIndex(null);
+  }
+
+  async function handleMoveTutor(fromIndex: number, toIndex: number) {
+    if (toIndex < 0 || toIndex >= tutors.length || fromIndex === toIndex) return;
+    const updated = [...tutors];
+    const [item] = updated.splice(fromIndex, 1);
+    updated.splice(toIndex, 0, item);
+    setTutors(updated);
+
+    try {
+      const res = await fetch("/api/admin/content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-pin": getStoredPin() },
+        body: JSON.stringify({ type: "tutors", data: updated }),
+      });
+      if (res.ok) {
+        notifySuccess("Mentors reordered & saved!");
+      } else {
+        notifyError("Failed to save mentor order.");
+      }
+    } catch {
+      notifyError("Network error updating mentor order.");
     }
   }
 
@@ -3708,9 +3796,14 @@ export default function CustomAdminPanelPage() {
               {/* Individual Mentor Profiles Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-black text-[#0B0B0F] tracking-tight">Mentors &amp; Faculty Profiles</h2>
-                  <p className="text-xs sm:text-sm text-[#5A4A5A]">
-                    Manage individual instructors, lock/unlock blocks, photos, credentials, and bio quotes.
+                  <div className="flex items-center gap-2.5 flex-wrap">
+                    <h2 className="text-xl sm:text-2xl font-black text-[#0B0B0F] tracking-tight">Mentors &amp; Faculty Profiles</h2>
+                    <span className="inline-flex items-center gap-1 rounded-full bg-[#3B0D3B]/10 border border-[#3B0D3B]/20 px-2.5 py-0.5 text-[11px] font-bold text-[#3B0D3B]">
+                      <GripVertical className="h-3 w-3" /> Drag cards to arrange order
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#5A4A5A] mt-0.5">
+                    Manage individual instructors, lock/unlock blocks, photos, credentials, and bio quotes. Click and drag any card to arrange in order.
                   </p>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
@@ -3750,137 +3843,192 @@ export default function CustomAdminPanelPage() {
                 />
               ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-5">
-                  {tutors.map((tutor, index) => (
-                    <div
-                      key={tutor.id}
-                      className="group relative aspect-[3/4] overflow-hidden rounded-3xl border border-[#3B0D3B]/15 bg-slate-900 shadow-sm transition-all duration-300 hover:shadow-2xl hover:border-[#3B0D3B]/40"
-                    >
-                      {/* Photo or placeholder matching live site exactly */}
-                      {tutor.image ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={tutor.image}
-                          alt={tutor.name}
-                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                      ) : (
-                        <>
-                          <div
-                            className={cn(
-                              "absolute inset-0 bg-gradient-to-br transition-transform duration-300 group-hover:scale-105",
-                              AVATAR_GRADIENTS[index % AVATAR_GRADIENTS.length]
-                            )}
-                          />
-                          <div
-                            aria-hidden="true"
-                            className="absolute inset-0 opacity-[0.14]"
-                            style={{
-                              backgroundImage:
-                                "linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)",
-                              backgroundSize: "20px 20px",
-                            }}
-                          />
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <span className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border border-white/25 bg-white/10 text-base sm:text-lg font-bold text-white backdrop-blur-sm">
-                              {tutorInitials(tutor.name)}
-                            </span>
-                          </div>
-                        </>
-                      )}
+                  {tutors.map((tutor, index) => {
+                    const isDragging = draggedTutorIndex === index;
+                    const isDragOver = dragOverTutorIndex === index;
 
-                      {/* Top-Left Action: Lock / Unlock Toggle Button (z-30 ensures it is always in front) */}
-                      <div className="absolute top-2.5 left-2.5 z-30">
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleToggleTutorLock(tutor.id);
-                          }}
-                          className={cn(
-                            "h-7 px-2.5 rounded-xl border text-[11px] font-black flex items-center gap-1.5 transition-all shadow-lg hover:scale-105 cursor-pointer backdrop-blur-md",
-                            tutor.isLocked
-                              ? "bg-amber-500 hover:bg-amber-400 text-black border-amber-300 ring-2 ring-amber-400/40"
-                              : "bg-black/75 hover:bg-[#3B0D3B] text-white border-white/20"
-                          )}
-                          title={tutor.isLocked ? "Click to unlock and reveal actual mentor profile" : "Click to lock and display Coming Soon"}
-                        >
-                          {tutor.isLocked ? <Unlock className="h-3.5 w-3.5" /> : <Lock className="h-3.5 w-3.5" />}
-                          <span>{tutor.isLocked ? "Unlock" : "Live"}</span>
-                        </button>
-                      </div>
-
-                      {/* Top-Right Actions: Edit & Delete (z-30) */}
-                      <div className="absolute top-2.5 right-2.5 z-30 flex items-center gap-1.5">
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            openEditTutorModal(tutor);
-                          }}
-                          className="h-7 px-2 rounded-lg bg-black/75 hover:bg-[#3B0D3B] text-white border border-white/20 backdrop-blur-md text-[11px] font-bold flex items-center gap-1 transition-all shadow-md hover:scale-105 cursor-pointer"
-                          title="Edit Mentor"
-                        >
-                          <Edit3 className="h-3 w-3" />
-                          <span className="hidden sm:inline">Edit</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteTutor(tutor.id);
-                          }}
-                          className="h-7 w-7 rounded-lg bg-black/75 hover:bg-red-600 text-white border border-white/20 backdrop-blur-md flex items-center justify-center transition-all shadow-md hover:scale-105 cursor-pointer"
-                          title="Delete Mentor"
-                        >
-                          <Trash2 className="h-3 w-3" />
-                        </button>
-                      </div>
-
-                      {/* Center Coming Soon Indicator if locked (pointer-events-none so it doesn't block clicks) */}
-                      {tutor.isLocked && (
-                        <div className="absolute inset-0 bg-black/40 backdrop-blur-[0.5px] z-15 flex flex-col items-center justify-center pointer-events-none p-3 text-center">
-                          <span className="inline-flex items-center gap-1.5 rounded-full bg-black/85 border border-amber-400/40 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-amber-300 shadow-xl backdrop-blur-md">
-                            <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
-                            Coming Soon
-                          </span>
-                        </div>
-                      )}
-
-                      {/* Click whole card to edit (z-10 beneath action buttons) */}
+                    return (
                       <div
-                        onClick={() => openEditTutorModal(tutor)}
-                        className="absolute inset-0 z-10 cursor-pointer"
-                      />
-
-                      {/* Bottom Gradient Overlay: Name & Role & Credential */}
-                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent p-3.5 pt-12 z-20 pointer-events-none">
-                        <p className="text-xs sm:text-sm font-bold text-white leading-tight truncate">
-                          {tutor.name}
-                        </p>
-                        <p className="text-[11px] text-white/75 mt-0.5 truncate">
-                          {tutor.role}
-                        </p>
-                        {tutor.brandMetric && (
-                          <p className="text-[10px] font-bold text-[#F5EDE0] mt-1 truncate">
-                            {tutor.brandMetric}
-                          </p>
+                        key={tutor.id}
+                        draggable
+                        onDragStart={(e) => handleTutorDragStart(e, index)}
+                        onDragOver={(e) => handleTutorDragOver(e, index)}
+                        onDragLeave={(e) => handleTutorDragLeave(e, index)}
+                        onDrop={(e) => handleTutorDrop(e, index)}
+                        onDragEnd={handleTutorDragEnd}
+                        className={cn(
+                          "group relative aspect-[3/4] overflow-hidden rounded-3xl border bg-slate-900 shadow-sm transition-all duration-200 select-none cursor-grab active:cursor-grabbing",
+                          isDragging && "opacity-35 scale-95 ring-2 ring-[#3B0D3B] shadow-none",
+                          isDragOver && "ring-4 ring-amber-400 scale-[1.03] z-20 shadow-2xl border-amber-400",
+                          !isDragging && !isDragOver && "border-[#3B0D3B]/15 hover:shadow-2xl hover:border-[#3B0D3B]/40"
                         )}
-                        {tutor.isLocked && (
+                      >
+                        {/* Photo or placeholder matching live site exactly */}
+                        {tutor.image ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={tutor.image}
+                            alt={tutor.name}
+                            className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 pointer-events-none"
+                          />
+                        ) : (
+                          <>
+                            <div
+                              className={cn(
+                                "absolute inset-0 bg-gradient-to-br transition-transform duration-300 group-hover:scale-105 pointer-events-none",
+                                AVATAR_GRADIENTS[index % AVATAR_GRADIENTS.length]
+                              )}
+                            />
+                            <div
+                              aria-hidden="true"
+                              className="absolute inset-0 opacity-[0.14] pointer-events-none"
+                              style={{
+                                backgroundImage:
+                                  "linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)",
+                                backgroundSize: "20px 20px",
+                              }}
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                              <span className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border border-white/25 bg-white/10 text-base sm:text-lg font-bold text-white backdrop-blur-sm">
+                                {tutorInitials(tutor.name)}
+                              </span>
+                            </div>
+                          </>
+                        )}
+
+                        {/* Top-Center Drag Handle with Position Number */}
+                        <div
+                          className="absolute top-2.5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 bg-black/80 hover:bg-[#3B0D3B] text-white border border-white/20 rounded-lg px-2 py-0.5 shadow-md cursor-grab active:cursor-grabbing backdrop-blur-md transition-all select-none"
+                          title="Click and drag to arrange in order"
+                        >
+                          <GripVertical className="h-3.5 w-3.5 text-white/80" />
+                          <span className="text-[10px] font-black text-amber-300">#{index + 1}</span>
+                        </div>
+
+                        {/* Quick Move Left / Move Right Buttons on Hover (z-30) */}
+                        <div className="absolute top-11 left-2.5 z-30 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {index > 0 && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleMoveTutor(index, index - 1);
+                              }}
+                              className="h-6 w-6 rounded-md bg-black/85 hover:bg-[#3B0D3B] text-white border border-white/20 backdrop-blur-md flex items-center justify-center shadow-md cursor-pointer transition-all hover:scale-110"
+                              title="Move Left"
+                            >
+                              <ChevronLeft className="h-3.5 w-3.5" />
+                            </button>
+                          )}
+                          {index < tutors.length - 1 && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleMoveTutor(index, index + 1);
+                              }}
+                              className="h-6 w-6 rounded-md bg-black/85 hover:bg-[#3B0D3B] text-white border border-white/20 backdrop-blur-md flex items-center justify-center shadow-md cursor-pointer transition-all hover:scale-110"
+                              title="Move Right"
+                            >
+                              <ChevronRight className="h-3.5 w-3.5" />
+                            </button>
+                          )}
+                        </div>
+
+                        {/* Top-Left Action: Lock / Unlock Toggle Button (z-30) */}
+                        <div className="absolute top-2.5 left-2.5 z-30">
                           <button
                             type="button"
                             onClick={(e) => {
                               e.stopPropagation();
                               handleToggleTutorLock(tutor.id);
                             }}
-                            className="mt-1.5 text-[10px] font-black text-amber-300 hover:text-white flex items-center gap-1 pointer-events-auto cursor-pointer underline underline-offset-2"
+                            className={cn(
+                              "h-7 px-2 rounded-xl border text-[11px] font-black flex items-center gap-1 transition-all shadow-lg hover:scale-105 cursor-pointer backdrop-blur-md",
+                              tutor.isLocked
+                                ? "bg-amber-500 hover:bg-amber-400 text-black border-amber-300 ring-2 ring-amber-400/40"
+                                : "bg-black/75 hover:bg-[#3B0D3B] text-white border-white/20"
+                            )}
+                            title={tutor.isLocked ? "Click to unlock and reveal actual mentor profile" : "Click to lock and display Coming Soon"}
                           >
-                            <Unlock className="h-3 w-3" />
-                            <span>Click to Unlock Profile</span>
+                            {tutor.isLocked ? <Unlock className="h-3.5 w-3.5" /> : <Lock className="h-3.5 w-3.5" />}
+                            <span>{tutor.isLocked ? "Unlock" : "Live"}</span>
                           </button>
+                        </div>
+
+                        {/* Top-Right Actions: Edit & Delete (z-30) */}
+                        <div className="absolute top-2.5 right-2.5 z-30 flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openEditTutorModal(tutor);
+                            }}
+                            className="h-7 px-2 rounded-lg bg-black/75 hover:bg-[#3B0D3B] text-white border border-white/20 backdrop-blur-md text-[11px] font-bold flex items-center gap-1 transition-all shadow-md hover:scale-105 cursor-pointer"
+                            title="Edit Mentor"
+                          >
+                            <Edit3 className="h-3 w-3" />
+                            <span className="hidden sm:inline">Edit</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteTutor(tutor.id);
+                            }}
+                            className="h-7 w-7 rounded-lg bg-black/75 hover:bg-red-600 text-white border border-white/20 backdrop-blur-md flex items-center justify-center transition-all shadow-md hover:scale-105 cursor-pointer"
+                            title="Delete Mentor"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </button>
+                        </div>
+
+                        {/* Center Coming Soon Indicator if locked (pointer-events-none) */}
+                        {tutor.isLocked && (
+                          <div className="absolute inset-0 bg-black/40 backdrop-blur-[0.5px] z-15 flex flex-col items-center justify-center pointer-events-none p-3 text-center">
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-black/85 border border-amber-400/40 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-amber-300 shadow-xl backdrop-blur-md">
+                              <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
+                              Coming Soon
+                            </span>
+                          </div>
                         )}
+
+                        {/* Double click whole card to edit (z-10 beneath action buttons) */}
+                        <div
+                          onDoubleClick={() => openEditTutorModal(tutor)}
+                          className="absolute inset-0 z-10"
+                        />
+
+                        {/* Bottom Gradient Overlay: Name & Role & Credential */}
+                        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent p-3.5 pt-12 z-20 pointer-events-none">
+                          <p className="text-xs sm:text-sm font-bold text-white leading-tight truncate">
+                            {tutor.name}
+                          </p>
+                          <p className="text-[11px] text-white/75 mt-0.5 truncate">
+                            {tutor.role}
+                          </p>
+                          {tutor.brandMetric && (
+                            <p className="text-[10px] font-bold text-[#F5EDE0] mt-1 truncate">
+                              {tutor.brandMetric}
+                            </p>
+                          )}
+                          {tutor.isLocked && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleToggleTutorLock(tutor.id);
+                              }}
+                              className="mt-1.5 text-[10px] font-black text-amber-300 hover:text-white flex items-center gap-1 pointer-events-auto cursor-pointer underline underline-offset-2"
+                            >
+                              <Unlock className="h-3 w-3" />
+                              <span>Click to Unlock Profile</span>
+                            </button>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
 
                   {/* Direct Add New Mentor Block in Grid */}
                   <button
