@@ -226,7 +226,8 @@ export default function InstagramVideoPopup() {
                       className="absolute left-0 w-full border-0 pointer-events-auto"
                       style={{
                         top: "-54px",
-                        height: "calc(100% + 240px)",
+                        height: "calc(100% + 450px)",
+                        minHeight: "900px",
                       }}
                       scrolling="no"
                       allow="autoplay; encrypted-media; fullscreen; picture-in-picture; clipboard-write;"
