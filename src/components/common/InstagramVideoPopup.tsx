@@ -219,11 +219,11 @@ export default function InstagramVideoPopup() {
                     </div>
                   </div>
 
-                  {/* Video Container (clips the cross-origin white embed header) */}
-                  <div className="relative w-full flex-1 bg-black overflow-hidden flex items-center justify-center">
+                  {/* Video Container (clips the cross-origin white embed header and bottom footer) */}
+                  <div className="relative w-full flex-1 bg-black overflow-hidden flex items-center justify-center rounded-b-2xl">
                     <iframe
                       src="https://www.instagram.com/reel/DZcndZohT3l/embed/?autoplay=1"
-                      className="w-full h-[calc(100%+54px)] -mt-[54px] border-0"
+                      className="w-full h-[calc(100%+150px)] -mt-[56px] border-0"
                       scrolling="no"
                       allow="autoplay; encrypted-media; fullscreen; picture-in-picture; clipboard-write;"
                       title="TREQO Instagram Reel"
