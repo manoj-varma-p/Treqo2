@@ -302,6 +302,7 @@ export interface TutorItem {
   focus?: string;
   specialty?: string;
   isLocked?: boolean;
+  order?: number;
 }
 
 export interface TestimonialItem {
@@ -1117,7 +1118,7 @@ export async function getTutorsFromDb(): Promise<TutorItem[]> {
     if (db) {
       const docs = await db.collection("tutors").find({}).toArray();
       if (docs && docs.length > 0) {
-        return docs.map((d) => ({
+        const mapped = docs.map((d, idx) => ({
           id: d.id || String(d._id),
           name: d.name,
           role: d.role,
@@ -1127,7 +1128,9 @@ export async function getTutorsFromDb(): Promise<TutorItem[]> {
           focus: d.focus || DEFAULT_TUTOR_INSIGHTS[d.name]?.focus || "Direct-response campaigns and hands-on portfolio execution.",
           specialty: d.specialty || DEFAULT_TUTOR_INSIGHTS[d.name]?.specialty || d.role || "Performance Marketing",
           isLocked: Boolean(d.isLocked),
+          order: typeof d.order === "number" ? d.order : idx + 1,
         }));
+        return mapped.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
       }
     }
   } catch (err) {
@@ -1138,14 +1141,16 @@ export async function getTutorsFromDb(): Promise<TutorItem[]> {
     const filePath = path.join(process.cwd(), "content/tutors.json");
     if (fs.existsSync(filePath)) {
       const list: TutorItem[] = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-      return list.map((d) => ({
+      const mapped = list.map((d, idx) => ({
         ...d,
         image: d.image?.trim() || DEFAULT_TUTOR_PHOTOS[d.name] || "",
         brandMetric: d.brandMetric || DEFAULT_TUTOR_INSIGHTS[d.name]?.brandMetric || "Active Practitioner",
         focus: d.focus || DEFAULT_TUTOR_INSIGHTS[d.name]?.focus || "Direct-response campaigns and hands-on portfolio execution.",
         specialty: d.specialty || DEFAULT_TUTOR_INSIGHTS[d.name]?.specialty || d.role || "Performance Marketing",
         isLocked: Boolean(d.isLocked),
+        order: typeof d.order === "number" ? d.order : idx + 1,
       }));
+      return mapped.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
     }
   } catch (e) {
     console.warn("Local tutors read error:", e);
@@ -1155,21 +1160,26 @@ export async function getTutorsFromDb(): Promise<TutorItem[]> {
 }
 
 export async function saveTutorsToDb(tutors: TutorItem[]): Promise<void> {
+  const orderedTutors = tutors.map((t, idx) => ({
+    ...t,
+    order: idx + 1,
+  }));
+
   try {
     const filePath = path.join(process.cwd(), "content/tutors.json");
-    fs.writeFileSync(filePath, JSON.stringify(tutors, null, 2), "utf-8");
+    fs.writeFileSync(filePath, JSON.stringify(orderedTutors, null, 2), "utf-8");
   } catch (e) {
     console.warn("Local tutors write error:", e);
   }
 
   const db = await getMongoDb();
   if (db) {
-    if (tutors.length > 0) {
-      const currentIds = tutors.map((t) => t.id);
-      const operations = tutors.map((t) => ({
+    if (orderedTutors.length > 0) {
+      const currentIds = orderedTutors.map((t) => t.id);
+      const operations = orderedTutors.map((t, idx) => ({
         updateOne: {
           filter: { _id: t.id as unknown as undefined },
-          update: { $set: { ...t, _id: t.id as unknown as undefined } },
+          update: { $set: { ...t, order: idx + 1, _id: t.id as unknown as undefined } },
           upsert: true,
         },
       }));

@@ -7,7 +7,7 @@
       "Not just a certificate"
     ],
     "description": "Build practical marketing skills by working on real business problems, campaigns, and measurable projects — not just watching tutorials.",
-    "desktopImage": "/images/maiiin.webp",
+    "desktopImage": "/api/admin/upload?id=hero-1790658587496-7ime-mainnnn-bg.webp",
     "mobileImage": "/images/mainnnn-bg.webp",
     "primaryCtaLabel": "Browse Courses",
     "primaryCtaHref": "#courses",
@@ -161,17 +161,17 @@
     "subtitle": "Recognised by official government initiatives & accredited ministries",
     "certs": [
       {
-        "src": "/uploads/certs/msme-1790320648535-38ld.png",
+        "src": "/api/admin/upload?id=certs-1790658739036-kf7v-msme.png",
         "label": "MSME Registered",
         "sub": "Ministry of MSME, Govt. of India"
       },
       {
-        "src": "/uploads/certs/dpiit-1790320654270-5gj6.png",
+        "src": "/api/admin/upload?id=certs-1790658749109-mquj-001.png",
         "label": "Recognized by DPIIT",
         "sub": "Department for Promotion of Industry and Internal Trade"
       },
       {
-        "src": "/uploads/certs/001-1790320658434-ulsh.png",
+        "src": "/api/admin/upload?id=certs-1790658755141-9ve8-dpiit.png",
         "label": "DPIIT Recognised",
         "sub": "Startup India, Govt. of India"
       }
