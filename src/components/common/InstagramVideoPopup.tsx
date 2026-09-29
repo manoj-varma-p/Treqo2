@@ -115,11 +115,11 @@ export default function InstagramVideoPopup() {
                     top: "50%",
                     y: "-50%",
                     width: "min(380px, calc(100vw - 32px))",
-                    height: "min(530px, 82vh)",
-                    backgroundColor: "#000000",
-                    borderColor: "rgba(255, 255, 255, 0.2)",
+                    height: "min(550px, 84vh)",
+                    backgroundColor: "#3B0D3B",
+                    borderColor: "rgba(140, 106, 140, 0.4)",
                     borderRadius: "16px",
-                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.75)",
+                    boxShadow: "0 25px 50px -12px rgba(27, 4, 27, 0.8), 0 0 0 1px rgba(140, 106, 140, 0.25)",
                   }
                 : {
                     opacity: 1,
@@ -158,27 +158,72 @@ export default function InstagramVideoPopup() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.15, delay: 0.08 }}
-                  className="relative w-full h-full flex flex-col bg-black text-white cursor-default rounded-2xl overflow-hidden"
+                  className="relative w-full h-full flex flex-col bg-[#3B0D3B] text-white cursor-default rounded-2xl overflow-hidden"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {/* Floating Close Button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleClose();
-                    }}
-                    aria-label="Close video"
-                    className="absolute top-3 right-3 z-30 flex h-7 w-7 items-center justify-center rounded-full bg-black/80 hover:bg-black text-white/90 hover:text-white border border-white/20 transition-all cursor-pointer shadow-md"
-                    title="Close"
-                  >
-                    <X size={15} />
-                  </button>
+                  {/* Branded Header Bar */}
+                  <div className="relative z-20 flex items-center justify-between px-3.5 py-2.5 bg-gradient-to-r from-[#3B0D3B] via-[#4A154B] to-[#2E072E] border-b border-[#5A2A5A]/50 shadow-xs shrink-0 select-none">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      {/* Instagram Avatar Ring */}
+                      <a
+                        href="https://instagram.com/treqo.ed"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative flex items-center justify-center p-[2px] rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] shrink-0 hover:scale-105 transition-transform"
+                        title="View treqo_ on Instagram"
+                      >
+                        <div className="w-8 h-8 rounded-full bg-[#200520] flex items-center justify-center overflow-hidden border border-black/30">
+                          <span className="text-[9px] font-black tracking-wider text-[#FDFAF6]">TREQO</span>
+                        </div>
+                      </a>
 
-                  {/* Pure Video Container */}
-                  <div className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center">
+                      {/* Profile Handle & Subtitle */}
+                      <div className="flex flex-col min-w-0">
+                        <a
+                          href="https://instagram.com/treqo.ed"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[13px] font-bold text-[#FDFAF6] hover:text-white hover:underline truncate leading-snug"
+                        >
+                          treqo_
+                        </a>
+                        <span className="text-[11px] text-[#D8B4D8] truncate leading-tight font-medium">
+                          Original audio
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      {/* Branded View Profile Button */}
+                      <a
+                        href="https://instagram.com/treqo.ed"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-2.5 py-1 rounded-md text-xs font-semibold text-[#FDFAF6] bg-[#5A2A5A] hover:bg-[#723672] active:scale-95 border border-[#8C6A8C]/40 transition-all shadow-xs"
+                      >
+                        View profile
+                      </a>
+
+                      {/* Close Button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleClose();
+                        }}
+                        aria-label="Close video"
+                        className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-[#FDFAF6] hover:text-white border border-white/15 transition-all cursor-pointer"
+                        title="Close"
+                      >
+                        <X size={15} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Video Container (clips the cross-origin white embed header) */}
+                  <div className="relative w-full flex-1 bg-black overflow-hidden flex items-center justify-center">
                     <iframe
                       src="https://www.instagram.com/reel/DZcndZohT3l/embed/?autoplay=1"
-                      className="w-full h-full border-0"
+                      className="w-full h-[calc(100%+54px)] -mt-[54px] border-0"
                       scrolling="no"
                       allow="autoplay; encrypted-media; fullscreen; picture-in-picture; clipboard-write;"
                       title="TREQO Instagram Reel"
