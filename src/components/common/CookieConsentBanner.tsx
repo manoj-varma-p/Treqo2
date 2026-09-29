@@ -13,6 +13,10 @@ interface TrackingConfig {
 }
 
 export default function CookieConsentBanner() {
+  return null;
+}
+
+function _DisabledCookieConsentBanner() {
   const [isOpen, setIsOpen] = useState(false);
   const [config, setConfig] = useState<TrackingConfig>({
     cookieBannerEnabled: true,

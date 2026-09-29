@@ -94,7 +94,6 @@ import { ApplyModalProvider } from "@/context/ApplyModalContext";
 import ApplyModal from "@/components/modal/ApplyModal";
 import CurriculumModal from "@/components/modal/CurriculumModal";
 import AnalyticsTracker from "@/components/common/AnalyticsTracker";
-import CookieConsentBanner from "@/components/common/CookieConsentBanner";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -124,7 +123,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
           <ApplyModal />
           <CurriculumModal />
-          <CookieConsentBanner />
         </ApplyModalProvider>
       </body>
     </html>
