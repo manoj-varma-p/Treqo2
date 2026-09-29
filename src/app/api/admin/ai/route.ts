@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import { revalidatePublicSite } from "@/lib/revalidate";
 import { isAuthorizedRequest } from "@/lib/admin-auth";
 import { askGemini, getLiveAdminContext } from "@/lib/ai-assistant";
 import {
@@ -175,9 +176,7 @@ export async function POST(req: NextRequest) {
         }
 
         await saveTutorsToDb(updatedTutors);
-        try {
-          revalidatePath("/", "layout");
-        } catch {}
+        revalidatePublicSite();
 
         const isNowLocked = payload?.isLocked ?? forceLock;
         return NextResponse.json({
@@ -251,9 +250,7 @@ export async function POST(req: NextRequest) {
         }
 
         await saveCoursesToDb(updatedCourses);
-        try {
-          revalidatePath("/", "layout");
-        } catch {}
+        revalidatePublicSite();
 
         const isNowLocked = payload?.isLocked ?? forceLock;
         return NextResponse.json({

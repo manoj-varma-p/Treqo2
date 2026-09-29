@@ -16,7 +16,7 @@ import FinalCta from "@/components/home/FinalCta";
 import Footer from "@/components/footer/Footer";
 import InstagramVideoPopup from "@/components/common/InstagramVideoPopup";
 import { getHomePageContent, getGeneralSettings, getTutors, getCourses } from "@/lib/cms";
-import { getPageSeoByPath } from "@/lib/content-db";
+import { getPageSeoByPath, getLayoutSettingsFromDb } from "@/lib/content-db";
 import type { Metadata } from "next";
 
 const DEFAULT_HOME_KEYWORDS = [
@@ -33,18 +33,43 @@ const DEFAULT_HOME_KEYWORDS = [
 ];
 
 export async function generateMetadata(): Promise<Metadata> {
-  const pageSeo = await getPageSeoByPath("/");
+  const [pageSeo, layout] = await Promise.all([
+    getPageSeoByPath("/"),
+    getLayoutSettingsFromDb(),
+  ]);
+
+  const siteTitle = layout.siteTitle || "TREQO";
+  const activeTitle = pageSeo?.title || pageSeo?.metaTitle || siteTitle;
+  const activeDescription =
+    pageSeo?.metaDescription?.trim() ||
+    layout.metaDescription?.trim() ||
+    "TREQO is a digital marketing learning system built around 70% doing, live brand projects, and capstone revenue proof.";
+
+  const activeKeywords =
+    pageSeo?.metaKeywords && pageSeo.metaKeywords.length > 0
+      ? pageSeo.metaKeywords
+      : layout.metaKeywords && layout.metaKeywords.length > 0
+      ? layout.metaKeywords
+      : DEFAULT_HOME_KEYWORDS;
+
   return {
-    ...(pageSeo?.title ? { title: pageSeo.title } : {}),
-    ...(pageSeo?.metaDescription ? { description: pageSeo.metaDescription } : {}),
-    keywords:
-      pageSeo?.metaKeywords && pageSeo.metaKeywords.length > 0
-        ? pageSeo.metaKeywords
-        : DEFAULT_HOME_KEYWORDS,
+    title: activeTitle,
+    description: activeDescription,
+    keywords: activeKeywords,
+    openGraph: {
+      title: activeTitle,
+      description: activeDescription,
+      type: "website",
+    },
+    twitter: {
+      title: activeTitle,
+      description: activeDescription,
+    },
   };
 }
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function Home() {
   const [homeContent, generalSettings, tutors, courses] = await Promise.all([

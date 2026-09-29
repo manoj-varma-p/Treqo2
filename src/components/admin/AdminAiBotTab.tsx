@@ -43,9 +43,9 @@ export default function AdminAiBotTab({
   function getEffectivePin() {
     if (adminPin) return adminPin;
     if (typeof window !== "undefined") {
-      return sessionStorage.getItem("treqo_admin_pin") || "treqo2026";
+      return sessionStorage.getItem("treqo_admin_pin") || "";
     }
-    return "treqo2026";
+    return "";
   }
 
   // Load chat history

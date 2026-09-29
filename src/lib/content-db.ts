@@ -281,6 +281,8 @@ export interface CourseItem {
     salary?: string;
     description?: string;
   }>;
+  metaTitle?: string;
+  metaDescription?: string;
   metaKeywords?: string[];
   perks?: Array<{ title: string; description: string; tag?: string } | string>;
 }
@@ -427,6 +429,52 @@ export async function saveLayoutSettingsToDb(settings: LayoutSettings): Promise<
       { upsert: true }
     );
   }
+
+  // Automatically keep Home Page SEO in sync so changes to meta description, keywords, or title reflect everywhere
+  try {
+    const currentPages = await getPageSeoSettingsFromDb();
+    const homeIdx = currentPages.findIndex((p) => p.id === "home" || p.path === "/");
+    let changed = false;
+    if (homeIdx >= 0) {
+      if (settings.metaDescription) {
+        currentPages[homeIdx].metaDescription = settings.metaDescription;
+        changed = true;
+      }
+      if (Array.isArray(settings.metaKeywords) && settings.metaKeywords.length > 0) {
+        currentPages[homeIdx].metaKeywords = settings.metaKeywords;
+        changed = true;
+      }
+      if (settings.siteTitle) {
+        currentPages[homeIdx].title = `${settings.siteTitle} | Modern Learning`;
+        changed = true;
+      }
+    } else {
+      currentPages.unshift({
+        id: "home",
+        name: "Home Page",
+        path: "/",
+        category: "General",
+        title: settings.siteTitle ? `${settings.siteTitle} | Modern Learning` : "Home | TREQO",
+        metaDescription: settings.metaDescription || "",
+        metaKeywords: settings.metaKeywords || [],
+      });
+      changed = true;
+    }
+
+    if (changed) {
+      const pageSeoPath = path.join(process.cwd(), "content/settings/page-seo.json");
+      fs.writeFileSync(pageSeoPath, JSON.stringify(currentPages, null, 2), "utf-8");
+      if (db) {
+        await db.collection("settings").updateOne(
+          { _id: "page-seo" as unknown as undefined },
+          { $set: { pages: currentPages, updatedAt: new Date().toISOString() } },
+          { upsert: true }
+        );
+      }
+    }
+  } catch (err) {
+    console.warn("Syncing layout settings to home page SEO error (non-fatal):", err);
+  }
 }
 
 // -----------------------------------------------------------------
@@ -475,6 +523,83 @@ export async function savePageSeoSettingsToDb(items: PageSeoItem[]): Promise<voi
       { upsert: true }
     );
   }
+
+  // Sync keywords, description, and title to corresponding courses in courses.json & MongoDB so they never desynchronize
+  try {
+    const courses = await getCoursesFromDb();
+    let coursesModified = false;
+    for (const page of items) {
+      const pageSlug = formatCourseSlug(page.path) || formatCourseSlug(page.id);
+      const match = courses.find(
+        (c) => c.id === page.id || formatCourseSlug(c.href || c.id) === pageSlug
+      );
+      if (match) {
+        if (Array.isArray(page.metaKeywords)) {
+          match.metaKeywords = [...page.metaKeywords];
+          coursesModified = true;
+        }
+        if (page.metaDescription) {
+          match.metaDescription = page.metaDescription;
+          if (!match.description) match.description = page.metaDescription;
+          coursesModified = true;
+        }
+        if (page.title || page.metaTitle) {
+          match.metaTitle = page.title || page.metaTitle;
+          coursesModified = true;
+        }
+      }
+    }
+    if (coursesModified) {
+      const coursesFilePath = path.join(process.cwd(), "content/courses.json");
+      fs.writeFileSync(coursesFilePath, JSON.stringify(courses, null, 2), "utf-8");
+      if (db) {
+        const operations = courses.map((c) => ({
+          updateOne: {
+            filter: { _id: c.id as unknown as undefined },
+            update: { $set: { ...c, _id: c.id as unknown as undefined } },
+            upsert: true,
+          },
+        }));
+        if (operations.length > 0) {
+          await db.collection("courses").bulkWrite(operations);
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("Syncing page SEO keywords to courses error (non-fatal):", err);
+  }
+
+  // If home page SEO is updated, also sync to layout settings so root layout and homepage match
+  try {
+    const homePage = items.find((p) => p.id === "home" || p.path === "/");
+    if (homePage) {
+      const layout = await getLayoutSettingsFromDb();
+      let layoutChanged = false;
+      if (homePage.metaDescription && homePage.metaDescription !== layout.metaDescription) {
+        layout.metaDescription = homePage.metaDescription;
+        layout.ogDescription = homePage.metaDescription;
+        layout.twitterDescription = homePage.metaDescription;
+        layoutChanged = true;
+      }
+      if (Array.isArray(homePage.metaKeywords) && homePage.metaKeywords.length > 0) {
+        layout.metaKeywords = homePage.metaKeywords;
+        layoutChanged = true;
+      }
+      if (layoutChanged) {
+        const layoutFilePath = path.join(process.cwd(), "content/settings/layout.json");
+        fs.writeFileSync(layoutFilePath, JSON.stringify(layout, null, 2), "utf-8");
+        if (db) {
+          await db.collection("settings").updateOne(
+            { _id: "layout" as unknown as undefined },
+            { $set: { ...layout, updatedAt: new Date().toISOString() } },
+            { upsert: true }
+          );
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("Syncing home page SEO to layout settings error (non-fatal):", err);
+  }
 }
 
 import { formatCourseSlug, syncPageSeoWithCourses } from "./seo-utils";
@@ -483,6 +608,13 @@ export { formatCourseSlug, syncPageSeoWithCourses };
 export async function getPageSeoByPath(pagePath: string): Promise<PageSeoItem | null> {
   const pages = await getPageSeoSettingsFromDb();
   const clean = pagePath.endsWith("/") && pagePath !== "/" ? pagePath.slice(0, -1) : pagePath;
+  const isHome = clean === "/" || clean === "" || pagePath === "/" || pagePath === "home";
+
+  if (isHome) {
+    const home = pages.find((p) => p.path === "/" || p.id === "home");
+    if (home) return home;
+  }
+
   const targetSlug = formatCourseSlug(clean);
 
   return (
@@ -772,6 +904,8 @@ export async function getCoursesFromDb(): Promise<CourseItem[]> {
             careerRoles: d.careerRoles,
             proof: d.proof,
             faqs: d.faqs,
+            metaTitle: d.metaTitle,
+            metaDescription: d.metaDescription,
             metaKeywords: Array.isArray(d.metaKeywords) ? d.metaKeywords : undefined,
           };
         });
@@ -797,6 +931,9 @@ export async function getCoursesFromDb(): Promise<CourseItem[]> {
           badge: isLocked ? "COMING SOON" : (c.badge === "COMING SOON" ? "BATCH 2 · OPEN" : (c.badge || "BATCH 2 · OPEN")),
           badgeVariant: isLocked ? "gray" : (c.badgeVariant || "blue"),
           applyCta: isLocked ? "Notify Me When Open" : (c.applyCta === "Notify Me When Open" ? "Apply for Batch 2" : (c.applyCta || "Apply for Batch 2")),
+          metaTitle: c.metaTitle,
+          metaDescription: c.metaDescription,
+          metaKeywords: c.metaKeywords,
         };
       });
       return normalized.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
@@ -831,6 +968,9 @@ export async function saveCoursesToDb(courses: CourseItem[]): Promise<void> {
       actionHref: href,
       href,
       order: typeof c.order === "number" ? c.order : idx + 1,
+      metaTitle: c.metaTitle,
+      metaDescription: c.metaDescription,
+      metaKeywords: Array.isArray(c.metaKeywords) ? c.metaKeywords : undefined,
     };
   });
 
@@ -1230,5 +1370,76 @@ export async function saveFormSettingsToDb(forms: FormSettings): Promise<void> {
     );
   }
 }
+
+export interface TrackingSettings {
+  gaMeasurementId: string;
+  metaPixelId: string;
+  googleTagManagerId: string;
+  clarityProjectId: string;
+  cookieBannerEnabled: boolean;
+  cookieBannerTitle: string;
+  cookieBannerText: string;
+  analyticsEnabled: boolean;
+  marketingEnabled: boolean;
+}
+
+export const defaultTrackingSettings: TrackingSettings = {
+  gaMeasurementId: "G-BLPP9TW5NP",
+  metaPixelId: "",
+  googleTagManagerId: "",
+  clarityProjectId: "",
+  cookieBannerEnabled: true,
+  cookieBannerTitle: "We value your privacy",
+  cookieBannerText: "We use cookies to analyze website traffic, optimize marketing performance, and personalize course recommendations.",
+  analyticsEnabled: true,
+  marketingEnabled: true,
+};
+
+export async function getTrackingSettingsFromDb(): Promise<TrackingSettings> {
+  try {
+    const db = await getMongoDb();
+    if (db) {
+      const doc = await db.collection("settings").findOne({ _id: "tracking" as unknown as undefined });
+      if (doc) {
+        return {
+          ...defaultTrackingSettings,
+          ...doc,
+        };
+      }
+    }
+  } catch (err) {
+    console.warn("[getTrackingSettingsFromDb] Mongo read error:", err);
+  }
+
+  try {
+    const filePath = path.join(process.cwd(), "content/settings/tracking.json");
+    if (fs.existsSync(filePath)) {
+      return { ...defaultTrackingSettings, ...JSON.parse(fs.readFileSync(filePath, "utf-8")) };
+    }
+  } catch (e) {
+    console.warn("Local tracking.json read error:", e);
+  }
+
+  return defaultTrackingSettings;
+}
+
+export async function saveTrackingSettingsToDb(settings: TrackingSettings): Promise<void> {
+  try {
+    const filePath = path.join(process.cwd(), "content/settings/tracking.json");
+    fs.writeFileSync(filePath, JSON.stringify(settings, null, 2), "utf-8");
+  } catch (e) {
+    console.warn("Local tracking.json write error:", e);
+  }
+
+  const db = await getMongoDb();
+  if (db) {
+    await db.collection("settings").updateOne(
+      { _id: "tracking" as unknown as undefined },
+      { $set: { ...settings, updatedAt: new Date().toISOString() } },
+      { upsert: true }
+    );
+  }
+}
+
 
 

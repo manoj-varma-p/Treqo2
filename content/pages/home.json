@@ -6,7 +6,7 @@
       "you can implement.",
       "Not just a certificate"
     ],
-    "description": "Four months. 12 phases. A real client at every stage. You finish holding campaigns you ran, numbers you own, and answers that hold up in an interview.",
+    "description": "Build practical marketing skills by working on real business problems, campaigns, and measurable projects — not just watching tutorials.",
     "desktopImage": "/images/maiiin.webp",
     "mobileImage": "/images/mainnnn-bg.webp",
     "primaryCtaLabel": "Browse Courses",
@@ -161,17 +161,17 @@
     "subtitle": "Recognised by official government initiatives & accredited ministries",
     "certs": [
       {
-        "src": "/msme.png",
+        "src": "/uploads/certs/msme-1790320648535-38ld.png",
         "label": "MSME Registered",
         "sub": "Ministry of MSME, Govt. of India"
       },
       {
-        "src": "/001.png",
+        "src": "/uploads/certs/dpiit-1790320654270-5gj6.png",
         "label": "Recognized by DPIIT",
         "sub": "Department for Promotion of Industry and Internal Trade"
       },
       {
-        "src": "/dpiit.png",
+        "src": "/uploads/certs/001-1790320658434-ulsh.png",
         "label": "DPIIT Recognised",
         "sub": "Startup India, Govt. of India"
       }

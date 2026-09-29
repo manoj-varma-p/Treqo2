@@ -5,7 +5,9 @@ import {
   reorderProgramsInDb,
   type ProgramItem,
 } from "@/lib/content-db";
+import { formatCourseSlug } from "@/lib/seo-utils";
 import { isAuthorizedRequest } from "@/lib/admin-auth";
+import { revalidatePublicSite } from "@/lib/revalidate";
 
 export const dynamic = "force-dynamic";
 
@@ -74,6 +76,7 @@ export async function POST(req: NextRequest) {
     // Check if this is a bulk reorder request
     if (body.action === "reorder" && Array.isArray(body.orderedIds)) {
       const reordered = await reorderProgramsInDb(body.orderedIds);
+      revalidatePublicSite();
       return NextResponse.json({
         success: true,
         message: "Programs reordered successfully",
@@ -154,24 +157,32 @@ export async function POST(req: NextRequest) {
       tags.push("All");
     }
 
-    // Generate or validate ID
-    const rawId = sanitizeString(body.id);
-    const slug = rawId
-      ? rawId.toLowerCase().replace(/[^a-z0-9_-]/g, "-")
-      : title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    // Generate or validate ID and canonical slug
+    const rawSlug = sanitizeString(body.slug || body.id);
+    const slug = rawSlug
+      ? formatCourseSlug(rawSlug)
+      : formatCourseSlug(title);
+
+    if (!slug) {
+      return NextResponse.json({ error: "A valid program slug or title is required." }, { status: 400 });
+    }
 
     const existingPrograms = await getProgramsFromDb();
-    if (existingPrograms.some((p) => p.id === slug)) {
+    if (existingPrograms.some((p) => p.id === slug || formatCourseSlug(p.href) === slug)) {
       return NextResponse.json(
         { error: `A program with the ID or slug "${slug}" already exists.` },
         { status: 409 }
       );
     }
 
+    const targetHref = actionHref || `/courses/${slug}`;
+
     const newProgram: ProgramItem = {
       id: slug,
       title,
       description,
+      metaTitle: sanitizeString(body.metaTitle) || `${title} | TREQO`,
+      metaDescription: sanitizeString(body.metaDescription) || description,
       badge,
       badgeVariant: badgeVariant as "blue" | "amber" | "gray" | "emerald",
       duration: duration || "4 months · Online",
@@ -179,8 +190,8 @@ export async function POST(req: NextRequest) {
       previewLabel,
       image: image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
       actionText,
-      actionHref,
-      href: actionHref,
+      actionHref: targetHref,
+      href: targetHref,
       tags,
       isLocked,
       isFlagship,
@@ -196,6 +207,14 @@ export async function POST(req: NextRequest) {
     };
 
     await saveProgramToDb(newProgram);
+
+    // Bust cache immediately for all users
+    revalidatePublicSite([
+      newProgram.href,
+      newProgram.actionHref,
+      `/courses/${newProgram.id}`,
+      `/programs/${newProgram.id}`,
+    ]);
 
     return NextResponse.json(
       {

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAllBlogsFromDb, saveBlogToDb, deleteBlogFromDb } from "@/lib/content-db";
 import type { BlogPost } from "@/data/blogs";
 import { isAuthorizedRequest } from "@/lib/admin-auth";
+import { revalidatePublicSite } from "@/lib/revalidate";
 
 export async function GET() {
   try {
@@ -25,6 +26,8 @@ export async function POST(req: NextRequest) {
     }
 
     await saveBlogToDb(blog);
+    revalidatePublicSite([`/blog/${blog.slug}`, "/blog"]);
+
     return NextResponse.json({ success: true, message: "Blog saved successfully", blog });
   } catch (error) {
     console.error("[POST /api/admin/blogs Error]:", error);
@@ -46,6 +49,8 @@ export async function DELETE(req: NextRequest) {
     }
 
     await deleteBlogFromDb(slug);
+    revalidatePublicSite([`/blog/${slug}`, "/blog"]);
+
     return NextResponse.json({ success: true, message: "Blog deleted successfully" });
   } catch (error) {
     console.error("[DELETE /api/admin/blogs Error]:", error);

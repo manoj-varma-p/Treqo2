@@ -26,16 +26,21 @@ import {
   GraduationCap,
   BookOpen,
   LogOut,
+  Sparkles,
+  Globe,
+  Tag,
 } from "lucide-react";
 import type { ProgramItem } from "@/lib/content-db";
+import { formatCourseSlug } from "@/lib/seo-utils";
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  preload: false,
 });
 
-const DEFAULT_PIN = "treqo2026";
-const ADMIN_PIN = process.env.NEXT_PUBLIC_ADMIN_PIN || DEFAULT_PIN;
+
 
 const emptySubscribe = () => () => { };
 function useAdminSession() {
@@ -67,20 +72,29 @@ export default function AdminProgramsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [editingProgram, setEditingProgram] = useState<ProgramItem | null>(null);
-  const [programForm, setProgramForm] = useState<Partial<ProgramItem>>({
+  const [programForm, setProgramForm] = useState<Partial<ProgramItem> & { slug?: string }>({
+    id: "",
+    slug: "",
     title: "",
     description: "",
+    metaTitle: "",
+    metaDescription: "",
     image: "",
     previewLabel: "STUDENT WORKSHOP",
     badge: "BATCH 2 · OPEN",
     badgeVariant: "blue",
     duration: "4 months · Online",
     actionText: "View course →",
-    actionHref: "/categories/new-program",
+    actionHref: "/courses/new-program",
+    href: "/courses/new-program",
     tags: ["All"],
     isLocked: false,
     order: 1,
+    metaKeywords: [],
   });
+  const [rawKeywordsInput, setRawKeywordsInput] = useState("");
+  const [rawTagsInput, setRawTagsInput] = useState("");
+  const [isSlugCustomized, setIsSlugCustomized] = useState(false);
 
   // Delete Confirmation Modal State
   const [deletingProgram, setDeletingProgram] = useState<ProgramItem | null>(null);
@@ -88,7 +102,7 @@ export default function AdminProgramsPage() {
 
   function getStoredPin(): string {
     if (typeof window === "undefined") return "";
-    return sessionStorage.getItem("treqo_admin_pin") || ADMIN_PIN;
+    return sessionStorage.getItem("treqo_admin_pin") || "";
   }
 
   function notifySuccess(msg: string) {
@@ -156,14 +170,7 @@ export default function AdminProgramsPage() {
         setAuthError(data.error || "Incorrect PIN. Access denied.");
       }
     } catch {
-      if (trimmed === ADMIN_PIN || trimmed === DEFAULT_PIN) {
-        sessionStorage.setItem("treqo_admin_auth", "true");
-        sessionStorage.setItem("treqo_admin_pin", trimmed);
-        setUnlocked(true);
-        setPinInput("");
-      } else {
-        setAuthError("Authentication service error. Access denied.");
-      }
+      setAuthError("Authentication service error. Please check your network connection.");
     }
   }
 
@@ -270,29 +277,49 @@ export default function AdminProgramsPage() {
 
   function openAddModal() {
     setEditingProgram(null);
+    setIsSlugCustomized(false);
     setProgramForm({
+      id: "",
+      slug: "",
       title: "",
       description: "",
+      metaTitle: "",
+      metaDescription: "",
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
       previewLabel: "CAMPUS WORKSHOP",
       badge: "BATCH 2 · OPEN",
       badgeVariant: "blue",
       duration: "4 months · Online",
       actionText: "View course →",
-      actionHref: "/categories/new-program",
+      actionHref: "/courses/new-program",
+      href: "/courses/new-program",
       tags: ["All", "Flagship"],
       isLocked: false,
       order: programs.length + 1,
+      metaKeywords: [],
     });
+    setRawTagsInput("All, Flagship");
+    setRawKeywordsInput("");
     setIsModalOpen(true);
   }
 
   function openEditModal(program: ProgramItem) {
+    const initialSlug = program.id || formatCourseSlug(program.href) || "";
+    const canonicalHref = program.actionHref || program.href || (initialSlug ? `/courses/${initialSlug}` : "");
     setEditingProgram(program);
+    setIsSlugCustomized(true);
     setProgramForm({
       ...program,
+      slug: initialSlug,
+      metaTitle: program.metaTitle || (program.title ? `${program.title} | TREQO` : ""),
+      metaDescription: program.metaDescription || program.description || "",
+      actionHref: canonicalHref,
+      href: canonicalHref,
       tags: program.tags || ["All"],
+      metaKeywords: program.metaKeywords || [],
     });
+    setRawTagsInput(Array.isArray(program.tags) ? program.tags.join(", ") : "All");
+    setRawKeywordsInput(Array.isArray(program.metaKeywords) ? program.metaKeywords.join(", ") : "");
     setIsModalOpen(true);
   }
 
@@ -310,25 +337,53 @@ export default function AdminProgramsPage() {
       notifyError("Badge text is required.");
       return;
     }
-    if (!programForm.actionHref?.trim()) {
-      notifyError("Action URL is required.");
+
+    const parsedSlug = formatCourseSlug(programForm.slug || programForm.id || programForm.title);
+    if (!parsedSlug) {
+      notifyError("A valid URL slug or title is required.");
       return;
     }
 
     setIsSaving(true);
+    const parsedKeywords = rawKeywordsInput
+      .split(/[,;\n]+/)
+      .map((k) => k.trim())
+      .filter(Boolean);
+    const parsedTags = rawTagsInput
+      .split(/[,;\n]+/)
+      .map((t) => t.trim())
+      .filter(Boolean);
+
+    const canonicalHref = programForm.actionHref?.trim() || `/courses/${parsedSlug}`;
+
+    const payload = {
+      ...programForm,
+      id: parsedSlug,
+      slug: parsedSlug,
+      href: canonicalHref,
+      actionHref: canonicalHref,
+      metaTitle: programForm.metaTitle?.trim() || (programForm.title ? `${programForm.title.trim()} | TREQO` : ""),
+      metaDescription: programForm.metaDescription?.trim() || programForm.description?.trim() || "",
+      metaKeywords: parsedKeywords,
+      tags: parsedTags.length > 0 ? parsedTags : ["All"],
+    };
+
     try {
       if (editingProgram) {
-        // PATCH
+        // PATCH with editable slug support
         const res = await fetch(`/api/programs/${encodeURIComponent(editingProgram.id)}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
             "x-admin-pin": getStoredPin(),
           },
-          body: JSON.stringify(programForm),
+          body: JSON.stringify({
+            ...payload,
+            newSlug: parsedSlug,
+          }),
         });
         if (res.ok) {
-          notifySuccess(`Saved "${programForm.title}"`);
+          notifySuccess(`Saved "${programForm.title}" (Slug: ${parsedSlug})`);
           setIsModalOpen(false);
           loadPrograms();
         } else {
@@ -336,17 +391,17 @@ export default function AdminProgramsPage() {
           notifyError(err.error || "Failed to update program.");
         }
       } else {
-        // POST
+        // POST with editable slug
         const res = await fetch("/api/programs", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "x-admin-pin": getStoredPin(),
           },
-          body: JSON.stringify(programForm),
+          body: JSON.stringify(payload),
         });
         if (res.ok) {
-          notifySuccess(`Created program "${programForm.title}"`);
+          notifySuccess(`Created program "${programForm.title}" (Slug: ${parsedSlug})`);
           setIsModalOpen(false);
           loadPrograms();
         } else {
@@ -894,10 +949,90 @@ export default function AdminProgramsPage() {
                     type="text"
                     required
                     value={programForm.title || ""}
-                    onChange={(e) => setProgramForm({ ...programForm, title: e.target.value })}
+                    onChange={(e) => {
+                      const newTitle = e.target.value;
+                      const updates: Partial<typeof programForm> = { title: newTitle };
+                      if (!editingProgram && !isSlugCustomized) {
+                        const autoSlug = formatCourseSlug(newTitle);
+                        updates.slug = autoSlug;
+                        updates.actionHref = autoSlug ? `/courses/${autoSlug}` : "";
+                        updates.href = autoSlug ? `/courses/${autoSlug}` : "";
+                      }
+                      setProgramForm({ ...programForm, ...updates });
+                    }}
                     placeholder="e.g. Growth & Performance Marketing Specialist"
                     className="mt-1 w-full rounded-xl border border-[#3B0D3B]/15 bg-white px-3.5 py-2.5 text-xs text-[#0B0B0F] placeholder:text-[#5A4A5A]/50 focus:border-[#3B0D3B] focus:ring-1 focus:ring-[#3B0D3B]/20 focus:outline-none transition-all"
                   />
+                </div>
+
+                {/* Editable URL Slug */}
+                <div className="sm:col-span-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold text-[#0B0B0F] flex items-center gap-1.5">
+                      <span>Program URL Slug *</span>
+                      <span className="text-[10px] font-normal text-[#5A4A5A]">(Editable route identifier)</span>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const autoSlug = formatCourseSlug(programForm.title);
+                        if (autoSlug) {
+                          setIsSlugCustomized(false);
+                          setProgramForm({
+                            ...programForm,
+                            slug: autoSlug,
+                            actionHref: `/courses/${autoSlug}`,
+                            href: `/courses/${autoSlug}`,
+                          });
+                        }
+                      }}
+                      className="text-[11px] font-semibold text-[#3B0D3B] hover:underline flex items-center gap-1 cursor-pointer"
+                      title="Auto-generate slug from program title"
+                    >
+                      <Sparkles className="h-3 w-3" />
+                      Auto-generate from title
+                    </button>
+                  </div>
+                  <div className="mt-1 flex rounded-xl border border-[#3B0D3B]/15 bg-white overflow-hidden focus-within:border-[#3B0D3B] focus-within:ring-1 focus-within:ring-[#3B0D3B]/20 transition-all">
+                    <span className="inline-flex items-center px-3 text-[11px] font-mono text-[#5A4A5A] bg-[#FAF5EE] border-r border-[#3B0D3B]/10 select-none">
+                      /courses/
+                    </span>
+                    <input
+                      type="text"
+                      required
+                      value={programForm.slug || ""}
+                      onChange={(e) => {
+                        const cleaned = formatCourseSlug(e.target.value);
+                        setIsSlugCustomized(true);
+                        setProgramForm({
+                          ...programForm,
+                          slug: cleaned,
+                          actionHref: cleaned ? `/courses/${cleaned}` : "",
+                          href: cleaned ? `/courses/${cleaned}` : "",
+                        });
+                      }}
+                      placeholder="growth-marketing-specialist"
+                      className="flex-1 px-3.5 py-2.5 text-xs font-mono font-semibold text-[#0B0B0F] placeholder:text-[#5A4A5A]/50 focus:outline-none"
+                    />
+                  </div>
+                  <div className="mt-1 flex items-center justify-between text-[11px] text-[#5A4A5A]">
+                    <span>
+                      Live public path:{" "}
+                      <code className="text-[#3B0D3B] font-bold font-mono">
+                        /courses/{formatCourseSlug(programForm.slug || programForm.title) || "slug"}
+                      </code>
+                    </span>
+                    {programForm.slug && (
+                      <Link
+                        href={`/courses/${formatCourseSlug(programForm.slug)}`}
+                        target="_blank"
+                        className="inline-flex items-center gap-1 text-[#3B0D3B] hover:underline font-semibold"
+                      >
+                        <span>Preview Route</span>
+                        <ExternalLink className="h-3 w-3" />
+                      </Link>
+                    )}
+                  </div>
                 </div>
 
                 <div className="sm:col-span-2">
@@ -1006,7 +1141,7 @@ export default function AdminProgramsPage() {
                         href: e.target.value,
                       })
                     }
-                    placeholder="/categories/digital-marketing"
+                    placeholder="/courses/digital-marketing"
                     className="mt-1 w-full rounded-xl border border-[#3B0D3B]/15 bg-white px-3.5 py-2.5 text-xs text-[#0B0B0F] focus:border-[#3B0D3B] focus:ring-1 focus:ring-[#3B0D3B]/20 focus:outline-none transition-all"
                   />
                 </div>
@@ -1015,13 +1150,8 @@ export default function AdminProgramsPage() {
                   <label className="text-xs font-bold text-[#0B0B0F]">Tags (comma-separated)</label>
                   <input
                     type="text"
-                    value={Array.isArray(programForm.tags) ? programForm.tags.join(", ") : ""}
-                    onChange={(e) =>
-                      setProgramForm({
-                        ...programForm,
-                        tags: e.target.value.split(",").map((t) => t.trim()),
-                      })
-                    }
+                    value={rawTagsInput}
+                    onChange={(e) => setRawTagsInput(e.target.value)}
                     placeholder="All, Flagship, Short, Students"
                     className="mt-1 w-full rounded-xl border border-[#3B0D3B]/15 bg-white px-3.5 py-2.5 text-xs text-[#0B0B0F] focus:border-[#3B0D3B] focus:ring-1 focus:ring-[#3B0D3B]/20 focus:outline-none transition-all"
                   />
@@ -1038,22 +1168,185 @@ export default function AdminProgramsPage() {
                   />
                 </div>
 
-                <div className="sm:col-span-2">
-                  <label className="text-xs font-bold text-[#0B0B0F]">
-                    Category SEO Meta Keywords (comma-separated)
-                  </label>
-                  <input
-                    type="text"
-                    value={Array.isArray(programForm.metaKeywords) ? programForm.metaKeywords.join(", ") : ""}
-                    onChange={(e) =>
-                      setProgramForm({
-                        ...programForm,
-                        metaKeywords: e.target.value.split(",").map((k) => k.trim()).filter(Boolean),
-                      })
-                    }
-                    placeholder="digital marketing classes near me, advanced digital marketing course..."
-                    className="mt-1 w-full rounded-xl border border-[#3B0D3B]/15 bg-white px-3.5 py-2.5 text-xs text-[#0B0B0F] focus:border-[#3B0D3B] focus:ring-1 focus:ring-[#3B0D3B]/20 focus:outline-none transition-all"
-                  />
+                {/* ================================================= */}
+                {/* SEO & SEARCH ENGINE METADATA (REAL-TIME REFLECTION) */}
+                {/* ================================================= */}
+                <div className="sm:col-span-2 rounded-2xl border border-[#3B0D3B]/15 bg-[#FAF5EE]/50 p-4 sm:p-5 space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#3B0D3B]/10 pb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center justify-center h-7 w-7 rounded-lg bg-[#3B0D3B] text-white">
+                        <Search className="h-3.5 w-3.5" />
+                      </span>
+                      <div>
+                        <h4 className="text-xs font-bold text-[#0B0B0F]">Program SEO &amp; Meta Data</h4>
+                        <p className="text-[10px] text-[#5A4A5A]">
+                          Reflects in real-time across Google SERP snippet previews and public page metadata.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 rounded-full bg-[#3B0D3B]/10 text-[#3B0D3B] text-[10px] font-black uppercase">
+                        {rawKeywordsInput.split(/[,;\n]+/).filter((k) => k.trim()).length} keywords active
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Real-Time Google SERP Snippet Preview */}
+                  <div className="rounded-xl border border-slate-200 bg-white p-3.5 shadow-2xs space-y-1">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 block">
+                      Real-Time Google Search Engine Result Preview
+                    </span>
+                    <div className="text-[11px] text-emerald-800 flex items-center gap-1 font-mono">
+                      <Globe className="h-3 w-3 text-emerald-600" />
+                      <span>
+                        https://treqo.org/courses/{formatCourseSlug(programForm.slug || programForm.title) || "program-slug"}
+                      </span>
+                    </div>
+                    <h5 className="text-xs sm:text-sm font-semibold text-blue-800 hover:underline cursor-pointer line-clamp-1">
+                      {programForm.metaTitle || (programForm.title ? `${programForm.title} | TREQO` : "Program Title | TREQO")}
+                    </h5>
+                    <p className="text-[11px] text-slate-600 line-clamp-2 leading-relaxed">
+                      {programForm.metaDescription || programForm.description || "Enter description to preview Google search snippet..."}
+                    </p>
+                  </div>
+
+                  {/* SEO Title & Description Inputs */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div>
+                      <label className="text-[11px] font-bold text-[#0B0B0F] block mb-1">
+                        Page SEO Meta Title (Title Tag)
+                      </label>
+                      <input
+                        type="text"
+                        value={programForm.metaTitle || ""}
+                        onChange={(e) => setProgramForm({ ...programForm, metaTitle: e.target.value })}
+                        placeholder={programForm.title ? `${programForm.title} | TREQO` : "e.g. Growth Marketing Track | TREQO"}
+                        className="w-full rounded-xl border border-[#3B0D3B]/15 bg-white px-3 py-2 text-xs text-[#0B0B0F] placeholder:text-[#5A4A5A]/50 focus:border-[#3B0D3B] focus:outline-none transition-all"
+                      />
+                      <span className="mt-1 text-[10px] text-[#5A4A5A] block">
+                        {(programForm.metaTitle || (programForm.title ? `${programForm.title} | TREQO` : "")).length} / 60 chars (Recommended: 50-60)
+                      </span>
+                    </div>
+
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="text-[11px] font-bold text-[#0B0B0F]">
+                          SEO Meta Description
+                        </label>
+                        {programForm.description && programForm.metaDescription !== programForm.description && (
+                          <button
+                            type="button"
+                            onClick={() => setProgramForm({ ...programForm, metaDescription: programForm.description })}
+                            className="text-[10px] text-[#3B0D3B] hover:underline font-semibold cursor-pointer"
+                          >
+                            Copy from description
+                          </button>
+                        )}
+                      </div>
+                      <textarea
+                        rows={2}
+                        value={programForm.metaDescription || ""}
+                        onChange={(e) => setProgramForm({ ...programForm, metaDescription: e.target.value })}
+                        placeholder={programForm.description || "Brief snippet for Google search ranking (140-160 characters)..."}
+                        className="w-full rounded-xl border border-[#3B0D3B]/15 bg-white px-3 py-2 text-xs text-[#0B0B0F] placeholder:text-[#5A4A5A]/50 focus:border-[#3B0D3B] focus:outline-none transition-all"
+                      />
+                      <div className="mt-1 flex items-center justify-between text-[10px]">
+                        <span className={(programForm.metaDescription || "").length > 160 ? "text-amber-600 font-semibold" : "text-[#5A4A5A]"}>
+                          {(programForm.metaDescription || "").length} / 160 chars
+                        </span>
+                        <span className="text-[#5A4A5A]">
+                          {(programForm.metaDescription || "").length >= 120 && (programForm.metaDescription || "").length <= 160 ? "✅ Optimal length" : ""}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Keywords Input */}
+                  <div className="space-y-2 pt-2 border-t border-[#3B0D3B]/10">
+                    <div className="flex items-center justify-between">
+                      <label className="text-[11px] font-bold text-[#0B0B0F] flex items-center gap-1">
+                        <Tag className="h-3 w-3 text-[#3B0D3B]" />
+                        <span>Category SEO Meta Keywords (comma-separated)</span>
+                      </label>
+                      {rawKeywordsInput.trim().length > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setRawKeywordsInput("")}
+                          className="text-[10px] font-bold text-red-600 hover:text-red-800 cursor-pointer"
+                        >
+                          Clear all keywords
+                        </button>
+                      )}
+                    </div>
+                    <textarea
+                      rows={2}
+                      value={rawKeywordsInput}
+                      onChange={(e) => setRawKeywordsInput(e.target.value)}
+                      placeholder="digital marketing classes, seo training, performance marketing certification, google ads course..."
+                      className="w-full rounded-xl border border-[#3B0D3B]/15 bg-white px-3 py-2 text-xs text-[#0B0B0F] placeholder:text-[#5A4A5A]/50 focus:border-[#3B0D3B] focus:ring-1 focus:ring-[#3B0D3B]/20 focus:outline-none transition-all leading-relaxed"
+                    />
+
+                    {/* Quick Preset Buttons */}
+                    <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                      <span className="text-[10px] font-bold text-[#5A4A5A]">Quick presets:</span>
+                      {[
+                        { label: "+ Performance Marketing", kw: "performance marketing, meta ads, roas optimization" },
+                        { label: "+ SEO & CRO", kw: "search engine optimization, cro, google search console, ga4 attribution" },
+                        { label: "+ Career & Placement", kw: "digital marketing course with placement, marketing certificate hyderabad" },
+                      ].map((preset) => (
+                        <button
+                          key={preset.label}
+                          type="button"
+                          onClick={() => {
+                            const current = rawKeywordsInput.trim();
+                            if (!current) {
+                              setRawKeywordsInput(preset.kw);
+                            } else {
+                              const existingList = current.split(/[,;\n]+/).map((k) => k.trim()).filter(Boolean);
+                              const toAdd = preset.kw.split(/[,;\n]+/).map((k) => k.trim()).filter((k) => !existingList.includes(k));
+                              setRawKeywordsInput([...existingList, ...toAdd].join(", "));
+                            }
+                          }}
+                          className="px-2 py-0.5 rounded-lg border border-[#3B0D3B]/15 bg-white hover:bg-[#FAF5EE] text-[10px] font-semibold text-[#3B0D3B] transition-colors cursor-pointer"
+                        >
+                          {preset.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Active Keyword Chips */}
+                    {rawKeywordsInput.trim().length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 pt-1.5 max-h-36 overflow-y-auto">
+                        {rawKeywordsInput
+                          .split(/[,;\n]+/)
+                          .map((k) => k.trim())
+                          .filter(Boolean)
+                          .map((kw, i) => (
+                            <span
+                              key={i}
+                              className="inline-flex items-center gap-1 rounded-md bg-white border border-[#3B0D3B]/20 px-2 py-0.5 text-[11px] text-[#3B0D3B] shadow-2xs font-medium"
+                            >
+                              <span>{kw}</span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const remaining = rawKeywordsInput
+                                    .split(/[,;\n]+/)
+                                    .map((k) => k.trim())
+                                    .filter(Boolean)
+                                    .filter((_, idx) => idx !== i);
+                                  setRawKeywordsInput(remaining.join(", "));
+                                }}
+                                className="text-[#3B0D3B]/60 hover:text-red-600 font-bold ml-0.5 cursor-pointer"
+                                title="Remove keyword"
+                              >
+                                &times;
+                              </button>
+                            </span>
+                          ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 

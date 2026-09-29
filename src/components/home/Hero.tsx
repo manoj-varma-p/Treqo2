@@ -64,7 +64,7 @@ export default async function Hero() {
             fill
             priority
             sizes="(min-width: 1536px) 1080px, (min-width: 1280px) 960px, 840px"
-            className="object-contain object-right-center drop-shadow-[0_20px_45px_rgba(59,13,59,0.15)] select-none"
+            className="object-contain object-right-bottom drop-shadow-[0_20px_45px_rgba(59,13,59,0.15)] select-none"
           />
           {/* Gentle bottom blend into the navbar line */}
           <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#FDFAF6]/40 to-transparent pointer-events-none" />

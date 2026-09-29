@@ -22,7 +22,7 @@ export default function ProgramOverviewHighlights() {
             conversion rate optimization (CRO), and advanced SEO strategies.
           </p>
         </div>
-
+        
         {/* Key Program Highlights */}
         <div className="space-y-3.5 pt-2">
           <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">

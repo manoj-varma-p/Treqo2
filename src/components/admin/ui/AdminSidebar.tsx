@@ -26,6 +26,8 @@ import {
   ShieldCheck,
   Sun,
   Moon,
+  Activity,
+  Cookie,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -109,6 +111,13 @@ export default function AdminSidebar({
           id: "overview",
           label: "Overview",
           icon: Layers,
+        },
+        {
+          id: "analytics",
+          label: "Drop-Off Analytics",
+          icon: Activity,
+          badge: "Live",
+          badgeVariant: "pulse",
         },
         {
           id: "leads",
@@ -227,6 +236,11 @@ export default function AdminSidebar({
           icon: Mail,
           badge: emailAlertsActive ? "ON" : "OFF",
           badgeVariant: emailAlertsActive ? "pulse" : "solid",
+        },
+        {
+          id: "cookies",
+          label: "Cookies & Tracking IDs",
+          icon: Cookie,
         },
         {
           id: "footer",

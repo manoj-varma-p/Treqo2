@@ -13,17 +13,28 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  preload: false,
+  display: "swap",
 });
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
   const layout = await getLayoutSettingsFromDb();
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || layout.canonicalUrl || "https://treqo.org";
+  const rawTemplate = layout.titleTemplate?.trim();
+  const siteTitle = layout.siteTitle || "TREQO";
+  const validTemplate =
+    rawTemplate && rawTemplate !== "%s |" && rawTemplate !== "%s" && rawTemplate.includes("%s")
+      ? rawTemplate
+      : `%s | ${siteTitle}`;
 
   return {
     metadataBase: new URL(siteUrl),
     title: {
-      default: layout.siteTitle || "TREQO",
-      template: layout.titleTemplate || "%s | TREQO",
+      default: siteTitle,
+      template: validTemplate,
     },
     description:
       layout.metaDescription ||
@@ -82,6 +93,8 @@ export async function generateMetadata(): Promise<Metadata> {
 import { ApplyModalProvider } from "@/context/ApplyModalContext";
 import ApplyModal from "@/components/modal/ApplyModal";
 import CurriculumModal from "@/components/modal/CurriculumModal";
+import AnalyticsTracker from "@/components/common/AnalyticsTracker";
+import CookieConsentBanner from "@/components/common/CookieConsentBanner";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -107,9 +120,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <ApplyModalProvider>
+          <AnalyticsTracker />
           {children}
           <ApplyModal />
           <CurriculumModal />
+          <CookieConsentBanner />
         </ApplyModalProvider>
       </body>
     </html>

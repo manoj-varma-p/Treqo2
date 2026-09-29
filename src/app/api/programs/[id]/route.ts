@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   getProgramByIdFromDb,
+  getProgramsFromDb,
   saveProgramToDb,
   deleteProgramFromDb,
 } from "@/lib/content-db";
+import { formatCourseSlug } from "@/lib/seo-utils";
 import { isAuthorizedRequest } from "@/lib/admin-auth";
+import { revalidatePublicSite } from "@/lib/revalidate";
 
 export const dynamic = "force-dynamic";
 
@@ -152,7 +155,67 @@ export async function PATCH(req: NextRequest, context: RouteContext) {
     if (body.applyCta !== undefined) existing.applyCta = String(body.applyCta).trim();
     if (body.syllabusCta !== undefined) existing.syllabusCta = String(body.syllabusCta).trim();
 
+    if (body.metaTitle !== undefined) {
+      existing.metaTitle = String(body.metaTitle).trim();
+    }
+
+    if (body.metaDescription !== undefined) {
+      existing.metaDescription = String(body.metaDescription).trim();
+    }
+
+    if (body.metaKeywords !== undefined) {
+      let rawKeywords: string[] = [];
+      if (Array.isArray(body.metaKeywords)) {
+        rawKeywords = body.metaKeywords;
+      } else if (typeof body.metaKeywords === "string") {
+        rawKeywords = body.metaKeywords.split(/[,;\n]+/).map((k: string) => k.trim());
+      }
+      existing.metaKeywords = Array.from(
+        new Set(rawKeywords.map((k) => String(k).trim()).filter(Boolean))
+      );
+    }
+
+    // Editable Slug support: check if slug is being renamed
+    const requestedSlug = body.slug !== undefined ? body.slug : body.newSlug;
+    let oldId = id;
+    let slugChanged = false;
+
+    if (requestedSlug !== undefined) {
+      const cleanSlug = formatCourseSlug(String(requestedSlug));
+      if (cleanSlug && cleanSlug !== id) {
+        const allPrograms = await getProgramsFromDb();
+        if (allPrograms.some((p) => p.id === cleanSlug && p.id !== id)) {
+          return NextResponse.json(
+            { error: `A program with the slug "${cleanSlug}" already exists.` },
+            { status: 409 }
+          );
+        }
+        oldId = id;
+        existing.id = cleanSlug;
+        slugChanged = true;
+
+        if (body.actionHref === undefined && body.href === undefined) {
+          existing.actionHref = `/courses/${cleanSlug}`;
+          existing.href = `/courses/${cleanSlug}`;
+        }
+      }
+    }
+
+    if (slugChanged) {
+      await deleteProgramFromDb(oldId);
+    }
+
     await saveProgramToDb(existing);
+
+    // Invalidate caches immediately so changes are live for everyone
+    revalidatePublicSite([
+      existing.href,
+      existing.actionHref,
+      `/courses/${existing.id}`,
+      `/programs/${existing.id}`,
+      oldId ? `/courses/${oldId}` : undefined,
+      oldId ? `/programs/${oldId}` : undefined,
+    ]);
 
     return NextResponse.json({
       success: true,
@@ -180,6 +243,12 @@ export async function DELETE(req: NextRequest, context: RouteContext) {
     if (!deleted) {
       return NextResponse.json({ error: "Program not found" }, { status: 404 });
     }
+
+    // Invalidate caches immediately
+    revalidatePublicSite([
+      `/courses/${id}`,
+      `/programs/${id}`,
+    ]);
 
     return NextResponse.json({
       success: true,

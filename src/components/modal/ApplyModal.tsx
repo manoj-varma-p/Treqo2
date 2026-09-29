@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState, useRef, type FormEvent } from "react";
 import { X, CheckCircle2, ChevronDown, ArrowRight } from "lucide-react";
 import { useApplyModal } from "@/context/ApplyModalContext";
 
@@ -20,6 +20,26 @@ export default function ApplyModal() {
     setPrevCourseName(courseName);
     if (courseName) {
       setSelectedCourse(courseName);
+    }
+  }
+
+  const hasTriggeredStart = useRef(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      hasTriggeredStart.current = false;
+      if (typeof window !== "undefined" && typeof window.treqoTrack === "function") {
+        window.treqoTrack("form_view", { course: courseName });
+      }
+    }
+  }, [isOpen, courseName]);
+
+  function handleInputFocus() {
+    if (!hasTriggeredStart.current) {
+      hasTriggeredStart.current = true;
+      if (typeof window !== "undefined" && typeof window.treqoTrack === "function") {
+        window.treqoTrack("form_start", { course: courseName });
+      }
     }
   }
 
@@ -90,6 +110,10 @@ export default function ApplyModal() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         throw new Error(data.error || "Submission failed. Please check your details and try again.");
+      }
+
+      if (typeof window !== "undefined" && typeof window.treqoTrack === "function") {
+        window.treqoTrack("form_submit", { course: appliedCourse });
       }
 
       setSubmitted(true);
@@ -190,6 +214,7 @@ export default function ApplyModal() {
                 required
                 autoComplete="name"
                 value={name}
+                onFocus={handleInputFocus}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Rahul Sharma"
                 className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#3B0D3B] focus:outline-none focus:ring-2 focus:ring-[#3B0D3B]/20 transition-all"
@@ -207,6 +232,7 @@ export default function ApplyModal() {
                 required
                 autoComplete="email"
                 value={email}
+                onFocus={handleInputFocus}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="rahul@example.com"
                 className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#3B0D3B] focus:outline-none focus:ring-2 focus:ring-[#3B0D3B]/20 transition-all"
@@ -224,6 +250,7 @@ export default function ApplyModal() {
                 required
                 autoComplete="tel"
                 value={phone}
+                onFocus={handleInputFocus}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+91 98765 43210"
                 className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#3B0D3B] focus:outline-none focus:ring-2 focus:ring-[#3B0D3B]/20 transition-all"

@@ -20,6 +20,8 @@ import {
   Download,
   Plus,
   ShieldCheck,
+  Activity,
+  Cookie,
 } from "lucide-react";
 import type { Lead } from "@/lib/leads-db";
 import type { CourseItem } from "@/lib/content-db";
@@ -81,6 +83,14 @@ export default function CommandPalette({
         subtitle: "Key operational metrics & attention queue",
         icon: <Users className="h-4 w-4 text-[#3B0D3B]" />,
         onSelect: () => onSelectTab("overview"),
+      },
+      {
+        id: "nav-analytics",
+        category: "Navigation",
+        title: "Drop-Off Analytics & Funnel",
+        subtitle: "Track visitor bounce, form drop-offs & funnel conversion",
+        icon: <Activity className="h-4 w-4 text-[#3B0D3B]" />,
+        onSelect: () => onSelectTab("analytics"),
       },
       {
         id: "nav-leads",
@@ -193,6 +203,14 @@ export default function CommandPalette({
         subtitle: "Meta tags, Google tag manager, OG card images",
         icon: <Globe className="h-4 w-4 text-[#3B0D3B]" />,
         onSelect: () => onSelectTab("layout"),
+      },
+      {
+        id: "nav-cookies",
+        category: "Navigation",
+        title: "Cookie Consent & Tracking IDs",
+        subtitle: "Manage GA4, Meta Pixel, Clarity & Cookie Banner",
+        icon: <Cookie className="h-4 w-4 text-[#3B0D3B]" />,
+        onSelect: () => onSelectTab("cookies"),
       },
 
       // Quick Actions

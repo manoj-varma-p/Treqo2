@@ -76,6 +76,8 @@ import AdminLayoutMetaTab from "@/components/admin/AdminLayoutMetaTab";
 import AdminPageKeywordsTab from "@/components/admin/AdminPageKeywordsTab";
 import AdminPageDescriptionsTab from "@/components/admin/AdminPageDescriptionsTab";
 import AdminCourseEditor from "@/components/admin/AdminCourseEditor";
+import AdminAnalyticsTab from "@/components/admin/AdminAnalyticsTab";
+import AdminCookiesTrackingTab from "@/components/admin/AdminCookiesTrackingTab";
 import AdminSidebar from "@/components/admin/ui/AdminSidebar";
 import AdminHeader from "@/components/admin/ui/AdminHeader";
 import CommandPalette from "@/components/admin/ui/CommandPalette";
@@ -108,6 +110,8 @@ const TAB_TITLES: Record<string, { title: string; breadcrumb: string }> = {
   branding: { title: "Branding & Logos", breadcrumb: "System & Settings" },
   layout: { title: "Layout & SEO Meta", breadcrumb: "System & Settings" },
   footer: { title: "Footer & Contact Details", breadcrumb: "System & Settings" },
+  analytics: { title: "Visitor Drop-Off & Funnel", breadcrumb: "Analytics & Funnels" },
+  cookies: { title: "Cookie Consent & Tracking IDs", breadcrumb: "System & Settings" },
 };
 
 const AVATAR_GRADIENTS = [
@@ -128,10 +132,11 @@ function tutorInitials(name: string) {
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  preload: false,
 });
 
-const DEFAULT_PIN = "treqo2026";
-const ADMIN_PIN = process.env.NEXT_PUBLIC_ADMIN_PIN || DEFAULT_PIN;
+
 
 const emptySubscribe = () => () => { };
 function useAdminSession() {
@@ -198,6 +203,7 @@ export default function CustomAdminPanelPage() {
   // Tabs: overview | leads | courses | tutors | alerts | forms | layout | branding | banner | hero | whyTreqqo | placements | govCerts | sixDecisions | footer | faqs | blogs
   const [activeTab, setActiveTab] = useState<
     | "overview"
+    | "analytics"
     | "leads"
     | "courses"
     | "tutors"
@@ -217,6 +223,7 @@ export default function CustomAdminPanelPage() {
     | "blogs"
     | "pageKeywords"
     | "pageDescriptions"
+    | "cookies"
   >("overview");
 
   const [currentTime, setCurrentTime] = useState("11:48 am IST");
@@ -542,7 +549,7 @@ export default function CustomAdminPanelPage() {
 
   function getStoredPin(): string {
     if (typeof window === "undefined") return "";
-    return sessionStorage.getItem("treqo_admin_pin") || ADMIN_PIN;
+    return sessionStorage.getItem("treqo_admin_pin") || "";
   }
 
   function notifySuccess(msg: string) {
@@ -1357,14 +1364,7 @@ export default function CustomAdminPanelPage() {
         setAuthError(data.error || "Invalid passcode. Please enter the authorized Treqo PIN.");
       }
     } catch {
-      if (enteredPin === ADMIN_PIN || enteredPin === DEFAULT_PIN) {
-        sessionStorage.setItem("treqo_admin_auth", "true");
-        sessionStorage.setItem("treqo_admin_pin", enteredPin);
-        setUnlocked(true);
-        setAuthError("");
-      } else {
-        setAuthError("Authentication service error. Please check connectivity.");
-      }
+      setAuthError("Authentication service error. Please check your network connection.");
     }
   }
 
@@ -4329,6 +4329,28 @@ export default function CustomAdminPanelPage() {
               onSwitchToDescriptions={() => setActiveTab("pageDescriptions")}
               onSaved={(updated) => {
                 setPageSeo(updated);
+                setCourses((prevCourses) => {
+                  return prevCourses.map((c) => {
+                    const match = updated.find(
+                      (p) => p.id === c.id || formatCourseSlug(p.path) === formatCourseSlug(c.href || c.id)
+                    );
+                    if (match) {
+                      const res = { ...c };
+                      if (Array.isArray(match.metaKeywords)) res.metaKeywords = match.metaKeywords;
+                      if (match.metaDescription) {
+                        res.metaDescription = match.metaDescription;
+                        res.description = match.metaDescription;
+                      }
+                      if (match.title || match.metaTitle) res.metaTitle = match.title || match.metaTitle;
+                      if (match.path) {
+                        res.href = match.path;
+                        res.actionHref = match.path;
+                      }
+                      return res;
+                    }
+                    return c;
+                  });
+                });
                 notifySuccess("All page-wise keywords and SEO settings saved successfully!");
               }}
             />
@@ -4344,6 +4366,36 @@ export default function CustomAdminPanelPage() {
               onSwitchToKeywords={() => setActiveTab("pageKeywords")}
               onSaved={(updated) => {
                 setPageSeo(updated);
+                const homeP = updated.find((p) => p.id === "home" || p.path === "/");
+                if (homeP?.metaDescription) {
+                  setLayoutSettings((prev) => ({
+                    ...prev,
+                    metaDescription: homeP.metaDescription || prev.metaDescription,
+                    ogDescription: homeP.metaDescription || prev.ogDescription,
+                    twitterDescription: homeP.metaDescription || prev.twitterDescription,
+                  }));
+                }
+                setCourses((prevCourses) => {
+                  return prevCourses.map((c) => {
+                    const match = updated.find(
+                      (p) => p.id === c.id || formatCourseSlug(p.path) === formatCourseSlug(c.href || c.id)
+                    );
+                    if (match) {
+                      const res = { ...c };
+                      if (match.metaDescription) {
+                        res.metaDescription = match.metaDescription;
+                        res.description = match.metaDescription;
+                      }
+                      if (match.title || match.metaTitle) res.metaTitle = match.title || match.metaTitle;
+                      if (match.path) {
+                        res.href = match.path;
+                        res.actionHref = match.path;
+                      }
+                      return res;
+                    }
+                    return c;
+                  });
+                });
                 notifySuccess("All page-wise meta descriptions saved successfully!");
               }}
             />
@@ -4356,8 +4408,37 @@ export default function CustomAdminPanelPage() {
             <AdminLayoutMetaTab
               initialData={layoutSettings}
               adminPin={getStoredPin()}
-              onSaved={(updated) => setLayoutSettings(updated)}
+              onSaved={(updated) => {
+                setLayoutSettings(updated);
+                setPageSeo((prev) => {
+                  return prev.map((p) => {
+                    if (p.id === "home" || p.path === "/") {
+                      return {
+                        ...p,
+                        metaDescription: updated.metaDescription || p.metaDescription,
+                        metaKeywords: updated.metaKeywords || p.metaKeywords,
+                      };
+                    }
+                    return p;
+                  });
+                });
+                notifySuccess("Layout & SEO meta settings saved successfully!");
+              }}
             />
+          )}
+
+          {/* ========================================================= */}
+          {/* TAB: VISITOR DROP-OFF & CONVERSION FUNNEL                 */}
+          {/* ========================================================= */}
+          {activeTab === "analytics" && (
+            <AdminAnalyticsTab adminPin={getStoredPin()} />
+          )}
+
+          {/* ========================================================= */}
+          {/* TAB: COOKIE CONSENT & TRACKING IDS                        */}
+          {/* ========================================================= */}
+          {activeTab === "cookies" && (
+            <AdminCookiesTrackingTab adminPin={getStoredPin()} />
           )}
         </main>
       </div>

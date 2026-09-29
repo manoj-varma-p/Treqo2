@@ -35,10 +35,11 @@ import type { Lead } from "@/lib/leads-db";
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  preload: false,
 });
 
-const DEFAULT_PIN = "treqo2026";
-const ADMIN_PIN = process.env.NEXT_PUBLIC_ADMIN_PIN || DEFAULT_PIN;
+
 
 const emptySubscribe = () => () => {};
 function useAdminSession() {
@@ -75,7 +76,7 @@ export default function AdminLeadsPage() {
 
   function getStoredPin(): string {
     if (typeof window === "undefined") return "";
-    return sessionStorage.getItem("treqo_admin_pin") || ADMIN_PIN;
+    return sessionStorage.getItem("treqo_admin_pin") || "";
   }
 
   function notifySuccess(msg: string) {
@@ -140,14 +141,7 @@ export default function AdminLeadsPage() {
         setAuthError(data.error || "Incorrect PIN. Access denied.");
       }
     } catch {
-      if (trimmed === ADMIN_PIN || trimmed === DEFAULT_PIN) {
-        sessionStorage.setItem("treqo_admin_auth", "true");
-        sessionStorage.setItem("treqo_admin_pin", trimmed);
-        setUnlocked(true);
-        setPinInput("");
-      } else {
-        setAuthError("Authentication service error. Access denied.");
-      }
+      setAuthError("Authentication service error. Please check your network connection.");
     }
   }
 

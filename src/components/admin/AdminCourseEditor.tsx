@@ -256,15 +256,43 @@ export default function AdminCourseEditor({
 
   // SEO Meta Keywords helpers
   function addKeyword(term: string) {
-    const cleaned = term.trim();
-    if (!cleaned) return;
-    const current = Array.isArray(course.metaKeywords) ? course.metaKeywords : [];
-    if (!current.some((k) => k.toLowerCase() === cleaned.toLowerCase())) {
+    if (!term) return;
+    const rawTokens = term
+      .split(/[,;\n]+/)
+      .map((t) => t.trim())
+      .filter((t) => t.length > 0);
+
+    if (rawTokens.length === 0) return;
+
+    const current = Array.isArray(course.metaKeywords) ? [...course.metaKeywords] : [];
+    let addedCount = 0;
+    let duplicateCount = 0;
+
+    for (const token of rawTokens) {
+      if (!current.some((k) => k.toLowerCase() === token.toLowerCase())) {
+        current.push(token);
+        addedCount++;
+      } else {
+        duplicateCount++;
+      }
+    }
+
+    if (addedCount > 0) {
       setCourse((prev) => ({
         ...prev,
-        metaKeywords: [...current, cleaned],
+        metaKeywords: current,
       }));
+      setStatusMsg({
+        type: "success",
+        text: `Added ${addedCount} keyword${addedCount > 1 ? "s" : ""}. Remember to click "Save Course Changes".`,
+      });
+    } else if (duplicateCount > 0) {
+      setStatusMsg({
+        type: "error",
+        text: `Keyword${duplicateCount > 1 ? "s" : ""} already exist${duplicateCount === 1 ? "s" : ""} in this course.`,
+      });
     }
+
     setNewKeywordInput("");
   }
 
@@ -1625,12 +1653,12 @@ export default function AdminCourseEditor({
                   value={newKeywordInput}
                   onChange={(e) => setNewKeywordInput(e.target.value)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") {
+                    if (e.key === "Enter" || e.key === ",") {
                       e.preventDefault();
                       addKeyword(newKeywordInput);
                     }
                   }}
-                  placeholder="e.g. digital marketing certification course"
+                  placeholder="Type keyword and press Enter or comma (e.g. digital marketing course, seo)..."
                   className="flex-1 rounded-xl border border-[#3B0D3B]/15 bg-white px-3.5 py-2.5 text-xs text-[#0B0B0F] placeholder-slate-400 focus:border-[#3B0D3B] focus:outline-none"
                 />
                 <button

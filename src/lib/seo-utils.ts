@@ -55,21 +55,38 @@ export function syncPageSeoWithCourses(
       );
     });
 
+    const activeKeywords =
+      Array.isArray(course.metaKeywords) && course.metaKeywords.length > 0
+        ? course.metaKeywords
+        : existingIndex >= 0 && Array.isArray(result[existingIndex].metaKeywords) && result[existingIndex].metaKeywords.length > 0
+        ? result[existingIndex].metaKeywords
+        : [];
+
+    const activeDescription =
+      course.metaDescription ||
+      course.description ||
+      (existingIndex >= 0 ? result[existingIndex].metaDescription : "") ||
+      "";
+
+    const activeTitle =
+      course.metaTitle ||
+      (existingIndex >= 0 && result[existingIndex].title && !result[existingIndex].title?.includes("| TREQO")
+        ? result[existingIndex].title
+        : `${course.title} | TREQO`);
+
     if (existingIndex >= 0) {
       const existing = result[existingIndex];
       result[existingIndex] = {
         ...existing,
+        id: course.id || existing.id,
         name: course.title,
         path: canonicalPath,
         category: "Courses",
-        title: existing.title && !existing.title.includes("| TREQO")
-          ? existing.title
-          : `${course.title} | TREQO`,
-        metaDescription: existing.metaDescription || course.description || "",
-        metaKeywords:
-          Array.isArray(course.metaKeywords) && course.metaKeywords.length > 0
-            ? course.metaKeywords
-            : existing.metaKeywords || [],
+        title: activeTitle,
+        metaTitle: activeTitle,
+        metaDescription: activeDescription,
+        metaKeywords: activeKeywords,
+        updatedAt: new Date().toISOString(),
       };
     } else {
       result.push({
@@ -77,9 +94,11 @@ export function syncPageSeoWithCourses(
         path: canonicalPath,
         name: course.title,
         category: "Courses",
-        title: `${course.title} | TREQO`,
-        metaDescription: course.description || "",
-        metaKeywords: Array.isArray(course.metaKeywords) ? course.metaKeywords : [],
+        title: activeTitle,
+        metaTitle: activeTitle,
+        metaDescription: activeDescription,
+        metaKeywords: activeKeywords,
+        updatedAt: new Date().toISOString(),
       });
     }
   }

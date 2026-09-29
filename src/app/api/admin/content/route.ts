@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import { revalidatePublicSite } from "@/lib/revalidate";
 import {
   getGeneralSettingsFromDb,
   saveGeneralSettingsToDb,
@@ -81,47 +82,34 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { type, data } = body;
+    const extraPaths: string[] = [];
 
     if (type === "settings") {
       await saveGeneralSettingsToDb(data);
     } else if (type === "layout" || type === "layoutSettings") {
       await saveLayoutSettingsToDb(data);
-      try {
-        revalidatePath("/", "layout");
-      } catch (e) {
-        console.warn("Revalidate error (non-fatal):", e);
-      }
     } else if (type === "pageSeo" || type === "page-seo") {
       await savePageSeoSettingsToDb(data);
-      try {
-        revalidatePath("/", "layout");
-      } catch (e) {
-        console.warn("Revalidate error (non-fatal):", e);
+      if (Array.isArray(data)) {
+        for (const item of data) {
+          if (item?.path) extraPaths.push(item.path);
+        }
       }
     } else if (type === "navigation") {
       await saveNavigationSettingsToDb(data);
-      try {
-        revalidatePath("/", "layout");
-      } catch (e) {
-        console.warn("Revalidate error (non-fatal):", e);
-      }
     } else if (type === "home") {
       await saveHomePageContentToDb(data);
-      try {
-        revalidatePath("/", "layout");
-        revalidatePath("/");
-      } catch (e) {
-        console.warn("Revalidate error (non-fatal):", e);
-      }
     } else if (type === "courses") {
       await saveCoursesToDb(data);
-      try {
-        revalidatePath("/", "layout");
-        revalidatePath("/courses/[slug]", "page");
-        revalidatePath("/programs/[slug]", "page");
-        revalidatePath("/categories/[slug]", "page");
-      } catch (e) {
-        console.warn("Revalidate error (non-fatal):", e);
+      if (Array.isArray(data)) {
+        for (const c of data) {
+          if (c?.href) extraPaths.push(c.href);
+          if (c?.actionHref) extraPaths.push(c.actionHref);
+          if (c?.id) {
+            extraPaths.push(`/courses/${c.id}`);
+            extraPaths.push(`/programs/${c.id}`);
+          }
+        }
       }
     } else if (type === "tutors") {
       await saveTutorsToDb(data);
@@ -134,6 +122,9 @@ export async function POST(req: NextRequest) {
     } else {
       return NextResponse.json({ error: "Unknown content type" }, { status: 400 });
     }
+
+    // Immediately bust Next.js cache so changes are permanently live for every user
+    revalidatePublicSite(extraPaths);
 
     return NextResponse.json({ success: true, message: `${type} updated successfully` });
   } catch (error) {

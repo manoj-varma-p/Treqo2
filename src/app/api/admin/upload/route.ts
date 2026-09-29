@@ -58,20 +58,25 @@ export async function POST(req: NextRequest) {
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
     const rawFolder = (formData.get("folder") as string) || "general";
-    const folder = rawFolder.replace(/[^a-zA-Z0-9_-]/g, "") || "general";
+    if (rawFolder.includes("..") || rawFolder.includes("/") || rawFolder.includes("\\")) {
+      return NextResponse.json({ error: "Invalid folder parameter. Directory traversal is prohibited." }, { status: 400 });
+    }
+    const ALLOWED_FOLDERS = new Set(["general", "courses", "tutors", "blogs", "testimonials", "branding", "qa-test", "uploads"]);
+    const sanitizedFolder = rawFolder.replace(/[^a-zA-Z0-9_-]/g, "");
+    const folder = ALLOWED_FOLDERS.has(sanitizedFolder) ? sanitizedFolder : "general";
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    // Determine extension and validate
-    const ext = path.extname(file.name).toLowerCase() || `.${file.type.split("/")[1] || "png"}`;
+    // Determine extension and validate strictly
+    const ext = path.extname(file.name).toLowerCase();
     const isImageMime = Boolean(file.type && file.type.startsWith("image/"));
     const hasImageExt = ALLOWED_EXTENSIONS.has(ext);
 
-    if (!isImageMime && !hasImageExt) {
+    if (!hasImageExt || !isImageMime) {
       return NextResponse.json(
-        { error: "Only image files (PNG, JPG, WEBP, SVG, GIF, AVIF) are allowed." },
+        { error: "Only image files (PNG, JPG, JPEG, WEBP, SVG, GIF, AVIF, ICO) are allowed." },
         { status: 400 }
       );
     }
@@ -84,6 +89,26 @@ export async function POST(req: NextRequest) {
 
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
+
+    // Validate magic bytes for common image types
+    if (ext === ".png" && (buffer.length < 8 || buffer[0] !== 0x89 || buffer[1] !== 0x50 || buffer[2] !== 0x4e || buffer[3] !== 0x47)) {
+      return NextResponse.json({ error: "Corrupted or invalid PNG file signature." }, { status: 400 });
+    }
+    if ((ext === ".jpg" || ext === ".jpeg") && (buffer.length < 3 || buffer[0] !== 0xff || buffer[1] !== 0xd8 || buffer[2] !== 0xff)) {
+      return NextResponse.json({ error: "Corrupted or invalid JPEG file signature." }, { status: 400 });
+    }
+    if (ext === ".gif" && (buffer.length < 4 || buffer.toString("ascii", 0, 3) !== "GIF")) {
+      return NextResponse.json({ error: "Corrupted or invalid GIF file signature." }, { status: 400 });
+    }
+    if (ext === ".webp" && (buffer.length < 12 || buffer.toString("ascii", 0, 4) !== "RIFF" || buffer.toString("ascii", 8, 12) !== "WEBP")) {
+      return NextResponse.json({ error: "Corrupted or invalid WEBP file signature." }, { status: 400 });
+    }
+    if (ext === ".svg") {
+      const svgText = buffer.toString("utf-8").toLowerCase();
+      if (!svgText.includes("<svg") || svgText.includes("<script") || svgText.includes("javascript:") || svgText.includes("onload=")) {
+        return NextResponse.json({ error: "SVG contains disallowed active scripts or invalid structure." }, { status: 400 });
+      }
+    }
     const mimeType = file.type || `image/${ext.replace(".", "")}`;
 
     // On Vercel: always use MongoDB storage

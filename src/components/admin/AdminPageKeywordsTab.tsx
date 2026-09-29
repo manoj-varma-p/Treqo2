@@ -203,12 +203,40 @@ export default function AdminPageKeywordsTab({
 
   // Keyword operations on active page
   function addKeywordToActive(term: string) {
-    const cleaned = term.trim();
-    if (!cleaned || !activePage) return;
-    const current = Array.isArray(activePage.metaKeywords) ? activePage.metaKeywords : [];
-    if (!current.some((k) => k.toLowerCase() === cleaned.toLowerCase())) {
-      updateActivePage({ metaKeywords: [...current, cleaned] });
+    if (!term || !activePage) return;
+    const rawTokens = term
+      .split(/[,;\n]+/)
+      .map((t) => t.trim())
+      .filter((t) => t.length > 0);
+
+    if (rawTokens.length === 0) return;
+
+    const current = Array.isArray(activePage.metaKeywords) ? [...activePage.metaKeywords] : [];
+    let addedCount = 0;
+    let duplicateCount = 0;
+
+    for (const token of rawTokens) {
+      if (!current.some((k) => k.toLowerCase() === token.toLowerCase())) {
+        current.push(token);
+        addedCount++;
+      } else {
+        duplicateCount++;
+      }
     }
+
+    if (addedCount > 0) {
+      updateActivePage({ metaKeywords: current });
+      setStatusMsg({
+        type: "success",
+        text: `Added ${addedCount} keyword${addedCount > 1 ? "s" : ""} to "${activePage.name}". Click "Save This Page" to persist changes.`,
+      });
+    } else if (duplicateCount > 0) {
+      setStatusMsg({
+        type: "error",
+        text: `Keyword${duplicateCount > 1 ? "s" : ""} already exist${duplicateCount === 1 ? "s" : ""} in the list for "${activePage.name}".`,
+      });
+    }
+
     setNewKeywordInput("");
   }
 
@@ -499,10 +527,23 @@ export default function AdminPageKeywordsTab({
                     </span>
                     <h3 className="text-xl font-black text-[#0B0B0F]">{activePage.name}</h3>
                   </div>
-                  <div className="flex items-center gap-2 mt-1">
-                    <code className="text-xs font-mono text-[#3B0D3B] bg-[#3B0D3B]/5 px-2 py-0.5 rounded-md">
-                      {activePage.path}
-                    </code>
+                  <div className="flex flex-wrap items-center gap-2 mt-2">
+                    <div className="flex items-center rounded-lg border border-[#3B0D3B]/20 bg-[#3B0D3B]/5 overflow-hidden">
+                      <span className="px-2 py-1 text-[11px] font-mono text-[#5A4A5A] bg-[#FAF5EE] select-none border-r border-[#3B0D3B]/10">
+                        Route / Slug:
+                      </span>
+                      <input
+                        type="text"
+                        value={activePage.path}
+                        onChange={(e) => {
+                          let p = e.target.value.trim();
+                          if (p && !p.startsWith("/")) p = `/${p}`;
+                          updateActivePage({ path: p });
+                        }}
+                        placeholder="/courses/your-slug"
+                        className="px-2.5 py-1 text-xs font-mono font-bold text-[#3B0D3B] focus:outline-none bg-white min-w-[200px]"
+                      />
+                    </div>
                     <Link
                       href={activePage.path}
                       target="_blank"
@@ -617,12 +658,12 @@ export default function AdminPageKeywordsTab({
                     value={newKeywordInput}
                     onChange={(e) => setNewKeywordInput(e.target.value)}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter") {
+                      if (e.key === "Enter" || e.key === ",") {
                         e.preventDefault();
                         addKeywordToActive(newKeywordInput);
                       }
                     }}
-                    placeholder={`e.g. ${activePage.id === "home" ? "digital marketing course near me" : "best digital marketing course"}`}
+                    placeholder={`Type keyword and press Enter or comma (e.g. digital marketing course, seo strategy)...`}
                     className="flex-1 rounded-xl border border-[#3B0D3B]/15 bg-white px-3.5 py-2 text-xs text-[#0B0B0F] placeholder-slate-400 focus:border-[#3B0D3B] focus:outline-none"
                   />
                   <button

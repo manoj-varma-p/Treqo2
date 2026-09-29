@@ -13,6 +13,10 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+export const revalidate = 0;
+
 export async function generateStaticParams() {
   const blogs = await getAllBlogs();
   return blogs.map((post) => ({

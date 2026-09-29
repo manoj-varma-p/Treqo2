@@ -33,7 +33,14 @@ const categoryLinks = megaMenuData.columns.find((column) => column.title === "Le
 
 function getCourse(slug: string) {
   const targetSlug = formatCourseSlug(slug);
-  return learningSystemCourses.find((course) => formatCourseSlug(course.href) === targetSlug);
+  return (
+    learningSystemCourses.find((course) => formatCourseSlug(course.href) === targetSlug) ||
+    learningSystemCourses.find(
+      (course) =>
+        targetSlug.includes("digital-marketing") &&
+        formatCourseSlug(course.href).includes("digital-marketing")
+    )
+  );
 }
 
 export async function resolveCourseMeta(pathOrSlug: string, preloadedCourses?: CourseItem[]) {
@@ -66,7 +73,7 @@ export async function resolveCourseMeta(pathOrSlug: string, preloadedCourses?: C
       actionHrefSlug === targetSlug ||
       idSlug === lastSegmentSlug ||
       hrefSlug === lastSegmentSlug ||
-      (targetSlug === "digital-marketing" && (idSlug === "digital-marketing" || idSlug === "new-age-dm"))
+      (targetSlug.includes("digital-marketing") && (idSlug.includes("digital-marketing") || idSlug.includes("new-age") || idSlug === "new-age-dm"))
     );
   });
 
@@ -183,7 +190,10 @@ export async function generateMetadata({
   const cleanSlug = formatCourseSlug(slug);
   const pageSeo =
     (await getPageSeoByPath(`/courses/${cleanSlug}`)) ||
-    (await getPageSeoByPath(`/categories/${cleanSlug}`));
+    (await getPageSeoByPath(`/categories/${cleanSlug}`)) ||
+    (await getPageSeoByPath(`/programs/${cleanSlug}`)) ||
+    (meta.href ? await getPageSeoByPath(meta.href) : null) ||
+    (await getPageSeoByPath(cleanSlug));
 
   const isNewAgeOnline =
     cleanSlug === "digital-marketing" ||
@@ -191,17 +201,31 @@ export async function generateMetadata({
     meta.dbCourse?.id === "digital-marketing" ||
     meta.label.toLowerCase().includes("new age digital marketing");
 
-  const title = pageSeo?.title || pageSeo?.metaTitle || `${meta.label} | TREQO`;
+  const title =
+    pageSeo?.title ||
+    pageSeo?.metaTitle ||
+    meta.dbCourse?.metaTitle ||
+    `${meta.label} | TREQO`;
+
   const description =
     pageSeo?.metaDescription ||
+    meta.dbCourse?.metaDescription ||
+    meta.dbCourse?.description ||
     `Explore TREQO's ${meta.label} track, live mentorship, practical deliverables, and verified career portfolios.`;
 
-  const keywords =
+  const customKeywords =
     pageSeo?.metaKeywords && pageSeo.metaKeywords.length > 0
       ? pageSeo.metaKeywords
+      : meta.dbCourse?.metaKeywords && meta.dbCourse.metaKeywords.length > 0
+      ? meta.dbCourse.metaKeywords
+      : null;
+
+  const keywords =
+    customKeywords && customKeywords.length > 0
+      ? customKeywords
       : isNewAgeOnline
         ? NEW_AGE_ONLINE_KEYWORDS
-        : meta.dbCourse?.metaKeywords || [];
+        : [];
 
   return {
     title,

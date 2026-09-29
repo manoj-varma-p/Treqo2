@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "TREQO Administration",
+  title: {
+    absolute: "TREQO Administration",
+  },
+  description: "TREQO HQ Admin Console and Admissions Portal",
   robots: {
     index: false,
     follow: false,

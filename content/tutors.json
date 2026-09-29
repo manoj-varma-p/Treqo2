@@ -2,34 +2,34 @@
   {
     "id": "mohit-goel",
     "name": "Vali Sayyad",
-    "role": "Cofounder & Content Strategist",
+    "role": "Cofounder & Performance Marketer ",
     "mentored": "1.3k+",
-    "image": "/api/admin/upload?id=tutors-1790156157535-kp8m-screenshot-2026-09-23-115336.png",
-    "brandMetric": "₹10Cr+ Ad Spend Managed",
-    "focus": "Direct-response unit economics and turning raw campaign data into profitable spend.",
-    "specialty": "Funnel Economics & Scaling",
+    "image": "/api/admin/upload?id=tutors-1790249374447-fp0m-vali_treqo.png",
+    "brandMetric": "Active Practitioner",
+    "focus": "Specializing in business growth , digital marketing strategy and C-level leadership.",
+    "specialty": "Performance & Growth Strategy ",
     "isLocked": false
   },
   {
     "id": "deeptika-bajaj",
     "name": "Lokesh Dama",
     "role": "Cofounder, Product & Strategy",
-    "mentored": "423+",
-    "image": "/uploads/tutors/chatgpt_image_sep_21__2026__04-1789987659833-7bba.png",
-    "brandMetric": "3.8x Avg ROAS Across Clients",
-    "focus": "Scaling paid acquisition on Meta & Google Ads without burning client margins.",
-    "specialty": "Growth & Performance Marketing",
+    "mentored": "1k+",
+    "image": "/api/admin/upload?id=tutors-1790256015498-kwto-lokesh_treqo.png",
+    "brandMetric": "Active Practitioner",
+    "focus": "With experience spanning consulting, product management and digital strategy, Lokesh focuses on turning ideas into scalable , revenue-generating businesses,",
+    "specialty": "Product ,Strategy & Growth Strategist",
     "isLocked": false
   },
   {
     "id": "megha-punjabi",
     "name": "Durga Sai",
     "role": "Cofounder & Content Strategist",
-    "mentored": "236+",
-    "image": "/uploads/tutors/chatgpt_image_sep_21__2026__04-1789988219758-5cu9.png",
-    "brandMetric": "Ex-Amex Growth Lead",
-    "focus": "Enterprise positioning, high-LTV customer journeys, and retention architectures.",
-    "specialty": "Enterprise Marketing & Brand",
+    "mentored": "1k+",
+    "image": "/api/admin/upload?id=tutors-1790256051849-34m9-v.durga-sai_treao.jpg.jpeg",
+    "brandMetric": "Active Practitioner",
+    "focus": "Founder passionate about building impactful brands through creative content creation.",
+    "specialty": "Content Strategy & Visual Storytelling ",
     "isLocked": false
   },
   {
@@ -37,10 +37,10 @@
     "name": "Akshat Aggarwal",
     "role": "American Express",
     "mentored": "184+",
-    "image": "/uploads/tutors/screenshot-2026-09-21-163115-1789988498703-f4d3.png",
+    "image": "",
     "brandMetric": "Enterprise Analytics",
-    "focus": "Full-funnel attribution models, clean tracking setups, and defensible ROI reporting.",
     "specialty": "Attribution & Data-Driven Growth",
+    "focus": "Full-funnel attribution models, clean tracking setups, and defensible ROI reporting.",
     "isLocked": true
   },
   {
@@ -48,10 +48,10 @@
     "name": "Prateek Narang",
     "role": "IIT Placement Mentor",
     "mentored": "912+",
-    "image": "/uploads/tutors/screenshot-2026-09-21-163115-1789988506460-6n42.png",
+    "image": "",
     "brandMetric": "IIT Alum & Top Tech Mentor",
-    "focus": "Defending campaign numbers out loud so hiring panels can't poke holes in your work.",
     "specialty": "Portfolio & Interview Defense",
+    "focus": "Defending campaign numbers out loud so hiring panels can't poke holes in your work.",
     "isLocked": true
   },
   {
@@ -59,10 +59,10 @@
     "name": "Ritika Sharma",
     "role": "Growth Strategy Partner",
     "mentored": "567+",
-    "image": "/uploads/tutors/screenshot-2026-09-21-163115-1789988514964-tz86.png",
+    "image": "",
     "brandMetric": "500+ Funnels Audited",
-    "focus": "High-growth brand positioning, conversion rate optimization, and organic distribution.",
     "specialty": "Brand Strategy & Conversion",
+    "focus": "High-growth brand positioning, conversion rate optimization, and organic distribution.",
     "isLocked": true
   }
 ]

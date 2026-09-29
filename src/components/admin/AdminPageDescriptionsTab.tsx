@@ -182,6 +182,16 @@ export default function AdminPageDescriptionsTab({
     });
   }
 
+  // Update page route / slug
+  function updatePagePath(id: string, newPath: string) {
+    let p = newPath.trim();
+    if (p && !p.startsWith("/")) p = `/${p}`;
+    setPages((prev) => {
+      const updated = prev.map((page) => (page.id === id ? { ...page, path: p } : page));
+      return updated;
+    });
+  }
+
   // Copy to clipboard
   function handleCopy(text: string, id: string) {
     navigator.clipboard.writeText(text);
@@ -508,16 +518,24 @@ export default function AdminPageDescriptionsTab({
                         </span>
                         <h3 className="text-lg font-bold text-[#1A0A1A]">{activePage.name}</h3>
                       </div>
-                      <div className="mt-1 flex items-center gap-2 text-xs text-stone-500">
-                        <span className="font-mono text-stone-600 bg-stone-50 px-2 py-0.5 rounded border border-stone-100">
-                          {activePage.path}
-                        </span>
-                        <span>•</span>
+                      <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-stone-500">
+                        <div className="flex items-center rounded-lg border border-stone-200 bg-stone-50 overflow-hidden">
+                          <span className="px-2 py-1 text-[11px] font-mono text-stone-400 bg-stone-100 select-none border-r border-stone-200">
+                            Route / Slug:
+                          </span>
+                          <input
+                            type="text"
+                            value={activePage.path}
+                            onChange={(e) => updatePagePath(activePage.id, e.target.value)}
+                            placeholder="/courses/your-slug"
+                            className="px-2.5 py-1 text-xs font-mono font-bold text-stone-800 focus:outline-none bg-white min-w-[200px]"
+                          />
+                        </div>
                         <a
                           href={activePage.path}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1 text-[#3B0D3B] hover:underline"
+                          className="inline-flex items-center gap-1 text-[#3B0D3B] hover:underline font-semibold"
                         >
                           View Live Page
                           <ExternalLink className="h-3 w-3" />
