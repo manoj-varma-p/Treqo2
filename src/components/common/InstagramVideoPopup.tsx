@@ -115,7 +115,7 @@ export default function InstagramVideoPopup() {
                     top: "50%",
                     y: "-50%",
                     width: "min(380px, calc(100vw - 32px))",
-                    height: "min(550px, 84vh)",
+                    height: "min(500px, 80vh)",
                     backgroundColor: "#3B0D3B",
                     borderColor: "rgba(140, 106, 140, 0.4)",
                     borderRadius: "16px",
@@ -223,11 +223,14 @@ export default function InstagramVideoPopup() {
                   <div className="relative w-full flex-1 bg-black overflow-hidden rounded-b-2xl">
                     <iframe
                       src="https://www.instagram.com/reel/DZcndZohT3l/embed/?autoplay=1"
-                      className="absolute left-0 w-full border-0 pointer-events-auto"
+                      className="absolute border-0 pointer-events-auto"
                       style={{
-                        top: "-54px",
-                        height: "calc(100% + 450px)",
-                        minHeight: "900px",
+                        top: "-56px",
+                        left: "-3%",
+                        width: "106%",
+                        height: "calc(100% + 140px)",
+                        transform: "scale(1.08)",
+                        transformOrigin: "top center",
                       }}
                       scrolling="no"
                       allow="autoplay; encrypted-media; fullscreen; picture-in-picture; clipboard-write;"
