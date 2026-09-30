@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import {
   Save,
-  Sparkles,
   CheckCircle2,
   AlertCircle,
   Eye,
@@ -218,7 +217,7 @@ export default function AdminSixDecisionsTab({ initialData, adminPin, onSaved }:
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-[#3B0D3B]/10 shadow-xs">
         <div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#3B0D3B]/10 border border-[#3B0D3B]/20 text-[#3B0D3B] text-[10px] font-bold uppercase tracking-wider mb-1.5">
-            <Sparkles className="h-3 w-3" />
+            <ShieldCheck className="h-3 w-3" />
             <span>Exact Frontend Visual Mirror</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-black text-[#0B0B0F] tracking-tight">

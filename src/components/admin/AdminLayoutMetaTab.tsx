@@ -13,7 +13,6 @@ import {
   CheckCircle2,
   AlertCircle,
   Eye,
-  Sparkles,
   Info,
   Layers,
   FileCode,
@@ -165,16 +164,16 @@ export default function AdminLayoutMetaTab({ initialData, adminPin, onSaved }: P
   return (
     <div className="space-y-6">
       {/* Tab Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/70 backdrop-blur-md p-6 rounded-3xl border border-[#3B0D3B]/10 shadow-xs">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-300 text-[10px] font-bold uppercase tracking-wider mb-2">
-            <Globe className="h-3 w-3" />
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#3B0D3B]/10 text-[#3B0D3B] text-[11px] font-bold uppercase tracking-wider mb-1.5">
+            <Globe className="h-3.5 w-3.5 text-[#3B0D3B]" />
             <span>SEO &amp; Layout Metadata</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-black text-[#0B0B0F] tracking-tight">
             Layout &amp; Meta Settings
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-[#5A4A5A] mt-0.5">
             Adjust and manage site-wide meta title, meta description, and keywords for search engines and social link previews.
           </p>
         </div>
@@ -476,7 +475,7 @@ export default function AdminLayoutMetaTab({ initialData, adminPin, onSaved }: P
           {/* 1-Click Suggestions Chips */}
           <div>
             <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#8C6A8C] uppercase tracking-wider mb-2">
-              <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+              <Tag className="h-3.5 w-3.5 text-amber-600" />
               <span>Recommended Quick Suggestions</span>
             </div>
             <div className="flex flex-wrap gap-1.5">

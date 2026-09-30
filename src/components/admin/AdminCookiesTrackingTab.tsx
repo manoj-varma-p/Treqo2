@@ -10,7 +10,6 @@ import {
   ExternalLink,
   Code2,
   Sliders,
-  Sparkles,
 } from "lucide-react";
 import type { TrackingSettings } from "@/lib/content-db";
 

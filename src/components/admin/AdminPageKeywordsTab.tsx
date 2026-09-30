@@ -9,7 +9,6 @@ import {
   Plus,
   Trash2,
   ExternalLink,
-  Sparkles,
   Save,
   CheckCircle2,
   AlertCircle,
@@ -734,7 +733,7 @@ export default function AdminPageKeywordsTab({
                     onClick={() => applyPresetToActive(NEW_AGE_ONLINE_37_KEYWORDS, "New Age Online 37 Keywords")}
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#3B0D3B]/20 bg-[#3B0D3B]/5 hover:bg-[#3B0D3B]/10 text-xs font-bold text-[#3B0D3B] cursor-pointer transition-colors"
                   >
-                    <Sparkles className="h-3.5 w-3.5" />
+                    <Tag className="h-3.5 w-3.5" />
                     <span>Apply New Age Online (37 Keywords)</span>
                   </button>
 

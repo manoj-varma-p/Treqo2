@@ -14,6 +14,8 @@ import {
   ExternalLink,
   Activity,
   Layers,
+  UserCheck,
+  RotateCcw,
 } from "lucide-react";
 import type { AnalyticsSummary } from "@/lib/analytics-db";
 
@@ -25,6 +27,7 @@ export default function AdminAnalyticsTab({ adminPin }: Props) {
   const [range, setRange] = useState<"24h" | "7d" | "30d" | "all">("7d");
   const [data, setData] = useState<AnalyticsSummary | null>(null);
   const [loading, setLoading] = useState(true);
+  const [resetting, setResetting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchAnalytics = useCallback(async () => {
@@ -50,6 +53,29 @@ export default function AdminAnalyticsTab({ adminPin }: Props) {
     }
   }, [range, adminPin]);
 
+  const handleResetAnalytics = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to reset all analytics data? This will clear all historical test hits and start fresh with real unique visitor & revisitor tracking."
+    );
+    if (!confirmed) return;
+
+    setResetting(true);
+    try {
+      const res = await fetch("/api/admin/analytics", {
+        method: "DELETE",
+        headers: { "x-admin-pin": adminPin },
+      });
+      if (!res.ok) {
+        throw new Error("Failed to reset analytics");
+      }
+      await fetchAnalytics();
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Error resetting analytics");
+    } finally {
+      setResetting(false);
+    }
+  };
+
   useEffect(() => {
     fetchAnalytics();
   }, [fetchAnalytics]);
@@ -67,11 +93,11 @@ export default function AdminAnalyticsTab({ adminPin }: Props) {
             Visitor &amp; Drop-Off Analytics
           </h2>
           <p className="text-xs sm:text-sm text-[#5A4A5A] mt-0.5">
-            Track visitors who viewed courses but dropped off before submitting the application form.
+            Real visitor funnel tracking unique students, revisitors, form opens, and submissions. Internal admin &amp; localhost visits are automatically excluded.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
           {/* Range Selector */}
           <div className="flex items-center rounded-xl bg-[#FAF5EE] border border-[#3B0D3B]/15 p-1">
             {(["24h", "7d", "30d", "all"] as const).map((r) => (
@@ -99,6 +125,17 @@ export default function AdminAnalyticsTab({ adminPin }: Props) {
           >
             <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
           </button>
+
+          <button
+            type="button"
+            onClick={handleResetAnalytics}
+            disabled={resetting || loading}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 transition-all text-xs font-bold cursor-pointer disabled:opacity-50"
+            title="Reset visitor analytics data"
+          >
+            <RotateCcw className={`h-3.5 w-3.5 ${resetting ? "animate-spin" : ""}`} />
+            <span className="hidden sm:inline">Reset Data</span>
+          </button>
         </div>
       </div>
 
@@ -110,42 +147,40 @@ export default function AdminAnalyticsTab({ adminPin }: Props) {
 
       {/* Primary KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Total Page Visitors */}
+        {/* Unique Visitors */}
         <div className="p-5 rounded-2xl bg-white border border-[#3B0D3B]/10 shadow-xs space-y-2">
           <div className="flex items-center justify-between text-[#8C6A8C]">
-            <span className="text-xs font-bold uppercase tracking-wider">Total Visitors</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Unique Visitors</span>
             <Users className="h-4 w-4 text-[#3B0D3B]" />
           </div>
           <div className="text-2xl sm:text-3xl font-black text-[#0B0B0F]">
-            {loading ? "..." : (data?.totalVisitors ?? 0).toLocaleString()}
+            {loading ? "..." : (data?.uniqueVisitors ?? data?.totalVisitors ?? 0).toLocaleString()}
           </div>
-          <div className="text-[11px] text-[#5A4A5A]">Unique page &amp; route sessions</div>
+          <div className="text-[11px] text-[#5A4A5A]">Distinct student devices</div>
+        </div>
+
+        {/* Revisitors */}
+        <div className="p-5 rounded-2xl bg-white border border-indigo-200 shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-indigo-700">
+            <span className="text-xs font-bold uppercase tracking-wider">Revisitors</span>
+            <UserCheck className="h-4 w-4 text-indigo-600" />
+          </div>
+          <div className="text-2xl sm:text-3xl font-black text-indigo-950">
+            {loading ? "..." : (data?.returningVisitors ?? 0).toLocaleString()}
+          </div>
+          <div className="text-[11px] text-indigo-700 font-medium">Opened website 2+ times</div>
         </div>
 
         {/* Form Impressions */}
-        <div className="p-5 rounded-2xl bg-white border border-[#3B0D3B]/10 shadow-xs space-y-2">
-          <div className="flex items-center justify-between text-[#8C6A8C]">
+        <div className="p-5 rounded-2xl bg-white border border-blue-200 shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-blue-700">
             <span className="text-xs font-bold uppercase tracking-wider">Form Views</span>
             <Eye className="h-4 w-4 text-blue-600" />
           </div>
-          <div className="text-2xl sm:text-3xl font-black text-[#0B0B0F]">
+          <div className="text-2xl sm:text-3xl font-black text-blue-950">
             {loading ? "..." : (data?.formImpressions ?? 0).toLocaleString()}
           </div>
-          <div className="text-[11px] text-[#5A4A5A]">Opened or scrolled to admission form</div>
-        </div>
-
-        {/* Total Drop-offs */}
-        <div className="p-5 rounded-2xl bg-amber-50/70 border border-amber-300 shadow-xs space-y-2">
-          <div className="flex items-center justify-between text-amber-800">
-            <span className="text-xs font-bold uppercase tracking-wider">Form Drop-Offs</span>
-            <AlertTriangle className="h-4 w-4 text-amber-600" />
-          </div>
-          <div className="text-2xl sm:text-3xl font-black text-amber-950">
-            {loading ? "..." : (data?.totalDropOffs ?? 0).toLocaleString()}
-          </div>
-          <div className="text-[11px] font-semibold text-amber-800">
-            {loading ? "..." : `${data?.dropOffRate ?? 0}% abandoned without submitting`}
-          </div>
+          <div className="text-[11px] text-blue-700 font-medium">Scrolled to admission form</div>
         </div>
 
         {/* Leads Captured */}
@@ -158,7 +193,7 @@ export default function AdminAnalyticsTab({ adminPin }: Props) {
             {loading ? "..." : (data?.formSubmissions ?? 0).toLocaleString()}
           </div>
           <div className="text-[11px] font-semibold text-emerald-800">
-            {loading ? "..." : `${data?.conversionRate ?? 0}% overall conversion rate`}
+            {loading ? "..." : `${data?.conversionRate ?? 0}% overall conversion`}
           </div>
         </div>
       </div>
@@ -205,8 +240,10 @@ export default function AdminAnalyticsTab({ adminPin }: Props) {
                       idx === 0
                         ? "bg-[#3B0D3B]"
                         : idx === 1
-                        ? "bg-blue-600"
+                        ? "bg-indigo-600"
                         : idx === 2
+                        ? "bg-blue-600"
+                        : idx === 3
                         ? "bg-purple-600"
                         : "bg-emerald-600"
                     }`}

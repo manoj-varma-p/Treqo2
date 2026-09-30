@@ -5,7 +5,8 @@ import Link from "next/link";
 import {
   Users,
   GraduationCap,
-  Sparkles,
+  LayoutTemplate,
+  Megaphone,
   BookOpen,
   Award,
   Trophy,
@@ -139,7 +140,7 @@ export default function AdminSidebar({
         {
           id: "tutors",
           label: "Mentors & Faculty",
-          icon: Sparkles,
+          icon: Users,
           count: tutorsCount,
         },
         {
@@ -173,13 +174,6 @@ export default function AdminSidebar({
       groupTitle: "CONTENT & MARKETING",
       items: [
         {
-          id: "hero",
-          label: "Homepage Hero",
-          icon: Sparkles,
-          badge: "Home",
-          badgeVariant: "solid",
-        },
-        {
           id: "blogs",
           label: "Blog Articles",
           icon: BookOpen,
@@ -188,7 +182,7 @@ export default function AdminSidebar({
         {
           id: "banner",
           label: "Announcement Banner",
-          icon: Sparkles,
+          icon: Megaphone,
         },
         {
           id: "faqs",
@@ -336,10 +330,10 @@ export default function AdminSidebar({
                       {item.count !== undefined && item.count > 0 && (
                         <span
                           className={cn(
-                            "text-[10px] font-bold px-1.5 py-0.5 rounded-md",
+                            "text-[10px] font-bold px-1.5 py-0.5 rounded-md border",
                             isActive
-                              ? "bg-[#3B0D3B]/10 text-[#3B0D3B]"
-                              : "bg-[#F5EDE0] text-[#5A4A5A]"
+                              ? "bg-[#3B0D3B]/10 text-[#3B0D3B] border-[#3B0D3B]/20"
+                              : "bg-white/80 text-[#0B0B0F] border-slate-200"
                           )}
                         >
                           {item.count}
@@ -349,10 +343,10 @@ export default function AdminSidebar({
                       {item.badge && (
                         <span
                           className={cn(
-                            "text-[9px] font-bold px-1.5 py-0.2 rounded uppercase",
+                            "text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-wide border",
                             item.badgeVariant === "pulse"
-                              ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                              : "bg-[#F5EDE0] text-[#5A4A5A]"
+                              ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                              : "bg-white/90 text-[#3B0D3B] border-[#3B0D3B]/20 shadow-2xs"
                           )}
                         >
                           {item.badge}

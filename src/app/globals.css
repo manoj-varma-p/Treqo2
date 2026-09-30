@@ -317,6 +317,7 @@ select:disabled {
   color: #E5E7EB !important;
 }
 
+/* Card surfaces */
 .admin-dark .bg-white {
   background-color: #15151E !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
@@ -343,11 +344,15 @@ select:disabled {
 .admin-dark .bg-slate-50,
 .admin-dark .bg-slate-50\/70,
 .admin-dark .bg-slate-50\/80,
-.admin-dark .bg-slate-50\/90 {
+.admin-dark .bg-slate-50\/90,
+.admin-dark .bg-stone-50,
+.admin-dark .bg-stone-50\/70,
+.admin-dark .bg-stone-100 {
   background-color: #181824 !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
+/* Form Inputs, Selects, Textareas */
 .admin-dark input:not([type="checkbox"]):not([type="radio"]),
 .admin-dark select,
 .admin-dark textarea {
@@ -358,32 +363,141 @@ select:disabled {
 
 .admin-dark input::placeholder,
 .admin-dark textarea::placeholder {
-  color: rgba(156, 163, 175, 0.5) !important;
-}
-
-.admin-dark .text-\[\#0B0B0F\],
-.admin-dark .text-\[\#1A0A1A\],
-.admin-dark .text-slate-900,
-.admin-dark .text-slate-950 {
-  color: #F9FAFB !important;
-}
-
-.admin-dark .text-\[\#5A4A5A\],
-.admin-dark .text-\[\#8C6A8C\],
-.admin-dark .text-slate-600,
-.admin-dark .text-slate-700 {
   color: #9CA3AF !important;
 }
 
+/* Primary Headings & Dark Text */
+.admin-dark .text-\[\#0B0B0F\],
+.admin-dark .text-\[\#1A0A1A\],
+.admin-dark .text-slate-900,
+.admin-dark .text-slate-950,
+.admin-dark .text-stone-900 {
+  color: #F9FAFB !important;
+}
+
+/* Secondary & Muted Text */
+.admin-dark .text-\[\#5A4A5A\],
+.admin-dark .text-\[\#8C6A8C\],
+.admin-dark .text-slate-500,
+.admin-dark .text-slate-600,
+.admin-dark .text-slate-700,
+.admin-dark .text-stone-500,
+.admin-dark .text-stone-600,
+.admin-dark .text-stone-700 {
+  color: #9CA3AF !important;
+}
+
+/* BRAND COLOR IN DARK MODE: Remap deep plum (#3B0D3B) to readable bright violet/lavender */
+.admin-dark .text-\[\#3B0D3B\],
+.admin-dark .text-\[\#2A082A\],
+.admin-dark .text-\[\#180518\] {
+  color: #E9D5FF !important;
+}
+
+/* Active tab background and plum pills in dark mode */
+.admin-dark .bg-\[\#3B0D3B\]\/5,
+.admin-dark .bg-\[\#3B0D3B\]\/8,
+.admin-dark .bg-\[\#3B0D3B\]\/10,
+.admin-dark .bg-\[\#3B0D3B\]\/15,
+.admin-dark .bg-\[\#3B0D3B\]\/20 {
+  background-color: rgba(192, 132, 252, 0.15) !important;
+  color: #F3E8FF !important;
+  border-color: rgba(192, 132, 252, 0.25) !important;
+}
+
+/* Left indicator on active tab */
+.admin-dark span.bg-\[\#3B0D3B\] {
+  background-color: #C084FC !important;
+}
+
+/* Primary buttons with #3B0D3B in dark mode */
+.admin-dark button.bg-\[\#3B0D3B\],
+.admin-dark a.bg-\[\#3B0D3B\] {
+  background-color: #8A2B8A !important;
+  color: #FFFFFF !important;
+}
+.admin-dark button.bg-\[\#3B0D3B\]:hover,
+.admin-dark a.bg-\[\#3B0D3B\]:hover {
+  background-color: #A33EA3 !important;
+}
+
+/* Alert & Metric Status Badges in Dark Mode */
+.admin-dark .bg-amber-50,
+.admin-dark .bg-amber-50\/70 {
+  background-color: rgba(245, 158, 11, 0.15) !important;
+  border-color: rgba(245, 158, 11, 0.35) !important;
+}
+.admin-dark .text-amber-700,
+.admin-dark .text-amber-800,
+.admin-dark .text-amber-950 {
+  color: #FCD34D !important;
+}
+
+.admin-dark .bg-emerald-50,
+.admin-dark .bg-emerald-50\/70 {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
+}
+.admin-dark .text-emerald-700,
+.admin-dark .text-emerald-800,
+.admin-dark .text-emerald-950 {
+  color: #6EE7B7 !important;
+}
+
+.admin-dark .bg-rose-50,
+.admin-dark .bg-rose-50\/70,
+.admin-dark .bg-red-50 {
+  background-color: rgba(244, 63, 94, 0.15) !important;
+  border-color: rgba(244, 63, 94, 0.35) !important;
+}
+.admin-dark .text-rose-700,
+.admin-dark .text-rose-800,
+.admin-dark .text-red-700,
+.admin-dark .text-red-800 {
+  color: #FDA4AF !important;
+}
+
+.admin-dark .bg-blue-50,
+.admin-dark .bg-blue-50\/70 {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  border-color: rgba(59, 130, 246, 0.35) !important;
+}
+.admin-dark .text-blue-700,
+.admin-dark .text-blue-800,
+.admin-dark .text-blue-950 {
+  color: #93C5FD !important;
+}
+
+.admin-dark .text-indigo-700,
+.admin-dark .text-indigo-950 {
+  color: #C7D2FE !important;
+}
+
+/* Borders in Dark Mode */
 .admin-dark .border-\[\#3B0D3B\]\/10,
 .admin-dark .border-\[\#3B0D3B\]\/15,
 .admin-dark .border-\[\#3B0D3B\]\/20,
 .admin-dark .border-slate-200,
-.admin-dark .border-slate-300 {
+.admin-dark .border-slate-300,
+.admin-dark .border-stone-200,
+.admin-dark .border-stone-300 {
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
+/* Hover States in Dark Mode */
 .admin-dark .hover\:bg-\[\#FAF5EE\]:hover,
-.admin-dark .hover\:bg-\[\#F5EDE0\]:hover {
+.admin-dark .hover\:bg-\[\#FAF5EE\]\/60:hover,
+.admin-dark .hover\:bg-\[\#F5EDE0\]:hover,
+.admin-dark .hover\:bg-slate-50:hover {
   background-color: #222230 !important;
+}
+
+.admin-dark kbd {
+  background-color: #1E1E2C !important;
+  color: #D1D5DB !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.admin-dark table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.04) !important;
 }

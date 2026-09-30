@@ -114,8 +114,8 @@ export default function InstagramVideoPopup() {
                     x: "-50%",
                     top: "50%",
                     y: "-50%",
-                    width: "min(380px, calc(100vw - 32px))",
-                    height: "min(500px, 80vh)",
+                    width: "min(360px, calc(100vw - 32px))",
+                    height: "min(560px, 85vh)",
                     backgroundColor: "#3B0D3B",
                     borderColor: "rgba(140, 106, 140, 0.4)",
                     borderRadius: "16px",
@@ -219,21 +219,19 @@ export default function InstagramVideoPopup() {
                     </div>
                   </div>
 
-                  {/* Video Container (clips the cross-origin white embed header and bottom footer) */}
+                  {/* Video Container (crops the white top header, bottom footer, and side scrollbar) */}
                   <div className="relative w-full flex-1 bg-black overflow-hidden rounded-b-2xl">
                     <iframe
-                      src="https://www.instagram.com/reel/DZcndZohT3l/embed/?autoplay=1"
-                      className="absolute border-0 pointer-events-auto"
+                      src="https://www.instagram.com/p/DZcndZohT3l/embed/"
+                      className="absolute border-0"
                       style={{
-                        top: "-56px",
-                        left: "-3%",
-                        width: "106%",
-                        height: "calc(100% + 140px)",
-                        transform: "scale(1.08)",
-                        transformOrigin: "top center",
+                        top: "-55px",
+                        left: "-2px",
+                        width: "calc(100% + 18px)",
+                        height: "calc(100% + 106px)",
                       }}
-                      scrolling="no"
-                      allow="autoplay; encrypted-media; fullscreen; picture-in-picture; clipboard-write;"
+                      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                      allowFullScreen
                       title="TREQO Instagram Reel"
                     />
                   </div>

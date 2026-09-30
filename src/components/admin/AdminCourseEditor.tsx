@@ -14,7 +14,7 @@ import {
   Plus,
   Check,
   Clock,
-  Sparkles,
+  LayoutTemplate,
   Layers,
   Award,
   DollarSign,
@@ -411,10 +411,10 @@ export default function AdminCourseEditor({
   const audiencePoints = course.overview
     ? course.overview.split("\n").filter(Boolean)
     : [
-        "Graduates and early-career marketers who want practical proof, not just a theoretical certificate",
-        "Working professionals switching to modern growth & performance marketing",
-        "Founders and builders scaling their own direct-to-consumer and B2B ventures",
-      ];
+      "Graduates and early-career marketers who want practical proof, not just a theoretical certificate",
+      "Working professionals switching to modern growth & performance marketing",
+      "Founders and builders scaling their own direct-to-consumer and B2B ventures",
+    ];
 
   // Career Roles helpers
   const DEFAULT_CAREER_ROLES: CourseCareerRoleItem[] = [
@@ -583,11 +583,10 @@ export default function AdminCourseEditor({
           <button
             type="button"
             onClick={toggleLockState}
-            className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-              course.isLocked
-                ? "bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100"
-                : "bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100"
-            }`}
+            className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${course.isLocked
+              ? "bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100"
+              : "bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100"
+              }`}
           >
             {course.isLocked ? <Lock className="h-3.5 w-3.5" /> : <Unlock className="h-3.5 w-3.5" />}
             <span>{course.isLocked ? "Enrollment Locked" : "Enrollment Open"}</span>
@@ -608,11 +607,10 @@ export default function AdminCourseEditor({
       {/* Status Notification */}
       {statusMsg && (
         <div
-          className={`flex items-center gap-2.5 rounded-2xl p-4 text-xs font-semibold ${
-            statusMsg.type === "success"
-              ? "bg-emerald-950/70 border border-emerald-500/30 text-emerald-200"
-              : "bg-red-950/70 border border-red-500/30 text-red-200"
-          }`}
+          className={`flex items-center gap-2.5 rounded-2xl p-4 text-xs font-semibold ${statusMsg.type === "success"
+            ? "bg-emerald-950/70 border border-emerald-500/30 text-emerald-200"
+            : "bg-red-950/70 border border-red-500/30 text-red-200"
+            }`}
         >
           {statusMsg.type === "success" ? (
             <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
@@ -626,7 +624,7 @@ export default function AdminCourseEditor({
       {/* Editor Sub-Navigation Tabs (Matching course page sections) */}
       <div className="flex flex-wrap items-center gap-2 border-b border-[#3B0D3B]/10 pb-3">
         {[
-          { id: "hero", label: "1. Hero Banner & Media", icon: Sparkles },
+          { id: "hero", label: "1. Hero Banner & Media", icon: LayoutTemplate },
           { id: "pricing", label: "2. Tuition & EMI Plans", icon: DollarSign },
           { id: "curriculum", label: "3. Curriculum & Phases", icon: Layers },
           { id: "challenge", label: "4. CEO Challenge", icon: Trophy },
@@ -643,11 +641,10 @@ export default function AdminCourseEditor({
               key={tab.id}
               type="button"
               onClick={() => setActiveStudioTab(tab.id as typeof activeStudioTab)}
-              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                isActive
-                  ? "bg-[#3B0D3B] text-white shadow-xs"
-                  : "text-[#5A4A5A] hover:text-[#0B0B0F] bg-white border border-[#3B0D3B]/10"
-              }`}
+              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${isActive
+                ? "bg-[#3B0D3B] text-white shadow-xs"
+                : "text-[#5A4A5A] hover:text-[#0B0B0F] bg-white border border-[#3B0D3B]/10"
+                }`}
             >
               <Icon className="h-3.5 w-3.5" />
               <span>{tab.label}</span>
@@ -763,7 +760,7 @@ export default function AdminCourseEditor({
                         className="text-[10px] text-[#3B0D3B] hover:underline font-semibold flex items-center gap-1 cursor-pointer"
                         title="Generate clean URL slug from Course Title"
                       >
-                        <Sparkles className="h-3 w-3" />
+                        <RefreshCw className="h-3 w-3" />
                         Auto-generate
                       </button>
                     </div>
@@ -797,11 +794,10 @@ export default function AdminCourseEditor({
                                 actionHref: newHref,
                               });
                             }}
-                            className={`px-2 py-0.5 rounded-md font-mono text-[10px] transition-all cursor-pointer ${
-                              isActive
-                                ? "bg-[#3B0D3B] text-white font-bold"
-                                : "bg-[#FAF5EE] text-[#5A4A5A] hover:bg-[#F5EDE0] border border-[#3B0D3B]/10"
-                            }`}
+                            className={`px-2 py-0.5 rounded-md font-mono text-[10px] transition-all cursor-pointer ${isActive
+                              ? "bg-[#3B0D3B] text-white font-bold"
+                              : "bg-[#FAF5EE] text-[#5A4A5A] hover:bg-[#F5EDE0] border border-[#3B0D3B]/10"
+                              }`}
                           >
                             {item.label}
                           </button>
@@ -930,11 +926,10 @@ export default function AdminCourseEditor({
                       const file = e.dataTransfer.files?.[0];
                       if (file) handleImageUpload(file);
                     }}
-                    className={`relative overflow-hidden rounded-2xl border-2 transition-all group ${
-                      isDragActive
-                        ? "border-[#3B0D3B] bg-[#FAF5EE] shadow-xl"
-                        : "border-[#3B0D3B]/15 bg-slate-900"
-                    }`}
+                    className={`relative overflow-hidden rounded-2xl border-2 transition-all group ${isDragActive
+                      ? "border-[#3B0D3B] bg-[#FAF5EE] shadow-xl"
+                      : "border-[#3B0D3B]/15 bg-slate-900"
+                      }`}
                   >
                     {course.image ? (
                       <div className="relative aspect-[16/10] w-full">
@@ -1745,7 +1740,7 @@ export default function AdminCourseEditor({
                     onClick={() => applyPresetKeywords(NEW_AGE_ONLINE_37_KEYWORDS, "New Age Online Flagship Track")}
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#3B0D3B]/20 bg-[#3B0D3B]/5 hover:bg-[#3B0D3B]/10 text-xs font-bold text-[#3B0D3B] cursor-pointer transition-colors"
                   >
-                    <Sparkles className="h-3.5 w-3.5" />
+                    <Tag className="h-3.5 w-3.5" />
                     <span>Apply New Age Online Preset (37 Keywords)</span>
                   </button>
 

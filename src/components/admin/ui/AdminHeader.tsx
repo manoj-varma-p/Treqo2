@@ -8,7 +8,6 @@ import {
   RefreshCw,
   Menu,
   Bell,
-  Sparkles,
   Sun,
   Moon,
 } from "lucide-react";

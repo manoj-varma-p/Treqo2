@@ -21,7 +21,6 @@ import {
   Users,
   ShieldCheck,
   Settings,
-  Sparkles,
   HelpCircle,
   BookOpen,
   Plus,
@@ -104,7 +103,6 @@ const TAB_TITLES: Record<string, { title: string; breadcrumb: string }> = {
   sixDecisions: { title: "Six Decisions Framework", breadcrumb: "Credentials & Compliance" },
   blogs: { title: "Articles & Insights", breadcrumb: "Content & Marketing" },
   faqs: { title: "Frequently Asked Questions", breadcrumb: "Content & Marketing" },
-  hero: { title: "Hero & Key Metrics", breadcrumb: "Content & Marketing" },
   pageKeywords: { title: "Page-Wise SEO & Keywords", breadcrumb: "System & Settings" },
   pageDescriptions: { title: "Page-Wise Meta Descriptions", breadcrumb: "System & Settings" },
   banner: { title: "Announcement Banner", breadcrumb: "Content & Marketing" },
@@ -1989,7 +1987,7 @@ export default function CustomAdminPanelPage() {
                   title="Applied Today"
                   value={leads.filter((l) => l.submittedAt.startsWith(new Date().toISOString().split("T")[0])).length}
                   trend={{ value: "Live tracker", isPositive: true }}
-                  icon={Sparkles}
+                  icon={Clock}
                   description="Submissions in last 24h"
                 />
                 <StatBlock
@@ -2825,10 +2823,8 @@ export default function CustomAdminPanelPage() {
             </div>
           )}
 
-          {/* ========================================================= */}
-          {/* TAB 4: HERO — VISUAL WYSIWYG EDITOR                       */}
-          {/* ========================================================= */}
-          {activeTab === "hero" && (
+          {/* TAB 4: HERO removed */}
+          {false && (
             <div className="space-y-5 max-w-5xl">
               {/* Toolbar */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -3554,7 +3550,7 @@ export default function CustomAdminPanelPage() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#3B0D3B]/10 pb-4">
                   <div>
                     <h3 className="text-sm sm:text-base font-bold text-[#0B0B0F] flex items-center gap-2">
-                      <Sparkles className="h-4 w-4 text-[#3B0D3B]" />
+                      <Users className="h-4 w-4 text-[#3B0D3B]" />
                       <span>Mentors Section Header &amp; Guarantee</span>
                     </h3>
                     <p className="text-xs text-[#5A4A5A] mt-0.5">
@@ -5151,7 +5147,7 @@ export default function CustomAdminPanelPage() {
                     className="text-[10px] font-semibold text-[#3B0D3B] hover:underline flex items-center gap-1 cursor-pointer"
                     title="Auto-generate slug from title"
                   >
-                    <Sparkles className="h-2.5 w-2.5" />
+                    <RefreshCw className="h-2.5 w-2.5" />
                     Auto-generate from title
                   </button>
                 </div>

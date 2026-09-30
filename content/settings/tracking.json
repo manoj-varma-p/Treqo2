@@ -3,7 +3,7 @@
   "metaPixelId": "",
   "googleTagManagerId": "",
   "clarityProjectId": "",
-  "cookieBannerEnabled": false,
+  "cookieBannerEnabled": true,
   "cookieBannerTitle": "We value your privacy",
   "cookieBannerText": "We use cookies to analyze website traffic, optimize marketing performance, and personalize course recommendations.",
   "analyticsEnabled": true,

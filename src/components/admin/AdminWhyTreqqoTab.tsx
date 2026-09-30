@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import {
   Save,
-  Sparkles,
   CheckCircle2,
   AlertCircle,
   Eye,

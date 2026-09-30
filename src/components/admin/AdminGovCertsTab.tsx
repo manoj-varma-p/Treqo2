@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { Save, Upload, Sparkles, CheckCircle2, AlertCircle } from "lucide-react";
+import { Save, Upload, Award, CheckCircle2, AlertCircle } from "lucide-react";
 import type { GovCertsContent } from "@/lib/content-db";
 
 interface Props {
@@ -165,7 +165,7 @@ export default function AdminGovCertsTab({ initialData, adminPin, onSaved }: Pro
         {/* Section Heading */}
         <div className="rounded-xl border border-[#3B0D3B]/10 bg-white p-6 space-y-4 shadow-xs">
           <h3 className="text-sm font-bold text-[#0B0B0F] flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-[#3B0D3B]" />
+            <Award className="h-4 w-4 text-[#3B0D3B]" />
             <span>Section Titles</span>
           </h3>
 

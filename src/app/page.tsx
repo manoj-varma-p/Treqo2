@@ -60,6 +60,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: activeTitle,
       description: activeDescription,
       type: "website",
+      siteName: siteTitle,
     },
     twitter: {
       title: activeTitle,

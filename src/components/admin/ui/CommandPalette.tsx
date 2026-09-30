@@ -7,7 +7,6 @@ import {
   ArrowRight,
   Users,
   GraduationCap,
-  Sparkles,
   BookOpen,
   Award,
   Trophy,
@@ -113,7 +112,7 @@ export default function CommandPalette({
         category: "Navigation",
         title: "Mentors & Faculty",
         subtitle: "Agency founders & industry leaders",
-        icon: <Sparkles className="h-4 w-4 text-[#3B0D3B]" />,
+        icon: <Users className="h-4 w-4 text-[#3B0D3B]" />,
         onSelect: () => onSelectTab("tutors"),
       },
       {

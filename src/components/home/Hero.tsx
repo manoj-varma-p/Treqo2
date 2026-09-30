@@ -40,34 +40,32 @@ export default async function Hero() {
         <div className="absolute top-12 left-1/4 -translate-x-1/2 h-[500px] w-[700px] rounded-full bg-[#8C6A8C]/12 blur-[140px]" />
       </div>
 
-      {/* Hero Full Background Visual Artwork (Desktop) - Adjusted height & width, attractive lighting */}
-      <div className="pointer-events-none absolute right-0 top-0 bottom-[72px] z-0 hidden lg:flex items-end justify-end overflow-hidden w-[62%] xl:w-[58%] 2xl:w-[65%]">
+      {/* Hero Full Background Visual Artwork (Desktop) - Balanced proportions with comfortable margin */}
+      <div className="pointer-events-none absolute right-3 lg:right-6 xl:right-10 top-5 lg:top-7 xl:top-9 bottom-[80px] xl:bottom-[92px] z-0 hidden lg:flex items-center justify-end overflow-visible w-[50%] lg:w-[47%] xl:w-[45%] 2xl:w-[44%]">
         {/* Ambient colorful plum & champagne glow orbs directly behind the artwork */}
         <div
           aria-hidden="true"
-          className="absolute right-[8%] bottom-[12%] -z-10 h-[520px] w-[520px] rounded-full bg-[#3B0D3B]/20 blur-[130px]"
+          className="absolute right-[8%] bottom-[12%] -z-10 h-[380px] w-[380px] rounded-full bg-[#3B0D3B]/18 blur-[100px]"
         />
         <div
           aria-hidden="true"
-          className="absolute right-[28%] top-[12%] -z-10 h-[420px] w-[420px] rounded-full bg-[#8C6A8C]/22 blur-[110px]"
+          className="absolute right-[24%] top-[12%] -z-10 h-[320px] w-[320px] rounded-full bg-[#8C6A8C]/20 blur-[90px]"
         />
         <div
           aria-hidden="true"
-          className="absolute right-[12%] top-[25%] -z-10 h-[300px] w-[300px] rounded-full bg-[#F5EDE0] blur-[80px]"
+          className="absolute right-[10%] top-[25%] -z-10 h-[220px] w-[220px] rounded-full bg-[#F5EDE0] blur-[70px]"
         />
 
-        {/* Full Image Artwork spanning neatly above the navbar with balanced proportions */}
-        <div className="relative h-full w-full max-w-[840px] xl:max-w-[960px] 2xl:max-w-[1080px] flex items-end justify-end">
+        {/* Full Image Artwork shifted neatly */}
+        <div className="relative h-full w-full max-w-[580px] xl:max-w-[660px] 2xl:max-w-[720px] flex items-center justify-end -translate-y-1.5 lg:-translate-y-2.5 xl:-translate-y-3">
           <Image
             src={hero.desktopImage || "/images/maiiin.webp"}
             alt="Treqo Modern Digital Marketing"
             fill
             priority
-            sizes="(min-width: 1536px) 1080px, (min-width: 1280px) 960px, 840px"
-            className="object-contain object-right-bottom drop-shadow-[0_20px_45px_rgba(59,13,59,0.15)] select-none"
+            sizes="(min-width: 1536px) 720px, (min-width: 1280px) 660px, 580px"
+            className="object-contain object-right drop-shadow-[0_20px_45px_rgba(59,13,59,0.15)] select-none"
           />
-          {/* Gentle bottom blend into the navbar line */}
-          <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#FDFAF6]/40 to-transparent pointer-events-none" />
         </div>
       </div>
 

@@ -11,7 +11,7 @@ import {
   Filter,
   ExternalLink,
   Users,
-  Sparkles,
+  Clock,
   LogIn,
   Eye,
   EyeOff,
@@ -422,7 +422,7 @@ export default function AdminLeadsPage() {
 
             <div className="rounded-2xl bg-white border border-[#3B0D3B]/15 p-4 flex items-center gap-4 shadow-sm">
               <div className="h-11 w-11 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center shrink-0 text-emerald-600">
-                <Sparkles className="h-5 w-5" />
+                <Clock className="h-5 w-5" />
               </div>
               <div>
                 <div className="text-2xl font-black text-emerald-600">{todayCount}</div>

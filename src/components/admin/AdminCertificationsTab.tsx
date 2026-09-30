@@ -5,7 +5,6 @@ import Image from "next/image";
 import {
   Save,
   Upload,
-  Sparkles,
   CheckCircle2,
   AlertCircle,
   Plus,
@@ -384,7 +383,7 @@ export default function AdminCertificationsTab({
         {/* Section Heading & Subtitle */}
         <div className="rounded-xl border border-[#3B0D3B]/10 bg-white p-6 space-y-4 shadow-xs">
           <h3 className="text-sm font-bold text-[#0B0B0F] flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-[#3B0D3B]" />
+            <Award className="h-4 w-4 text-[#3B0D3B]" />
             <span>Section Header</span>
           </h3>
 
@@ -737,7 +736,7 @@ export default function AdminCertificationsTab({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h3 className="text-sm font-bold text-[#0B0B0F] flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-[#3B0D3B]" />
+                <ShieldCheck className="h-4 w-4 text-[#3B0D3B]" />
                 <span>Industry Marquee Certifications List ({industryCerts.length})</span>
               </h3>
               <p className="text-xs text-slate-500">

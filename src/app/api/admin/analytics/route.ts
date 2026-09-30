@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAnalyticsSummary } from "@/lib/analytics-db";
+import { getAnalyticsSummary, clearAnalyticsEvents } from "@/lib/analytics-db";
 import { isAuthorizedRequest } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
@@ -24,5 +24,19 @@ export async function GET(req: NextRequest) {
   } catch (err) {
     console.error("[GET /api/admin/analytics Error]:", err);
     return NextResponse.json({ error: "Failed to fetch analytics summary" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  if (!isAuthorizedRequest(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    await clearAnalyticsEvents();
+    return NextResponse.json({ success: true, message: "Analytics events reset successfully" });
+  } catch (err) {
+    console.error("[DELETE /api/admin/analytics Error]:", err);
+    return NextResponse.json({ error: "Failed to reset analytics" }, { status: 500 });
   }
 }

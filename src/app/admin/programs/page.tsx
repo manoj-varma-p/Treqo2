@@ -26,7 +26,6 @@ import {
   GraduationCap,
   BookOpen,
   LogOut,
-  Sparkles,
   Globe,
   Tag,
 } from "lucide-react";
@@ -989,7 +988,7 @@ export default function AdminProgramsPage() {
                       className="text-[11px] font-semibold text-[#3B0D3B] hover:underline flex items-center gap-1 cursor-pointer"
                       title="Auto-generate slug from program title"
                     >
-                      <Sparkles className="h-3 w-3" />
+                      <RefreshCw className="h-3 w-3" />
                       Auto-generate from title
                     </button>
                   </div>

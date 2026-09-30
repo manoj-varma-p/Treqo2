@@ -13,13 +13,9 @@ interface TrackingConfig {
 }
 
 export default function CookieConsentBanner() {
-  return null;
-}
-
-function _DisabledCookieConsentBanner() {
   const [isOpen, setIsOpen] = useState(false);
   const [config, setConfig] = useState<TrackingConfig>({
-    cookieBannerEnabled: true,
+    cookieBannerEnabled: false,
     cookieBannerTitle: "We value your privacy",
     cookieBannerText: "We use cookies to analyze website traffic, optimize marketing performance, and personalize course recommendations.",
     gaMeasurementId: "G-BLPP9TW5NP",

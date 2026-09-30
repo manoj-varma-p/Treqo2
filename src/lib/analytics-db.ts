@@ -10,6 +10,9 @@ export interface AnalyticsEvent {
   course?: string;
   referrer?: string;
   sessionId?: string;
+  userId?: string;
+  isReturning?: boolean;
+  visitCount?: number;
   timestamp: string;
 }
 
@@ -39,7 +42,10 @@ export interface DailyMetric {
 }
 
 export interface AnalyticsSummary {
-  totalVisitors: number;
+  totalVisitors: number; // Unique Devices / Users (Distinct userId)
+  uniqueVisitors: number;
+  returningVisitors: number; // Revisitors
+  totalPageViews: number; // Total page hits
   uniqueSessions: number;
   formImpressions: number;
   formStarts: number;
@@ -98,14 +104,30 @@ try {
 export async function recordAnalyticsEvent(
   data: Omit<AnalyticsEvent, "id" | "timestamp">
 ): Promise<AnalyticsEvent> {
+  const page = data.page || "/";
+  const pageUrl = data.pageUrl || "";
+
+  // Completely ignore localhost / admin events
+  if (pageUrl.includes("localhost") || pageUrl.includes("127.0.0.1") || page.startsWith("/admin")) {
+    return {
+      id: `ev_ignored_${Date.now()}`,
+      type: data.type,
+      page,
+      timestamp: new Date().toISOString(),
+    };
+  }
+
   const event: AnalyticsEvent = {
     id: `ev_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
     type: data.type,
-    page: data.page || "/",
-    pageUrl: data.pageUrl || "",
+    page,
+    pageUrl,
     course: data.course || "",
     referrer: data.referrer || "",
     sessionId: data.sessionId || `sess_${Date.now().toString(36)}`,
+    userId: data.userId || data.sessionId || "",
+    isReturning: Boolean(data.isReturning),
+    visitCount: typeof data.visitCount === "number" ? data.visitCount : 1,
     timestamp: new Date().toISOString(),
   };
 
@@ -126,6 +148,26 @@ export async function recordAnalyticsEvent(
   }
 
   return event;
+}
+
+export async function clearAnalyticsEvents(): Promise<void> {
+  inMemoryEvents = [];
+  try {
+    const filePath = getStoragePath();
+    if (fs.existsSync(filePath)) {
+      fs.writeFileSync(filePath, JSON.stringify([], null, 2), "utf-8");
+    }
+  } catch (err) {
+    console.error("[clearAnalyticsEvents file error]:", err);
+  }
+  try {
+    const db = await getMongoDb();
+    if (db) {
+      await db.collection("analytics_events").deleteMany({});
+    }
+  } catch (err) {
+    console.error("[clearAnalyticsEvents mongo error]:", err);
+  }
 }
 
 export async function getAnalyticsSummary(timeRange: "24h" | "7d" | "30d" | "all" = "7d"): Promise<AnalyticsSummary> {
@@ -151,6 +193,9 @@ export async function getAnalyticsSummary(timeRange: "24h" | "7d" | "30d" | "all
           course: d.course,
           referrer: d.referrer,
           sessionId: d.sessionId,
+          userId: d.userId || d.sessionId,
+          isReturning: Boolean(d.isReturning),
+          visitCount: typeof d.visitCount === "number" ? d.visitCount : 1,
           timestamp: d.timestamp,
         }));
       }
@@ -163,6 +208,15 @@ export async function getAnalyticsSummary(timeRange: "24h" | "7d" | "30d" | "all
     allEvents = inMemoryEvents.length > 0 ? inMemoryEvents : loadEventsFromFile();
   }
 
+  // Filter out any internal/localhost/admin events
+  const publicEvents = allEvents.filter((e) => {
+    const url = e.pageUrl || "";
+    const p = e.page || "";
+    if (url.includes("localhost") || url.includes("127.0.0.1")) return false;
+    if (p.startsWith("/admin")) return false;
+    return true;
+  });
+
   // Filter by time range
   const now = Date.now();
   const timeThresholds: Record<string, number> = {
@@ -172,7 +226,7 @@ export async function getAnalyticsSummary(timeRange: "24h" | "7d" | "30d" | "all
     all: Infinity,
   };
   const maxAgeMs = timeThresholds[timeRange] ?? timeThresholds["7d"];
-  const events = allEvents.filter((e) => {
+  const events = publicEvents.filter((e) => {
     const age = now - new Date(e.timestamp).getTime();
     return age <= maxAgeMs;
   });
@@ -182,8 +236,21 @@ export async function getAnalyticsSummary(timeRange: "24h" | "7d" | "30d" | "all
   const formStarts = events.filter((e) => e.type === "form_start");
   const formSubmits = events.filter((e) => e.type === "form_submit");
 
+  // Distinct Unique Visitors (by device userId or sessionId)
+  const uniqueVisitorIds = new Set(events.map((e) => e.userId || e.sessionId || e.id));
+  const uniqueVisitors = uniqueVisitorIds.size;
+  const totalVisitors = uniqueVisitors;
+
+  // Distinct Revisitors (returning visitors who came back)
+  const returningVisitorIds = new Set(
+    events
+      .filter((e) => e.isReturning === true || (e.visitCount && e.visitCount > 1))
+      .map((e) => e.userId || e.sessionId || e.id)
+  );
+  const returningVisitors = returningVisitorIds.size;
+  const totalPageViews = pageViews.length;
   const uniqueSessions = new Set(events.map((e) => e.sessionId || e.id)).size;
-  const totalVisitors = Math.max(pageViews.length, uniqueSessions);
+
   const formImpressions = formViews.length;
   const formStartsCount = formStarts.length;
   const formSubmissions = formSubmits.length;
@@ -196,28 +263,35 @@ export async function getAnalyticsSummary(timeRange: "24h" | "7d" | "30d" | "all
   // Funnel steps calculation
   const funnelSteps: FunnelStep[] = [
     {
-      name: "1. Page Visitors",
+      name: "1. Unique Visitors",
       count: totalVisitors,
       pctOfTotal: 100,
       dropOffCount: Math.max(0, totalVisitors - formImpressions),
       dropOffRate: totalVisitors > 0 ? Number((((totalVisitors - formImpressions) / totalVisitors) * 100).toFixed(1)) : 0,
     },
     {
-      name: "2. Form Viewed / Opened",
+      name: "2. Revisitors (Returned)",
+      count: returningVisitors,
+      pctOfTotal: totalVisitors > 0 ? Number(((returningVisitors / totalVisitors) * 100).toFixed(1)) : 0,
+      dropOffCount: Math.max(0, totalVisitors - returningVisitors),
+      dropOffRate: totalVisitors > 0 ? Number((((totalVisitors - returningVisitors) / totalVisitors) * 100).toFixed(1)) : 0,
+    },
+    {
+      name: "3. Form Viewed / Opened",
       count: formImpressions,
       pctOfTotal: totalVisitors > 0 ? Number(((formImpressions / totalVisitors) * 100).toFixed(1)) : 0,
       dropOffCount: Math.max(0, formImpressions - formSubmissions),
       dropOffRate: formImpressions > 0 ? Number((((formImpressions - formSubmissions) / formImpressions) * 100).toFixed(1)) : 0,
     },
     {
-      name: "3. Form Started Typing",
+      name: "4. Form Started Typing",
       count: formStartsCount,
       pctOfTotal: totalVisitors > 0 ? Number(((formStartsCount / totalVisitors) * 100).toFixed(1)) : 0,
       dropOffCount: Math.max(0, formStartsCount - formSubmissions),
       dropOffRate: formStartsCount > 0 ? Number((((formStartsCount - formSubmissions) / formStartsCount) * 100).toFixed(1)) : 0,
     },
     {
-      name: "4. Form Submitted (Lead)",
+      name: "5. Form Submitted (Lead)",
       count: formSubmissions,
       pctOfTotal: totalVisitors > 0 ? Number(((formSubmissions / totalVisitors) * 100).toFixed(1)) : 0,
       dropOffCount: 0,
@@ -275,6 +349,9 @@ export async function getAnalyticsSummary(timeRange: "24h" | "7d" | "30d" | "all
 
   return {
     totalVisitors,
+    uniqueVisitors,
+    returningVisitors,
+    totalPageViews,
     uniqueSessions,
     formImpressions,
     formStarts: formStartsCount,

@@ -6,7 +6,6 @@ import {
   Search,
   Check,
   AlertTriangle,
-  Sparkles,
   Eye,
   Copy,
   RotateCcw,
@@ -705,7 +704,7 @@ export default function AdminPageDescriptionsTab({
                     {/* Quick Formula Actions */}
                     <div className="rounded-xl border border-stone-100 bg-stone-50/70 p-3">
                       <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1 mb-2">
-                        <Sparkles className="h-3 w-3 text-[#3B0D3B]" />
+                        <Sliders className="h-3 w-3 text-[#3B0D3B]" />
                         1-Click Optimization Formulas
                       </span>
                       <div className="flex flex-wrap gap-2">

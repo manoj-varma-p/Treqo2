@@ -11,14 +11,76 @@ declare global {
   }
 }
 
-function getSessionId(): string {
-  if (typeof window === "undefined") return "";
-  let sid = sessionStorage.getItem("treqo_sid");
-  if (!sid) {
-    sid = `s_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`;
-    sessionStorage.setItem("treqo_sid", sid);
+// Check if current user is an admin or browsing in local development
+function isInternalUser(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const host = window.location.hostname;
+    // Don't track localhost or local loopbacks
+    if (host === "localhost" || host === "127.0.0.1" || host.startsWith("192.168.")) {
+      return true;
+    }
+    // Don't track admin users navigating the site
+    if (
+      window.location.pathname.startsWith("/admin") ||
+      localStorage.getItem("treqo_admin_pin") ||
+      localStorage.getItem("treqo_admin_authed") === "true"
+    ) {
+      return true;
+    }
+  } catch {
+    // ignore
   }
-  return sid;
+  return false;
+}
+
+// Generate / retrieve a persistent unique visitor ID (survives tab & browser closes)
+function getVisitorIdentity(): { userId: string; isReturning: boolean; visitCount: number; sessionId: string } {
+  if (typeof window === "undefined") {
+    return { userId: "", isReturning: false, visitCount: 1, sessionId: "" };
+  }
+
+  let uid = "";
+  let visitCount = 1;
+  let isReturning = false;
+
+  try {
+    uid = localStorage.getItem("treqo_uid") || "";
+    visitCount = parseInt(localStorage.getItem("treqo_vc") || "0", 10);
+    const hasActiveSession = sessionStorage.getItem("treqo_session_active");
+
+    if (!uid) {
+      uid = `u_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+      localStorage.setItem("treqo_uid", uid);
+      visitCount = 1;
+      localStorage.setItem("treqo_vc", "1");
+      sessionStorage.setItem("treqo_session_active", "1");
+      isReturning = false;
+    } else {
+      if (!hasActiveSession) {
+        // New session from an existing known device -> Revisitor!
+        visitCount = Math.max(1, visitCount) + 1;
+        localStorage.setItem("treqo_vc", visitCount.toString());
+        sessionStorage.setItem("treqo_session_active", "1");
+      }
+      isReturning = visitCount > 1;
+    }
+  } catch {
+    uid = `u_${Date.now().toString(36)}`;
+  }
+
+  let sid = "";
+  try {
+    sid = sessionStorage.getItem("treqo_sid") || "";
+    if (!sid) {
+      sid = `s_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`;
+      sessionStorage.setItem("treqo_sid", sid);
+    }
+  } catch {
+    sid = uid;
+  }
+
+  return { userId: uid, isReturning, visitCount, sessionId: sid };
 }
 
 export default function AnalyticsTracker() {
@@ -30,7 +92,10 @@ export default function AnalyticsTracker() {
     if (!pathname || pathname === lastTrackedPath.current) return;
     lastTrackedPath.current = pathname;
 
-    const sid = getSessionId();
+    // Filter out internal developers and admin routes
+    if (isInternalUser()) return;
+
+    const { userId, isReturning, visitCount, sessionId } = getVisitorIdentity();
 
     // 1. Dispatch to Treqo Internal Analytics
     fetch("/api/analytics/event", {
@@ -41,7 +106,10 @@ export default function AnalyticsTracker() {
         page: pathname,
         pageUrl: typeof window !== "undefined" ? window.location.href : "",
         referrer: typeof document !== "undefined" ? document.referrer : "",
-        sessionId: sid,
+        sessionId,
+        userId,
+        isReturning,
+        visitCount,
       }),
     }).catch(() => {});
 
@@ -58,7 +126,9 @@ export default function AnalyticsTracker() {
   // Expose global tracker for form interactions
   useEffect(() => {
     window.treqoTrack = (type, details = {}) => {
-      const sid = getSessionId();
+      if (isInternalUser()) return;
+
+      const { userId, isReturning, visitCount, sessionId } = getVisitorIdentity();
       const currentPath = window.location.pathname || pathname || "/";
       const courseName = details.course || "";
 
@@ -71,7 +141,10 @@ export default function AnalyticsTracker() {
           page: details.page || currentPath,
           pageUrl: window.location.href,
           course: courseName,
-          sessionId: sid,
+          sessionId,
+          userId,
+          isReturning,
+          visitCount,
         }),
       }).catch(() => {});
 
