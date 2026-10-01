@@ -36,7 +36,7 @@ const defaultPrograms: ProgramCard[] = [
     description:
       "The flagship. 12 phases, 30+ real brand projects, AI in the workflow from phase one. Batch 2 starts Oct 2026.",
     actionText: "View course →",
-    actionHref: "/courses/digital-marketing",
+    actionHref: "/new-digital-marketing-program",
     tags: ["All", "Flagship"],
     isLocked: false,
   },
@@ -64,7 +64,7 @@ const defaultPrograms: ProgramCard[] = [
     description:
       "Full Stack Marketing On Campus Edition. Brand strategy through performance in four months on our Madhapur studio floor.",
     actionText: "View course →",
-    actionHref: "/courses/4m-program",
+    actionHref: "/digital-marketing-on-campus",
     tags: ["All", "Short", "Flagship"],
     isLocked: false,
   },

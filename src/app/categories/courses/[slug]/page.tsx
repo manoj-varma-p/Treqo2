@@ -15,12 +15,12 @@ export default async function CategoryCoursesRedirect({
 
   if (clean === "business") {
     const onCampus = dbCourses.find((c) => c.id === "4m-program");
-    redirect(onCampus?.href || "/courses/4m-program");
+    redirect(onCampus?.href || "/digital-marketing-on-campus");
   }
 
   if (clean === "4m-program") {
     const onCampus = dbCourses.find((c) => c.id === "4m-program");
-    redirect(onCampus?.href || "/courses/4m-program");
+    redirect(onCampus?.href || "/digital-marketing-on-campus");
   }
 
   if (clean === "digital-marketing" || clean === "ai-automation") {

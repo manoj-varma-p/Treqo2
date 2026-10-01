@@ -187,7 +187,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
     category: "Digital Marketing",
     title: "New Age Digital Marketing",
     description: "Master paid ads, SEO and funnel strategy with real campaigns, real budgets and real results.",
-    href: "/courses/digital-marketing",
+    href: "/new-digital-marketing-program",
     features: [
       { icon: Clock, label: "4 Months Program" },
       { icon: Users, label: "Live Mentor Sessions" },
@@ -487,7 +487,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
     category: "On-Campus Flagship",
     title: "New Age Digital Marketing (On Campus)",
     description: "Full Stack Marketing On Campus Edition. Four months of live agency studio work at our Madhapur, Hyderabad floor.",
-    href: "/courses/4m-program",
+    href: "/digital-marketing-on-campus",
     features: [
       { icon: Clock, label: "4 Months Program" },
       { icon: Building2, label: "On-Campus Studio" },

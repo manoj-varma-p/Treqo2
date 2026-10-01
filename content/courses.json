@@ -142,7 +142,7 @@
   {
     "id": "4m-program",
     "title": "New Age Digital Marketing (On Campus)",
-    "href": "/courses/4m-program",
+    "href": "/digital-marketing-on-campus",
     "badge": "OPEN · ON-CAMPUS",
     "badgeVariant": "blue",
     "duration": "4 months · On campus",
@@ -160,7 +160,7 @@
     "image": "/api/admin/upload?id=courses-1790257575586-ecma-the-girl-image.jpg--1-.jpeg",
     "previewLabel": "MADHAPUR STUDIO FLOOR",
     "actionText": "View course →",
-    "actionHref": "/courses/4m-program",
+    "actionHref": "/digital-marketing-on-campus",
     "tags": [
       "All",
       "Short",

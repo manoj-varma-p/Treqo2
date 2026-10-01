@@ -237,12 +237,12 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
   const dbCourses = await getCoursesFromDb();
 
   // If this is a legacy non-existent slug, redirect to two different courses:
-  // "business" -> On-Campus Studio course (4m-program)
+  // "business" -> On-Campus Studio course (digital-marketing-on-campus)
   // "ai-automation" and others -> Online Digital Marketing course (new-digital-marketing-program)
   if (LEGACY_NONEXISTENT_SLUGS.has(cleanRequestedSlug)) {
     if (cleanRequestedSlug === "business") {
       const onCampus = dbCourses.find((c) => c.id === "4m-program");
-      redirect(onCampus?.href || "/courses/4m-program");
+      redirect(onCampus?.href || "/digital-marketing-on-campus");
     }
     const online = dbCourses.find((c) => c.id === "digital-marketing" || c.isFlagship);
     redirect(online?.href || "/new-digital-marketing-program");
@@ -254,6 +254,12 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
     if (online?.href && online.href !== "/courses/digital-marketing") {
       redirect(online.href);
     }
+  }
+
+  // If someone visits legacy /courses/4m-program, redirect to /digital-marketing-on-campus
+  if (cleanRequestedSlug === "4m-program") {
+    const onCampus = dbCourses.find((c) => c.id === "4m-program");
+    redirect(onCampus?.href || "/digital-marketing-on-campus");
   }
 
   const metaInfo = (await resolveCourseMeta(slug, dbCourses)) || (await resolveCourseMeta(cleanRequestedSlug, dbCourses));
@@ -281,7 +287,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
     href: dbCourse?.href && dbCourse.href.startsWith("/") ? dbCourse.href : `/courses/${cleanSlug}`,
   };
 
-  const isOnline = cleanSlug === "digital-marketing" || (!cleanSlug.includes("4m") && !cleanSlug.includes("offline"));
+  const isOnCampus = cleanSlug === "4m-program" || cleanSlug.includes("on-campus") || cleanSlug.includes("campus");
+  const isOnline = !isOnCampus;
   const activeDetail = matchedCourse?.detail || masterDetail;
 
   const detail = {
@@ -302,9 +309,9 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             .replace(/,\s*(online|offline|on campus)/i, "")
             .trim() || "4 months",
       },
-      { label: "Format", value: cleanSlug === "4m-program" ? "On campus" : (dbCourse?.meta && dbCourse.meta.includes("·") ? dbCourse.meta.split("·")[1].trim() : (activeDetail.stats[1]?.value || "Online, live")) },
-      { label: "Phases", value: cleanSlug === "4m-program" ? "12" : (dbCourse?.phases?.groups ? `${dbCourse.phases.groups.length} phases` : (activeDetail.stats[2]?.value || "12 phases")) },
-      { label: "Projects", value: cleanSlug === "4m-program" ? "30+ brand projects" : (activeDetail.stats[3]?.value || "30+ real brands") },
+      { label: "Format", value: isOnCampus ? "On campus" : (dbCourse?.meta && dbCourse.meta.includes("·") ? dbCourse.meta.split("·")[1].trim() : (activeDetail.stats[1]?.value || "Online, live")) },
+      { label: "Phases", value: isOnCampus ? "12" : (dbCourse?.phases?.groups ? `${dbCourse.phases.groups.length} phases` : (activeDetail.stats[2]?.value || "12 phases")) },
+      { label: "Projects", value: isOnCampus ? "30+ brand projects" : (activeDetail.stats[3]?.value || "30+ real brands") },
     ],
     phases: dbCourse?.phases?.groups ? { ...masterDetail.phases, ...dbCourse.phases } : (activeDetail.phases || masterDetail.phases),
     phasesNavLabel: activeDetail.phasesNavLabel || masterDetail.phasesNavLabel,
@@ -336,8 +343,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
         : activeDetail.sidebar?.batchLabel
           ? activeDetail.sidebar.batchLabel.replace(/\s*\(forming\)/i, "").trim()
           : "Batch 2",
-      starts: cleanSlug === "4m-program" ? "Coming soon" : (activeDetail.sidebar?.starts || masterDetail.sidebar.starts || "Coming soon"),
-      format: cleanSlug === "4m-program" ? "On Campus, 4 months" : (dbCourse?.duration || activeDetail.sidebar?.format || masterDetail.sidebar.format),
+      starts: isOnCampus ? "Coming soon" : (activeDetail.sidebar?.starts || masterDetail.sidebar.starts || "Coming soon"),
+      format: isOnCampus ? "On Campus, 4 months" : (dbCourse?.duration || activeDetail.sidebar?.format || masterDetail.sidebar.format),
       applyLabel: isLocked ? "Get Notified" : (dbCourse?.applyCta && dbCourse.applyCta !== "Get Notified" ? dbCourse.applyCta : "Apply for Batch 2"),
       downloadLabel: dbCourse?.syllabusCta || activeDetail.sidebar?.downloadLabel || masterDetail.sidebar.downloadLabel,
     },

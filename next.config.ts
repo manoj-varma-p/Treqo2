@@ -46,7 +46,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/courses/business",
-        destination: "/courses/4m-program",
+        destination: "/digital-marketing-on-campus",
+        permanent: true,
+      },
+      {
+        source: "/courses/4m-program",
+        destination: "/digital-marketing-on-campus",
         permanent: true,
       },
       {
@@ -76,7 +81,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/categories/business",
-        destination: "/courses/4m-program",
+        destination: "/digital-marketing-on-campus",
+        permanent: true,
+      },
+      {
+        source: "/categories/4m-program",
+        destination: "/digital-marketing-on-campus",
         permanent: true,
       },
       {

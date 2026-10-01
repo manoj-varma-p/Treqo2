@@ -51,7 +51,7 @@ const coursesData = [
   {
     id: "4m-program",
     title: "New Age Digital Marketing (On Campus)",
-    href: "/courses/4m-program",
+    href: "/digital-marketing-on-campus",
     badge: "OPEN · ON-CAMPUS",
     badgeColor: "bg-[#5A2A5A]/20 text-[#FDFAF6] font-bold border border-[#5A2A5A]/40",
     duration: "4 months · On campus",
