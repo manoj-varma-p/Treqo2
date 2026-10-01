@@ -35,7 +35,10 @@ export default function AdminHeroTextTab({ initialContent, adminPin, onSaved }: 
   );
   const [description, setDescription] = useState(
     initialContent?.hero?.description ||
-      "Build practical marketing skills by working on real business problems, campaigns, and measurable projects — not just watching tutorials."
+      "Build practical marketing skills by working on real business problems, campaigns, and measurable projects, not just watching tutorials."
+  );
+  const [highlightText, setHighlightText] = useState(
+    initialContent?.hero?.highlightText || "Online or Offline. Choose What Works for You."
   );
   const [primaryCtaLabel, setPrimaryCtaLabel] = useState(
     initialContent?.hero?.primaryCtaLabel || "Browse Courses"
@@ -73,6 +76,7 @@ export default function AdminHeroTextTab({ initialContent, adminPin, onSaved }: 
       if (initialContent.hero.eyebrow !== undefined) setEyebrow(initialContent.hero.eyebrow);
       if (initialContent.hero.headlineLines) setHeadlineLines(initialContent.hero.headlineLines);
       if (initialContent.hero.description !== undefined) setDescription(initialContent.hero.description);
+      if (initialContent.hero.highlightText !== undefined) setHighlightText(initialContent.hero.highlightText);
       if (initialContent.hero.primaryCtaLabel !== undefined) setPrimaryCtaLabel(initialContent.hero.primaryCtaLabel);
       if (initialContent.hero.primaryCtaHref !== undefined) setPrimaryCtaHref(initialContent.hero.primaryCtaHref);
       if (initialContent.hero.secondaryCtaLabel !== undefined) setSecondaryCtaLabel(initialContent.hero.secondaryCtaLabel);
@@ -130,6 +134,7 @@ export default function AdminHeroTextTab({ initialContent, adminPin, onSaved }: 
       eyebrow: eyebrow.trim(),
       headlineLines: headlineLines.map((l) => l.trim()).filter(Boolean),
       description: description.trim(),
+      highlightText: highlightText.trim(),
       primaryCtaLabel: primaryCtaLabel.trim(),
       primaryCtaHref: primaryCtaHref.trim(),
       secondaryCtaLabel: secondaryCtaLabel.trim(),
@@ -336,7 +341,42 @@ export default function AdminHeroTextTab({ initialContent, adminPin, onSaved }: 
             />
           </div>
 
-          {/* 4. Action Buttons (CTAs) */}
+          {/* 4. Highlighted Callout Line (After Subtitle) */}
+          <div className="rounded-2xl border border-[#3B0D3B]/10 bg-white p-5 sm:p-6 shadow-xs space-y-3">
+            <div>
+              <label className="text-xs font-bold text-[#0B0B0F] uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="h-3.5 w-3.5 text-[#5A2A5A]" />
+                <span>Highlighted Line (After Subtitle)</span>
+              </label>
+              <p className="text-[11px] text-[#5A4A5A] mt-0.5">
+                Appears immediately after the subtitle description as a prominent highlighted callout badge with an animated accent dot.
+              </p>
+            </div>
+
+            <input
+              type="text"
+              value={highlightText}
+              onChange={(e) => setHighlightText(e.target.value)}
+              placeholder="e.g. Online or Offline. Choose What Works for You."
+              className="w-full rounded-xl border border-[#3B0D3B]/15 bg-white px-4 py-2.5 text-sm font-bold text-[#3B0D3B] focus:border-[#3B0D3B] focus:ring-1 focus:ring-[#3B0D3B] focus:outline-none transition-all"
+            />
+
+            {/* Badge Preview */}
+            <div className="pt-1">
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Highlight Badge Style:</span>
+              <div className="mt-1.5">
+                <span className="inline-flex items-center gap-2 rounded-xl border border-[#3B0D3B]/20 bg-[#FAF5EE] px-3.5 py-1.5 text-xs font-extrabold text-[#3B0D3B] shadow-2xs">
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#5A2A5A] opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#5A2A5A]" />
+                  </span>
+                  <span>{highlightText || "Online or Offline. Choose What Works for You."}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* 5. Action Buttons (CTAs) */}
           <div className="rounded-2xl border border-[#3B0D3B]/10 bg-white p-5 sm:p-6 shadow-xs space-y-4">
             <div>
               <label className="text-xs font-bold text-[#0B0B0F] uppercase tracking-wider flex items-center gap-1.5">
@@ -568,6 +608,19 @@ export default function AdminHeroTextTab({ initialContent, adminPin, onSaved }: 
                 <p className="text-xs leading-relaxed text-[#5A4A5A] font-medium">
                   {description}
                 </p>
+
+                {/* Preview Highlight Callout */}
+                {highlightText && (
+                  <div className="flex items-center">
+                    <span className="inline-flex items-center gap-2 rounded-xl border border-[#3B0D3B]/20 bg-[#FAF5EE] px-3 py-1 text-[11px] font-extrabold text-[#3B0D3B] shadow-2xs">
+                      <span className="relative flex h-1.5 w-1.5 shrink-0">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#5A2A5A] opacity-75" />
+                        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#5A2A5A]" />
+                      </span>
+                      <span>{highlightText}</span>
+                    </span>
+                  </div>
+                )}
 
                 {/* Preview Buttons */}
                 <div className="flex flex-wrap items-center gap-2 pt-1">

@@ -1,13 +1,14 @@
 {
   "hero": {
-    "eyebrow": "COHORT ADMISSIONS OPEN · 2026",
+    "eyebrow": "Madhapur, Hyderabad",
     "headlineLines": [
       "Leave with Skills",
       "you can implement.",
       "Not just a certificate"
     ],
-    "description": "Build practical marketing skills by working on real business problems, campaigns, and measurable projects — not just watching tutorials.",
-    "desktopImage": "/api/admin/upload?id=hero-1790658587496-7ime-mainnnn-bg.webp",
+    "description": "Build practical marketing skills by working on real business problems, campaigns, and measurable projects, not just watching tutorials.",
+    "highlightText": "Online or Offline. Choose What Works for You.",
+    "desktopImage": "/api/admin/upload?id=general-1790761376977-tl5p-group-8.png",
     "mobileImage": "/images/mainnnn-bg.webp",
     "primaryCtaLabel": "Browse Courses",
     "primaryCtaHref": "#courses",

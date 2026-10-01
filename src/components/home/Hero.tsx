@@ -127,6 +127,19 @@ export default async function Hero() {
             {hero.description}
           </p>
 
+          {/* Highlighted Callout Line after Subtitle */}
+          {hero.highlightText && (
+            <div className="mt-4 flex items-center">
+              <span className="inline-flex items-center gap-2 rounded-xl border border-[#3B0D3B]/20 bg-[#FAF5EE] px-3.5 py-1.5 text-xs sm:text-sm font-extrabold text-[#3B0D3B] shadow-2xs">
+                <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#5A2A5A] opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#5A2A5A]" />
+                </span>
+                <span>{hero.highlightText}</span>
+              </span>
+            </div>
+          )}
+
           {/* Action Buttons */}
           <div className="mt-7">
             <HeroActions

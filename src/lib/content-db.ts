@@ -143,6 +143,7 @@ export interface HeroContent {
   eyebrow?: string;
   headlineLines: string[];
   description: string;
+  highlightText?: string;
   desktopImage?: string;
   mobileImage?: string;
   primaryCtaLabel?: string;
@@ -693,6 +694,7 @@ export async function getHomePageContentFromDb(): Promise<HomePageContent> {
           hero: {
             ...localData.hero,
             ...doc.hero,
+            highlightText: doc.hero?.highlightText !== undefined ? doc.hero.highlightText : (localData.hero?.highlightText || "Online or Offline. Choose What Works for You."),
             desktopImage: doc.hero?.desktopImage || localData.hero?.desktopImage || "/images/maiiin.webp",
             mobileImage: doc.hero?.mobileImage || localData.hero?.mobileImage || "/images/mainnnn-bg.webp",
           },
