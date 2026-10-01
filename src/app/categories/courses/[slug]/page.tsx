@@ -13,25 +13,27 @@ export default async function CategoryCoursesRedirect({
   const clean = formatCourseSlug(slug);
   const dbCourses = await getCoursesFromDb().catch(() => []);
 
-  if (clean === "business") {
+  if (clean === "business" || clean === "4m-program") {
     const onCampus = dbCourses.find((c) => c.id === "4m-program");
-    redirect(onCampus?.href || "/digital-marketing-on-campus");
-  }
-
-  if (clean === "4m-program") {
-    const onCampus = dbCourses.find((c) => c.id === "4m-program");
-    redirect(onCampus?.href || "/digital-marketing-on-campus");
+    if (onCampus && !onCampus.isLocked) {
+      redirect(onCampus.href || "/digital-marketing-on-campus");
+    }
   }
 
   if (clean === "digital-marketing" || clean === "ai-automation") {
     const online = dbCourses.find((c) => c.id === "digital-marketing" || c.isFlagship);
-    redirect(online?.href || "/new-digital-marketing-program");
+    if (online && !online.isLocked) {
+      redirect(online.href || "/new-digital-marketing-program");
+    }
   }
 
   const matched = dbCourses.find((c) => c.id === clean || formatCourseSlug(c.href) === clean);
-  if (matched?.href) {
+  // ONLY REDIRECT TO MATCHED COURSE IF UNLOCKED
+  if (matched?.href && !matched.isLocked) {
     redirect(matched.href);
   }
 
-  redirect("/new-digital-marketing-program");
+  // If locked or not found, redirect to the live unlocked flagship course
+  const online = dbCourses.find((c) => (c.id === "digital-marketing" || c.isFlagship) && !c.isLocked);
+  redirect(online?.href || "/new-digital-marketing-program");
 }

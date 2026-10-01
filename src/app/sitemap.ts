@@ -7,14 +7,11 @@ import { formatCourseSlug } from "@/lib/seo-utils";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://treqo.org";
 
-  // Static course slugs from hardcoded verified marketing courses
-  const staticSlugs = learningSystemCourses
-    .map((c) => formatCourseSlug(c.href))
-    .filter(Boolean);
-
-  // Dynamic courses from DB — use their stored href (may be /programs/... etc)
+  // Dynamic courses from DB — ONLY include UNLOCKED courses!
   const dbCourses = await getCoursesFromDb().catch(() => []);
-  const dbRoutes: MetadataRoute.Sitemap = dbCourses.map((c) => {
+  const unlockedDbCourses = dbCourses.filter((c) => !c.isLocked);
+
+  const dbRoutes: MetadataRoute.Sitemap = unlockedDbCourses.map((c) => {
     const href = c.href && c.href.startsWith("/") ? c.href : `/courses/${formatCourseSlug(c.href) || c.id}`;
     return {
       url: `${baseUrl}${href}`,
@@ -24,14 +21,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
-  // Static courses pointing to canonical /courses/ URLs
-  const staticRoutes: MetadataRoute.Sitemap = Array.from(new Set(staticSlugs)).map((slug) => ({
-    url: `${baseUrl}/courses/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: slug === "digital-marketing" || slug === "4m-program" ? 0.9 : 0.7,
-  }));
-
   const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
     lastModified: new Date(post.publishedAt || new Date()),
@@ -39,10 +28,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: post.featured ? 0.8 : 0.6,
   }));
 
-  // Merge db + static (db takes priority, dedup by URL)
+  // Dedup by URL
   const allCourseUrls = new Map<string, MetadataRoute.Sitemap[number]>();
-  staticRoutes.forEach((r) => allCourseUrls.set(r.url, r));
-  dbRoutes.forEach((r) => allCourseUrls.set(r.url, r)); // db overrides static
+  dbRoutes.forEach((r) => allCourseUrls.set(r.url, r));
 
   return [
     {

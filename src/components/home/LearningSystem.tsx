@@ -387,50 +387,70 @@ export default function LearningSystem({ initialPrograms }: LearningSystemProps 
                   )}
                 >
                   {/* Card Image Header with Badge Overlay */}
-                  <Link
-                    href={program.actionHref}
-                    className="relative h-44 sm:h-48 lg:h-52 w-full overflow-hidden bg-slate-950 block group/img shrink-0"
-                    title={`View ${program.title} course`}
-                  >
-                    <Image
-                      src={program.image}
-                      alt={program.title}
-                      fill
-                      unoptimized
-                      sizes="(max-width: 640px) 300px, 420px"
-                      className={cn(
-                        "h-full w-full object-cover transition-transform duration-500",
-                        program.isLocked
-                          ? "opacity-75"
-                          : "opacity-90 group-hover:opacity-100 group-hover:scale-105"
-                      )}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30" />
+                  {program.isLocked ? (
+                    <div
+                      onClick={() => openApplyModal(program.title)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          openApplyModal(program.title);
+                        }
+                      }}
+                      className="relative h-44 sm:h-48 lg:h-52 w-full overflow-hidden bg-slate-950 block group/img shrink-0 cursor-pointer"
+                      title={`${program.title} is coming soon · Click to join waitlist`}
+                    >
+                      <Image
+                        src={program.image}
+                        alt={program.title}
+                        fill
+                        unoptimized
+                        sizes="(max-width: 640px) 300px, 420px"
+                        className="h-full w-full object-cover transition-transform duration-500 opacity-75"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30" />
 
-                    {/* Badge Overlay on Image (Top Right) */}
-                    <div className="absolute top-3 right-3 z-10">
-                      {program.isLocked ? (
+                      {/* Badge Overlay on Image (Top Right) */}
+                      <div className="absolute top-3 right-3 z-10">
                         <span className="inline-flex items-center gap-1.5 rounded-lg bg-black/85 border border-white/25 px-2.5 py-1 text-[10px] font-black tracking-wide text-white uppercase shadow-md backdrop-blur-md">
                           <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
                           COMING SOON
                         </span>
-                      ) : (
-                        <span className="inline-flex items-center rounded-lg bg-[#3B0D3B] border border-white/25 px-2.5 py-1 text-[10px] font-black tracking-wide text-white uppercase shadow-md backdrop-blur-md">
-                          {program.badge.text}
-                        </span>
-                      )}
-                    </div>
+                      </div>
 
-                    {/* Top Left Lock indicator if locked */}
-                    {program.isLocked && (
+                      {/* Top Left Lock indicator if locked */}
                       <div className="absolute top-3 left-3 z-10">
                         <span className="inline-flex items-center gap-1 rounded-md bg-black/70 border border-white/20 px-2 py-0.5 text-[10px] font-bold text-amber-300 backdrop-blur-xs">
                           <Lock className="h-3 w-3" />
                           <span>Locked</span>
                         </span>
                       </div>
-                    )}
-                  </Link>
+                    </div>
+                  ) : (
+                    <Link
+                      href={program.actionHref}
+                      className="relative h-44 sm:h-48 lg:h-52 w-full overflow-hidden bg-slate-950 block group/img shrink-0"
+                      title={`View ${program.title} course`}
+                    >
+                      <Image
+                        src={program.image}
+                        alt={program.title}
+                        fill
+                        unoptimized
+                        sizes="(max-width: 640px) 300px, 420px"
+                        className="h-full w-full object-cover transition-transform duration-500 opacity-90 group-hover:opacity-100 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30" />
+
+                      {/* Badge Overlay on Image (Top Right) */}
+                      <div className="absolute top-3 right-3 z-10">
+                        <span className="inline-flex items-center rounded-lg bg-[#3B0D3B] border border-white/25 px-2.5 py-1 text-[10px] font-black tracking-wide text-white uppercase shadow-md backdrop-blur-md">
+                          {program.badge.text}
+                        </span>
+                      </div>
+                    </Link>
+                  )}
 
                   {/* Card Content */}
                   {program.isLocked ? (
@@ -439,12 +459,13 @@ export default function LearningSystem({ initialPrograms }: LearningSystemProps 
                         {/* Course Title with Lock Indicator */}
                         <div className="flex items-start justify-between gap-2">
                           <h3 className="text-base sm:text-lg font-black tracking-tight text-[#1A0A1A] leading-snug line-clamp-2">
-                            <Link
-                              href={program.actionHref}
-                              className="font-black text-[#1A0A1A] hover:text-[#5A2A5A] transition-colors"
+                            <button
+                              type="button"
+                              onClick={() => openApplyModal(program.title)}
+                              className="text-left font-black text-[#1A0A1A] hover:text-[#5A2A5A] transition-colors cursor-pointer"
                             >
                               {program.title}
-                            </Link>
+                            </button>
                           </h3>
                         </div>
 

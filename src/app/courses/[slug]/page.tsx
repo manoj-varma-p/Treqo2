@@ -114,17 +114,21 @@ export async function resolveCourseMeta(pathOrSlug: string, preloadedCourses?: C
 export async function generateStaticParams() {
   try {
     const dbCourses = await getCoursesFromDb().catch(() => []);
-    const dbSlugs = dbCourses.map((c) => ({
+    const unlockedDb = dbCourses.filter((c) => !c.isLocked);
+    const dbSlugs = unlockedDb.map((c) => ({
       slug: formatCourseSlug(c.href) || formatCourseSlug(c.id),
     }));
-    const courseSlugs = learningSystemCourses.map((c) => ({
-      slug: formatCourseSlug(c.href),
-    }));
-    const all = [...dbSlugs, ...courseSlugs].filter((s) => Boolean(s.slug));
-    const uniqueSlugs = Array.from(new Set(all.map((item) => item.slug))).map((slug) => ({ slug }));
-    return uniqueSlugs;
+    const uniqueSlugs = Array.from(new Set(dbSlugs.map((item) => item.slug))).filter(Boolean).map((slug) => ({ slug }));
+    if (uniqueSlugs.length > 0) return uniqueSlugs;
+    return [
+      { slug: "new-digital-marketing-program" },
+      { slug: "digital-marketing-on-campus" },
+    ];
   } catch {
-    return learningSystemCourses.map((c) => ({ slug: formatCourseSlug(c.href) }));
+    return [
+      { slug: "new-digital-marketing-program" },
+      { slug: "digital-marketing-on-campus" },
+    ];
   }
 }
 
@@ -185,16 +189,28 @@ export async function generateMetadata({
   const meta = await resolveCourseMeta(slug);
   if (!meta) return {};
 
+  const targetSlug = formatCourseSlug(meta.href) || cleanSlug;
+  const dbCourses = await getCoursesFromDb().catch(() => []);
+  const dbCourse = meta.dbCourse || dbCourses.find((c) => c.id === targetSlug || formatCourseSlug(c.href) === targetSlug);
+  const isLocked = dbCourse !== undefined ? Boolean(dbCourse.isLocked) : !["digital-marketing", "4m-program"].includes(targetSlug);
+
+  if (isLocked) {
+    return {
+      title: "Page Not Found | TREQO",
+      robots: { index: false, follow: false, noarchive: true, nosnippet: true },
+    };
+  }
+
   const pageSeo =
-    (await getPageSeoByPath(`/courses/${cleanSlug}`)) ||
-    (await getPageSeoByPath(`/categories/${cleanSlug}`)) ||
-    (await getPageSeoByPath(`/programs/${cleanSlug}`)) ||
+    (await getPageSeoByPath(`/courses/${targetSlug}`)) ||
+    (await getPageSeoByPath(`/categories/${targetSlug}`)) ||
+    (await getPageSeoByPath(`/programs/${targetSlug}`)) ||
     (meta.href ? await getPageSeoByPath(meta.href) : null) ||
-    (await getPageSeoByPath(cleanSlug));
+    (await getPageSeoByPath(targetSlug));
 
   const isNewAgeOnline =
-    cleanSlug === "digital-marketing" ||
-    cleanSlug === "new-age-dm" ||
+    targetSlug === "digital-marketing" ||
+    targetSlug === "new-age-dm" ||
     meta.dbCourse?.id === "digital-marketing" ||
     meta.label.toLowerCase().includes("new age digital marketing");
 
@@ -272,6 +288,11 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
   const matchedCourse = getCourse(cleanSlug);
 
   const isLocked = dbCourse !== undefined ? Boolean(dbCourse.isLocked) : !["digital-marketing", "4m-program"].includes(cleanSlug);
+
+  // Locked courses must NOT open at all unless admin unlocks them from admin panel
+  if (isLocked) {
+    notFound();
+  }
 
   const activeTitle = dbCourse?.title || matchedCourse?.title || meta.label;
   const activeDescription =

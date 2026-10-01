@@ -31,8 +31,14 @@ export async function generateMetadata({ params }: CatchAllPageProps): Promise<M
   if (RESERVED_FIRST_SEGMENTS.has(slug[0])) return {};
 
   const fullPath = "/" + slug.join("/");
-  const meta = await resolveCourseMeta(fullPath);
-  if (!meta) return {};
+  const dbCourses = await getCoursesFromDb().catch(() => []);
+  const meta = await resolveCourseMeta(fullPath, dbCourses);
+  if (!meta || meta.dbCourse?.isLocked) {
+    return {
+      title: "Page Not Found | TREQO",
+      robots: { index: false, follow: false, noarchive: true, nosnippet: true },
+    };
+  }
 
   return generateCourseMetadata({
     params: Promise.resolve({ slug: fullPath }),
@@ -50,7 +56,7 @@ export default async function CatchAllSlugPage({ params }: CatchAllPageProps) {
     (await resolveCourseMeta(fullPath, dbCourses)) ||
     (await resolveCourseMeta(slug[slug.length - 1], dbCourses));
 
-  if (!metaInfo) {
+  if (!metaInfo || metaInfo.dbCourse?.isLocked) {
     notFound();
   }
 
