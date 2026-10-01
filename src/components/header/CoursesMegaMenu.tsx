@@ -26,7 +26,7 @@ const coursesData = [
   {
     id: "digital-marketing",
     title: "New Age Digital Marketing",
-    href: "/courses/digital-marketing",
+    href: "/new-digital-marketing-program",
     badge: "BATCH 2 · OPEN",
     badgeColor: "bg-[#3B0D3B] text-[#FDFAF6]",
     duration: "4 months · Online",
@@ -121,6 +121,8 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
               const isLocked = Boolean(matched.isLocked);
               return {
                 ...c,
+                title: matched.title || c.title,
+                href: matched.href || c.href,
                 isLocked,
                 badge: isLocked ? "COMING SOON" : (matched.badge || "BATCH 2 · OPEN"),
                 badgeColor: isLocked

@@ -234,11 +234,28 @@ export async function generateMetadata({
 export default async function CourseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const cleanRequestedSlug = formatCourseSlug(slug);
+  const dbCourses = await getCoursesFromDb();
+
+  // If this is a legacy non-existent slug, redirect to two different courses:
+  // "business" -> On-Campus Studio course (4m-program)
+  // "ai-automation" and others -> Online Digital Marketing course (new-digital-marketing-program)
   if (LEGACY_NONEXISTENT_SLUGS.has(cleanRequestedSlug)) {
-    redirect("/courses/digital-marketing");
+    if (cleanRequestedSlug === "business") {
+      const onCampus = dbCourses.find((c) => c.id === "4m-program");
+      redirect(onCampus?.href || "/courses/4m-program");
+    }
+    const online = dbCourses.find((c) => c.id === "digital-marketing" || c.isFlagship);
+    redirect(online?.href || "/new-digital-marketing-program");
   }
 
-  const dbCourses = await getCoursesFromDb();
+  // If someone visits /courses/digital-marketing, redirect to the custom slug configured in Admin
+  if (cleanRequestedSlug === "digital-marketing") {
+    const online = dbCourses.find((c) => c.id === "digital-marketing" || c.isFlagship);
+    if (online?.href && online.href !== "/courses/digital-marketing") {
+      redirect(online.href);
+    }
+  }
+
   const metaInfo = (await resolveCourseMeta(slug, dbCourses)) || (await resolveCourseMeta(cleanRequestedSlug, dbCourses));
   if (!metaInfo) notFound();
 

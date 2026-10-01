@@ -34,7 +34,7 @@ export const megaMenuData: MegaMenuData = {
     {
       title: "Programs by Track",
       links: [
-        { label: "New Age Digital Marketing", href: "/courses/digital-marketing", icon: Megaphone },
+        { label: "New Age Digital Marketing", href: "/new-digital-marketing-program", icon: Megaphone },
         { label: "Campus Edition (On Campus)", href: "/courses/4m-program", icon: Building2 },
         { label: "Treqo PGDM in Marketing", href: "/courses/pgdm", icon: GraduationCap },
         { label: "The Founder Semester", href: "/courses/founder-semester", icon: Rocket },
@@ -45,7 +45,7 @@ export const megaMenuData: MegaMenuData = {
     {
       title: "By Experience Level",
       links: [
-        { label: "Freshers & Career Switchers", href: "/courses/digital-marketing" },
+        { label: "Freshers & Career Switchers", href: "/new-digital-marketing-program" },
         { label: "In-Person Studio Learners", href: "/courses/4m-program" },
         { label: "Beginners & College Students", href: "/courses/fundamentals" },
         { label: "Working Marketers (Upskill)", href: "/courses/performance-growth" },

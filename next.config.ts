@@ -35,53 +35,63 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/courses/digital-marketing",
+        destination: "/new-digital-marketing-program",
+        permanent: true,
+      },
+      {
         source: "/courses/ai-automation",
-        destination: "/courses/digital-marketing",
+        destination: "/new-digital-marketing-program",
         permanent: true,
       },
       {
         source: "/courses/business",
-        destination: "/courses/digital-marketing",
+        destination: "/courses/4m-program",
         permanent: true,
       },
       {
         source: "/courses/development",
-        destination: "/courses/digital-marketing",
+        destination: "/new-digital-marketing-program",
         permanent: true,
       },
       {
         source: "/courses/design",
-        destination: "/courses/digital-marketing",
+        destination: "/new-digital-marketing-program",
         permanent: true,
       },
       {
         source: "/courses/data-analytics",
-        destination: "/courses/digital-marketing",
+        destination: "/new-digital-marketing-program",
+        permanent: true,
+      },
+      {
+        source: "/categories/digital-marketing",
+        destination: "/new-digital-marketing-program",
         permanent: true,
       },
       {
         source: "/categories/ai-automation",
-        destination: "/courses/digital-marketing",
+        destination: "/new-digital-marketing-program",
         permanent: true,
       },
       {
         source: "/categories/business",
-        destination: "/courses/digital-marketing",
+        destination: "/courses/4m-program",
         permanent: true,
       },
       {
         source: "/categories/development",
-        destination: "/courses/digital-marketing",
+        destination: "/new-digital-marketing-program",
         permanent: true,
       },
       {
         source: "/categories/design",
-        destination: "/courses/digital-marketing",
+        destination: "/new-digital-marketing-program",
         permanent: true,
       },
       {
         source: "/categories/data-analytics",
-        destination: "/courses/digital-marketing",
+        destination: "/new-digital-marketing-program",
         permanent: true,
       },
     ];
