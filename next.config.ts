@@ -32,6 +32,60 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/courses/ai-automation",
+        destination: "/courses/digital-marketing",
+        permanent: true,
+      },
+      {
+        source: "/courses/business",
+        destination: "/courses/digital-marketing",
+        permanent: true,
+      },
+      {
+        source: "/courses/development",
+        destination: "/courses/digital-marketing",
+        permanent: true,
+      },
+      {
+        source: "/courses/design",
+        destination: "/courses/digital-marketing",
+        permanent: true,
+      },
+      {
+        source: "/courses/data-analytics",
+        destination: "/courses/digital-marketing",
+        permanent: true,
+      },
+      {
+        source: "/categories/ai-automation",
+        destination: "/courses/digital-marketing",
+        permanent: true,
+      },
+      {
+        source: "/categories/business",
+        destination: "/courses/digital-marketing",
+        permanent: true,
+      },
+      {
+        source: "/categories/development",
+        destination: "/courses/digital-marketing",
+        permanent: true,
+      },
+      {
+        source: "/categories/design",
+        destination: "/courses/digital-marketing",
+        permanent: true,
+      },
+      {
+        source: "/categories/data-analytics",
+        destination: "/courses/digital-marketing",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return {
       beforeFiles: [],

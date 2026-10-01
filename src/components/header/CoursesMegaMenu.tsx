@@ -26,7 +26,7 @@ const coursesData = [
   {
     id: "digital-marketing",
     title: "New Age Digital Marketing",
-    href: "/categories/digital-marketing",
+    href: "/courses/digital-marketing",
     badge: "BATCH 2 · OPEN",
     badgeColor: "bg-[#3B0D3B] text-[#FDFAF6]",
     duration: "4 months · Online",
@@ -39,7 +39,7 @@ const coursesData = [
   {
     id: "fundamentals",
     title: "Fundamentals of Digital Marketing",
-    href: "/categories/fundamentals",
+    href: "/courses/fundamentals",
     badge: "COMING SOON",
     badgeColor: "bg-[#1A1A1E] text-slate-300 border border-white/10",
     duration: "6 modules · Self-paced",
@@ -51,7 +51,7 @@ const coursesData = [
   {
     id: "4m-program",
     title: "New Age Digital Marketing (On Campus)",
-    href: "/categories/4m-program",
+    href: "/courses/4m-program",
     badge: "OPEN · ON-CAMPUS",
     badgeColor: "bg-[#5A2A5A]/20 text-[#FDFAF6] font-bold border border-[#5A2A5A]/40",
     duration: "4 months · On campus",
@@ -63,7 +63,7 @@ const coursesData = [
   {
     id: "pgdm",
     title: "Treqo PGDM",
-    href: "/categories/pgdm",
+    href: "/courses/pgdm",
     badge: "COMING SOON",
     badgeColor: "bg-[#1A1A1E] text-slate-300 border border-white/10",
     duration: "12 months · Hybrid",
@@ -76,7 +76,7 @@ const coursesData = [
   {
     id: "founder-semester",
     title: "The Founder Semester",
-    href: "/categories/founder-semester",
+    href: "/courses/founder-semester",
     badge: "COMING SOON",
     badgeColor: "bg-[#1A1A1E] text-slate-300 border border-white/10",
     duration: "9 months · On campus",
@@ -88,7 +88,7 @@ const coursesData = [
   {
     id: "performance-growth",
     title: "Performance & Growth Specialist",
-    href: "/categories/performance-growth",
+    href: "/courses/performance-growth",
     badge: "COMING SOON",
     badgeColor: "bg-[#1A1A1E] text-slate-300 border border-white/10",
     duration: "3 months · Online",

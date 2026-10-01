@@ -1,20 +1,16 @@
 import type { MetadataRoute } from "next";
 import { blogPosts } from "@/data/blogs";
 import { learningSystemCourses } from "@/data/home";
-import { megaMenuData } from "@/data/navigation";
 import { getCoursesFromDb } from "@/lib/content-db";
 import { formatCourseSlug } from "@/lib/seo-utils";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://treqo.org";
 
-  const categoryLinks = megaMenuData.columns.find((c) => c.title === "Learn by Category")?.links ?? [];
-
-  // Static course slugs from hardcoded data
-  const staticSlugs = [
-    ...learningSystemCourses.map((c) => formatCourseSlug(c.href)),
-    ...categoryLinks.map((l) => formatCourseSlug(l.href)),
-  ].filter(Boolean);
+  // Static course slugs from hardcoded verified marketing courses
+  const staticSlugs = learningSystemCourses
+    .map((c) => formatCourseSlug(c.href))
+    .filter(Boolean);
 
   // Dynamic courses from DB — use their stored href (may be /programs/... etc)
   const dbCourses = await getCoursesFromDb().catch(() => []);

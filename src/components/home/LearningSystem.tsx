@@ -36,7 +36,7 @@ const defaultPrograms: ProgramCard[] = [
     description:
       "The flagship. 12 phases, 30+ real brand projects, AI in the workflow from phase one. Batch 2 starts Oct 2026.",
     actionText: "View course →",
-    actionHref: "/categories/digital-marketing",
+    actionHref: "/courses/digital-marketing",
     tags: ["All", "Flagship"],
     isLocked: false,
   },
@@ -50,7 +50,7 @@ const defaultPrograms: ProgramCard[] = [
     description:
       "The door in. What digital marketing is, how funnels behave, and what to settle before you pay for anything.",
     actionText: "Get notified →",
-    actionHref: "/categories/fundamentals",
+    actionHref: "/courses/fundamentals",
     tags: ["All", "Short", "Students"],
     isLocked: true,
   },
@@ -64,7 +64,7 @@ const defaultPrograms: ProgramCard[] = [
     description:
       "Full Stack Marketing On Campus Edition. Brand strategy through performance in four months on our Madhapur studio floor.",
     actionText: "View course →",
-    actionHref: "/categories/4m-program",
+    actionHref: "/courses/4m-program",
     tags: ["All", "Short", "Flagship"],
     isLocked: false,
   },
@@ -78,7 +78,7 @@ const defaultPrograms: ProgramCard[] = [
     description:
       "Post Graduate Diploma in New Age Marketing. Built for graduates ready for senior marketing roles.",
     actionText: "Get notified →",
-    actionHref: "/categories/pgdm",
+    actionHref: "/courses/pgdm",
     tags: ["All", "PG"],
     isLocked: true,
   },
@@ -92,7 +92,7 @@ const defaultPrograms: ProgramCard[] = [
     description:
       "Marketing and entrepreneurship for people who want to launch, scale, or run their own venture.",
     actionText: "Get notified →",
-    actionHref: "/categories/founder-semester",
+    actionHref: "/courses/founder-semester",
     tags: ["All", "Short", "Flagship"],
     isLocked: true,
   },
@@ -106,7 +106,7 @@ const defaultPrograms: ProgramCard[] = [
     description:
       "Deep dive into Meta, Google Ads, and attribution models for direct response growth.",
     actionText: "Get notified →",
-    actionHref: "/categories/performance-growth",
+    actionHref: "/courses/performance-growth",
     tags: ["All", "Short"],
     isLocked: true,
   },

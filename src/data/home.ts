@@ -187,7 +187,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
     category: "Digital Marketing",
     title: "New Age Digital Marketing",
     description: "Master paid ads, SEO and funnel strategy with real campaigns, real budgets and real results.",
-    href: "/categories/digital-marketing",
+    href: "/courses/digital-marketing",
     features: [
       { icon: Clock, label: "4 Months Program" },
       { icon: Users, label: "Live Mentor Sessions" },
@@ -384,331 +384,10 @@ export const learningSystemCourses: LearningSystemCourse[] = [
     },
   },
   {
-    category: "Development",
-    title: "New Age Web Development",
-    description: "Live interactive cohorts with LMS access. Curriculum designed with active growth founders and CMOs for working pros & students.",
-    href: "/categories/development",
-    features: [
-      { icon: Clock, label: "8 Months Program" },
-      { icon: Users, label: "Live Mentor Sessions" },
-      { icon: Award, label: "Industry Certificate" },
-      { icon: Layers, label: "12+ Live Projects" },
-    ],
-    detail: {
-      badge: "Flagship · Now Enrolling",
-      batch: "Batch 2 · Oct 2026",
-      description:
-        "Eight months, online. 20 phases in a fixed order, 15+ real builds shipped to production, and a code review closing every module. You finish with a portfolio you can point to, not a certificate no one asks for.",
-      stats: [
-        { label: "Duration", value: "8 months" },
-        { label: "Format", value: "Online, live" },
-        { label: "Phases", value: "20 + capstone" },
-        { label: "Projects", value: "15+ real builds" },
-      ],
-      applyCtaLabel: "Apply for Batch 2",
-      breakdownCtaLabel: "Get the 20-phase breakdown",
-      phasesNavLabel: "20 phases",
-      challengeNavLabel: "Code Review",
-      overview: {
-        whoForHeading: "Who this is for",
-        whoFor: [
-          "Career switchers who want a portfolio of shipped work, not another tutorial certificate",
-          "Self-taught developers who can code but can't explain why a system is built the way it is",
-          "Working professionals who need live feedback on real code, not pre-recorded lectures",
-        ],
-        differentiators: [
-          { value: "70/30", label: "Building, against theory" },
-          { value: "20", label: "Phases, fixed order" },
-          { value: "15+", label: "Production builds" },
-          { value: "AI", label: "In the workflow, phase one" },
-        ],
-      },
-      phases: {
-        heading: "The 20 phases",
-        intro:
-          "Foundations, essentials, a gate, build, architecture, integration, production, scale, in that order. You can't design a system you don't understand or scale traffic you haven't earned, so the sequence isn't a syllabus. It's the argument.",
-        groups: [
-          {
-            eyebrow: "FOUNDATIONS",
-            heading: "Get comfortable with the tools before you touch a real codebase",
-            range: "01-02",
-            lessons: ["Programming fundamentals", "Git & dev workflow"],
-          },
-          {
-            eyebrow: "ESSENTIALS",
-            heading: "Load-bearing fundamentals, not decorative ones",
-            range: "03-05",
-            lessons: ["Frontend fundamentals", "Backend fundamentals", "Databases & data modeling"],
-          },
-          {
-            eyebrow: "THE GATE",
-            heading: "Prove the fundamentals stuck before you touch a shared repo",
-            range: "06",
-            lessons: ["Foundations checkpoint"],
-          },
-          {
-            eyebrow: "BUILD",
-            heading: "Ship features a real team would actually merge",
-            range: "07-10",
-            lessons: ["Component architecture", "API design", "State management", "Auth & permissions"],
-          },
-          {
-            eyebrow: "ARCHITECTURE",
-            heading: "Learn why a system is built the way it's built",
-            range: "11-13",
-            lessons: ["System design basics", "Design patterns", "Testing & QA"],
-          },
-          {
-            eyebrow: "INTEGRATION",
-            heading: "Wire it to the outside world without breaking it",
-            range: "14-16",
-            lessons: ["Third-party integrations", "DevOps & CI/CD", "Performance & security"],
-          },
-          {
-            eyebrow: "PRODUCTION",
-            heading: "Ship it, watch it, own what happens next",
-            range: "17-18",
-            lessons: ["Deployment & monitoring", "Code review discipline"],
-          },
-          {
-            eyebrow: "SCALE",
-            heading: "Take what worked once and make it hold under load",
-            range: "19-20",
-            lessons: ["Scaling real traffic", "Capstone, the Code Review"],
-          },
-        ],
-      },
-      challenge: {
-        heading: "The Code Review",
-        description:
-          "Every module ends with a senior engineer reading your code out loud, not grading a rubric. If a decision doesn't hold up under questioning, you refactor it before you move on.",
-        bullets: ["Live review, not a quiz", "Real repo, real reviewers", "You defend the diff, not the demo"],
-      },
-      // Placeholder pricing, confirm real Development fee tiers before publishing.
-      fees: {
-        heading: "Fees",
-        description: "Two ways to pay. Pick the one that matches your risk, not ours.",
-        plans: [
-          {
-            name: "Pay As You Grow",
-            price: "₹60,000 + 12%",
-            description:
-              "Lower upfront cost. You pay 12% of verified income from work you land within 12 months of graduating.",
-            features: ["Lowest entry cost", "Aligned with our incentive to place you", "12-month income window"],
-          },
-          {
-            name: "Pay Upfront",
-            price: "₹90,000 flat",
-            description: "One payment, nothing owed later regardless of outcome.",
-            features: ["No income share, ever", "Fixed cost from day one", "Same curriculum, same mentors"],
-          },
-        ],
-      },
-      proof: {
-        heading: "Proof",
-        description: "What Batch 1 actually produced, not a projection.",
-        stats: [
-          { value: "15+", label: "Production builds shipped" },
-          { value: "8", label: "Months, bootcamp to portfolio" },
-          { value: "20", label: "Phases, zero filler" },
-          { value: "1", label: "Code review, every module" },
-        ],
-      },
-      faqs: [
-        {
-          question: "Do I need to know how to code already?",
-          answer:
-            "No. Phase 1 assumes zero background and gets you to working fluency before Phase 3 asks you to build with it.",
-        },
-        {
-          question: "What stack do you teach?",
-          answer:
-            "Modern web fundamentals, you leave able to reason about any stack, not locked into one framework's syntax.",
-        },
-        {
-          question: "What happens if I fail the Gate?",
-          answer:
-            "You redo the phase. The Gate exists so a shaky foundation doesn't quietly show up as a broken build six phases later.",
-        },
-        {
-          question: "What do I actually walk away with?",
-          answer:
-            "15+ production builds you shipped yourself, plus a verified certificate that links back to that work, not just a PDF.",
-        },
-        {
-          question: "How does the code review process work?",
-          answer:
-            "Every module concludes with a live code walkthrough by a senior engineer who reviews your architecture, git history, and technical choices.",
-        },
-      ],
-      sidebar: {
-        batchLabel: "Batch 2",
-        starts: "October 2026",
-        format: "Online, 8 months",
-        feePlans: "₹60,000 + 12%, or ₹90,000 flat",
-        seats: "Small enough that a weak idea can't hide",
-        applyLabel: "Apply for Batch 2",
-        downloadLabel: "Download curriculum",
-        admissionsNote:
-          "Talk to admission management team. If the flagship isn't right for you, we'll say so and point you at the free course instead.",
-        phone: "+91 99480 00491",
-        email: "admissions@treqo.org",
-      },
-    },
-  },
-  {
-    category: "Design",
-    title: "Product & UI/UX Design",
-    description: "Design real products, master Figma systems, conduct user research, and defend design decisions live before design leaders.",
-    href: "/categories/design",
-    features: [
-      { icon: Clock, label: "5 Months Program" },
-      { icon: Users, label: "Live Design Critiques" },
-      { icon: Award, label: "Verified Portfolio" },
-      { icon: Layers, label: "8+ Design Sprints" },
-    ],
-    detail: {
-      badge: "Flagship · Now Enrolling",
-      batch: "Batch 2 · Oct 2026",
-      description:
-        "Five months, live online. 16 phases from UX research and design systems to interaction prototyping and usability testing. You graduate with 3 production-grade case studies, not generic Figma redesigns.",
-      stats: [
-        { label: "Duration", value: "5 months" },
-        { label: "Format", value: "Online, live" },
-        { label: "Phases", value: "16 phases" },
-        { label: "Projects", value: "3 full case studies" },
-      ],
-      applyCtaLabel: "Apply for Batch 2",
-      breakdownCtaLabel: "Download Design Syllabus",
-      phasesNavLabel: "16 phases",
-      challengeNavLabel: "Design Review",
-      overview: {
-        whoForHeading: "Who this is for",
-        whoFor: [
-          "Aspiring Product & UI/UX Designers who want a portfolio that passes senior recruiter screening",
-          "Graphic designers and front-end devs transitioning into high-paying product design roles",
-          "Founders who need to build intuitive user flows and design systems from day one",
-        ],
-        differentiators: [
-          { value: "70/30", label: "Prototyping, against theory" },
-          { value: "16", label: "Structured phases" },
-          { value: "Figma", label: "Advanced auto-layout & tokens" },
-          { value: "AI", label: "Workflow acceleration" },
-        ],
-      },
-      phases: {
-        heading: "The 16 design phases",
-        intro:
-          "User research, mental models, information architecture, wireframing, design systems, UI craft, micro-interactions, usability defense, in that order.",
-        groups: [
-          {
-            eyebrow: "PHASE 01-03",
-            heading: "USER RESEARCH & PROBLEM DISCOVERY",
-            range: "01-03",
-            lessons: ["Conducting 1-on-1 user interviews", "Synthesizing empathy maps & user personas", "Mapping user journeys & identifying drop-off friction"],
-          },
-          {
-            eyebrow: "PHASE 04-06",
-            heading: "INFORMATION ARCHITECTURE & WIREFRAMING",
-            range: "04-06",
-            lessons: ["Card sorting & IA mapping", "Low-fidelity wireframes in Figma", "Clickable wireframe validation tests"],
-          },
-          {
-            eyebrow: "PHASE 07-10",
-            heading: "FIGMA DESIGN SYSTEMS & UI TOKENS",
-            range: "07-10",
-            lessons: ["Building scalable component libraries with Auto-Layout", "Design tokens, color semantics & typography scales", "Dark mode & responsive variants"],
-          },
-          {
-            eyebrow: "PHASE 11-13",
-            heading: "INTERACTION DESIGN & PROTOTYPING",
-            range: "11-13",
-            lessons: ["Smart-animate & micro-interaction physics", "Complex component state prototypes", "Handoff specs for frontend engineering teams"],
-          },
-          {
-            eyebrow: "PHASE 14-16",
-            heading: "USABILITY TESTING & PORTFOLIO DEFENSE",
-            range: "14-16",
-            lessons: ["Unmoderated Maze testing & heatmaps", "Iterating based on live user video sessions", "Defending product decisions before Design VPs"],
-          },
-        ],
-      },
-      challenge: {
-        heading: "The Live Design Critique",
-        description:
-          "Every sprint closes with a live design critique before active Principal Designers from top tech companies.",
-        bullets: ["Live screen share defense", "Critiqued on problem framing, not just aesthetics", "Production-ready Figma files"],
-      },
-      fees: {
-        heading: "Tuition & Plans",
-        description: "Transparent pricing with flexible options.",
-        plans: [
-          {
-            name: "Cohort Tuition",
-            price: "₹45,000 + 12%",
-            description: "Lower upfront tuition with flexible income alignment.",
-            features: ["Full live cohort access", "1-on-1 weekly portfolio reviews", "Career sprint support"],
-          },
-          {
-            name: "Direct Enrollment",
-            price: "₹65,000 flat",
-            description: "One-time complete tuition with no deferred payments.",
-            features: ["Zero revenue share", "Lifetime community access", "Personal mentorship"],
-          },
-        ],
-      },
-      proof: {
-        heading: "Design Outcomes",
-        description: "Real design systems and apps shipped by our design fellows.",
-        stats: [
-          { value: "3", label: "Production case studies" },
-          { value: "100%", label: "Figma component-driven" },
-          { value: "8+", label: "Design critiques" },
-          { value: "₹7.8L", label: "Avg designer placement" },
-        ],
-      },
-      faqs: [
-        {
-          question: "Do I need drawing or graphic design skills to join?",
-          answer: "No. Product design is about solving user problems with structured layout, visual hierarchy, user research, and scalable design systems.",
-        },
-        {
-          question: "Will I learn Figma from scratch to advanced?",
-          answer: "Yes. You will master auto-layout, component architecture, token variables, smart-animate prototyping, and production-ready handoff specs.",
-        },
-        {
-          question: "What case studies will I build during the 5 months?",
-          answer: "You graduate with 3 full-scale, production-ready product case studies tested with real users, ready for senior recruiter screening.",
-        },
-        {
-          question: "How does the Live Design Critique work?",
-          answer: "Every sprint concludes with a live critique where active Principal Designers review your screen flows, problem framing, and UX decisions.",
-        },
-        {
-          question: "What career roles can I apply for after graduating?",
-          answer: "Alumni qualify for Product Designer, UI/UX Designer, Design System Specialist, and Interaction Designer roles across high-growth startups and tech firms.",
-        },
-      ],
-      sidebar: {
-        batchLabel: "Batch 2",
-        starts: "October 2026",
-        format: "Online, 5 months",
-        feePlans: "₹45,000 + 12%, or ₹65,000 flat",
-        seats: "Limited to 25 designers per batch",
-        applyLabel: "Apply for Batch 2",
-        downloadLabel: "Download curriculum",
-        admissionsNote:
-          "Talk to admission management team. If the flagship isn't right for you, we'll say so and point you at the free course instead.",
-        phone: "+91 99480 00491",
-        email: "admissions@treqo.org",
-      },
-    },
-  },
-  {
     category: "Self-Paced",
     title: "Fundamentals of Digital Marketing",
     description: "The free door into digital marketing. Master funnels, traffic channels, customer unit economics and core marketing fundamentals.",
-    href: "/categories/fundamentals",
+    href: "/courses/fundamentals",
     features: [
       { icon: Clock, label: "Self-Paced" },
       { icon: BookOpen, label: "6 Core Modules" },
@@ -808,7 +487,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
     category: "On-Campus Flagship",
     title: "New Age Digital Marketing (On Campus)",
     description: "Full Stack Marketing On Campus Edition. Four months of live agency studio work at our Madhapur, Hyderabad floor.",
-    href: "/categories/4m-program",
+    href: "/courses/4m-program",
     features: [
       { icon: Clock, label: "4 Months Program" },
       { icon: Building2, label: "On-Campus Studio" },
@@ -911,7 +590,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
     category: "Executive / PG",
     title: "Treqo PGDM in Modern Marketing",
     description: "Post Graduate Diploma in New Age Marketing. 12 months executive program built for ambitious graduates and senior marketing leads.",
-    href: "/categories/pgdm",
+    href: "/courses/pgdm",
     features: [
       { icon: Clock, label: "12 Months Program" },
       { icon: GraduationCap, label: "PG Diploma" },
@@ -1016,7 +695,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
     category: "Founders",
     title: "The Founder Semester",
     description: "Marketing and venture building for founders. Master customer validation, go-to-market strategy, paid acquisition, and unit economics.",
-    href: "/categories/founder-semester",
+    href: "/courses/founder-semester",
     features: [
       { icon: Clock, label: "9 Months Program" },
       { icon: Rocket, label: "Founder Cohort" },
@@ -1114,7 +793,7 @@ export const learningSystemCourses: LearningSystemCourse[] = [
     category: "Performance Marketing",
     title: "Performance & Growth Specialist",
     description: "Deep dive into Meta, Google Ads, and attribution models for direct response growth. Master ₹10L+ monthly media spend.",
-    href: "/categories/performance-growth",
+    href: "/courses/performance-growth",
     features: [
       { icon: Clock, label: "3 Months Program" },
       { icon: TrendingUp, label: "Advanced Media Buying" },

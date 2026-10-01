@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { ArrowRight, Clock, Star, Lock } from "lucide-react";
 import Header from "@/components/header/Header";
 import AnnouncementBanner from "@/components/header/AnnouncementBanner";
@@ -20,7 +20,6 @@ import CourseHeroForm from "@/components/category/CourseHeroForm";
 import CoursePerksBox from "@/components/category/CoursePerksBox";
 import ProgramOverviewHighlights from "@/components/category/ProgramOverviewHighlights";
 import { learningSystemCourses } from "@/data/home";
-import { megaMenuData } from "@/data/navigation";
 import { getCoursesFromDb, getPageSeoByPath, type CourseItem } from "@/lib/content-db";
 import { formatCourseSlug } from "@/lib/seo-utils";
 import { cn } from "@/lib/utils";
@@ -29,7 +28,13 @@ export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 export const revalidate = 0;
 
-const categoryLinks = megaMenuData.columns.find((column) => column.title === "Learn by Category")?.links ?? [];
+export const LEGACY_NONEXISTENT_SLUGS = new Set([
+  "ai-automation",
+  "business",
+  "development",
+  "design",
+  "data-analytics",
+]);
 
 function getCourse(slug: string) {
   const targetSlug = formatCourseSlug(slug);
@@ -46,6 +51,8 @@ function getCourse(slug: string) {
 export async function resolveCourseMeta(pathOrSlug: string, preloadedCourses?: CourseItem[]) {
   if (!pathOrSlug) return null;
   const targetSlug = formatCourseSlug(pathOrSlug);
+  if (LEGACY_NONEXISTENT_SLUGS.has(targetSlug)) return null;
+
   const cleanPath = pathOrSlug.startsWith("/") ? pathOrSlug : `/${pathOrSlug}`;
   const normalizedPath = cleanPath.toLowerCase().replace(/\/+$/, "");
   const segments = cleanPath.split("/").filter(Boolean);
@@ -90,21 +97,7 @@ export async function resolveCourseMeta(pathOrSlug: string, preloadedCourses?: C
     };
   }
 
-  // 2. Try matching categoryLinks from navigation menu
-  const link = categoryLinks.find((l) => {
-    const lSlug = formatCourseSlug(l.href);
-    return lSlug === targetSlug || lSlug === lastSegmentSlug;
-  });
-  if (link) {
-    return {
-      label: link.label,
-      href: `/courses/${formatCourseSlug(link.href)}`,
-      icon: (link as any).icon,
-      dbCourse: undefined,
-    };
-  }
-
-  // 3. Try matching static learningSystemCourses
+  // 2. Try matching static learningSystemCourses (verified marketing tracks only)
   const course = getCourse(pathOrSlug) || getCourse(lastSegment);
   if (course) {
     return {
@@ -127,10 +120,7 @@ export async function generateStaticParams() {
     const courseSlugs = learningSystemCourses.map((c) => ({
       slug: formatCourseSlug(c.href),
     }));
-    const categorySlugs = categoryLinks.map((link) => ({
-      slug: formatCourseSlug(link.href),
-    }));
-    const all = [...dbSlugs, ...courseSlugs, ...categorySlugs].filter((s) => Boolean(s.slug));
+    const all = [...dbSlugs, ...courseSlugs].filter((s) => Boolean(s.slug));
     const uniqueSlugs = Array.from(new Set(all.map((item) => item.slug))).map((slug) => ({ slug }));
     return uniqueSlugs;
   } catch {
@@ -184,10 +174,17 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const cleanSlug = formatCourseSlug(slug);
+  if (LEGACY_NONEXISTENT_SLUGS.has(cleanSlug)) {
+    return {
+      title: "New Age Digital Marketing Program Online | TREQO",
+      robots: { index: false, follow: false },
+    };
+  }
+
   const meta = await resolveCourseMeta(slug);
   if (!meta) return {};
 
-  const cleanSlug = formatCourseSlug(slug);
   const pageSeo =
     (await getPageSeoByPath(`/courses/${cleanSlug}`)) ||
     (await getPageSeoByPath(`/categories/${cleanSlug}`)) ||
@@ -236,8 +233,13 @@ export async function generateMetadata({
 
 export default async function CourseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const cleanRequestedSlug = formatCourseSlug(slug);
+  if (LEGACY_NONEXISTENT_SLUGS.has(cleanRequestedSlug)) {
+    redirect("/courses/digital-marketing");
+  }
+
   const dbCourses = await getCoursesFromDb();
-  const metaInfo = (await resolveCourseMeta(slug, dbCourses)) || (await resolveCourseMeta(formatCourseSlug(slug), dbCourses));
+  const metaInfo = (await resolveCourseMeta(slug, dbCourses)) || (await resolveCourseMeta(cleanRequestedSlug, dbCourses));
   if (!metaInfo) notFound();
 
   const cleanSlug = formatCourseSlug(metaInfo.href) || formatCourseSlug(slug);
