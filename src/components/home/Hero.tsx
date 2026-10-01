@@ -41,7 +41,7 @@ export default async function Hero() {
       </div>
 
       {/* Hero Full Background Visual Artwork (Desktop) - Balanced proportions with comfortable margin */}
-      <div className="pointer-events-none absolute right-3 lg:right-6 xl:right-10 top-5 lg:top-7 xl:top-9 bottom-[80px] xl:bottom-[92px] z-0 hidden lg:flex items-center justify-end overflow-visible w-[50%] lg:w-[47%] xl:w-[45%] 2xl:w-[44%]">
+      <div className="pointer-events-none absolute right-3 lg:right-6 xl:right-10 top-5 lg:top-7 xl:top-9 bottom-[92px] xl:bottom-[104px] z-0 hidden lg:flex items-center justify-end overflow-visible w-[50%] lg:w-[47%] xl:w-[45%] 2xl:w-[44%]">
         {/* Ambient colorful plum & champagne glow orbs directly behind the artwork */}
         <div
           aria-hidden="true"
@@ -164,7 +164,7 @@ export default async function Hero() {
       </Container>
 
       {/* NAVBAR (Desktop only - sits flush at bottom of hero above the scroller) */}
-      <div className="relative z-20 mt-10 sm:mt-12 lg:mt-14">
+      <div className="relative z-20 mt-3 sm:mt-4 lg:mt-4">
         <div className="hidden lg:block">
           <HeroNavbar />
         </div>
