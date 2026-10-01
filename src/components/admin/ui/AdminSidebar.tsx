@@ -174,6 +174,11 @@ export default function AdminSidebar({
       groupTitle: "CONTENT & MARKETING",
       items: [
         {
+          id: "hero",
+          label: "Hero Section (Text)",
+          icon: LayoutTemplate,
+        },
+        {
           id: "blogs",
           label: "Blog Articles",
           icon: BookOpen,

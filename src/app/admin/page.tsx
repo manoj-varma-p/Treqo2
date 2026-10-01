@@ -68,6 +68,7 @@ import type {
   PageSeoItem,
 } from "@/lib/content-db";
 import { defaultFormSettings } from "@/types/forms";
+import AdminHeroTextTab from "@/components/admin/AdminHeroTextTab";
 import AdminWhyTreqqoTab from "@/components/admin/AdminWhyTreqqoTab";
 import AdminPlacementsTab from "@/components/admin/AdminPlacementsTab";
 import AdminGovCertsTab from "@/components/admin/AdminGovCertsTab";
@@ -101,6 +102,7 @@ const TAB_TITLES: Record<string, { title: string; breadcrumb: string }> = {
   govCerts: { title: "Accreditations & Certificates", breadcrumb: "Credentials & Compliance" },
   certifications: { title: "Program Certifications", breadcrumb: "Credentials & Compliance" },
   sixDecisions: { title: "Six Decisions Framework", breadcrumb: "Credentials & Compliance" },
+  hero: { title: "Homepage Hero Section (Text Only)", breadcrumb: "Content & Marketing" },
   blogs: { title: "Articles & Insights", breadcrumb: "Content & Marketing" },
   faqs: { title: "Frequently Asked Questions", breadcrumb: "Content & Marketing" },
   pageKeywords: { title: "Page-Wise SEO & Keywords", breadcrumb: "System & Settings" },
@@ -2821,6 +2823,15 @@ export default function CustomAdminPanelPage() {
                 </div>
               </div>
             </div>
+          )}
+
+          {/* TAB 4: HERO (TEXT ONLY) */}
+          {activeTab === "hero" && (
+            <AdminHeroTextTab
+              initialContent={homeContent}
+              adminPin={getStoredPin()}
+              onSaved={(updated) => setHomeContent(updated)}
+            />
           )}
 
           {/* TAB 4: HERO removed */}
