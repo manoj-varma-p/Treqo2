@@ -146,6 +146,7 @@ export interface HeroContent {
   highlightText?: string;
   desktopImage?: string;
   mobileImage?: string;
+  sliderImages?: string[];
   primaryCtaLabel?: string;
   primaryCtaHref?: string;
   secondaryCtaLabel?: string;
@@ -697,6 +698,15 @@ export async function getHomePageContentFromDb(): Promise<HomePageContent> {
             highlightText: doc.hero?.highlightText !== undefined ? doc.hero.highlightText : (localData.hero?.highlightText || "Online or Offline. Choose What Works for You."),
             desktopImage: doc.hero?.desktopImage || localData.hero?.desktopImage || "/images/maiiin.webp",
             mobileImage: doc.hero?.mobileImage || localData.hero?.mobileImage || "/images/mainnnn-bg.webp",
+            sliderImages: doc.hero?.sliderImages?.length
+              ? doc.hero.sliderImages
+              : (localData.hero?.sliderImages || [
+                  "/images/hero-slider/hero-slide-1.webp",
+                  "/images/hero-slider/hero-slide-2.webp",
+                  "/images/hero-slider/hero-slide-3.webp",
+                  "/images/hero-slider/hero-slide-4.webp",
+                  "/images/hero-slider/hero-slide-5.webp",
+                ]),
           },
           stats: doc.stats || localData.stats,
           faqs: doc.faqs || localData.faqs,

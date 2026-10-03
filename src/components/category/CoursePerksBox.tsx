@@ -65,7 +65,7 @@ export default function CoursePerksBox({
   isLocked = false,
   className,
   otherTitle = "Generic Institutes in AP/TS",
-  ourTitle = "TreQo: The Marketing School",
+  ourTitle = "TREQO: The Marketing School",
 }: CoursePerksBoxProps) {
   return (
     <section
@@ -75,7 +75,7 @@ export default function CoursePerksBox({
       {/* Section Header */}
       <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8">
         <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#8C6A8C] mb-2">
-          Why TreQo Is Different
+          Why TREQO Is Different
         </p>
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-[#1A0A1A]">
           The Unfair Advantage

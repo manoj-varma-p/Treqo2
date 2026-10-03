@@ -13,7 +13,7 @@ export default function ProgramOverviewHighlights() {
             Program Overview
           </h2>
           <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-normal">
-            <strong className="font-bold text-slate-900">TreQo: The Marketing School</strong> delivers an industry-recognized{" "}
+            <strong className="font-bold text-slate-900">TREQO: The Marketing School</strong> delivers an industry-recognized{" "}
             <strong className="font-bold text-slate-900">New-Age Digital Marketing Course Online</strong> engineered for
             ambitious undergraduates, working professionals, and aspiring startup founders. Taught live by growth leaders
             and entrepreneurs, this{" "}
@@ -143,7 +143,7 @@ export default function ProgramOverviewHighlights() {
             Program Overview
           </h2>
           <p className="text-sm text-slate-700 leading-relaxed font-normal">
-            <strong className="font-bold text-slate-900">TreQo: The Marketing School</strong> offers an industry-recognized{" "}
+            <strong className="font-bold text-slate-900">TREQO: The Marketing School</strong> offers an industry-recognized{" "}
             <strong className="font-bold text-slate-900">New-Age Digital Marketing Course Online</strong> engineered for
             ambitious undergraduates, working professionals, and aspiring business founders. Taught live by growth experts
             and entrepreneurs, this{" "}

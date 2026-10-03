@@ -7,9 +7,16 @@
       "Not just a certificate"
     ],
     "description": "Build practical marketing skills by working on real business problems, campaigns, and measurable projects, not just watching tutorials.",
-    "highlightText": "Online or Offline. Choose What Works for You.",
-    "desktopImage": "/api/admin/upload?id=general-1790761376977-tl5p-group-8.png",
-    "mobileImage": "/images/mainnnn-bg.webp",
+    "highlightText": "Online or Offline Program. Choose What Works for You.",
+    "desktopImage": "/images/hero-slider/hero-slide-1.webp",
+    "mobileImage": "/images/hero-slider/hero-slide-1.webp",
+    "sliderImages": [
+      "/images/hero-slider/hero-slide-1.webp",
+      "/images/hero-slider/hero-slide-2.webp",
+      "/images/hero-slider/hero-slide-3.webp",
+      "/images/hero-slider/hero-slide-4.webp",
+      "/images/hero-slider/hero-slide-5.webp"
+    ],
     "primaryCtaLabel": "Browse Courses",
     "primaryCtaHref": "#courses",
     "secondaryCtaLabel": "Book a demo",

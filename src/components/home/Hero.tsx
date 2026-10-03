@@ -4,12 +4,25 @@ import HeroActions from "./HeroActions";
 import HeroStats from "./HeroStats";
 import Logo from "@/components/header/Logo";
 import { getHomePageContent } from "@/lib/cms";
-import Image from "next/image";
+import HeroImageSlider from "./HeroImageSlider";
 
 export default async function Hero() {
   const homeContent = await getHomePageContent();
   const hero = homeContent.hero;
   const eyebrow = hero.eyebrow?.trim() || "India's leading Marketing School";
+
+  const fallbackSliderImages = [
+    "/images/hero-slider/hero-slide-1.webp",
+    "/images/hero-slider/hero-slide-2.webp",
+    "/images/hero-slider/hero-slide-3.webp",
+    "/images/hero-slider/hero-slide-4.webp",
+    "/images/hero-slider/hero-slide-5.webp",
+  ];
+
+  const sliderImages =
+    hero.sliderImages && hero.sliderImages.length > 0
+      ? hero.sliderImages
+      : fallbackSliderImages;
 
   return (
     <section
@@ -56,15 +69,16 @@ export default async function Hero() {
           className="absolute right-[10%] top-[25%] -z-10 h-[220px] w-[220px] rounded-full bg-[#F5EDE0] blur-[70px]"
         />
 
-        {/* Full Image Artwork shifted neatly */}
+        {/* Full Image Artwork shifted neatly with 2-second crossfade loop */}
         <div className="relative h-full w-full max-w-[580px] xl:max-w-[660px] 2xl:max-w-[720px] flex items-center justify-end -translate-y-1.5 lg:-translate-y-2.5 xl:-translate-y-3">
-          <Image
-            src={hero.desktopImage || "/images/maiiin.webp"}
-            alt="Treqo Modern Digital Marketing"
-            fill
-            priority
+          <HeroImageSlider
+            images={sliderImages}
+            alt="Treqo Modern Digital Marketing - Practical Cohort"
             sizes="(min-width: 1536px) 720px, (min-width: 1280px) 660px, 580px"
-            className="object-contain object-right drop-shadow-[0_20px_45px_rgba(59,13,59,0.15)] select-none"
+            className="relative h-full w-full"
+            imageClassName="object-contain object-right drop-shadow-[0_20px_45px_rgba(59,13,59,0.15)] select-none"
+            intervalMs={2000}
+            fadeDurationMs={700}
           />
         </div>
       </div>
@@ -146,14 +160,15 @@ export default async function Hero() {
 
           {/* Mobile/Tablet view of the hero artwork */}
           <div className="mt-8 relative w-full flex items-center justify-center lg:hidden">
-            <div className="relative w-full max-w-lg aspect-[14/10] sm:aspect-[14/9]">
-              <Image
-                src={hero.mobileImage || "/images/mainnnn-bg.webp"}
-                alt="Treqo Modern Digital Marketing"
-                fill
-                priority
+            <div className="relative w-full max-w-lg aspect-[947/846]">
+              <HeroImageSlider
+                images={sliderImages}
+                alt="Treqo Modern Digital Marketing - Practical Cohort"
                 sizes="(max-width: 768px) 100vw, 600px"
-                className="object-contain object-bottom drop-shadow-xl"
+                className="relative h-full w-full"
+                imageClassName="object-contain object-center drop-shadow-xl select-none"
+                intervalMs={2000}
+                fadeDurationMs={700}
               />
             </div>
           </div>
