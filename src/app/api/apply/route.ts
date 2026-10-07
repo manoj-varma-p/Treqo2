@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { addLead, findLeadByPhone } from "@/lib/leads-db";
 import { getAlertSettingsFromDb } from "@/lib/content-db";
 import { sendEmailViaResend } from "@/lib/email-service";

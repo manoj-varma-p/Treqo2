@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useMemo, useSyncExternalStore, useRef } from "react";
 import Link from "next/link";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import {
   Download,
   Search,
@@ -132,12 +131,7 @@ function tutorInitials(name: string) {
     .toUpperCase();
 }
 
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-  preload: false,
-});
+const plusJakarta = { className: "font-sans" };
 
 
 
@@ -574,10 +568,17 @@ export default function CustomAdminPanelPage() {
     try {
       const pin = getStoredPin();
       setLoadingLeads(true);
+      const timestamp = Date.now();
 
       const [leadsRes, contentRes] = await Promise.all([
-        fetch("/api/leads", { headers: { "x-admin-pin": pin } }),
-        fetch("/api/admin/content", { headers: { "x-admin-pin": pin } }),
+        fetch(`/api/leads?_t=${timestamp}`, {
+          headers: { "x-admin-pin": pin },
+          cache: "no-store",
+        }),
+        fetch(`/api/admin/content?_t=${timestamp}`, {
+          headers: { "x-admin-pin": pin },
+          cache: "no-store",
+        }),
       ]);
 
       if (leadsRes.ok) {
@@ -1418,6 +1419,30 @@ export default function CustomAdminPanelPage() {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       loadAllData();
     }
+  }, [isAuthenticated]);
+
+  // Auto-refresh leads periodically so live form submissions reflect immediately
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const interval = setInterval(async () => {
+      try {
+        const pin = getStoredPin();
+        if (!pin) return;
+        const res = await fetch(`/api/leads?_t=${Date.now()}`, {
+          headers: { "x-admin-pin": pin },
+          cache: "no-store",
+        });
+        if (res.ok) {
+          const d = await res.json();
+          if (Array.isArray(d.leads)) {
+            setLeads(d.leads);
+          }
+        }
+      } catch {
+        // silent background poll
+      }
+    }, 8000);
+    return () => clearInterval(interval);
   }, [isAuthenticated]);
 
   useEffect(() => {

@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useMemo, useSyncExternalStore, useCallback } from "react";
 import Link from "next/link";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import {
   Search,
   RefreshCw,
@@ -32,12 +31,7 @@ import {
 } from "lucide-react";
 import type { Lead } from "@/lib/leads-db";
 
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-  preload: false,
-});
+const plusJakarta = { className: "font-sans" };
 
 
 
@@ -91,8 +85,9 @@ export default function AdminLeadsPage() {
 
   const loadLeads = useCallback(async () => {
     try {
-      const res = await fetch("/api/leads", {
+      const res = await fetch(`/api/leads?_t=${Date.now()}`, {
         headers: { "x-admin-pin": getStoredPin() },
+        cache: "no-store",
       });
       if (res.ok) {
         const data = await res.json();
@@ -111,6 +106,11 @@ export default function AdminLeadsPage() {
     if (isAuthenticated) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       loadLeads();
+
+      const interval = setInterval(() => {
+        loadLeads();
+      }, 8000);
+      return () => clearInterval(interval);
     }
   }, [isAuthenticated, loadLeads]);
 

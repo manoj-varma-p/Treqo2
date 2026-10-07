@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 export interface Lead {
   id: string;
@@ -44,12 +44,11 @@ export async function findLeadByPhone(phone: string): Promise<Lead | null> {
   const collection = await getMongoCollection();
   if (collection) {
     try {
-      const regexPattern = targetNorm.split("").join("\\D*");
       const doc = await collection.findOne({
         $or: [
           { normalizedPhone: targetNorm },
           { phone: phone.trim() },
-          { phone: { $regex: regexPattern, $options: "i" } },
+          { phone: { $regex: targetNorm, $options: "i" } },
         ],
       });
       if (doc) {
@@ -130,6 +129,27 @@ function saveLeadsToFile(leads: Lead[]) {
   }
 }
 
+// Safely merges a new lead without ever erasing existing records
+function saveLeadSafely(newLead: Lead) {
+  try {
+    const existing = loadLeadsFromFile();
+    const map = new Map<string, Lead>();
+    map.set(newLead.id, newLead);
+    for (const l of existing) {
+      if (!map.has(l.id)) {
+        map.set(l.id, l);
+      }
+    }
+    const merged = Array.from(map.values()).sort(
+      (a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime()
+    );
+    saveLeadsToFile(merged);
+    memoryLeads = merged;
+  } catch (err) {
+    console.error("[saveLeadSafely Error]:", err);
+  }
+}
+
 // Initialize memory from file
 try {
   memoryLeads = loadLeadsFromFile();
@@ -153,20 +173,25 @@ export async function addLead(leadData: Omit<Lead, "id" | "submittedAt">): Promi
     submittedAt: new Date().toISOString(),
   };
 
-  // Try MongoDB first if configured
+  // 1. Save to MongoDB (Primary)
+  let mongoSaved = false;
   const collection = await getMongoCollection();
   if (collection) {
     try {
       await collection.insertOne({ ...newLead });
-      console.log("[MongoDB] Lead inserted into collection successfully");
+      mongoSaved = true;
+      console.log("[MongoDB] Lead inserted into collection successfully:", newLead.id);
     } catch (err) {
       console.error("[MongoDB Insert Error]:", err);
     }
   }
 
-  // Also save to memory/file store
-  memoryLeads.unshift(newLead);
-  saveLeadsToFile(memoryLeads);
+  // 2. Also safely update local file/memory backup without overwriting old items
+  saveLeadSafely(newLead);
+
+  if (!mongoSaved) {
+    console.warn("[Leads Notice]: Saved to local fallback because MongoDB was unavailable.");
+  }
 
   return newLead;
 }
@@ -176,32 +201,49 @@ export async function getLeads(): Promise<Lead[]> {
   if (collection) {
     try {
       const docs = await collection.find({}).sort({ submittedAt: -1 }).toArray();
-      if (docs && docs.length > 0) {
-        return docs.map((d) => ({
-          id: d.id || String(d._id),
-          name: d.name,
-          email: d.email,
-          phone: d.phone,
-          normalizedPhone: d.normalizedPhone || normalizePhoneNumber(d.phone),
-          course: d.course,
-          background: d.background,
-          source: d.source,
-          page: d.page || (d.source?.includes("Hero") ? "/" : "/"),
-          pageUrl: d.pageUrl || "",
-          submittedAt: d.submittedAt,
-        }));
+      const mongoLeads: Lead[] = (docs || []).map((d) => ({
+        id: d.id || String(d._id),
+        name: d.name,
+        email: d.email,
+        phone: d.phone,
+        normalizedPhone: d.normalizedPhone || normalizePhoneNumber(d.phone),
+        course: d.course,
+        background: d.background,
+        source: d.source,
+        page: d.page || "/",
+        pageUrl: d.pageUrl || "",
+        submittedAt: d.submittedAt,
+      }));
+
+      // Check for any offline/fallback file leads not yet in MongoDB and sync them
+      const fileLeads = loadLeadsFromFile();
+      if (fileLeads.length > 0) {
+        const mongoIds = new Set(mongoLeads.map((m) => m.id));
+        const missingLeads = fileLeads.filter((f) => !mongoIds.has(f.id));
+        if (missingLeads.length > 0) {
+          try {
+            await collection.insertMany(missingLeads as any, { ordered: false }).catch(() => null);
+            mongoLeads.push(...missingLeads);
+            mongoLeads.sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime());
+          } catch (e) {
+            console.warn("[MongoDB sync missing leads notice]:", e);
+          }
+        }
       }
+
+      memoryLeads = mongoLeads;
+      return mongoLeads;
     } catch (err) {
       console.error("[MongoDB Fetch Error]:", err);
     }
   }
 
-  // Fallback to file storage
+  // Fallback to file storage if MongoDB is down
   const fileLeads = loadLeadsFromFile();
   memoryLeads = fileLeads.map((l) => ({
     ...l,
     normalizedPhone: l.normalizedPhone || normalizePhoneNumber(l.phone),
-    page: l.page || (l.source?.includes("Hero") ? "/" : "/"),
+    page: l.page || "/",
     pageUrl: l.pageUrl || "",
   }));
   return memoryLeads;
@@ -211,13 +253,21 @@ export async function deleteLead(id: string): Promise<boolean> {
   const collection = await getMongoCollection();
   if (collection) {
     try {
-      await collection.deleteOne({ $or: [{ id }, { _id: id as unknown as undefined }] });
+      const deleteConditions: any[] = [{ id }, { _id: id }];
+      if (ObjectId.isValid(id) && id.length === 24) {
+        try {
+          deleteConditions.push({ _id: new ObjectId(id) });
+        } catch {}
+      }
+      await collection.deleteOne({ $or: deleteConditions });
+      console.log("[MongoDB] Lead deleted successfully:", id);
     } catch (err) {
       console.error("[MongoDB Delete Error]:", err);
     }
   }
 
+  const fileLeads = loadLeadsFromFile().filter((l) => l.id !== id);
+  saveLeadsToFile(fileLeads);
   memoryLeads = memoryLeads.filter((l) => l.id !== id);
-  saveLeadsToFile(memoryLeads);
   return true;
 }

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getLeads, deleteLead } from "@/lib/leads-db";
 import { isAuthorizedRequest } from "@/lib/admin-auth";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export { POST } from "@/app/api/apply/route";
 
 export async function GET(request: Request) {
@@ -62,10 +65,19 @@ export async function GET(request: Request) {
     });
   }
 
-  return NextResponse.json({
-    total: leads.length,
-    leads,
-  });
+  return NextResponse.json(
+    {
+      total: leads.length,
+      leads,
+    },
+    {
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    }
+  );
 }
 
 export async function DELETE(request: Request) {

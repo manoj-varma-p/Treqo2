@@ -3,7 +3,9 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const nextConfig: NextConfig = {
-  reactCompiler: true,
+  experimental: {
+    cpus: 4,
+  },
   turbopack: {
     root: path.resolve(__dirname),
   },

@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { revalidatePath } from "next/cache";
 import { revalidatePublicSite } from "@/lib/revalidate";
 import {

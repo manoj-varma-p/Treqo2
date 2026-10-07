@@ -17,7 +17,7 @@ async function storeImageInMongo(
   mimeType: string,
   originalName: string,
   folder: string
-): Promise<string | null> {
+): Promise<{ url: string; id: string } | null> {
   try {
     const db = await getMongoDb();
     if (!db) return null;
@@ -31,18 +31,23 @@ async function storeImageInMongo(
     const base64 = buffer.toString("base64");
     const dataUrl = `data:${mimeType};base64,${base64}`;
 
-    await db.collection("uploads").insertOne({
-      _id: id as unknown as undefined,
-      folder,
-      originalName,
-      mimeType,
-      size: buffer.length,
-      dataUrl,
-      uploadedAt: new Date().toISOString(),
-    });
+    await db.collection("uploads").updateOne(
+      { _id: id as unknown as undefined },
+      {
+        $set: {
+          folder,
+          originalName,
+          mimeType,
+          size: buffer.length,
+          dataUrl,
+          uploadedAt: new Date().toISOString(),
+        },
+      },
+      { upsert: true }
+    );
 
-    // Return a URL pointing to our serve endpoint
-    return `/api/admin/upload?id=${encodeURIComponent(id)}`;
+    console.log("[MongoDB Uploads] Image stored successfully:", id, "size:", buffer.length);
+    return { url: `/api/admin/upload?id=${encodeURIComponent(id)}`, id };
   } catch (err) {
     console.error("[storeImageInMongo] error:", err);
     return null;
@@ -111,19 +116,11 @@ export async function POST(req: NextRequest) {
     }
     const mimeType = file.type || `image/${ext.replace(".", "")}`;
 
-    // On Vercel: always use MongoDB storage
-    if (isVercel()) {
-      const url = await storeImageInMongo(buffer, mimeType, file.name, folder);
-      if (url) {
-        return NextResponse.json({ success: true, url, fileName: file.name, size: file.size });
-      }
-      return NextResponse.json(
-        { error: "Failed to store image. Check MongoDB connection." },
-        { status: 500 }
-      );
-    }
+    // 1. Primary storage: ALWAYS store image in MongoDB
+    const mongoResult = await storeImageInMongo(buffer, mimeType, file.name, folder);
 
-    // In local dev: try disk first, fall back to MongoDB
+    // 2. Local mirror: write to disk if writable (for local dev convenience)
+    let localDiskUrl: string | null = null;
     try {
       const sanitizedBase = file.name
         .replace(ext, "")
@@ -133,25 +130,37 @@ export async function POST(req: NextRequest) {
       const uniqueFilename = `${sanitizedBase}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}${ext}`;
       const baseUploads = path.join(process.cwd(), "public", "uploads");
       const targetDir = path.join(baseUploads, folder);
-      if (!targetDir.startsWith(baseUploads)) {
-        return NextResponse.json({ error: "Invalid upload directory target." }, { status: 400 });
+      if (targetDir.startsWith(baseUploads)) {
+        await fs.mkdir(targetDir, { recursive: true });
+        await fs.writeFile(path.join(targetDir, uniqueFilename), buffer);
+        localDiskUrl = `/uploads/${folder}/${uniqueFilename}`;
       }
-      await fs.mkdir(targetDir, { recursive: true });
-      await fs.writeFile(path.join(targetDir, uniqueFilename), buffer);
+    } catch {
+      // Ignored if disk is read-only (e.g. serverless)
+    }
+
+    if (mongoResult) {
       return NextResponse.json({
         success: true,
-        url: `/uploads/${folder}/${uniqueFilename}`,
+        url: mongoResult.url,
         fileName: file.name,
         size: file.size,
       });
-    } catch {
-      // Fall back to MongoDB in local dev too
-      const url = await storeImageInMongo(buffer, mimeType, file.name, folder);
-      if (url) {
-        return NextResponse.json({ success: true, url, fileName: file.name, size: file.size });
-      }
-      return NextResponse.json({ error: "Failed to save uploaded file." }, { status: 500 });
     }
+
+    if (localDiskUrl) {
+      return NextResponse.json({
+        success: true,
+        url: localDiskUrl,
+        fileName: file.name,
+        size: file.size,
+      });
+    }
+
+    return NextResponse.json(
+      { error: "Failed to store image in MongoDB database." },
+      { status: 500 }
+    );
   } catch (error) {
     console.error("[Upload POST Error]:", error);
     return NextResponse.json({ error: "Failed to save uploaded file. Please try again." }, { status: 500 });
@@ -167,37 +176,38 @@ export async function GET(req: NextRequest) {
     // No auth needed to serve public images
     try {
       const db = await getMongoDb();
-      if (!db) {
-        return new NextResponse("Not found", { status: 404 });
-      }
-      const doc = await db.collection("uploads").findOne({ _id: id as unknown as undefined });
-      if (!doc || !doc.dataUrl) {
-        return new NextResponse("Not found", { status: 404 });
-      }
-      // Parse data URL: data:<mime>;base64,<data>
-      const match = (doc.dataUrl as string).match(/^data:([^;]+);base64,(.+)$/);
-      if (!match) {
-        return new NextResponse("Invalid image data", { status: 500 });
-      }
-      const mimeType = match[1];
-      const imageBuffer = Buffer.from(match[2], "base64");
-
-      const responseHeaders: Record<string, string> = {
-        "Content-Type": mimeType,
-        "Cache-Control": "public, max-age=31536000, immutable",
-        "Content-Length": imageBuffer.length.toString(),
-        "X-Content-Type-Options": "nosniff",
-      };
-
-      if (mimeType.toLowerCase().includes("svg")) {
-        // Prevent stored XSS via SVG scripts
-        responseHeaders["Content-Security-Policy"] = "default-src 'none'; style-src 'unsafe-inline'";
+      let doc = null;
+      if (db) {
+        doc = await db.collection("uploads").findOne({
+          $or: [{ _id: id as unknown as undefined }, { id: id }, { originalName: id }],
+        });
       }
 
-      return new NextResponse(imageBuffer, {
-        status: 200,
-        headers: responseHeaders,
-      });
+      if (doc && doc.dataUrl) {
+        const match = (doc.dataUrl as string).match(/^data:([^;]+);base64,(.+)$/);
+        if (match) {
+          const mimeType = match[1];
+          const imageBuffer = Buffer.from(match[2], "base64");
+
+          const responseHeaders: Record<string, string> = {
+            "Content-Type": mimeType,
+            "Cache-Control": "public, max-age=31536000, immutable",
+            "Content-Length": imageBuffer.length.toString(),
+            "X-Content-Type-Options": "nosniff",
+          };
+
+          if (mimeType.toLowerCase().includes("svg")) {
+            responseHeaders["Content-Security-Policy"] = "default-src 'none'; style-src 'unsafe-inline'";
+          }
+
+          return new NextResponse(imageBuffer, {
+            status: 200,
+            headers: responseHeaders,
+          });
+        }
+      }
+
+      return new NextResponse("Not found", { status: 404 });
     } catch (err) {
       console.error("[Upload GET serve error]:", err);
       return new NextResponse("Internal server error", { status: 500 });
@@ -301,7 +311,9 @@ export async function DELETE(req: NextRequest) {
     if (id) {
       const db = await getMongoDb();
       if (db) {
-        const res = await db.collection("uploads").deleteOne({ _id: id as unknown as undefined });
+        const res = await db.collection("uploads").deleteMany({
+          $or: [{ _id: id as unknown as undefined }, { id: id }, { originalName: id }],
+        });
         deletedMongo = res.deletedCount > 0;
       }
     }

@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useMemo, useSyncExternalStore, useCallback } from "react";
 import Link from "next/link";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import {
   Search,
   RefreshCw,
@@ -32,12 +31,7 @@ import {
 import type { ProgramItem } from "@/lib/content-db";
 import { formatCourseSlug } from "@/lib/seo-utils";
 
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-  preload: false,
-});
+const plusJakarta = { className: "font-sans" };
 
 
 

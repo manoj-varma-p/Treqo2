@@ -1,57 +1,55 @@
 import { MongoClient, Db } from "mongodb";
 
-const uri = process.env.MONGODB_URI;
 const dbName = process.env.MONGODB_DB || "treqo";
-
-let client: MongoClient | null = null;
-let clientPromise: Promise<MongoClient> | null = null;
 
 declare global {
   // eslint-disable-next-line no-var
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
+function getCleanUri(): string {
+  const raw = process.env.MONGODB_URI || "";
+  return raw.replace(/^["']|["']$/g, "").trim();
+}
+
 export async function getMongoClient(): Promise<MongoClient | null> {
-  if (!uri || uri.trim() === "") {
+  const cleanUri = getCleanUri();
+  if (!cleanUri) {
     return null;
   }
 
   try {
-    if (process.env.NODE_ENV === "development") {
-      if (!global._mongoClientPromise) {
-        client = new MongoClient(uri, {
-          serverSelectionTimeoutMS: 2500,
-          connectTimeoutMS: 2500,
-          socketTimeoutMS: 4000,
-          maxPoolSize: 10,
-        });
-        global._mongoClientPromise = client.connect().catch((err) => {
-          console.warn("[MongoDB Connect Notice]: Using local storage fallback.", err?.message || err);
+    if (!global._mongoClientPromise) {
+      const client = new MongoClient(cleanUri, {
+        serverSelectionTimeoutMS: 15000,
+        connectTimeoutMS: 15000,
+        socketTimeoutMS: 30000,
+        maxPoolSize: 10,
+        minPoolSize: 0,
+      });
+
+      global._mongoClientPromise = client
+        .connect()
+        .then((connectedClient) => {
+          return connectedClient;
+        })
+        .catch((err) => {
+          console.error("[MongoDB Connection Failed]:", err?.message || err);
           global._mongoClientPromise = undefined;
           return null as unknown as MongoClient;
         });
-      }
-      const c = await global._mongoClientPromise;
-      return c || null;
-    } else {
-      if (!clientPromise) {
-        client = new MongoClient(uri, {
-          serverSelectionTimeoutMS: 2500,
-          connectTimeoutMS: 2500,
-          socketTimeoutMS: 4000,
-          maxPoolSize: 10,
-        });
-        clientPromise = client.connect().catch((err) => {
-          console.warn("[MongoDB Connect Notice]: Using local storage fallback.", err?.message || err);
-          clientPromise = null;
-          return null as unknown as MongoClient;
-        });
-      }
-      const c = await clientPromise;
-      return c || null;
     }
+
+    const c = await global._mongoClientPromise;
+    if (!c) {
+      // Allow retry on next request if connection failed
+      global._mongoClientPromise = undefined;
+      return null;
+    }
+    return c;
   } catch (error) {
     console.error("[MongoDB Connection Error]:", error);
+    global._mongoClientPromise = undefined;
     return null;
   }
 }
@@ -72,7 +70,8 @@ export async function checkMongoConnection(): Promise<{
   database?: string;
   error?: string;
 }> {
-  if (!uri || uri.trim() === "") {
+  const cleanUri = getCleanUri();
+  if (!cleanUri) {
     return {
       connected: false,
       uriSet: false,
