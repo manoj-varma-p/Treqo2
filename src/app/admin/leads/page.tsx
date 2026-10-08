@@ -39,7 +39,11 @@ const emptySubscribe = () => () => {};
 function useAdminSession() {
   return useSyncExternalStore(
     emptySubscribe,
-    () => (typeof window !== "undefined" ? sessionStorage.getItem("treqo_admin_auth") === "true" : false),
+    () =>
+      typeof window !== "undefined"
+        ? sessionStorage.getItem("treqo_admin_auth") === "true" &&
+          Boolean(sessionStorage.getItem("treqo_admin_pin"))
+        : false,
     () => false
   );
 }

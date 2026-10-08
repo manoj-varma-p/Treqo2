@@ -3,12 +3,12 @@ import { NextRequest } from "next/server";
 const DEFAULT_PIN = "treqo2026";
 
 export function getAdminSecret(): string {
-  return (
+  const raw =
     process.env.ADMIN_SECRET_KEY ||
     process.env.ADMIN_PIN ||
     process.env.NEXT_PUBLIC_ADMIN_PIN ||
-    DEFAULT_PIN
-  );
+    DEFAULT_PIN;
+  return raw.replace(/^["']|["']$/g, "").trim();
 }
 
 export function isAuthorizedRequest(req: NextRequest): boolean {

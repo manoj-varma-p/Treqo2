@@ -139,7 +139,11 @@ const emptySubscribe = () => () => { };
 function useAdminSession() {
   return useSyncExternalStore(
     emptySubscribe,
-    () => (typeof window !== "undefined" ? sessionStorage.getItem("treqo_admin_auth") === "true" : false),
+    () =>
+      typeof window !== "undefined"
+        ? sessionStorage.getItem("treqo_admin_auth") === "true" &&
+          Boolean(sessionStorage.getItem("treqo_admin_pin"))
+        : false,
     () => false
   );
 }
@@ -159,6 +163,13 @@ export default function CustomAdminPanelPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedLeadForDetail, setSelectedLeadForDetail] = useState<Lead | null>(null);
   const [leadToDelete, setLeadToDelete] = useState<Lead | null>(null);
+
+  // Database Connection Status
+  const [dbStatus, setDbStatus] = useState<{
+    connected: boolean;
+    uriSet: boolean;
+    error?: string;
+  } | null>(null);
 
   // Theme Mode: "light" | "dark" (persisted in localStorage)
   const [adminTheme, setAdminTheme] = useState<"light" | "dark">("dark");
@@ -570,7 +581,7 @@ export default function CustomAdminPanelPage() {
       setLoadingLeads(true);
       const timestamp = Date.now();
 
-      const [leadsRes, contentRes] = await Promise.all([
+      const [leadsRes, contentRes, statusRes] = await Promise.all([
         fetch(`/api/leads?_t=${timestamp}`, {
           headers: { "x-admin-pin": pin },
           cache: "no-store",
@@ -579,7 +590,16 @@ export default function CustomAdminPanelPage() {
           headers: { "x-admin-pin": pin },
           cache: "no-store",
         }),
+        fetch(`/api/admin/status?_t=${timestamp}`, {
+          headers: { "x-admin-pin": pin },
+          cache: "no-store",
+        }),
       ]);
+
+      if (statusRes.ok) {
+        const s = await statusRes.json();
+        setDbStatus(s);
+      }
 
       if (leadsRes.ok) {
         const d = await leadsRes.json();
@@ -1961,6 +1981,29 @@ export default function CustomAdminPanelPage() {
 
         {/* Main Content Workspace */}
         <main className="p-4 sm:p-6 lg:p-8 space-y-6 flex-1 max-w-[1400px] w-full mx-auto">
+          {/* Database Disconnection Alert (Critical for Vercel) */}
+          {dbStatus && !dbStatus.connected && (
+            <div className="rounded-2xl border border-red-500/40 bg-red-500/10 p-4 sm:p-5 text-red-200 shadow-lg">
+              <div className="flex items-start gap-3">
+                <AlertCircle className="h-5 w-5 text-red-400 shrink-0 mt-0.5" />
+                <div className="space-y-2 text-xs flex-1">
+                  <div className="font-bold text-sm text-red-300">
+                    Database Disconnected: {dbStatus.error || "MONGODB_URI is not set in environment variables."}
+                  </div>
+                  <p className="text-red-200/90 leading-relaxed">
+                    On Vercel, the filesystem is read-only. Without a connected MongoDB instance, student admissions cannot be stored, content edits will not persist, and image uploads will fail.
+                  </p>
+                  <div className="rounded-xl bg-black/40 border border-red-500/20 p-3 space-y-1 font-mono text-[11px] text-red-200">
+                    <p className="font-sans font-bold text-red-300 text-xs">How to fix this in Vercel:</p>
+                    <p>1. Open your project in Vercel Dashboard → <strong>Settings</strong> → <strong>Environment Variables</strong></p>
+                    <p>2. Add <strong>MONGODB_URI</strong> with your connection string</p>
+                    <p>3. In MongoDB Atlas, go to <strong>Network Access</strong> and ensure <strong>0.0.0.0/0</strong> (Allow Anywhere) is enabled</p>
+                    <p>4. Redeploy your project</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           {/* ========================================================= */}
           {/* TAB: OVERVIEW DASHBOARD                                   */}
           {/* ========================================================= */}

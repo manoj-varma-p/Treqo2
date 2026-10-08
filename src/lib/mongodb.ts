@@ -1,6 +1,9 @@
 import { MongoClient, Db } from "mongodb";
 
-const dbName = process.env.MONGODB_DB || "treqo";
+const dbName =
+  (process.env.MONGODB_DB || process.env.MONGO_DB || process.env.MONGODB_DATABASE || "treqo")
+    .replace(/^["']|["']$/g, "")
+    .trim();
 
 declare global {
   // eslint-disable-next-line no-var
@@ -8,7 +11,7 @@ declare global {
 }
 
 function getCleanUri(): string {
-  const raw = process.env.MONGODB_URI || "";
+  const raw = process.env.MONGODB_URI || process.env.MONGO_URI || "";
   return raw.replace(/^["']|["']$/g, "").trim();
 }
 
@@ -75,7 +78,7 @@ export async function checkMongoConnection(): Promise<{
     return {
       connected: false,
       uriSet: false,
-      error: "MONGODB_URI is not set in environment variables.",
+      error: "MONGODB_URI (or MONGO_URI) is not set in environment variables.",
     };
   }
 
