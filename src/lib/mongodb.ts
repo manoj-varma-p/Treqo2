@@ -15,9 +15,12 @@ function getCleanUri(): string {
   return raw.replace(/^["']|["']$/g, "").trim();
 }
 
+let lastConnectionError = "";
+
 export async function getMongoClient(): Promise<MongoClient | null> {
   const cleanUri = getCleanUri();
   if (!cleanUri) {
+    lastConnectionError = "MONGODB_URI (or MONGO_URI) is empty";
     return null;
   }
 
@@ -34,10 +37,13 @@ export async function getMongoClient(): Promise<MongoClient | null> {
       global._mongoClientPromise = client
         .connect()
         .then((connectedClient) => {
+          lastConnectionError = "";
           return connectedClient;
         })
         .catch((err) => {
-          console.error("[MongoDB Connection Failed]:", err?.message || err);
+          const msg = err?.message || String(err);
+          lastConnectionError = msg;
+          console.error("[MongoDB Connection Failed]:", msg);
           global._mongoClientPromise = undefined;
           return null as unknown as MongoClient;
         });
@@ -51,7 +57,9 @@ export async function getMongoClient(): Promise<MongoClient | null> {
     }
     return c;
   } catch (error) {
-    console.error("[MongoDB Connection Error]:", error);
+    const msg = error instanceof Error ? error.message : String(error);
+    lastConnectionError = msg;
+    console.error("[MongoDB Connection Error]:", msg);
     global._mongoClientPromise = undefined;
     return null;
   }
@@ -88,7 +96,7 @@ export async function checkMongoConnection(): Promise<{
       return {
         connected: false,
         uriSet: true,
-        error: "Failed to establish client connection.",
+        error: lastConnectionError || "Failed to establish client connection.",
       };
     }
     // Ping database
