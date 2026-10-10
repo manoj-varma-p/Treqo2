@@ -68,8 +68,8 @@ import type {
 } from "@/lib/content-db";
 import { defaultFormSettings } from "@/types/forms";
 import AdminHeroTextTab from "@/components/admin/AdminHeroTextTab";
+import AdminSectionVisibilityTab from "@/components/admin/AdminSectionVisibilityTab";
 import AdminWhyTreqqoTab from "@/components/admin/AdminWhyTreqqoTab";
-import AdminPlacementsTab from "@/components/admin/AdminPlacementsTab";
 import AdminGovCertsTab from "@/components/admin/AdminGovCertsTab";
 import AdminCertificationsTab from "@/components/admin/AdminCertificationsTab";
 import AdminSixDecisionsTab from "@/components/admin/AdminSixDecisionsTab";
@@ -97,11 +97,11 @@ const TAB_TITLES: Record<string, { title: string; breadcrumb: string }> = {
   courses: { title: "Courses & Curriculum", breadcrumb: "Learning & Programs" },
   tutors: { title: "Mentors & Faculty", breadcrumb: "Learning & Programs" },
   whyTreqqo: { title: "CEO Challenge & Defense", breadcrumb: "Learning & Programs" },
-  placements: { title: "Batch Placements", breadcrumb: "Learning & Programs" },
   govCerts: { title: "Accreditations & Certificates", breadcrumb: "Credentials & Compliance" },
   certifications: { title: "Program Certifications", breadcrumb: "Credentials & Compliance" },
   sixDecisions: { title: "Six Decisions Framework", breadcrumb: "Credentials & Compliance" },
   hero: { title: "Homepage Hero Section (Text Only)", breadcrumb: "Content & Marketing" },
+  sectionVisibility: { title: "Section Visibility (Show / Hide)", breadcrumb: "Content & Marketing" },
   blogs: { title: "Articles & Insights", breadcrumb: "Content & Marketing" },
   faqs: { title: "Frequently Asked Questions", breadcrumb: "Content & Marketing" },
   pageKeywords: { title: "Page-Wise SEO & Keywords", breadcrumb: "System & Settings" },
@@ -222,13 +222,13 @@ export default function CustomAdminPanelPage() {
     | "banner"
     | "hero"
     | "whyTreqqo"
-    | "placements"
     | "govCerts"
     | "certifications"
     | "sixDecisions"
     | "footer"
     | "faqs"
     | "blogs"
+    | "sectionVisibility"
     | "pageKeywords"
     | "pageDescriptions"
     | "cookies"
@@ -4487,13 +4487,14 @@ export default function CustomAdminPanelPage() {
           )}
 
           {/* ========================================================= */}
-          {/* TAB: BATCH 1 PLACEMENTS / ALUMNI PROOF                    */}
+          {/* TAB: SECTION VISIBILITY (SHOW / HIDE SECTIONS)            */}
           {/* ========================================================= */}
-          {activeTab === "placements" && (
-            <AdminPlacementsTab
-              initialData={homeContent.executionProof}
+          {activeTab === "sectionVisibility" && (
+            <AdminSectionVisibilityTab
+              initialData={homeContent.sectionVisibility}
               adminPin={getStoredPin()}
-              onSaved={(updated) => setHomeContent((prev) => ({ ...prev, executionProof: updated }))}
+              onSaved={(updated) => setHomeContent((prev) => ({ ...prev, sectionVisibility: updated }))}
+              onNavigateTab={(tab) => setActiveTab(tab as typeof activeTab)}
             />
           )}
 

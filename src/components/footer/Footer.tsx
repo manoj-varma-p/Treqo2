@@ -47,7 +47,6 @@ interface FooterLink {
 const schoolLinks: FooterLink[] = [
   { label: "Method & Challenge", href: "/#method" },
   { label: "Why Treqo", href: "/#why-treqo" },
-  { label: "Batch 1 Outcomes", href: "/#placements" },
   { label: "Mentors & Faculty", href: "/#tutors" },
   { label: "Verified Certifications", href: "/#certs" },
   { label: "Frequently Asked Questions", href: "/#faq" },

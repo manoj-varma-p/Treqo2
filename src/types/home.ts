@@ -213,3 +213,31 @@ export interface FaqContent {
   heading: { line1: string; line2: string };
   cta: HeroCta;
 }
+
+export interface SectionVisibilitySettings {
+  announcementBanner?: boolean;
+  hero?: boolean;
+  keywordsTicker?: boolean;
+  courses?: boolean;
+  govCerts?: boolean;
+  whyTreqqo?: boolean;
+  mentors?: boolean;
+  certifications?: boolean;
+  sixDecisions?: boolean;
+  faqs?: boolean;
+  finalCta?: boolean;
+}
+
+export const defaultSectionVisibility: Required<SectionVisibilitySettings> = {
+  announcementBanner: true,
+  hero: true,
+  keywordsTicker: true,
+  courses: true,
+  govCerts: true,
+  whyTreqqo: true,
+  mentors: true,
+  certifications: true,
+  sixDecisions: true,
+  faqs: true,
+  finalCta: true,
+};

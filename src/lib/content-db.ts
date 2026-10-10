@@ -153,7 +153,14 @@ export interface HeroContent {
   watchVideoLabel?: string;
 }
 
+import {
+  type SectionVisibilitySettings,
+  defaultSectionVisibility,
+} from "@/types/home";
+export { type SectionVisibilitySettings, defaultSectionVisibility };
+
 export interface HomePageContent {
+  sectionVisibility?: SectionVisibilitySettings;
   hero: HeroContent;
   stats: Array<{
     value: string;
@@ -692,6 +699,11 @@ export async function getHomePageContentFromDb(): Promise<HomePageContent> {
       const doc = await db.collection("home_content").findOne({ _id: "home" as unknown as undefined });
       if (doc) {
         return {
+          sectionVisibility: {
+            ...defaultSectionVisibility,
+            ...(localData.sectionVisibility || {}),
+            ...(doc.sectionVisibility || {}),
+          },
           hero: {
             ...localData.hero,
             ...doc.hero,
@@ -728,7 +740,13 @@ export async function getHomePageContentFromDb(): Promise<HomePageContent> {
     console.error("[getHomePageContentFromDb] MongoDB read failed, using local:", err);
   }
 
-  return localData;
+  return {
+    ...localData,
+    sectionVisibility: {
+      ...defaultSectionVisibility,
+      ...(localData.sectionVisibility || {}),
+    },
+  };
 }
 
 export async function saveHomePageContentToDb(content: HomePageContent): Promise<void> {

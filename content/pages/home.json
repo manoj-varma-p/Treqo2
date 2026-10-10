@@ -1,4 +1,17 @@
 {
+  "sectionVisibility": {
+    "announcementBanner": true,
+    "hero": true,
+    "keywordsTicker": true,
+    "courses": true,
+    "govCerts": true,
+    "whyTreqqo": true,
+    "mentors": true,
+    "certifications": true,
+    "sixDecisions": true,
+    "faqs": true,
+    "finalCta": true
+  },
   "hero": {
     "eyebrow": "Madhapur, Hyderabad",
     "headlineLines": [

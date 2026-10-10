@@ -21,6 +21,7 @@ import {
   ShieldCheck,
   Activity,
   Cookie,
+  Eye,
 } from "lucide-react";
 import type { Lead } from "@/lib/leads-db";
 import type { CourseItem } from "@/lib/content-db";
@@ -124,12 +125,12 @@ export default function CommandPalette({
         onSelect: () => onSelectTab("whyTreqqo"),
       },
       {
-        id: "nav-placements",
+        id: "nav-section-visibility",
         category: "Navigation",
-        title: "Batch Placements & Outcomes",
-        subtitle: "Verified alumni packages & partner hiring network",
-        icon: <Trophy className="h-4 w-4 text-[#3B0D3B]" />,
-        onSelect: () => onSelectTab("placements"),
+        title: "Section Visibility (Show / Hide)",
+        subtitle: "Toggle visibility of any homepage section on live website",
+        icon: <Eye className="h-4 w-4 text-[#3B0D3B]" />,
+        onSelect: () => onSelectTab("sectionVisibility"),
       },
       {
         id: "nav-gov",

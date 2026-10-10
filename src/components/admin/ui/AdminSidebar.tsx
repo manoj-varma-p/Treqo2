@@ -29,6 +29,7 @@ import {
   Moon,
   Activity,
   Cookie,
+  Eye,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -148,11 +149,6 @@ export default function AdminSidebar({
           label: "CEO Challenge & Defense",
           icon: Compass,
         },
-        {
-          id: "placements",
-          label: "Batch Placements",
-          icon: Trophy,
-        },
       ],
     },
     {
@@ -173,6 +169,13 @@ export default function AdminSidebar({
     {
       groupTitle: "CONTENT & MARKETING",
       items: [
+        {
+          id: "sectionVisibility",
+          label: "Section Visibility",
+          icon: Eye,
+          badge: "Show/Hide",
+          badgeVariant: "solid",
+        },
         {
           id: "hero",
           label: "Hero Section (Text)",

@@ -23,7 +23,6 @@ export const announcementBannerData = {
 export const primaryNavItems: NavItem[] = [
   { key: "courses", label: "Courses", href: "/#courses" },
   { key: "method", label: "Method", href: "/#method" },
-  { key: "placements", label: "Placements", href: "/#placements" },
   { key: "why-treqo", label: "Why Treqo", href: "/#why-treqo" },
   { key: "blog", label: "Blog", href: "/blog", isHighlighted: true, badge: "New" },
   { key: "faq", label: "FAQ", href: "/#faq" },
@@ -56,12 +55,12 @@ export const megaMenuData: MegaMenuData = {
     {
       title: "Career Paths",
       links: [
-        { label: "Performance Marketing Lead", href: "/#placements" },
-        { label: "Growth Marketing Specialist", href: "/#placements" },
-        { label: "Brand & Creative Strategist", href: "/#placements" },
-        { label: "SEO & Content Lead", href: "/#placements" },
-        { label: "Social Media & Media Buyer", href: "/#placements" },
-        { label: "Founder & Venture Builder", href: "/#placements" },
+        { label: "Performance Marketing Lead", href: "/#courses" },
+        { label: "Growth Marketing Specialist", href: "/#courses" },
+        { label: "Brand & Creative Strategist", href: "/#courses" },
+        { label: "SEO & Content Lead", href: "/#courses" },
+        { label: "Social Media & Media Buyer", href: "/#courses" },
+        { label: "Founder & Venture Builder", href: "/#courses" },
       ],
     },
     {

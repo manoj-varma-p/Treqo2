@@ -6,7 +6,6 @@ import Hero from "@/components/home/Hero";
 import KeywordsTicker from "@/components/home/KeywordsTicker";
 import LearningSystem from "@/components/home/LearningSystem";
 import WhyTreqqo from "@/components/home/WhyTreqqo";
-import ExecutionProof from "@/components/home/ExecutionProof";
 import TaughtBy from "@/components/home/TaughtBy";
 import Certifications from "@/components/home/Certifications";
 import SixDecisions from "@/components/home/SixDecisions";
@@ -80,10 +79,12 @@ export default async function Home() {
     getCourses(),
   ]);
 
+  const visibility = homeContent.sectionVisibility || {};
+
   return (
     <div className="flex min-h-screen flex-col bg-[#FDFAF6] text-[#1A0A1A]">
       {/* Top Announcement Banner */}
-      <AnnouncementBanner />
+      {visibility.announcementBanner !== false && <AnnouncementBanner />}
 
       {/* Mobile Top Header (Sticky on mobile) */}
       <div className="lg:hidden sticky top-0 inset-x-0 z-50 bg-[#FDFAF6]/95 backdrop-blur-md border-b border-[#F5EDE0] shadow-xs text-[#1A0A1A]">
@@ -93,17 +94,16 @@ export default async function Home() {
       </div>
 
       <main className="flex-1">
-        <Hero />
-        <KeywordsTicker />
-        <LearningSystem initialPrograms={courses} />
-        <GovCertSection content={homeContent.govCerts} />
-        <WhyTreqqo content={homeContent.whyTreqqo} />
-        <ExecutionProof content={homeContent.executionProof} />
-        <TaughtBy tutors={tutors} sectionContent={homeContent.mentors} />
-        <Certifications content={homeContent.certifications} />
-        <SixDecisions content={homeContent.sixDecisions} />
-        <FaqSection />
-        <FinalCta />
+        {visibility.hero !== false && <Hero />}
+        {visibility.keywordsTicker !== false && <KeywordsTicker />}
+        {visibility.courses !== false && <LearningSystem initialPrograms={courses} />}
+        {visibility.govCerts !== false && <GovCertSection content={homeContent.govCerts} />}
+        {visibility.whyTreqqo !== false && <WhyTreqqo content={homeContent.whyTreqqo} />}
+        {visibility.mentors !== false && <TaughtBy tutors={tutors} sectionContent={homeContent.mentors} />}
+        {visibility.certifications !== false && <Certifications content={homeContent.certifications} />}
+        {visibility.sixDecisions !== false && <SixDecisions content={homeContent.sixDecisions} />}
+        {visibility.faqs !== false && <FaqSection />}
+        {visibility.finalCta !== false && <FinalCta />}
       </main>
       <Footer settings={generalSettings} />
       <InstagramVideoPopup />
