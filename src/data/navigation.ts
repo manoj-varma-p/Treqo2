@@ -68,7 +68,7 @@ export const megaMenuData: MegaMenuData = {
       links: [
         { label: "Blog & Field Notes", href: "/blog", icon: BookOpen },
         { label: "Verified Certifications", href: "/#certs", icon: FileText },
-        { label: "Curriculum Syllabus (PDF)", href: "/curriculum/new-age-digital-marketing-curriculum.pdf", icon: Wrench },
+        { label: "Curriculum Syllabus (PDF)", href: "/brochure", icon: Wrench },
         { label: "Practitioner Mentors", href: "/#tutors", icon: LayoutTemplate },
         { label: "The CEO Challenge Method", href: "/#method", icon: FolderKanban },
         { label: "Frequently Asked Questions", href: "/#faq", icon: Mic2 },

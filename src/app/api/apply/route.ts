@@ -167,8 +167,12 @@ export async function POST(request: Request) {
       }
 
       // 2. Dispatch Email Alerts to configured addresses
-      if (alertConfig.emailAlertsEnabled && alertConfig.notifyEmails) {
-        const emailList = alertConfig.notifyEmails.split(",").map((e: string) => e.trim()).filter(Boolean);
+      if (alertConfig.emailAlertsEnabled !== false) {
+        const rawEmails = alertConfig.notifyEmails || "treqo.themarketingschool@gmail.com";
+        const emailList = rawEmails.split(",").map((e: string) => e.trim()).filter(Boolean);
+        if (emailList.length === 0) {
+          emailList.push("treqo.themarketingschool@gmail.com");
+        }
         console.log(`[Email Alert] Dispatching to ${emailList.length} emails:`, emailList);
 
         const emailHtml = `
@@ -221,11 +225,20 @@ export async function POST(request: Request) {
 
         // Send real email via Resend
         sendEmailViaResend({
+          apiKey: alertConfig.resendApiKey || process.env.RESEND_API_KEY,
           to: emailList,
           subject: `🚨 New Lead: ${name} applied for ${course}`,
           html: emailHtml,
           text: alertMessage,
-        }).catch((err: unknown) => console.error("[Resend Lead Email Error]:", err));
+        })
+          .then((res) => {
+            if (res.success) {
+              console.log("[Resend Lead Email Success] ID:", res.id);
+            } else {
+              console.error("[Resend Lead Email Failed]:", res.error);
+            }
+          })
+          .catch((err: unknown) => console.error("[Resend Lead Email Error]:", err));
 
         if (alertConfig.webhookUrl) {
           fetch(alertConfig.webhookUrl, {

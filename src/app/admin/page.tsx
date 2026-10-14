@@ -303,6 +303,18 @@ export default function CustomAdminPanelPage() {
 
   const [pageSeo, setPageSeo] = useState<PageSeoItem[]>([]);
 
+  // Brochure / Syllabus PDF State (MongoDB GridFS)
+  const [brochureInfo, setBrochureInfo] = useState<{
+    filename: string;
+    originalName: string;
+    size: number;
+    updatedAt: string;
+    storedInMongo: boolean;
+    downloadUrl: string;
+  } | null>(null);
+  const [isUploadingBrochure, setIsUploadingBrochure] = useState(false);
+  const [brochureFile, setBrochureFile] = useState<File | null>(null);
+
   const [navigationSettings, setNavigationSettings] = useState<NavigationSettings>({
     bannerBadge: "BATCH 2 · 50 SEATS",
     bannerText: "Enrollments close on 4th October 2026.",
@@ -620,10 +632,65 @@ export default function CustomAdminPanelPage() {
         if (d.forms) setFormSettings(d.forms);
         if (d.pageSeo) setPageSeo(d.pageSeo);
       }
+      loadBrochureInfo();
     } catch (err) {
       console.error("Data load error:", err);
     } finally {
       setLoadingLeads(false);
+    }
+  }
+
+  async function loadBrochureInfo() {
+    try {
+      const res = await fetch("/api/admin/brochure");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.brochure) {
+          setBrochureInfo(data.brochure);
+        }
+      }
+    } catch (err) {
+      console.error("Brochure load error:", err);
+    }
+  }
+
+  async function handleBrochureUpload(e?: React.FormEvent) {
+    if (e) e.preventDefault();
+    if (!brochureFile) {
+      notifyError("Please select a PDF brochure file first.");
+      return;
+    }
+    if (!brochureFile.name.toLowerCase().endsWith(".pdf")) {
+      notifyError("Only PDF files (.pdf) are allowed.");
+      return;
+    }
+
+    setIsUploadingBrochure(true);
+    try {
+      const pin = getStoredPin();
+      const formData = new FormData();
+      formData.append("file", brochureFile);
+
+      const res = await fetch("/api/admin/brochure", {
+        method: "POST",
+        headers: { "x-admin-pin": pin },
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        notifySuccess("Brochure updated and stored in database successfully!");
+        setBrochureInfo(data.brochure);
+        setBrochureFile(null);
+        const input = document.getElementById("brochure-file-input") as HTMLInputElement;
+        if (input) input.value = "";
+      } else {
+        notifyError(data.error || "Failed to upload brochure to database.");
+      }
+    } catch {
+      notifyError("Connection error while uploading brochure.");
+    } finally {
+      setIsUploadingBrochure(false);
     }
   }
 
@@ -4458,6 +4525,108 @@ export default function CustomAdminPanelPage() {
                       placeholder="e.g. Get the full week-by-week phase roadmap, deliverables & toolstack."
                       className="mt-1.5 w-full rounded-xl border border-[#3B0D3B]/15 bg-white px-4 py-2.5 text-xs text-[#0B0B0F] placeholder:text-slate-400 focus:border-[#3B0D3B] focus:outline-none"
                     />
+                  </div>
+                </div>
+
+                {/* 4. BROCHURE & SYLLABUS PDF MANAGEMENT (STORED IN MONGODB) */}
+                <div className="rounded-3xl border border-[#3B0D3B]/10 bg-white p-6 sm:p-8 space-y-5 shadow-sm">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-[#3B0D3B]/10 pb-4">
+                    <div className="flex items-center gap-2">
+                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <div>
+                        <h3 className="text-sm font-bold text-[#0B0B0F]">Downloadable Brochure &amp; Curriculum PDF</h3>
+                        <p className="text-[11px] text-[#5A4A5A]">Stored securely in MongoDB GridFS and synced to all download links site-wide.</p>
+                      </div>
+                    </div>
+                    <span className="self-start sm:self-auto text-[10px] text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">
+                      {brochureInfo?.storedInMongo ? "MongoDB Connected" : "Local File Backup"}
+                    </span>
+                  </div>
+
+                  {/* Current Active Brochure Status Card */}
+                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 rounded-2xl border border-emerald-500/20 bg-emerald-50/40 p-4 sm:p-5">
+                    <div className="flex items-center gap-3.5">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-sm">
+                        <FileText className="h-6 w-6" />
+                      </div>
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-2">
+                          <p className="text-xs sm:text-sm font-extrabold text-[#0B0B0F]">
+                            {brochureInfo?.originalName || "Treqo Student Syllabus.pdf"}
+                          </p>
+                          <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[9px] font-bold text-emerald-800">
+                            Active
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-[#5A4A5A]">
+                          File size:{" "}
+                          <span className="font-semibold text-[#0B0B0F]">
+                            {brochureInfo?.size ? `${(brochureInfo.size / (1024 * 1024)).toFixed(2)} MB` : "11.42 MB"}
+                          </span>
+                          {" · "}Last updated:{" "}
+                          <span className="font-semibold text-[#0B0B0F]">
+                            {brochureInfo?.updatedAt ? new Date(brochureInfo.updatedAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "Just now"}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+
+                    <a
+                      href="/api/admin/brochure?download=true"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-600/30 bg-white hover:bg-emerald-50 px-3.5 py-2 text-xs font-bold text-emerald-800 shadow-2xs transition-all active:scale-95 cursor-pointer"
+                    >
+                      <Download className="h-3.5 w-3.5" />
+                      <span>Download / Preview Active PDF</span>
+                    </a>
+                  </div>
+
+                  {/* Upload & Replace Brochure Option */}
+                  <div className="rounded-2xl border border-[#3B0D3B]/10 bg-[#FAF5EE]/40 p-4 sm:p-5 space-y-3">
+                    <label className="block text-xs font-bold text-[#0B0B0F]">
+                      Upload New Brochure PDF (Replaces current database file)
+                    </label>
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                      <label className="relative flex-1 cursor-pointer">
+                        <input
+                          id="brochure-file-input"
+                          type="file"
+                          accept=".pdf,application/pdf"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0] || null;
+                            setBrochureFile(file);
+                          }}
+                          className="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#3B0D3B] file:text-white hover:file:bg-[#2A082A] file:cursor-pointer cursor-pointer border border-[#3B0D3B]/15 bg-white rounded-xl p-1"
+                        />
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => handleBrochureUpload()}
+                        disabled={!brochureFile || isUploadingBrochure}
+                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 px-5 py-2.5 text-xs font-bold text-white shadow-md active:scale-95 transition-all disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
+                      >
+                        {isUploadingBrochure ? (
+                          <>
+                            <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                            <span>Uploading to DB...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="h-3.5 w-3.5" />
+                            <span>Replace &amp; Save to DB</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    {brochureFile && (
+                      <p className="text-[11px] text-emerald-700 font-semibold">
+                        Ready to upload: {brochureFile.name} ({(brochureFile.size / (1024 * 1024)).toFixed(2)} MB)
+                      </p>
+                    )}
+                    <p className="text-[11px] text-[#5A4A5A]">
+                      Supports PDF files up to 50MB. Uploading automatically updates MongoDB GridFS and all website brochure download links.
+                    </p>
                   </div>
                 </div>
 

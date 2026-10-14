@@ -7,7 +7,7 @@
     "badgeVariant": "blue",
     "duration": "4 months · Online",
     "meta": "4 months · Online",
-    "description": "The flagship. 12 phases, 30+ real brand projects, Ceo challenge, AI in the workflow from phase one. Batch 2 starts Oct 2026.",
+    "description": "The flagship. 12 phases, 30+ real brand projects, CEO challenge, AI in the workflow from phase one. Batch 2  starts from Oct 2026.",
     "isFlagship": true,
     "isLocked": false,
     "batch": "Batch 2 · Oct 2026",
@@ -26,7 +26,108 @@
       "Flagship"
     ],
     "order": 1,
-    "phases": null,
+    "phases": {
+      "heading": "The 12 phases",
+      "intro": "Foundations, customer insights, funnels, discovery, execution, brand, media, social, growth, revenue, automation, and leadership, in that order. You can't position a brand you haven't understood or scale demand you haven't earned, so the sequence isn't a syllabus. It's the argument.",
+      "groups": [
+        {
+          "eyebrow": "PHASE 01",
+          "heading": "MARKETING FOUNDATIONS",
+          "range": "01",
+          "lessons": [
+            "Understand what marketing actually is, before touching a tool, ad or campaign."
+          ]
+        },
+        {
+          "eyebrow": "PHASE 02",
+          "heading": "CUSTOMER + MARKET UNDERSTANDING",
+          "range": "02",
+          "lessons": [
+            "Learn how customers think, what they want, and what makes them choose one brand over another."
+          ]
+        },
+        {
+          "eyebrow": "PHASE 03",
+          "heading": "FUNNELS + METRICS",
+          "range": "03",
+          "lessons": [
+            "Understand how people move from attention to purchase, and where businesses lose them."
+          ]
+        },
+        {
+          "eyebrow": "PHASE 04",
+          "heading": "IDEA + PROBLEM DISCOVERY",
+          "range": "04",
+          "lessons": [
+            "Learn to spot real problems worth solving instead of building around assumptions."
+          ]
+        },
+        {
+          "eyebrow": "PHASE 05",
+          "heading": "MARKET EXECUTION",
+          "range": "05",
+          "lessons": [
+            "Turn an idea into an offer, validate demand, and figure out how to take it to market."
+          ]
+        },
+        {
+          "eyebrow": "PHASE 06",
+          "heading": "BRAND STRATEGY & MARKET POSITIONING",
+          "range": "06",
+          "lessons": [
+            "Build brands people can recognise, remember and choose."
+          ]
+        },
+        {
+          "eyebrow": "PHASE 07",
+          "heading": "MEDIA STRATEGY & SEARCH & WEBSITE ECOSYSTEM",
+          "range": "07",
+          "lessons": [
+            "Learn how SEO, search and websites capture existing demand and turn intent into action."
+          ]
+        },
+        {
+          "eyebrow": "PHASE 08",
+          "heading": "META & SOCIAL MEDIA ECOSYSTEM",
+          "range": "08",
+          "lessons": [
+            "Understand attention, content and paid social, and how to turn scrolling into action."
+          ]
+        },
+        {
+          "eyebrow": "PHASE 09",
+          "heading": "PERFORMANCE + GROWTH",
+          "range": "09",
+          "lessons": [
+            "Learn to optimise campaigns, scale what works and grow across platforms and marketplaces."
+          ]
+        },
+        {
+          "eyebrow": "PHASE 10",
+          "heading": "REVENUE + SALES",
+          "range": "10",
+          "lessons": [
+            "Connect marketing to sales, offers, funnels and the numbers that actually move the business."
+          ]
+        },
+        {
+          "eyebrow": "PHASE 11",
+          "heading": "AUTOMATION + AI",
+          "range": "11",
+          "lessons": [
+            "Build smarter marketing systems using automation and AI without replacing strategic thinking."
+          ]
+        },
+        {
+          "eyebrow": "PHASE 12",
+          "heading": "ANALYTICS + LEADERSHIP",
+          "range": "12",
+          "lessons": [
+            "Read the numbers, find the revenue leaks and think like the person responsible for growth."
+          ]
+        }
+      ]
+    },
     "challenge": null,
     "careerRoles": null,
     "proof": null,

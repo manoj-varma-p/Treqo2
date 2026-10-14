@@ -239,6 +239,14 @@ export default function CommandPalette({
           ]
         : []),
       {
+        id: "action-manage-brochure",
+        category: "Quick Actions",
+        title: "Manage & Change Brochure (Syllabus PDF)",
+        subtitle: "View or upload new PDF stored in MongoDB",
+        icon: <FileText className="h-4 w-4 text-emerald-600" />,
+        onSelect: () => onSelectTab("forms"),
+      },
+      {
         id: "action-view-site",
         category: "Quick Actions",
         title: "Open Live Public Website",

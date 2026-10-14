@@ -336,32 +336,111 @@ export default function AdminCourseEditor({
     }));
   }
 
-  // Phases helpers
-  const phasesData: CoursePhasesData = course.phases || {
-    heading: "The 12 phases",
-    intro:
-      "Foundations, customer insights, funnels, discovery, execution, brand, media, social, growth, revenue, automation, and leadership, in that order.",
-    groups: [
-      {
-        eyebrow: "PHASE 01",
-        heading: "MARKETING FOUNDATIONS",
-        range: "01",
-        lessons: ["Understand what marketing actually is, before touching a tool, ad or campaign."],
+  // Master 12 phases from curriculum
+  const MASTER_12_PHASES: CoursePhaseGroup[] = [
+    {
+      eyebrow: "PHASE 01",
+      heading: "MARKETING FOUNDATIONS",
+      range: "01",
+      lessons: ["Understand what marketing actually is, before touching a tool, ad or campaign."],
+    },
+    {
+      eyebrow: "PHASE 02",
+      heading: "CUSTOMER + MARKET UNDERSTANDING",
+      range: "02",
+      lessons: ["Learn how customers think, what they want, and what makes them choose one brand over another."],
+    },
+    {
+      eyebrow: "PHASE 03",
+      heading: "FUNNELS + METRICS",
+      range: "03",
+      lessons: ["Understand how people move from attention to purchase, and where businesses lose them."],
+    },
+    {
+      eyebrow: "PHASE 04",
+      heading: "IDEA + PROBLEM DISCOVERY",
+      range: "04",
+      lessons: ["Learn to spot real problems worth solving instead of building around assumptions."],
+    },
+    {
+      eyebrow: "PHASE 05",
+      heading: "MARKET EXECUTION",
+      range: "05",
+      lessons: ["Turn an idea into an offer, validate demand, and figure out how to take it to market."],
+    },
+    {
+      eyebrow: "PHASE 06",
+      heading: "BRAND STRATEGY & MARKET POSITIONING",
+      range: "06",
+      lessons: ["Build brands people can recognise, remember and choose."],
+    },
+    {
+      eyebrow: "PHASE 07",
+      heading: "MEDIA STRATEGY & SEARCH & WEBSITE ECOSYSTEM",
+      range: "07",
+      lessons: ["Learn how SEO, search and websites capture existing demand and turn intent into action."],
+    },
+    {
+      eyebrow: "PHASE 08",
+      heading: "META & SOCIAL MEDIA ECOSYSTEM",
+      range: "08",
+      lessons: ["Understand attention, content and paid social, and how to turn scrolling into action."],
+    },
+    {
+      eyebrow: "PHASE 09",
+      heading: "PERFORMANCE + GROWTH",
+      range: "09",
+      lessons: ["Learn to optimise campaigns, scale what works and grow across platforms and marketplaces."],
+    },
+    {
+      eyebrow: "PHASE 10",
+      heading: "REVENUE + SALES",
+      range: "10",
+      lessons: ["Connect marketing to sales, offers, funnels and the numbers that actually move the business."],
+    },
+    {
+      eyebrow: "PHASE 11",
+      heading: "AUTOMATION + AI",
+      range: "11",
+      lessons: ["Build smarter marketing systems using automation and AI without replacing strategic thinking."],
+    },
+    {
+      eyebrow: "PHASE 12",
+      heading: "ANALYTICS + LEADERSHIP",
+      range: "12",
+      lessons: ["Read the numbers, find the revenue leaks and think like the person responsible for growth."],
+    },
+  ];
+
+  // Phases helpers — if course has fewer than 12 phases for flagship, default to full 12 phases
+  const phasesData: CoursePhasesData =
+    course.phases && course.phases.groups && course.phases.groups.length >= 12
+      ? course.phases
+      : course.phases && course.phases.groups && course.phases.groups.length > 0 && course.id !== "digital-marketing"
+      ? course.phases
+      : {
+          heading: course.phases?.heading || "The 12 phases",
+          intro:
+            course.phases?.intro ||
+            "Foundations, customer insights, funnels, discovery, execution, brand, media, social, growth, revenue, automation, and leadership, in that order. You can't position a brand you haven't understood or scale demand you haven't earned, so the sequence isn't a syllabus. It's the argument.",
+          groups:
+            course.phases?.groups && course.phases.groups.length === 12
+              ? course.phases.groups
+              : MASTER_12_PHASES,
+        };
+
+  function loadAll12Phases() {
+    setCourse({
+      ...course,
+      phases: {
+        heading: "The 12 phases",
+        intro:
+          "Foundations, customer insights, funnels, discovery, execution, brand, media, social, growth, revenue, automation, and leadership, in that order. You can't position a brand you haven't understood or scale demand you haven't earned, so the sequence isn't a syllabus. It's the argument.",
+        groups: MASTER_12_PHASES,
       },
-      {
-        eyebrow: "PHASE 02",
-        heading: "CUSTOMER + MARKET UNDERSTANDING",
-        range: "02",
-        lessons: ["Learn how customers think, what they want, and what makes them choose one brand over another."],
-      },
-      {
-        eyebrow: "PHASE 03",
-        heading: "FUNNELS + METRICS",
-        range: "03",
-        lessons: ["Understand how people move from attention to purchase, and where businesses lose them."],
-      },
-    ],
-  };
+    });
+    setStatusMsg({ type: "success", text: "Loaded all 12 master curriculum phases! Click 'Save Course Changes' to commit." });
+  }
 
   function updatePhaseGroup(index: number, updated: Partial<CoursePhaseGroup>) {
     const newGroups = [...phasesData.groups];
@@ -1087,19 +1166,35 @@ export default function AdminCourseEditor({
         <div className="rounded-3xl border border-[#3B0D3B]/10 bg-white p-6 sm:p-8 space-y-6 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-lg font-bold text-[#0B0B0F]">Curriculum &amp; Structured Phases</h3>
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-bold text-[#0B0B0F]">Curriculum &amp; Structured Phases</h3>
+                <span className="rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[10px] font-extrabold text-emerald-800">
+                  {phasesData.groups.length} Phases Active
+                </span>
+              </div>
               <p className="text-xs text-[#5A4A5A] mt-0.5">
-                Manage the structured execution phases shown on the public course page.
+                Manage the structured execution phases shown on the public course page. All edits reflect live immediately upon saving.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={addPhaseGroup}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#3B0D3B] hover:bg-[#2A082A] px-4 py-2 text-xs font-bold text-white shadow-md cursor-pointer transition-all self-start sm:self-auto"
-            >
-              <Plus className="h-4 w-4" />
-              <span>Add Phase Module</span>
-            </button>
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={loadAll12Phases}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-[#3B0D3B]/20 bg-white hover:bg-[#FAF5EE] px-3.5 py-2 text-xs font-bold text-[#3B0D3B] shadow-xs cursor-pointer transition-all active:scale-95"
+                title="Populate full 12 phases from syllabus"
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+                <span>Load All 12 Phases</span>
+              </button>
+              <button
+                type="button"
+                onClick={addPhaseGroup}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-[#3B0D3B] hover:bg-[#2A082A] px-4 py-2 text-xs font-bold text-white shadow-md cursor-pointer transition-all active:scale-95"
+              >
+                <Plus className="h-4 w-4" />
+                <span>Add Phase Module</span>
+              </button>
+            </div>
           </div>
 
           {/* Section Heading & Argument */}

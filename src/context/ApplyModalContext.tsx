@@ -29,7 +29,7 @@ export function ApplyModalProvider({ children }: { children: ReactNode }) {
 
   const [isCurriculumOpen, setIsCurriculumOpen] = useState(false);
   const [curriculumCourse, setCurriculumCourse] = useState("New Age Digital Marketing");
-  const [curriculumPdfUrl, setCurriculumPdfUrl] = useState("/curriculum/new-age-digital-marketing-curriculum.pdf");
+  const [curriculumPdfUrl, setCurriculumPdfUrl] = useState("/brochure");
 
   const [forms, setForms] = useState<FormSettings>(defaultFormSettings);
 
@@ -89,7 +89,7 @@ function detectCourseFromUrl(): string | undefined {
     if (pdfUrl) {
       setCurriculumPdfUrl(pdfUrl);
     } else {
-      setCurriculumPdfUrl("/curriculum/new-age-digital-marketing-curriculum.pdf");
+      setCurriculumPdfUrl("/brochure");
     }
     setIsCurriculumOpen(true);
   }

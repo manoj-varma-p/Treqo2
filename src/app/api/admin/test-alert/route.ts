@@ -62,6 +62,7 @@ export async function POST(req: NextRequest) {
       `;
 
       emailResult = await sendEmailViaResend({
+        apiKey: alertConfig.resendApiKey || process.env.RESEND_API_KEY,
         to: emailList,
         subject: "🔔 [Test Alert] Treqo Email Alert Integration Verified",
         html: htmlContent,

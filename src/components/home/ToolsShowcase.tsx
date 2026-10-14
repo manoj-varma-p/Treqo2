@@ -60,12 +60,13 @@ export default function ToolsShowcase() {
 
       <Container>
         <div className="mt-8 flex justify-center lg:mt-10">
-          <Link
-            href={toolsContent.cta.href}
-            className="inline-flex items-center justify-center rounded-full bg-brand-primary px-8 py-3.5 text-sm font-semibold text-white shadow-[0_10px_25px_-8px_rgba(58,22,147,0.6)] transition-colors duration-200 hover:bg-brand-primary-dark sm:text-base"
+          <a
+            href="/brochure"
+            download="Treqo_Student_Syllabus.pdf"
+            className="inline-flex items-center justify-center rounded-full bg-brand-primary px-8 py-3.5 text-sm font-semibold text-white shadow-[0_10px_25px_-8px_rgba(58,22,147,0.6)] transition-colors duration-200 hover:bg-brand-primary-dark sm:text-base cursor-pointer"
           >
             {toolsContent.cta.label}
-          </Link>
+          </a>
         </div>
       </Container>
     </section>

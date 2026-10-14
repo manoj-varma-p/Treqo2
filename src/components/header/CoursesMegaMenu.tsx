@@ -342,7 +342,7 @@ export default function CoursesMegaMenu({ onClose, onNavClick }: CoursesMegaMenu
                 type="button"
                 onClick={() => {
                   onClose();
-                  openCurriculumModal(flagship.title, "/curriculum/new-age-digital-marketing-curriculum.pdf");
+                  openCurriculumModal(flagship.title, "/brochure");
                 }}
                 className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-white/20 bg-white/10 py-2 text-xs font-semibold text-white/90 hover:bg-white/15 transition-colors cursor-pointer"
               >

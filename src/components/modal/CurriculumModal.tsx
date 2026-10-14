@@ -104,9 +104,12 @@ export default function CurriculumModal() {
       }
 
       // Automatically trigger file download
+      const targetUrl = curriculumPdfUrl && !curriculumPdfUrl.includes("new-age-digital-marketing-curriculum.pdf")
+        ? curriculumPdfUrl
+        : "/brochure";
       const downloadLink = document.createElement("a");
-      downloadLink.href = curriculumPdfUrl || "/curriculum/new-age-digital-marketing-curriculum.pdf";
-      downloadLink.download = `${curriculumCourse.replace(/\s+/g, "_")}_Curriculum.pdf`;
+      downloadLink.href = `${targetUrl}${targetUrl.includes("?") ? "&" : "?"}t=${Date.now()}`;
+      downloadLink.download = "Treqo_Student_Syllabus.pdf";
       downloadLink.target = "_blank";
       document.body.appendChild(downloadLink);
       downloadLink.click();
@@ -186,8 +189,8 @@ export default function CurriculumModal() {
             </p>
 
             <a
-              href={curriculumPdfUrl || "/curriculum/new-age-digital-marketing-curriculum.pdf"}
-              download={`${curriculumCourse.replace(/\s+/g, "_")}_Curriculum.pdf`}
+              href={`/brochure?t=${Date.now()}`}
+              download="Treqo_Student_Syllabus.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-5 inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#3B0D3B] hover:underline"
