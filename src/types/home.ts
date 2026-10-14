@@ -119,6 +119,8 @@ export interface CoursePhaseGroup {
   /** Numbered range covered by this group, e.g. "01-02". */
   range: string;
   lessons: string[];
+  /** When true, highlights this phase as a key milestone with deep brand gradient */
+  isHighlighted?: boolean;
 }
 
 export interface CourseFeePlan {

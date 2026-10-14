@@ -53,7 +53,10 @@ export default function PhaseAccordion({ groups = [] }: PhaseAccordionProps) {
         {groups.map((group, originalIndex) => {
           const isOpen = expandedIndices.includes(originalIndex);
           const phaseNum = group.range || String(originalIndex + 1).padStart(2, "0");
-          const isHighlighted = phaseNum === "04" || group.heading.toUpperCase().includes("IDEA + PROBLEM DISCOVERY") || group.heading.toUpperCase().includes("PROBLEM DISCOVERY");
+          const isHighlighted =
+            typeof group.isHighlighted === "boolean"
+              ? group.isHighlighted
+              : (phaseNum === "04" || group.heading.toUpperCase().includes("IDEA + PROBLEM DISCOVERY") || group.heading.toUpperCase().includes("PROBLEM DISCOVERY"));
 
           return (
             <div

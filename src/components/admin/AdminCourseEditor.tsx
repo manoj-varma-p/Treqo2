@@ -6,6 +6,7 @@ import {
   ArrowLeft,
   Save,
   Upload,
+  Download,
   RefreshCw,
   Trash2,
   Lock,
@@ -29,6 +30,7 @@ import {
   Globe,
   Compass,
   Loader2,
+  Sparkles,
 } from "lucide-react";
 import { formatCourseSlug } from "@/lib/seo-utils";
 import type {
@@ -142,6 +144,67 @@ export default function AdminCourseEditor({
   // Keyword states
   const [newKeywordInput, setNewKeywordInput] = useState("");
   const [bulkKeywordInput, setBulkKeywordInput] = useState("");
+
+  // Syllabus / Brochure PDF states
+  const brochureFileInputRef = useRef<HTMLInputElement | null>(null);
+  const [isUploadingBrochure, setIsUploadingBrochure] = useState(false);
+  const [brochureInfo, setBrochureInfo] = useState<{
+    originalName: string;
+    size: number;
+    updatedAt: string;
+  } | null>(null);
+
+  useEffect(() => {
+    fetch("/api/admin/brochure?_t=" + Date.now(), { cache: "no-store" })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success && data.brochure) {
+          setBrochureInfo({
+            originalName: data.brochure.originalName,
+            size: data.brochure.size,
+            updatedAt: data.brochure.updatedAt,
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  async function handleBrochureUpload(file: File) {
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith(".pdf")) {
+      setStatusMsg({ type: "error", text: "Please upload a valid PDF document (.pdf)." });
+      return;
+    }
+    setIsUploadingBrochure(true);
+    setStatusMsg(null);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/admin/brochure", {
+        method: "POST",
+        headers: { "x-admin-pin": adminPin },
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setBrochureInfo({
+          originalName: data.brochure?.originalName || file.name,
+          size: file.size,
+          updatedAt: new Date().toISOString(),
+        });
+        setStatusMsg({
+          type: "success",
+          text: `New syllabus PDF "${data.brochure?.originalName || file.name}" uploaded to MongoDB and deployed live!`,
+        });
+      } else {
+        setStatusMsg({ type: "error", text: data.error || "Failed to upload brochure." });
+      }
+    } catch {
+      setStatusMsg({ type: "error", text: "Network error while uploading curriculum PDF." });
+    } finally {
+      setIsUploadingBrochure(false);
+    }
+  }
 
   function isImage(file: File) {
     if (!file) return false;
@@ -361,6 +424,7 @@ export default function AdminCourseEditor({
       heading: "IDEA + PROBLEM DISCOVERY",
       range: "04",
       lessons: ["Learn to spot real problems worth solving instead of building around assumptions."],
+      isHighlighted: true,
     },
     {
       eyebrow: "PHASE 05",
@@ -1164,6 +1228,76 @@ export default function AdminCourseEditor({
       {/* ========================================================= */}
       {activeStudioTab === "curriculum" && (
         <div className="rounded-3xl border border-[#3B0D3B]/10 bg-white p-6 sm:p-8 space-y-6 shadow-sm">
+          {/* Downloadable Syllabus PDF Card */}
+          <div className="rounded-2xl border-2 border-[#3B0D3B]/20 bg-gradient-to-r from-[#FAF5EE] via-white to-[#FAF5EE] p-5 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="flex items-start gap-3.5">
+              <div className="h-11 w-11 rounded-xl bg-[#3B0D3B] text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+                <FileText className="h-5 w-5" />
+              </div>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-[#0B0B0F] uppercase tracking-wider">
+                    Official Downloadable Syllabus PDF (Course Brochure)
+                  </span>
+                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                </div>
+                <p className="text-xs text-[#5A4A5A]">
+                  This PDF is downloaded when students click <strong>“Download Syllabus”</strong> or <strong>“Download Brochure”</strong> across the website.
+                </p>
+                {brochureInfo && (
+                  <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-[#5A4A5A]">
+                    <span className="font-semibold text-[#0B0B0F]">{brochureInfo.originalName}</span>
+                    <span>•</span>
+                    <span className="font-mono text-[#3B0D3B]">
+                      {(brochureInfo.size / (1024 * 1024)).toFixed(2)} MB
+                    </span>
+                    <span>•</span>
+                    <span className="text-emerald-700 font-semibold bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">
+                      MongoDB GridFS Live
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 w-full md:w-auto shrink-0">
+              <input
+                ref={brochureFileInputRef}
+                type="file"
+                accept=".pdf,application/pdf"
+                className="hidden"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) handleBrochureUpload(f);
+                  e.target.value = "";
+                }}
+              />
+              <a
+                href="/brochure"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#3B0D3B]/20 bg-white hover:bg-[#FAF5EE] text-[#3B0D3B] text-xs font-bold transition-all shadow-2xs"
+                title="Download and test the current PDF"
+              >
+                <Download className="h-3.5 w-3.5" />
+                <span>Test Live PDF</span>
+              </a>
+              <button
+                type="button"
+                onClick={() => brochureFileInputRef.current?.click()}
+                disabled={isUploadingBrochure}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#3B0D3B] hover:bg-[#2A082A] text-white text-xs font-bold transition-all shadow-xs cursor-pointer disabled:opacity-50"
+              >
+                {isUploadingBrochure ? (
+                  <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Upload className="h-3.5 w-3.5" />
+                )}
+                <span>{isUploadingBrochure ? "Uploading..." : "Replace Syllabus PDF"}</span>
+              </button>
+            </div>
+          </div>
+
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
@@ -1233,32 +1367,67 @@ export default function AdminCourseEditor({
 
           {/* Phase Cards List */}
           <div className="space-y-4">
-            {phasesData.groups.map((group, idx) => (
-              <div
-                key={idx}
-                className="rounded-2xl border border-[#3B0D3B]/10 bg-[#FAF5EE]/30 p-5 space-y-3 hover:border-[#3B0D3B]/25 transition-all"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="text"
-                      value={group.eyebrow}
-                      onChange={(e) => updatePhaseGroup(idx, { eyebrow: e.target.value })}
-                      placeholder="PHASE 01"
-                      className="rounded-lg bg-white border border-[#3B0D3B]/20 px-2.5 py-1 text-[10px] font-bold text-[#3B0D3B] uppercase focus:border-[#3B0D3B] focus:outline-none w-28"
-                    />
-                    <span className="text-xs text-[#5A4A5A] font-bold">Module #{idx + 1}</span>
-                  </div>
+            {phasesData.groups.map((group, idx) => {
+              const isGroupHighlighted =
+                typeof group.isHighlighted === "boolean"
+                  ? group.isHighlighted
+                  : (idx === 3 || group.heading.toUpperCase().includes("PROBLEM DISCOVERY") || group.range === "04");
 
-                  <button
-                    type="button"
-                    onClick={() => removePhaseGroup(idx)}
-                    className="p-1.5 text-[#5A4A5A] hover:text-red-600 hover:bg-red-50 rounded-lg cursor-pointer transition-colors"
-                    title="Remove Module"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
+              return (
+                <div
+                  key={idx}
+                  className={`rounded-2xl border p-5 space-y-3 transition-all ${
+                    isGroupHighlighted
+                      ? "border-[#3B0D3B]/40 bg-[#FAF5EE]/90 shadow-md ring-2 ring-[#3B0D3B]/20"
+                      : "border-[#3B0D3B]/10 bg-[#FAF5EE]/30 hover:border-[#3B0D3B]/25"
+                  }`}
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="text"
+                        value={group.eyebrow}
+                        onChange={(e) => updatePhaseGroup(idx, { eyebrow: e.target.value })}
+                        placeholder="PHASE 01"
+                        className="rounded-lg bg-white border border-[#3B0D3B]/20 px-2.5 py-1 text-[10px] font-bold text-[#3B0D3B] uppercase focus:border-[#3B0D3B] focus:outline-none w-28"
+                      />
+                      <span className="text-xs text-[#5A4A5A] font-bold">Module #{idx + 1}</span>
+                      {isGroupHighlighted && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-[#3B0D3B] px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-white shadow-2xs">
+                          <Sparkles className="h-2.5 w-2.5" />
+                          <span>Highlighted Milestone</span>
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      {/* Toggle Highlight Button */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          updatePhaseGroup(idx, { isHighlighted: !isGroupHighlighted });
+                        }}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                          isGroupHighlighted
+                            ? "bg-[#3B0D3B] text-white shadow-xs active:scale-95"
+                            : "bg-white text-[#5A4A5A] border border-[#3B0D3B]/15 hover:bg-[#FAF5EE] hover:text-[#0B0B0F]"
+                        }`}
+                        title="Toggle this phase as highlighted on the public course page"
+                      >
+                        <Sparkles className="h-3.5 w-3.5" />
+                        <span>{isGroupHighlighted ? "Highlighted (ON)" : "Highlight Phase (OFF)"}</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => removePhaseGroup(idx)}
+                        className="p-1.5 text-[#5A4A5A] hover:text-red-600 hover:bg-red-50 rounded-lg cursor-pointer transition-colors"
+                        title="Remove Module"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
 
                 <div>
                   <label className="text-[10px] font-bold text-[#5A4A5A] uppercase tracking-wider block">
@@ -1290,7 +1459,8 @@ export default function AdminCourseEditor({
                   />
                 </div>
               </div>
-            ))}
+            );
+          })}
           </div>
         </div>
       )}

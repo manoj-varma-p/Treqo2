@@ -139,6 +139,13 @@ export default function AdminSidebar({
           count: coursesCount,
         },
         {
+          id: "brochure",
+          label: "Curriculum & Brochure PDF",
+          icon: FileText,
+          badge: "PDF",
+          badgeVariant: "solid",
+        },
+        {
           id: "tutors",
           label: "Mentors & Faculty",
           icon: Users,

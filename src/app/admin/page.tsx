@@ -78,6 +78,7 @@ import AdminLayoutMetaTab from "@/components/admin/AdminLayoutMetaTab";
 import AdminPageKeywordsTab from "@/components/admin/AdminPageKeywordsTab";
 import AdminPageDescriptionsTab from "@/components/admin/AdminPageDescriptionsTab";
 import AdminCourseEditor from "@/components/admin/AdminCourseEditor";
+import AdminBrochureTab from "@/components/admin/AdminBrochureTab";
 import AdminAnalyticsTab from "@/components/admin/AdminAnalyticsTab";
 import AdminCookiesTrackingTab from "@/components/admin/AdminCookiesTrackingTab";
 import AdminSidebar from "@/components/admin/ui/AdminSidebar";
@@ -95,6 +96,7 @@ const TAB_TITLES: Record<string, { title: string; breadcrumb: string }> = {
   overview: { title: "Overview Dashboard", breadcrumb: "Workspace" },
   leads: { title: "Student Applications", breadcrumb: "Admissions & CRM" },
   courses: { title: "Courses & Curriculum", breadcrumb: "Learning & Programs" },
+  brochure: { title: "Curriculum & Syllabus PDF", breadcrumb: "Learning & Programs" },
   tutors: { title: "Mentors & Faculty", breadcrumb: "Learning & Programs" },
   whyTreqqo: { title: "CEO Challenge & Defense", breadcrumb: "Learning & Programs" },
   govCerts: { title: "Accreditations & Certificates", breadcrumb: "Credentials & Compliance" },
@@ -232,6 +234,7 @@ export default function CustomAdminPanelPage() {
     | "pageKeywords"
     | "pageDescriptions"
     | "cookies"
+    | "brochure"
   >("overview");
 
   const [currentTime, setCurrentTime] = useState("11:48 am IST");
@@ -3684,6 +3687,16 @@ export default function CustomAdminPanelPage() {
                 )}
               </div>
             )
+          )}
+
+          {/* ========================================================= */}
+          {/* TAB: CURRICULUM & SYLLABUS PDF (BROCHURE)                 */}
+          {/* ========================================================= */}
+          {activeTab === "brochure" && (
+            <AdminBrochureTab
+              adminPin={getStoredPin()}
+              onNavigateToCourses={() => setActiveTab("courses")}
+            />
           )}
 
           {/* ========================================================= */}
