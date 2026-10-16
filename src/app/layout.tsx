@@ -105,7 +105,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || layout.canonicalUrl || "https://treqo.org";
   const siteName = layout.siteTitle || "TREQO";
   const gaId = tracking.gaMeasurementId?.trim() || "G-BLPP9TW5NP";
-  const metaPixelId = tracking.metaPixelId?.trim();
+  const metaPixelId = tracking.metaPixelId?.trim() || process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim();
   const clarityId = tracking.clarityProjectId?.trim();
   const gtmId = tracking.googleTagManagerId?.trim();
 
@@ -161,20 +161,31 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
         {/* Meta (Facebook) Pixel */}
         {metaPixelId && (
-          <Script id="meta-pixel" strategy="afterInteractive">
-            {`
-              !function(f,b,e,v,n,t,s)
-              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-              n.queue=[];t=b.createElement(e);t.async=!0;
-              t.src=v;s=b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t,s)}(window, document,'script',
-              'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '${metaPixelId}');
-              fbq('track', 'PageView');
-            `}
-          </Script>
+          <>
+            <Script id="meta-pixel" strategy="afterInteractive">
+              {`
+                !function(f,b,e,v,n,t,s)
+                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', '${metaPixelId}');
+                fbq('track', 'PageView');
+              `}
+            </Script>
+            <noscript>
+              <img
+                height="1"
+                width="1"
+                style={{ display: "none" }}
+                src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`}
+                alt=""
+              />
+            </noscript>
+          </>
         )}
 
         {/* Microsoft Clarity */}
