@@ -322,18 +322,29 @@ export default function AdminAnalyticsTab({ adminPin }: Props) {
         <div className="space-y-1">
           <div className="text-sm font-bold">Google Analytics 4 &amp; Meta Pixel Synchronized</div>
           <div className="text-xs text-white/80">
-            Every page view, form open, and lead submission on Treqo is transmitted in real-time to Google Analytics (`first_visit`, `view_promotion`, `generate_lead`).
+            Every page view, form open, and lead submission on Treqo is transmitted in real-time to Google Analytics (`first_visit`, `view_promotion`, `generate_lead`) and Meta Pixel (`PageView`, `ViewContent`, `InitiateCheckout`, `Lead`).
           </div>
         </div>
-        <a
-          href="https://analytics.google.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white text-[#3B0D3B] text-xs font-bold hover:bg-[#FAF5EE] transition-all shrink-0 cursor-pointer shadow-md"
-        >
-          <span>Open Full GA4 Console</span>
-          <ExternalLink className="h-3.5 w-3.5" />
-        </a>
+        <div className="flex items-center gap-2 flex-wrap">
+          <a
+            href="https://eventsmanager.facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold transition-all shrink-0 cursor-pointer border border-white/20"
+          >
+            <span>Meta Events Manager</span>
+            <ExternalLink className="h-3.5 w-3.5" />
+          </a>
+          <a
+            href="https://analytics.google.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white text-[#3B0D3B] text-xs font-bold hover:bg-[#FAF5EE] transition-all shrink-0 cursor-pointer shadow-md"
+          >
+            <span>Open GA4 Console</span>
+            <ExternalLink className="h-3.5 w-3.5" />
+          </a>
+        </div>
       </div>
     </div>
   );

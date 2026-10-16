@@ -170,6 +170,30 @@ export default function AnalyticsTracker() {
           });
         }
       }
+
+      // 3. Meta (Facebook) Pixel sync
+      if (typeof window !== "undefined" && typeof (window as unknown as { fbq?: (...args: unknown[]) => void }).fbq === "function") {
+        const fbq = (window as unknown as { fbq: (...args: unknown[]) => void }).fbq;
+        if (type === "form_view") {
+          fbq("track", "ViewContent", {
+            content_name: "Treqo Admission Form",
+            content_category: courseName || "Courses",
+            page_path: currentPath,
+          });
+        } else if (type === "form_start") {
+          fbq("track", "InitiateCheckout", {
+            content_name: courseName || "Digital Marketing",
+            page_path: currentPath,
+          });
+        } else if (type === "form_submit") {
+          fbq("track", "Lead", {
+            content_name: courseName || "Admission Application",
+            currency: "INR",
+            value: 55000,
+            page_path: currentPath,
+          });
+        }
+      }
     };
   }, [pathname]);
 
